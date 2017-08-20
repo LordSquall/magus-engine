@@ -29,7 +29,7 @@ namespace MagusEngine
 		bool InitialiseX11(int screenWidth, int screenHeight);
 		
 		Display* getDisplay();
-		Window* getWindow();
+		Window getWindow();
 		XVisualInfo* getVisualInfo();
 		
 		

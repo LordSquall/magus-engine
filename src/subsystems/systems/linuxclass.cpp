@@ -35,6 +35,8 @@ namespace MagusEngine
 			printf("Could not initialize the window.\n");
 			return false;
 		}
+		
+		m_renderer->Initialise(this, screenWidth, screenHeight, 1000.0f, 0.1f, true);
 
 		// Create the input object.  This object will be used to handle reading the input from the user.
 		m_input = new InputClass;
@@ -93,21 +95,22 @@ namespace MagusEngine
 	
 	void LinuxClass::Run()
 	{
-		//MSG msg;
-		bool done, result;
-
+		bool done;
 
 		done = false;
+		
+		
+		printf("Entering Main Loop\n");
 		
 		while(!done)
 		{
 			XNextEvent(m_display, &m_xEvent);
         
 			if(m_xEvent.type == Expose) {
-					//XGetWindowAttributes(m_display, m_window, &gwa);
+					XGetWindowAttributes(m_display, m_window, &m_windowAttributes);
 					//glViewport(0, 0, gwa.width, gwa.height);
 					
-					m_renderer->BeginScene(1.0, 1.0, 0.0);
+					m_renderer->BeginScene(1.0f, 1.0f, 0.0f, 1.0f);
 					
 					m_renderer->EndScene();
 					
@@ -128,14 +131,14 @@ namespace MagusEngine
 		return;
 	}
 	
-	Display* LinuxClass::getDisplay(
+	Display* LinuxClass::getDisplay()
 	{
 		return m_display;
 	}
 	
-	Window* LinuxClass::getWindow()
+	Window LinuxClass::getWindow()
 	{
-		return &m_window;
+		return m_window;
 	}
 	
 	XVisualInfo* LinuxClass::getVisualInfo()
@@ -172,14 +175,21 @@ namespace MagusEngine
 			printf("visual %p selected\n", (void*)m_visualInfo->visualid);
 		}
 
+		
+		printf("Creating Color Map\n");
 		m_colormap = XCreateColormap(m_display, m_root, m_visualInfo->visual, AllocNone);
 
 		m_setWindowsAttributes.colormap = m_colormap;
 		m_setWindowsAttributes.event_mask = ExposureMask | KeyPressMask;
 
+		printf("Creating Window\n");
 		m_window = XCreateWindow(m_display, m_root, 0, 0, 600,  600, 0, m_visualInfo->depth, InputOutput, m_visualInfo->visual, CWColormap | CWEventMask,  &m_setWindowsAttributes);
 
+		
+		printf("Mapping Window\n");
 		XMapWindow(m_display, m_window);
+		
+		printf("Setting Window Name\n");
 		XStoreName(m_display, m_window, "Magus Engine");
 
 		

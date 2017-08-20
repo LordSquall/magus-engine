@@ -1,6 +1,6 @@
 #include "opengllinuxclass.h"
 
-#include "../systems/LinuxClass.h"
+#include "../systems/linuxclass.h"
 
 namespace MagusEngine
 {
@@ -18,9 +18,15 @@ namespace MagusEngine
 	{
 		LinuxClass* linuxSystem = (LinuxClass*)system;
 		
+		
+		
+		printf("foobar 1\n");
 		m_glContext = glXCreateContext(linuxSystem->getDisplay(), linuxSystem->getVisualInfo(), NULL, GL_TRUE);
+		
+		printf("foobar 2\n");
 		glXMakeCurrent(linuxSystem->getDisplay(), linuxSystem->getWindow(), m_glContext);
-
+		
+		printf("foobar 3\n");
 		return true;
 	}
 
@@ -31,6 +37,8 @@ namespace MagusEngine
 
 	void OpenGLLinuxClass::BeginScene(float red, float green, float blue, float alpha)
 	{
+		glClearColor(red, green, blue, alpha);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		return;
 	}
 
