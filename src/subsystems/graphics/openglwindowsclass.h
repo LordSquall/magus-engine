@@ -1,8 +1,9 @@
-#ifndef _OPENGL_CLASS_H_
-#define _OPENGL_CLASS_H_
+#ifndef _OPENGLWINDOWS_CLASS_H_
+#define _OPENGLWINDOWS_CLASS_H_
 
 #include "rendererclass.h"
 
+#ifdef _WIN32
 #pragma comment(lib, "opengl32.lib")
 
 #include <windows.h>
@@ -73,12 +74,14 @@ typedef void (APIENTRY * PFNGLDISABLEVERTEXATTRIBARRAYPROC) (GLuint index);
 typedef void (APIENTRY * PFNGLUNIFORM3FVPROC) (GLint location, GLsizei count, const GLfloat *value);
 typedef void (APIENTRY * PFNGLUNIFORM4FVPROC) (GLint location, GLsizei count, const GLfloat *value);
 
+#endif
+
 namespace MagusEngine
 {
-	class OpenGLClass : public RendererClass
+	class OpenGLWindowsClass : public RendererClass
 	{
 	public:
-		OpenGLClass();
+		OpenGLWindowsClass();
 
 		bool Initialise(int, int, float, float, bool);
 		bool InitialiseExtensions();
@@ -114,6 +117,7 @@ namespace MagusEngine
 		char m_videoCardDescription[128];
 
 	public:
+
 		PFNGLATTACHSHADERPROC glAttachShader;
 		PFNGLBINDBUFFERPROC glBindBuffer;
 		PFNGLBINDVERTEXARRAYPROC glBindVertexArray;

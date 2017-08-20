@@ -11,28 +11,50 @@ configure_file(
   "${PROJECT_BINARY_DIR}/magusversion.h"
 )
 
-# add source files to variable
-set(SourceFiles
-src/subsystems/systems/systemclass.cpp
-src/subsystems/graphics/graphicsclass.cpp
-src/subsystems/graphics/rendererclass.cpp
-src/subsystems/graphics/openglclass.cpp
-src/subsystems/input/inputclass.cpp
-src/main.cpp
+# add source files to variables
+# engine
+set(Engine_SourceFiles
+	src/main.cpp
+)	
+
+# subsystem - system
+set(SubSystem_System_SourceFiles
+	src/subsystems/systems/systemclass.cpp
+)	
+
+# subsystem - graphics
+set(SubSystem_Graphics_SourceFiles
+	src/subsystems/graphics/graphicsclass.cpp
+	src/subsystems/graphics/rendererclass.cpp
 )
+
+# subsystem - input
+set(SubSystem_Input_SourceFiles
+src/subsystems/input/inputclass.cpp
+)	
 
 #depending on OS add relevent source files
 MESSAGE("CMAKE_SYSTEM_NAME:         " ${CMAKE_SYSTEM_NAME} )
 if(WIN32)
-	MESSAGE("FOOBAR")
-	set(SourceFiles
-		${SourceFiles}
+	set(SubSystem_System_SourceFiles
+		${SubSystem_System_SourceFiles}
 		src/subsystems/systems/windowsclass.cpp
 	)
+	
+	set(SubSystem_Graphics_SourceFiles
+		${SubSystem_Graphics_SourceFiles}		
+		src/subsystems/graphics/openglwindowsclass.cpp
+	)
+	
 else()
-	set(SourceFiles
-		${SourceFiles}
+	set(SubSystem_System_SourceFiles
+		${SubSystem_System_SourceFiles}
 		src/subsystems/systems/linuxclass.cpp
+	)
+	
+	set(SubSystem_Graphics_SourceFiles
+		${SubSystem_Graphics_SourceFiles}		
+		src/subsystems/graphics/opengllinuxclass.cpp
 	)
 endif()
 
@@ -45,21 +67,24 @@ include_directories("${PROJECT_BINARY_DIR}")
 
 # add the executable
 add_executable(MagusEngine
-${SourceFiles}
+	${Engine_SourceFiles}
+	${SubSystem_System_SourceFiles}
+	${SubSystem_Graphics_SourceFiles}
+	${SubSystem_Input_SourceFiles}
+)
+
+source_group("engine" FILES
+	${Engine_SourceFiles}
 )
 
 source_group("subsystems\\systems" FILES
-src/subsystems/systems/systemclass.cpp
-src/subsystems/systems/windowsclass.cpp
-src/subsystems/systems/linuxclass.cpp
+	${SubSystem_System_SourceFiles}
 )
 
 source_group("subsystems\\graphics" FILES
-src/subsystems/graphics/graphicsclass.cpp
-src/subsystems/graphics/rendererclass.cpp
-src/subsystems/graphics/openglclass.cpp
+	${SubSystem_Graphics_SourceFiles}
 )
 
 source_group("subsystems\\input" FILES
-src/subsystems/input/inputclass.cpp
+	${SubSystem_Input_SourceFiles}
 )
