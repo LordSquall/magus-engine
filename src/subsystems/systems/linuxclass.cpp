@@ -93,7 +93,7 @@ namespace MagusEngine
 	
 	void LinuxClass::Run()
 	{
-		MSG msg;
+		//MSG msg;
 		bool done, result;
 
 
