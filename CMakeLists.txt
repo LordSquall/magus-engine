@@ -11,20 +11,41 @@ configure_file(
   "${PROJECT_BINARY_DIR}/magusversion.h"
 )
 
+# add source files to variable
+set(SourceFiles
+src/subsystems/systems/systemclass.cpp
+src/subsystems/graphics/graphicsclass.cpp
+src/subsystems/graphics/rendererclass.cpp
+src/subsystems/graphics/openglclass.cpp
+src/subsystems/input/inputclass.cpp
+src/main.cpp
+)
+
+#depending on OS add relevent source files
+MESSAGE("CMAKE_SYSTEM_NAME:         " ${CMAKE_SYSTEM_NAME} )
+if(WIN32)
+	MESSAGE("FOOBAR")
+	set(SourceFiles
+		${SourceFiles}
+		src/subsystems/systems/windowsclass.cpp
+	)
+else()
+	set(SourceFiles
+		${SourceFiles}
+		src/subsystems/systems/linuxclass.cpp
+	)
+endif()
+
+
+MESSAGE("SourceFiles:         " ${SourceFiles} )
+
 # add the binary tree to the search path for include files
 # so that we will find MagusVersion.h
 include_directories("${PROJECT_BINARY_DIR}")
 
 # add the executable
 add_executable(MagusEngine
-src/subsystems/systems/systemclass.cpp
-src/subsystems/systems/windowsclass.cpp
-src/subsystems/systems/linuxclass.cpp
-src/subsystems/graphics/graphicsclass.cpp
-src/subsystems/graphics/rendererclass.cpp
-src/subsystems/graphics/openglclass.cpp
-src/subsystems/input/inputclass.cpp
-src/main.cpp
+${SourceFiles}
 )
 
 source_group("subsystems\\systems" FILES

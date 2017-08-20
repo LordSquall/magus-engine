@@ -1,6 +1,12 @@
 /* Local Project Includes */
 #include "subsystems/systems/systemclass.h"
+
+#ifdef _WIN32
 #include "subsystems/systems/windowsclass.h"
+#else
+#include "subsystems/systems/linuxclass.h"
+#endif
+
 
 /* Program Entry Point */
 int main()
@@ -8,9 +14,9 @@ int main()
 	MagusEngine::SystemClass* system;
 	bool result;
 	
-#ifdef _WIN32 || _WIN64
+#ifdef _WIN32
 	system = new MagusEngine::WindowsClass();
-#elif __linux__ || linux || __linux
+#else
 	system = new MagusEngine::LinuxClass();
 #endif
 
