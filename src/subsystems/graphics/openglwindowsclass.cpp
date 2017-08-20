@@ -1,14 +1,14 @@
-#include "openglclass.h"
+#include "openglwindowsclass.h"
 
 namespace MagusEngine
 {
-	OpenGLClass::OpenGLClass()
+	OpenGLWindowsClass::OpenGLWindowsClass()
 	{
 		m_deviceContext = 0;
 		m_renderingContext = 0;
 	}
 
-	bool OpenGLClass::InitialiseExtensions()
+	bool OpenGLWindowsClass::InitialiseExtensions()
 	{
 		HDC deviceContext;
 		PIXELFORMATDESCRIPTOR pixelFormat;
@@ -64,7 +64,7 @@ namespace MagusEngine
 		return true;
 	}
 
-	bool OpenGLClass::Initialise(int screenWidth, int screenHeight, float screenDepth, float screenNear, bool vsync)
+	bool OpenGLWindowsClass::Initialise(int screenWidth, int screenHeight, float screenDepth, float screenNear, bool vsync)
 	{
 		int attributeListInt[19];
 		int pixelFormat[1];
@@ -210,7 +210,7 @@ namespace MagusEngine
 		return true;
 	}
 
-	void OpenGLClass::Shutdown()
+	void OpenGLWindowsClass::Shutdown()
 	{
 		// Release the rendering context.
 		if (m_renderingContext)
@@ -230,7 +230,7 @@ namespace MagusEngine
 		return;
 	}
 
-	void OpenGLClass::BeginScene(float red, float green, float blue, float alpha)
+	void OpenGLWindowsClass::BeginScene(float red, float green, float blue, float alpha)
 	{
 		// Set the color to clear the screen to.
 		glClearColor(red, green, blue, alpha);
@@ -241,8 +241,7 @@ namespace MagusEngine
 		return;
 	}
 
-
-	void OpenGLClass::EndScene()
+	void OpenGLWindowsClass::EndScene()
 	{
 		// Present the back buffer to the screen since rendering is complete.
 		SwapBuffers(m_deviceContext);
@@ -250,7 +249,7 @@ namespace MagusEngine
 		return;
 	}
 
-	bool OpenGLClass::LoadExtensionList()
+	bool OpenGLWindowsClass::LoadExtensionList()
 	{
 		// Load the OpenGL extensions that this application will be using.
 		wglChoosePixelFormatARB = (PFNWGLCHOOSEPIXELFORMATARBPROC)wglGetProcAddress("wglChoosePixelFormatARB");
@@ -473,7 +472,7 @@ namespace MagusEngine
 		return true;
 	}
 
-	void OpenGLClass::GetWorldMatrix(float* matrix)
+	void OpenGLWindowsClass::GetWorldMatrix(float* matrix)
 	{
 		matrix[0] = m_worldMatrix[0];
 		matrix[1] = m_worldMatrix[1];
@@ -498,8 +497,7 @@ namespace MagusEngine
 		return;
 	}
 
-
-	void OpenGLClass::GetProjectionMatrix(float* matrix)
+	void OpenGLWindowsClass::GetProjectionMatrix(float* matrix)
 	{
 		matrix[0] = m_projectionMatrix[0];
 		matrix[1] = m_projectionMatrix[1];
@@ -524,13 +522,13 @@ namespace MagusEngine
 		return;
 	}
 
-	void OpenGLClass::GetVideoCardInfo(char* cardName)
+	void OpenGLWindowsClass::GetVideoCardInfo(char* cardName)
 	{
 		strcpy_s(cardName, 128, m_videoCardDescription);
 		return;
 	}
 
-	void OpenGLClass::BuildIdentityMatrix(float* matrix)
+	void OpenGLWindowsClass::BuildIdentityMatrix(float* matrix)
 	{
 		matrix[0] = 1.0f;
 		matrix[1] = 0.0f;
@@ -555,7 +553,7 @@ namespace MagusEngine
 		return;
 	}
 
-	void OpenGLClass::BuildPerspectiveFovLHMatrix(float* matrix, float fieldOfView, float screenAspect, float screenNear, float screenDepth)
+	void OpenGLWindowsClass::BuildPerspectiveFovLHMatrix(float* matrix, float fieldOfView, float screenAspect, float screenNear, float screenDepth)
 	{
 		matrix[0] = 1.0f / (screenAspect * (float)tan(fieldOfView * 0.5f));
 		matrix[1] = 0.0f;
@@ -580,7 +578,7 @@ namespace MagusEngine
 		return;
 	}
 
-	void OpenGLClass::MatrixRotationY(float* matrix, float angle)
+	void OpenGLWindowsClass::MatrixRotationY(float* matrix, float angle)
 	{
 		matrix[0] = cosf(angle);
 		matrix[1] = 0.0f;
@@ -605,7 +603,7 @@ namespace MagusEngine
 		return;
 	}
 
-	void OpenGLClass::MatrixTranslation(float* matrix, float x, float y, float z)
+	void OpenGLWindowsClass::MatrixTranslation(float* matrix, float x, float y, float z)
 	{
 		matrix[0] = 1.0f;
 		matrix[1] = 0.0f;
@@ -630,7 +628,7 @@ namespace MagusEngine
 		return;
 	}
 
-	void OpenGLClass::MatrixMultiply(float* result, float* matrix1, float* matrix2)
+	void OpenGLWindowsClass::MatrixMultiply(float* result, float* matrix1, float* matrix2)
 	{
 		result[0] = (matrix1[0] * matrix2[0]) + (matrix1[1] * matrix2[4]) + (matrix1[2] * matrix2[8]) + (matrix1[3] * matrix2[12]);
 		result[1] = (matrix1[0] * matrix2[1]) + (matrix1[1] * matrix2[5]) + (matrix1[2] * matrix2[9]) + (matrix1[3] * matrix2[13]);

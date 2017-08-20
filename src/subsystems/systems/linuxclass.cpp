@@ -1,7 +1,7 @@
 /* includes */
 #include "linuxclass.h"
 
-#include "../graphics/openglclass.h"
+#include "../graphics/opengllinuxclass.h"
 
 namespace MagusEngine
 {
@@ -21,8 +21,8 @@ namespace MagusEngine
 		screenWidth = 0;
 		screenHeight = 0;
 
-		// Create the OpenGL object.
-		m_renderer = new OpenGLClass();
+		// Create the OpenGL Linux Specific object.
+		m_renderer = new OpenGLLinuxClass();
 		if (!m_renderer)
 		{
 			return false;
