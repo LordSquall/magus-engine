@@ -1,22 +1,22 @@
 cmake_minimum_required (VERSION 2.6)
-project (ElementaEngine)
+project (MagusEngine)
 
 # The Version Number
-set (ElementaEngine_VERSION_MAJOR 1)
-set (ElementaEngine_VERSION_MINOR 0)
+set (MagusEngine_VERSION_MAJOR 1)
+set (MagusEngine_VERSION_MINOR 0)
 
 # configure a header file to pass some of the Cmake settings to the source code
 configure_file(
-  "${PROJECT_SOURCE_DIR}/src/elementaengineconfig.h.in"
-  "${PROJECT_BINARY_DIR}/elementaengineconfig.h"
+  "${PROJECT_SOURCE_DIR}/src/magusversion.h.in"
+  "${PROJECT_BINARY_DIR}/magusversion.h"
 )
 
 # add the binary tree to the search path for include files
-# so that we will find ElementaEngineConfig.h
+# so that we will find MagusVersion.h
 include_directories("${PROJECT_BINARY_DIR}")
 
 # add the executable
-add_executable(ElementaEngine
+add_executable(MagusEngine
 src/subsystems/systems/systemclass.cpp
 src/subsystems/systems/windowsclass.cpp
 src/subsystems/graphics/graphicsclass.cpp
