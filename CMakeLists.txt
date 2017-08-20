@@ -1,5 +1,9 @@
 cmake_minimum_required (VERSION 2.6)
+
 project (MagusEngine)
+
+# includes
+include (${CMAKE_ROOT}/Modules/FindOpenGL.cmake)
 
 # The Version Number
 set (MagusEngine_VERSION_MAJOR 1)
@@ -62,6 +66,15 @@ else()
 		${SubSystem_Graphics_SourceFiles}		
 		src/subsystems/graphics/opengllinuxclass.cpp
 	)
+
+	find_package(X11 REQUIRED)
+	link_libraries(${X11_LIBRARIES})
+	include_directories(${X11_INCLUDE_DIR})
+
+	link_libraries(${OPENGL_gl_LIBRARY})
+	link_libraries(${OPENGL_glu_LIBRARY})
+	include_directories(${OpenGL_INCLUDE_DIR})
+
 endif()
 
 
