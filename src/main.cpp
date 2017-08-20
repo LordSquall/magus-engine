@@ -1,4 +1,5 @@
 /* Local Project Includes */
+#include "magusversion.h"
 #include "subsystems/systems/systemclass.h"
 
 #ifdef _WIN32
@@ -13,7 +14,12 @@ int main()
 {
 	MagusEngine::SystemClass* system;
 	bool result;
-	
+
+	/* Print the verion number info the screeen */
+	printf("Magus Engine - Version %d.%d\n", MagusEngine_VERSION_MAJOR, MagusEngine_VERSION_MINOR);
+	printf("Operating System: %s\n", MagusEngine_OS_VERSION);
+
+
 #ifdef _WIN32
 	system = new MagusEngine::WindowsClass();
 #else

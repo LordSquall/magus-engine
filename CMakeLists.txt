@@ -4,6 +4,12 @@ project (MagusEngine)
 # The Version Number
 set (MagusEngine_VERSION_MAJOR 1)
 set (MagusEngine_VERSION_MINOR 0)
+if(WIN32)
+set (MagusEngine_OS_VERSION \"Windows\")
+else()
+set (MagusEngine_OS_VERSION \"Linux\")
+endif()
+
 
 # configure a header file to pass some of the Cmake settings to the source code
 configure_file(

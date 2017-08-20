@@ -1,3 +1,5 @@
-// the configured options and settings for ElementEngine
-#define ElementaEngine_VERSION_MAJOR @ElementaEngine_VERSION_MAJOR@
-#define ElementaEngine_VERSION_MINOR @ElementaEngine_VERSION_MINOR@
+// the configured options and settings for MagusEngine
+#define MagusEngine_VERSION_MAJOR @MagusEngine_VERSION_MAJOR@
+#define MagusEngine_VERSION_MINOR @MagusEngine_VERSION_MINOR@
+
+#define MagusEngine_OS_VERSION @MagusEngine_OS_VERSION@
