@@ -25,6 +25,9 @@ namespace MagusEngine
 
 		void BeginScene(float, float, float, float);
 		void EndScene();
+		
+		
+		void CheckOpenGLError();
 
 	private:
 		GLXContext					m_glContext;

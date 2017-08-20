@@ -31,12 +31,15 @@ int main()
 		return 0;
 	}
 	
+	/* Initialise the system */
 	result = system->Initialise();
 	if(result)
 	{
+		/* Enter the main game loop */
 		system->Run();
 	}
 	
+	/* Shutdown and clean up any allocated objects and memory */
 	system->Shutdown();
 	delete system;
 	system = 0;

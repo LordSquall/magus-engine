@@ -172,6 +172,8 @@ namespace MagusEngine
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
 
+		CheckOpenGLError();
+
 		// Initialize the world/model matrix to the identity matrix.
 		BuildIdentityMatrix(m_worldMatrix);
 
@@ -247,6 +249,25 @@ namespace MagusEngine
 		SwapBuffers(m_deviceContext);
 
 		return;
+	}
+
+	void OpenGLWindowsClass::DrawRectangle(int x, int y, int width, int height)
+	{
+		CheckOpenGLError();
+		glBegin(GL_TRIANGLES);
+		glVertex2f(-0.5, 0.5);
+		glVertex2f(-0.5, -0.5);
+		glVertex2f(0.5, 0.5);
+		glVertex2f(0.5, 0.5);
+		glVertex2f(-0.5, -0.5);
+		glVertex2f(0.5, -0.5);
+		glEnd();
+		CheckOpenGLError();
+	}
+	
+	void OpenGLWindowsClass::CheckError()
+	{
+		CheckOpenGLError();
 	}
 
 	bool OpenGLWindowsClass::LoadExtensionList()
@@ -653,4 +674,34 @@ namespace MagusEngine
 		return;
 	}
 
+	void OpenGLWindowsClass::CheckOpenGLError()
+	{
+		// check OpenGL error
+		GLenum err = glGetError();
+
+		if (err != GL_NO_ERROR)
+		{
+			switch (err)
+			{
+			case GL_INVALID_ENUM:
+				printf("GL Error: Invalid Enum\n");
+				break;
+			case GL_INVALID_VALUE:
+				printf("GL Error: Invalid Value\n");
+				break;
+			case GL_INVALID_OPERATION:
+				printf("GL Error: Invalid Operation\n");
+				break;
+			case GL_STACK_OVERFLOW:
+				printf("GL Error: Stack Overflow\n");
+				break;
+			case GL_STACK_UNDERFLOW:
+				printf("GL Error: Stack Underflow\n");
+				break;
+			case GL_OUT_OF_MEMORY:
+				printf("GL Error: Out of Memory\n");
+				break;
+			}
+		}
+	}
 }

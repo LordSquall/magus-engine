@@ -47,4 +47,48 @@ namespace MagusEngine
 	{
 		return;
 	}
+	
+	void OpenGLLinuxClass::DrawRectangle(int x, int y, int width, int height)
+	{
+		CheckOpenGLError();
+		glBegin(GL_TRIANGLES);
+		glVertex2f(-0.5, 0.5);
+		glVertex2f(-0.5, -0.5);
+		glVertex2f(0.5, 0.5);
+		glVertex2f(0.5, 0.5);
+		glVertex2f(-0.5, -0.5);
+		glVertex2f(0.5, -0.5);
+		glEnd();
+	}
+	
+	void OpenGLLinuxClass::CheckOpenGLError()
+	{
+		// check OpenGL error
+		GLenum err = glGetError();
+
+		if (err != GL_NO_ERROR)
+		{
+			switch (err)
+			{
+			case GL_INVALID_ENUM:
+				printf("GL Error: Invalid Enum\n");
+				break;
+			case GL_INVALID_VALUE:
+				printf("GL Error: Invalid Value\n");
+				break;
+			case GL_INVALID_OPERATION:
+				printf("GL Error: Invalid Operation\n");
+				break;
+			case GL_STACK_OVERFLOW:
+				printf("GL Error: Stack Overflow\n");
+				break;
+			case GL_STACK_UNDERFLOW:
+				printf("GL Error: Stack Underflow\n");
+				break;
+			case GL_OUT_OF_MEMORY:
+				printf("GL Error: Out of Memory\n");
+				break;
+			}
+		}
+	}
 }

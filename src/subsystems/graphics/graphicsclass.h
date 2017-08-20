@@ -1,7 +1,9 @@
 #ifndef _GRAPHICS_CLASS_H_
 #define _GRAPHICS_CLASS_H_
 
+/* Local Project Includes */
 #include "rendererclass.h"
+#include "../scenemanagement/scenenodeclass.h"
 
 namespace MagusEngine
 {
@@ -22,7 +24,10 @@ namespace MagusEngine
 	private:
 		bool Render();
 
+	private:
 		RendererClass* m_renderer;
+	
+		SceneNodeClass* m_rootNode;
 	};
 }
 

@@ -7,6 +7,7 @@
 #pragma comment(lib, "opengl32.lib")
 
 #include <windows.h>
+#include <cstdio>
 #include <gl\gl.h>
 #include <math.h>
 
@@ -91,6 +92,10 @@ namespace MagusEngine
 		void BeginScene(float, float, float, float);
 		void EndScene();
 
+		void DrawRectangle(int x, int y, int width, int height);
+
+		void CheckError();
+
 		void GetWorldMatrix(float*);
 		void GetProjectionMatrix(float*);
 		void GetVideoCardInfo(char*);
@@ -100,6 +105,8 @@ namespace MagusEngine
 		void MatrixRotationY(float*, float);
 		void MatrixTranslation(float*, float, float, float);
 		void MatrixMultiply(float*, float*, float*);
+
+		void CheckOpenGLError();
 
 	private:
 		bool LoadExtensionList();

@@ -16,6 +16,10 @@ namespace MagusEngine
 		virtual void BeginScene(float, float, float, float) = 0;
 		virtual void EndScene() = 0;
 
+		virtual void CheckError() = 0;
+
+		virtual void DrawRectangle(int x, int y, int width, int height) = 0;
+
 	public:
 		void* m_windowSystemHandle;
 	};
