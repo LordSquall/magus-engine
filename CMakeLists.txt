@@ -19,6 +19,7 @@ include_directories("${PROJECT_BINARY_DIR}")
 add_executable(MagusEngine
 src/subsystems/systems/systemclass.cpp
 src/subsystems/systems/windowsclass.cpp
+src/subsystems/systems/linuxclass.cpp
 src/subsystems/graphics/graphicsclass.cpp
 src/subsystems/graphics/rendererclass.cpp
 src/subsystems/graphics/openglclass.cpp
@@ -29,6 +30,7 @@ src/main.cpp
 source_group("subsystems\\systems" FILES
 src/subsystems/systems/systemclass.cpp
 src/subsystems/systems/windowsclass.cpp
+src/subsystems/systems/linuxclass.cpp
 )
 
 source_group("subsystems\\graphics" FILES
