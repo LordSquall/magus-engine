@@ -1,7 +1,7 @@
 #ifndef _INPUT_CLASS_H_
 #define _INPUT_CLASS_H_
 
-namespace ElementaEngine
+namespace MagusEngine
 {
 	class InputClass
 	{

@@ -3,7 +3,7 @@
 
 #include "../graphics/openglclass.h"
 
-namespace ElementaEngine
+namespace MagusEngine
 {
 	WindowsClass::WindowsClass()
 	{

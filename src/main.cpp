@@ -4,11 +4,11 @@
 
 int main()
 {
-	ElementaEngine::SystemClass* system;
+	MagusEngine::SystemClass* system;
 	bool result;
 	
 	
-	system = new ElementaEngine::WindowsClass();
+	system = new MagusEngine::WindowsClass();
 	if(!system)
 	{
 		return 0;

@@ -5,7 +5,7 @@
 #include "../graphics/graphicsclass.h"
 #include "../graphics/rendererclass.h"
 
-namespace ElementaEngine
+namespace MagusEngine
 {
 	class SystemClass
 	{

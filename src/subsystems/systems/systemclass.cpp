@@ -1,6 +1,6 @@
 #include "systemclass.h"
 
-namespace ElementaEngine
+namespace MagusEngine
 {
 	SystemClass::SystemClass()
 	{

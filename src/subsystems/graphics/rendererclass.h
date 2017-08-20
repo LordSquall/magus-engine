@@ -1,7 +1,7 @@
 #ifndef _RENDERER_CLASS_H_
 #define _RENDERER_CLASS_H_
 
-namespace ElementaEngine
+namespace MagusEngine
 {
 	class RendererClass
 	{

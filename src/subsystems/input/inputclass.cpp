@@ -1,6 +1,6 @@
 #include "inputclass.h"
 
-namespace ElementaEngine {
+namespace MagusEngine {
 	InputClass::InputClass()
 	{
 	}

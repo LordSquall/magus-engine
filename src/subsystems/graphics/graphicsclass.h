@@ -3,7 +3,7 @@
 
 #include "rendererclass.h"
 
-namespace ElementaEngine
+namespace MagusEngine
 {
 	const bool FULL_SCREEN = false;
 	const bool VSYNC_ENABLED = true;

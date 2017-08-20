@@ -1,6 +1,6 @@
 #include "rendererclass.h"
 
-namespace ElementaEngine
+namespace MagusEngine
 {
 	RendererClass::RendererClass()
 	{

@@ -1,6 +1,6 @@
 #include "openglclass.h"
 
-namespace ElementaEngine
+namespace MagusEngine
 {
 	OpenGLClass::OpenGLClass()
 	{

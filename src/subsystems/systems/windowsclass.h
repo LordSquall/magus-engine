@@ -12,7 +12,7 @@
 #include <windows.h>
 #include <cstdio>
 
-namespace ElementaEngine
+namespace MagusEngine
 {
 	class WindowsClass : public SystemClass
 	{

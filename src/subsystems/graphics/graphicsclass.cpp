@@ -1,6 +1,6 @@
 #include "graphicsclass.h"
 
-namespace ElementaEngine
+namespace MagusEngine
 {
 	GraphicsClass::GraphicsClass()
 	{
