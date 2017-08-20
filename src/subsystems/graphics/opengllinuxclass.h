@@ -3,7 +3,6 @@
 
 #include "rendererclass.h"
 
-
 #include<stdio.h>
 #include<stdlib.h>
 #include<X11/X.h>
@@ -19,7 +18,7 @@ namespace MagusEngine
 	public:
 		OpenGLLinuxClass();
 
-		bool Initialise(int, int, float, float, bool);
+		bool Initialise(void*, int, int, float, float, bool);
 		bool InitialiseExtensions();
 
 		void Shutdown();
@@ -28,16 +27,7 @@ namespace MagusEngine
 		void EndScene();
 
 	private:
-		Display*						m_display;
-		Window						m_root;
-		GLint							m_attributes[5];
-		XVisualInfo*					m_visualInfo;
-		Colormap						m_colormap;
-		XSetWindowAttributes		m_setWindowsAttributes;
-		Window						m_window;
 		GLXContext					m_glContext;
-		XWindowAttributes			m_windowAttributes;
-		XEvent						m_xEvent;
 	};
 }
 

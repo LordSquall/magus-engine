@@ -83,7 +83,7 @@ namespace MagusEngine
 	public:
 		OpenGLWindowsClass();
 
-		bool Initialise(int, int, float, float, bool);
+		bool Initialise(void*, int, int, float, float, bool);
 		bool InitialiseExtensions();
 
 		void Shutdown();

@@ -286,7 +286,7 @@ namespace MagusEngine
 
 		// Initialize OpenGL now that the window has been created.
 		renderer->m_windowSystemHandle = m_hwnd;
-		result = renderer->Initialise(screenWidth, screenHeight, SCREEN_DEPTH, SCREEN_NEAR, VSYNC_ENABLED);
+		result = renderer->Initialise(this, screenWidth, screenHeight, SCREEN_DEPTH, SCREEN_NEAR, VSYNC_ENABLED);
 		if (!result)
 		{
 			MessageBox(m_hwnd, "Could not initialize OpenGL, check if video card supports OpenGL 4.0.", "Error", MB_OK);

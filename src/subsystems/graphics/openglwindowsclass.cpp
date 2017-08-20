@@ -64,7 +64,7 @@ namespace MagusEngine
 		return true;
 	}
 
-	bool OpenGLWindowsClass::Initialise(int screenWidth, int screenHeight, float screenDepth, float screenNear, bool vsync)
+	bool OpenGLWindowsClass::Initialise(void* system, int screenWidth, int screenHeight, float screenDepth, float screenNear, bool vsync)
 	{
 		int attributeListInt[19];
 		int pixelFormat[1];

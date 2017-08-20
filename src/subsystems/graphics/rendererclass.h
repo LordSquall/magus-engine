@@ -8,7 +8,7 @@ namespace MagusEngine
 	public:
 		RendererClass();
 
-		virtual bool Initialise(int, int, float, float, bool) = 0;
+		virtual bool Initialise(void*, int, int, float, float, bool) = 0;
 		virtual bool InitialiseExtensions() = 0;
 
 		virtual void Shutdown() = 0;
