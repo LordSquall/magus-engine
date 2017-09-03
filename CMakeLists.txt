@@ -36,7 +36,7 @@ set(SubSystem_OS_SourceFiles
 # subsystem - graphics
 set(SubSystem_Graphics_SourceFiles
 	src/subsystems/graphics/graphics.cpp
-	src/subsystems/graphics/Shader.cpp
+	src/subsystems/graphics/shader.cpp
 )
 
 # subsystem - input
