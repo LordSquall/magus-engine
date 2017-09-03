@@ -1,27 +1,27 @@
-#ifndef _SCENE_NODE_CLASS_H_
-#define _SCENE_NODE_CLASS_H_
+#ifndef _SCENE_NODE_H_
+#define _SCENE_NODE_H_
 
-#include "../graphics/rendererclass.h"
+#include "../graphics/renderer_interface.h"
 
 #include <vector>
 
 namespace MagusEngine
 {
-	class SceneNodeClass
+	class SceneNode
 	{
 	public:
-		SceneNodeClass();
+		SceneNode();
 		
 		bool Initialise();
 
-		void Render(RendererClass* renderer);
+		void Render(Renderer_Interface* renderer);
 
 		void Shutdown();
 
-		void AddChild(SceneNodeClass* sceneNode);
+		void AddChild(SceneNode* sceneNode);
 
 	public:
-		std::vector<SceneNodeClass*> m_children;
+		std::vector<SceneNode*> m_children;
 
 	};
 }

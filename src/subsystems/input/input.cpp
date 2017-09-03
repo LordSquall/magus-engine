@@ -1,11 +1,11 @@
-#include "inputclass.h"
+#include "input.h"
 
 namespace MagusEngine {
-	InputClass::InputClass()
+	Input::Input()
 	{
 	}
 
-	void InputClass::Initialise()
+	void Input::Initialise()
 	{
 		int i;
 
@@ -19,7 +19,7 @@ namespace MagusEngine {
 		return;
 	}
 
-	void InputClass::KeyDown(unsigned int input)
+	void Input::KeyDown(unsigned int input)
 	{
 		// If a key is pressed then save that state in the key array.
 		m_keys[input] = true;
@@ -27,7 +27,7 @@ namespace MagusEngine {
 	}
 
 
-	void InputClass::KeyUp(unsigned int input)
+	void Input::KeyUp(unsigned int input)
 	{
 		// If a key is released then clear that state in the key array.
 		m_keys[input] = false;
@@ -35,7 +35,7 @@ namespace MagusEngine {
 	}
 
 
-	bool InputClass::IsKeyDown(unsigned int key)
+	bool Input::IsKeyDown(unsigned int key)
 	{
 		// Return what state the key is in (pressed/not pressed).
 		return m_keys[key];

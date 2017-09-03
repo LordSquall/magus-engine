@@ -1,27 +1,27 @@
-#include "scenenodeclass.h"
+#include "scenenode.h"
 
 namespace MagusEngine
 {
-	SceneNodeClass::SceneNodeClass()
+	SceneNode::SceneNode()
 	{
 	
 	}
 	
-	bool SceneNodeClass::Initialise()
+	bool SceneNode::Initialise()
 	{
 		return true;
 	}
 
-	void SceneNodeClass::Render(RendererClass* renderer)
+	void SceneNode::Render(Renderer_Interface* renderer)
 	{
 
 	}
 
-	void SceneNodeClass::Shutdown()
+	void SceneNode::Shutdown()
 	{
 	}
 
-	void SceneNodeClass::AddChild(SceneNodeClass* sceneNode)
+	void SceneNode::AddChild(SceneNode* sceneNode)
 	{
 		m_children.push_back(sceneNode);
 	}

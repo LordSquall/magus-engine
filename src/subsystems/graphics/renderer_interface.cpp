@@ -1,4 +1,4 @@
-#include "rendererclass.h"
+#include "renderer_interface.h"
 
 namespace MagusEngine
 {

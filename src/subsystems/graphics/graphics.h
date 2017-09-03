@@ -2,22 +2,18 @@
 #define _GRAPHICS_CLASS_H_
 
 /* Local Project Includes */
-#include "rendererclass.h"
-#include "../scenemanagement/scenenodeclass.h"
+#include "../os/os_interface.h"
+#include "renderer_interface.h"
+#include "../scenemanagement/scenenode.h"
 
 namespace MagusEngine
 {
-	const bool FULL_SCREEN = false;
-	const bool VSYNC_ENABLED = true;
-	const float SCREEN_DEPTH = 1000.0f;
-	const float SCREEN_NEAR = 0.1f;
-
-	class GraphicsClass
+	class Graphics
 	{
 	public:
-		GraphicsClass();
+		Graphics();
 
-		bool Initialise(RendererClass*);
+		bool Initialise(OS_Interface* os);
 		void Shutdown();
 		bool Frame();
 
@@ -25,9 +21,8 @@ namespace MagusEngine
 		bool Render();
 
 	private:
-		RendererClass* m_renderer;
-	
-		SceneNodeClass* m_rootNode;
+		OS_Interface*		_os;
+		Renderer_Interface* _lowLevelRenderer;
 	};
 }
 

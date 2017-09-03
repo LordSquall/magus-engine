@@ -1,4 +1,4 @@
-#include "systemclass.h"
+#include "os_interface.h"
 
 namespace MagusEngine
 {

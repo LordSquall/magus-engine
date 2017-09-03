@@ -1,13 +1,11 @@
-#ifndef _RENDERER_CLASS_H_
-#define _RENDERER_CLASS_H_
+#ifndef _RENDERER_INTERFACE_H_
+#define _RENDERER_INTERFACE_H_
 
 namespace MagusEngine
 {
-	class RendererClass
+	class Renderer_Interface
 	{
 	public:
-		RendererClass();
-
 		virtual bool Initialise(void*, int, int, float, float, bool) = 0;
 		virtual bool InitialiseExtensions() = 0;
 

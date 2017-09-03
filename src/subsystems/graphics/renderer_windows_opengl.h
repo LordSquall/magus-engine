@@ -1,7 +1,7 @@
 #ifndef _OPENGLWINDOWS_CLASS_H_
 #define _OPENGLWINDOWS_CLASS_H_
 
-#include "rendererclass.h"
+#include "renderer_interface.h"
 
 #ifdef _WIN32
 #pragma comment(lib, "opengl32.lib")
@@ -79,10 +79,10 @@ typedef void (APIENTRY * PFNGLUNIFORM4FVPROC) (GLint location, GLsizei count, co
 
 namespace MagusEngine
 {
-	class OpenGLWindowsClass : public RendererClass
+	class Renderer_Windows_OpenGL : public Renderer_Interface
 	{
 	public:
-		OpenGLWindowsClass();
+		Renderer_Windows_OpenGL();
 
 		bool Initialise(void*, int, int, float, float, bool);
 		bool InitialiseExtensions();

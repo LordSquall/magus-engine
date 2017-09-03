@@ -1,48 +1,47 @@
-/* Local Project Includes */
-#include "magusversion.h"
-#include "subsystems/systems/systemclass.h"
+#include "framework.h"
 
-#ifdef _WIN32
-#include "subsystems/systems/windowsclass.h"
-#else
-#include "subsystems/systems/linuxclass.h"
-#endif
-
-
-/* Program Entry Point */
-int main()
+namespace MagusEngine
 {
-	MagusEngine::SystemClass* system;
-	bool result;
+	Framework::Framework()
+	{
 
-	/* Print the verion number info the screeen */
-	printf("Magus Engine - Version %d.%d\n", MagusEngine_VERSION_MAJOR, MagusEngine_VERSION_MINOR);
-	printf("Operating System: %s\n", MagusEngine_OS_VERSION);
+	}
 
-
+	bool Framework::Initialise()
+	{
+		/* Create the os subsystem depending on current platform */
 #ifdef _WIN32
-	system = new MagusEngine::WindowsClass();
+		_os = new OS_Windows();
 #else
-	system = new MagusEngine::LinuxClass();
+		_os = new OS_Linux();
 #endif
 
-	if(!system)
-	{
-		return 0;
+		/* Initialise the os */
+		if (_os->Initialise() == FALSE)
+		{
+			printf("Error: Unable to Initialise OS SubSystem!\n");
+			return false;
+		}
+
+		/* Initialise the graphics subsystem */
+		_graphics.Initialise(_os);
+
+		
+		return true;
 	}
-	
-	/* Initialise the system */
-	result = system->Initialise();
-	if(result)
+
+	bool Framework::Frame()
 	{
-		/* Enter the main game loop */
-		system->Run();
+		/* Input Frame */
+
+		/* Graphics Frame */
+		_graphics.Frame();
+
+		return true;
 	}
-	
-	/* Shutdown and clean up any allocated objects and memory */
-	system->Shutdown();
-	delete system;
-	system = 0;
-	
-	return 0;
+
+	void Framework::Shutdown()
+	{
+
+	}
 }

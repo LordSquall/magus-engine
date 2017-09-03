@@ -1,12 +1,12 @@
-#ifndef _INPUT_CLASS_H_
-#define _INPUT_CLASS_H_
+#ifndef _INPUT_H_
+#define _INPUT_H_
 
 namespace MagusEngine
 {
-	class InputClass
+	class Input
 	{
 	public:
-		InputClass();
+		Input();
 		
 		void Initialise();
 

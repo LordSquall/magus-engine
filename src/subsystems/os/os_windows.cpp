@@ -1,17 +1,16 @@
 /* includes */
-#include "windowsclass.h"
+#include "os_windows.h"
 
-#include "../graphics/openglwindowsclass.h"
+#include "../graphics/renderer_windows_opengl.h"
 
 namespace MagusEngine
 {
-	WindowsClass::WindowsClass()
+	OS_Windows::OS_Windows()
 	{
-		m_renderer = 0;
-		m_graphics = 0;
+		_lowLevelRenderer = 0;
 	}
 	
-	bool WindowsClass::Initialise()
+	bool OS_Windows::Initialise()
 	{
 		int screenWidth, screenHeight;
 		bool result;
@@ -22,70 +21,32 @@ namespace MagusEngine
 		screenHeight = 0;
 
 		// Create the OpenGL Windows Specific object.
-		m_renderer = new OpenGLWindowsClass();
-		if (!m_renderer)
+		_lowLevelRenderer = new Renderer_Windows_OpenGL();
+		if (!_lowLevelRenderer)
 		{
 			return false;
 		}
 
 		// Create the window the application will be using and also initialize OpenGL.
-		result = InitialiseWindows(m_renderer, screenWidth, screenHeight);
+		result = InitialiseWindows(_lowLevelRenderer, screenWidth, screenHeight);
 		if (!result)
 		{
 			MessageBox(m_hwnd, "Could not initialize the window.", "Error", MB_OK);
 			return false;
 		}
 
-		// Create the input object.  This object will be used to handle reading the input from the user.
-		m_input = new InputClass;
-		if (!m_input)
-		{
-			return false;
-		}
-
-		// Initialize the input object.
-		m_input->Initialise();
-
-		// Create the graphics object.  This object will handle rendering all the graphics for this application.
-		m_graphics = new GraphicsClass;
-		if (!m_graphics)
-		{
-			return false;
-		}
-
-		// Initialize the graphics object.
-		result = m_graphics->Initialise(m_renderer);
-		if (!result)
-		{
-			return false;
-		}
-
 		return true;
 	}
 	
-	void WindowsClass::Shutdown()
+	void OS_Windows::Shutdown()
 	{
-		// Release the graphics object.
-		if (m_graphics)
+		
+		// Release the Low Level Renderer object.
+		if (_lowLevelRenderer)
 		{
-			//m_graphics->Shutdown();
-			delete m_graphics;
-			m_graphics = 0;
-		}
-
-		// Release the input object.
-		if (m_input)
-		{
-			delete m_input;
-			m_input = 0;
-		}
-
-		// Release the OpenGL object.
-		if (m_renderer)
-		{
-			m_renderer->Shutdown();
-			delete m_renderer;
-			m_renderer = 0;
+			_lowLevelRenderer->Shutdown();
+			delete _lowLevelRenderer;
+			_lowLevelRenderer = 0;
 		}
 
 		// Shutdown the window.
@@ -94,72 +55,76 @@ namespace MagusEngine
 		return;
 	}
 	
-	void WindowsClass::Run()
+	void OS_Windows::Run()
 	{
-		MSG msg;
-		bool done, result;
+		//MSG msg;
+		//bool done, result;
 
 
-		// Initialize the message structure.
-		ZeroMemory(&msg, sizeof(MSG));
-		
-		// Loop until there is a quit message from the window or the user.
-		done = false;
-		while(!done)
-		{
-			// Handle the windows messages.
-			if(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-			{
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
-			}
+		//// Initialize the message structure.
+		//ZeroMemory(&msg, sizeof(MSG));
+		//
+		//// Loop until there is a quit message from the window or the user.
+		//done = false;
+		//while(!done)
+		//{
+		//	// Handle the windows messages.
+		//	if(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		//	{
+		//		TranslateMessage(&msg);
+		//		DispatchMessage(&msg);
+		//	}
 
-			// If windows signals to end the application then exit out.
-			if(msg.message == WM_QUIT)
-			{
-				done = true;
-			}
-			else
-			{
-				// Otherwise do the frame processing.
-				result = Frame();
-				if(!result)
-				{
-					done = true;
-				}
-			}
+		//	// If windows signals to end the application then exit out.
+		//	if(msg.message == WM_QUIT)
+		//	{
+		//		done = true;
+		//	}
+		//	else
+		//	{
+		//		// Otherwise do the frame processing.
+		//		result = Frame();
+		//		if(!result)
+		//		{
+		//			done = true;
+		//		}
+		//	}
 
-		}
+		//}
 
 		return;
 	}
-	
-	bool WindowsClass::Frame()
+
+	Renderer_Interface* OS_Windows::GetLowLevelRenderer()
 	{
-		bool result;
+		return _lowLevelRenderer;
+	}
 
-		// Check if the user pressed escape and wants to exit the application.
-		if (m_input->IsKeyDown(VK_ESCAPE))
-		{
-			return false;
-		}
+	bool OS_Windows::Frame()
+	{
+		//// Check if the user pressed escape and wants to exit the application.
+		//if (m_input->IsKeyDown(VK_ESCAPE))
+		//{
+		//	return false;
+		//}
 
-		// Do the frame processing for the graphics object.
-		result = m_graphics->Frame();
-		if (!result)
-		{
-			return false;
-		}
+		//// Do the frame processing for the graphics object.
+		//result = m_graphics->Frame();
+		//if (!result)
+		//{
+		//	return false;
+		//}
 
 		return true;
 	}
-	
-	void WindowsClass::ShutdownWindows()
+
+
+	void OS_Windows::ShutdownWindows()
 	{
 		
 	}
 
-	LRESULT CALLBACK WindowsClass::MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM lparam)
+	LRESULT CALLBACK OS_Windows::MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM lparam)
 	{
 		switch (umsg)
 		{
@@ -167,7 +132,7 @@ namespace MagusEngine
 		case WM_KEYDOWN:
 		{
 			// If a key is pressed send it to the input object so it can record that state.
-			m_input->KeyDown((unsigned int)wparam);
+			//m_input->KeyDown((unsigned int)wparam);
 			return 0;
 		}
 
@@ -175,7 +140,7 @@ namespace MagusEngine
 		case WM_KEYUP:
 		{
 			// If a key is released then send it to the input object so it can unset the state for that key.
-			m_input->KeyUp((unsigned int)wparam);
+		//	m_input->KeyUp((unsigned int)wparam);
 			return 0;
 		}
 
@@ -187,7 +152,7 @@ namespace MagusEngine
 		}
 	}
 
-	bool WindowsClass::InitialiseWindows(RendererClass* renderer, int& screenWidth, int& screenHeight)
+	bool OS_Windows::InitialiseWindows(Renderer_Interface* renderer, int& screenWidth, int& screenHeight)
 	{
 		WNDCLASSEX wc;
 		DEVMODE dmScreenSettings;

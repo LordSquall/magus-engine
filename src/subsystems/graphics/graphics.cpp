@@ -1,42 +1,41 @@
-#include "graphicsclass.h"
+#include "graphics.h"
 
 namespace MagusEngine
 {
-	GraphicsClass::GraphicsClass()
+	Graphics::Graphics()
 	{
-		m_renderer = 0;
+		_os = 0;
 	}
 
-	bool GraphicsClass::Initialise(RendererClass* renderer)
+	bool Graphics::Initialise(OS_Interface* os)
 	{
-		m_renderer = renderer;
+		_os = os;
+
+		/* Initialise Graphics Subsystems */
+
+		/* Low level renderer */
+		_lowLevelRenderer = os->GetLowLevelRenderer();
 
 		/* Create basic test scene */
-		m_rootNode = new SceneNodeClass();
+		/*m_rootNode = new SceneNodeClass();
 		if (m_rootNode != NULL)
 		{
 			m_rootNode->Initialise();
-		}
+		}*/
 
 		return true;
 	}
 
 
-	void GraphicsClass::Shutdown()
+	void Graphics::Shutdown()
 	{
-		if (m_rootNode != NULL)
-		{
-			m_rootNode->Shutdown();
-			delete m_rootNode;
-			m_rootNode = 0;
-		}
-
-		m_renderer = 0;
+		_os = 0;
+		_lowLevelRenderer = 0;
 
 		return;
 	}
 
-	bool GraphicsClass::Frame()
+	bool Graphics::Frame()
 	{
 		bool result;
 
@@ -50,16 +49,14 @@ namespace MagusEngine
 	}
 
 
-	bool GraphicsClass::Render()
+	bool Graphics::Render()
 	{
 		// Clear the buffers to begin the scene.
-		m_renderer->BeginScene(0.5f, 0.5f, 0.5f, 1.0f);
+		_lowLevelRenderer->BeginScene(0.5f, 0.5f, 0.5f, 1.0f);
 
-		
-		m_rootNode->Render(m_renderer);
-
+	
 		// Present the rendered scene to the screen.
-		m_renderer->EndScene();
+		_lowLevelRenderer->EndScene();
 
 		return true;
 	}

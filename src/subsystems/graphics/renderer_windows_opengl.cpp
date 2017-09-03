@@ -1,14 +1,14 @@
-#include "openglwindowsclass.h"
+#include "renderer_windows_opengl.h"
 
 namespace MagusEngine
 {
-	OpenGLWindowsClass::OpenGLWindowsClass()
+	Renderer_Windows_OpenGL::Renderer_Windows_OpenGL()
 	{
 		m_deviceContext = 0;
 		m_renderingContext = 0;
 	}
 
-	bool OpenGLWindowsClass::InitialiseExtensions()
+	bool Renderer_Windows_OpenGL::InitialiseExtensions()
 	{
 		HDC deviceContext;
 		PIXELFORMATDESCRIPTOR pixelFormat;
@@ -64,7 +64,7 @@ namespace MagusEngine
 		return true;
 	}
 
-	bool OpenGLWindowsClass::Initialise(void* system, int screenWidth, int screenHeight, float screenDepth, float screenNear, bool vsync)
+	bool Renderer_Windows_OpenGL::Initialise(void* system, int screenWidth, int screenHeight, float screenDepth, float screenNear, bool vsync)
 	{
 		int attributeListInt[19];
 		int pixelFormat[1];
@@ -202,7 +202,7 @@ namespace MagusEngine
 		return true;
 	}
 
-	void OpenGLWindowsClass::Shutdown()
+	void Renderer_Windows_OpenGL::Shutdown()
 	{
 		// Release the rendering context.
 		if (m_renderingContext)
@@ -222,7 +222,7 @@ namespace MagusEngine
 		return;
 	}
 
-	void OpenGLWindowsClass::BeginScene(float red, float green, float blue, float alpha)
+	void Renderer_Windows_OpenGL::BeginScene(float red, float green, float blue, float alpha)
 	{
 		// Set the color to clear the screen to.
 		glClearColor(red, green, blue, alpha);
@@ -233,7 +233,7 @@ namespace MagusEngine
 		return;
 	}
 
-	void OpenGLWindowsClass::EndScene()
+	void Renderer_Windows_OpenGL::EndScene()
 	{
 		// Present the back buffer to the screen since rendering is complete.
 		SwapBuffers(m_deviceContext);
@@ -241,7 +241,7 @@ namespace MagusEngine
 		return;
 	}
 
-	void OpenGLWindowsClass::DrawRectangle(int x, int y, int width, int height)
+	void Renderer_Windows_OpenGL::DrawRectangle(int x, int y, int width, int height)
 	{
 		glBegin(GL_TRIANGLES);
 		glVertex3f(-0.5f, 0.5f, 0.0f);
@@ -250,12 +250,12 @@ namespace MagusEngine
 		glEnd();
 	}
 	
-	void OpenGLWindowsClass::CheckError()
+	void Renderer_Windows_OpenGL::CheckError()
 	{
 		CheckOpenGLError();
 	}
 
-	bool OpenGLWindowsClass::LoadExtensionList()
+	bool Renderer_Windows_OpenGL::LoadExtensionList()
 	{
 		// Load the OpenGL extensions that this application will be using.
 		wglChoosePixelFormatARB = (PFNWGLCHOOSEPIXELFORMATARBPROC)wglGetProcAddress("wglChoosePixelFormatARB");
@@ -478,7 +478,7 @@ namespace MagusEngine
 		return true;
 	}
 
-	void OpenGLWindowsClass::GetWorldMatrix(float* matrix)
+	void Renderer_Windows_OpenGL::GetWorldMatrix(float* matrix)
 	{
 		matrix[0] = m_worldMatrix[0];
 		matrix[1] = m_worldMatrix[1];
@@ -503,7 +503,7 @@ namespace MagusEngine
 		return;
 	}
 
-	void OpenGLWindowsClass::GetProjectionMatrix(float* matrix)
+	void Renderer_Windows_OpenGL::GetProjectionMatrix(float* matrix)
 	{
 		matrix[0] = m_projectionMatrix[0];
 		matrix[1] = m_projectionMatrix[1];
@@ -528,13 +528,13 @@ namespace MagusEngine
 		return;
 	}
 
-	void OpenGLWindowsClass::GetVideoCardInfo(char* cardName)
+	void Renderer_Windows_OpenGL::GetVideoCardInfo(char* cardName)
 	{
 		strcpy_s(cardName, 128, m_videoCardDescription);
 		return;
 	}
 
-	void OpenGLWindowsClass::BuildIdentityMatrix(float* matrix)
+	void Renderer_Windows_OpenGL::BuildIdentityMatrix(float* matrix)
 	{
 		matrix[0] = 1.0f;
 		matrix[1] = 0.0f;
@@ -559,7 +559,7 @@ namespace MagusEngine
 		return;
 	}
 
-	void OpenGLWindowsClass::BuildPerspectiveFovLHMatrix(float* matrix, float fieldOfView, float screenAspect, float screenNear, float screenDepth)
+	void Renderer_Windows_OpenGL::BuildPerspectiveFovLHMatrix(float* matrix, float fieldOfView, float screenAspect, float screenNear, float screenDepth)
 	{
 		matrix[0] = 1.0f / (screenAspect * (float)tan(fieldOfView * 0.5f));
 		matrix[1] = 0.0f;
@@ -584,7 +584,7 @@ namespace MagusEngine
 		return;
 	}
 
-	void OpenGLWindowsClass::MatrixRotationY(float* matrix, float angle)
+	void Renderer_Windows_OpenGL::MatrixRotationY(float* matrix, float angle)
 	{
 		matrix[0] = cosf(angle);
 		matrix[1] = 0.0f;
@@ -609,7 +609,7 @@ namespace MagusEngine
 		return;
 	}
 
-	void OpenGLWindowsClass::MatrixTranslation(float* matrix, float x, float y, float z)
+	void Renderer_Windows_OpenGL::MatrixTranslation(float* matrix, float x, float y, float z)
 	{
 		matrix[0] = 1.0f;
 		matrix[1] = 0.0f;
@@ -634,7 +634,7 @@ namespace MagusEngine
 		return;
 	}
 
-	void OpenGLWindowsClass::MatrixMultiply(float* result, float* matrix1, float* matrix2)
+	void Renderer_Windows_OpenGL::MatrixMultiply(float* result, float* matrix1, float* matrix2)
 	{
 		result[0] = (matrix1[0] * matrix2[0]) + (matrix1[1] * matrix2[4]) + (matrix1[2] * matrix2[8]) + (matrix1[3] * matrix2[12]);
 		result[1] = (matrix1[0] * matrix2[1]) + (matrix1[1] * matrix2[5]) + (matrix1[2] * matrix2[9]) + (matrix1[3] * matrix2[13]);
@@ -659,7 +659,7 @@ namespace MagusEngine
 		return;
 	}
 
-	void OpenGLWindowsClass::CheckOpenGLError()
+	void Renderer_Windows_OpenGL::CheckOpenGLError()
 	{
 		// check OpenGL error
 		GLenum err = glGetError();

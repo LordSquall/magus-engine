@@ -25,51 +25,52 @@ configure_file(
 # engine
 set(Engine_SourceFiles
 	src/main.cpp
+	src/framework.cpp
 )	
 
-# subsystem - system
-set(SubSystem_System_SourceFiles
-	src/subsystems/systems/systemclass.cpp
+# subsystem - os
+set(SubSystem_OS_SourceFiles
+	# pure abstracted sub system
 )	
 
 # subsystem - graphics
 set(SubSystem_Graphics_SourceFiles
-	src/subsystems/graphics/graphicsclass.cpp
-	src/subsystems/graphics/rendererclass.cpp
+	src/subsystems/graphics/graphics.cpp
+	src/subsystems/graphics/Shader.cpp
 )
 
 # subsystem - input
 set(SubSystem_Input_SourceFiles
-src/subsystems/input/inputclass.cpp
+src/subsystems/input/input.cpp
 )	
 
 # subsystem - scenemanagement
 set(SubSystem_SceneManagement_SourceFiles
-	src/subsystems/scenemanagement/scenenodeclass.cpp
-)	
+	src/subsystems/scenemanagement/scenenode.cpp
+)
 
 #depending on OS add relevent source files
 MESSAGE("CMAKE_SYSTEM_NAME:         " ${CMAKE_SYSTEM_NAME} )
 if(WIN32)
-	set(SubSystem_System_SourceFiles
-		${SubSystem_System_SourceFiles}
-		src/subsystems/systems/windowsclass.cpp
+	set(SubSystem_OS_SourceFiles
+		${SubSystem_OS_SourceFiles}
+		src/subsystems/os/os_windows.cpp
 	)
 	
 	set(SubSystem_Graphics_SourceFiles
 		${SubSystem_Graphics_SourceFiles}		
-		src/subsystems/graphics/openglwindowsclass.cpp
+		src/subsystems/graphics/renderer_windows_opengl.cpp
 	)
 	
 else()
-	set(SubSystem_System_SourceFiles
-		${SubSystem_System_SourceFiles}
-		src/subsystems/systems/linuxclass.cpp
+	set(SubSystem_OS_SourceFiles
+		${SubSystem_OS_SourceFiles}
+		src/subsystems/os/os_linux.cpp
 	)
 	
 	set(SubSystem_Graphics_SourceFiles
 		${SubSystem_Graphics_SourceFiles}		
-		src/subsystems/graphics/opengllinuxclass.cpp
+		src/subsystems/graphics/renderer_linux_opengl.cpp
 	)
 
 	find_package(X11 REQUIRED)
@@ -92,18 +93,19 @@ include_directories("${PROJECT_BINARY_DIR}")
 # add the executable
 add_executable(MagusEngine
 	${Engine_SourceFiles}
-	${SubSystem_System_SourceFiles}
+	${SubSystem_OS_SourceFiles}
 	${SubSystem_Graphics_SourceFiles}
 	${SubSystem_Input_SourceFiles}
 	${SubSystem_SceneManagement_SourceFiles}
 )
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT MagusEngine)
 
 source_group("engine" FILES
 	${Engine_SourceFiles}
 )
 
-source_group("subsystems\\systems" FILES
-	${SubSystem_System_SourceFiles}
+source_group("subsystems\\os" FILES
+	${SubSystem_OS_SourceFiles}
 )
 
 source_group("subsystems\\graphics" FILES

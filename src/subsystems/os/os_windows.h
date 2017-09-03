@@ -1,12 +1,14 @@
 #ifndef _SYSTEM_WINDOWS_CLASS_H_
 #define _SYSTEM_WINDOWS_CLASS_H_
 
+/* OS Defines */
 #define WIN32_LEAN_AND_MEAN
 
 /* includes */
-#include "systemclass.h"
-#include "../graphics/rendererclass.h"
-#include "../input/inputclass.h"
+#include "os_interface.h"
+
+#include "../graphics/renderer_interface.h"
+#include "../input/input.h"
 
 /* system includes */
 #include <windows.h>
@@ -14,20 +16,22 @@
 
 namespace MagusEngine
 {
-	class WindowsClass : public SystemClass
+	class OS_Windows : public OS_Interface
 	{
 	public:
-		WindowsClass();
+		OS_Windows();
 		
+		/* OS_Interface - Functions */
 		bool Initialise();
 		void Shutdown();
 		void Run();
+		Renderer_Interface* GetLowLevelRenderer();
 		
 		LRESULT CALLBACK MessageHandler(HWND, UINT, WPARAM, LPARAM);
 		
 	private:
 		bool Frame();
-		bool InitialiseWindows(RendererClass*, int&, int&);
+		bool InitialiseWindows(Renderer_Interface*, int&, int&);
 		void ShutdownWindows();
 		
 	private:
@@ -35,14 +39,13 @@ namespace MagusEngine
 		HINSTANCE m_hinstance;
 		HWND m_hwnd;
 
-		RendererClass* m_renderer;
-		InputClass* m_input;
-		GraphicsClass* m_graphics;
+		Renderer_Interface* _lowLevelRenderer;
+		Input* _input;
 	};
 	
 	static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-	static WindowsClass* ApplicationHandle = 0;
+	static OS_Windows* ApplicationHandle = 0;
 }
 
 #endif
