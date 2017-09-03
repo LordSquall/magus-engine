@@ -72,6 +72,8 @@ namespace MagusEngine
 					
 					_lowLevelRenderer->BeginScene(1.0f, 1.0f, 0.0f, 1.0f);
 					
+					_lowLevelRenderer->DrawRectangle(0.0f, 0.0f, 0.0f, 0.0f);
+				
 					_lowLevelRenderer->EndScene();
 			}
 					
