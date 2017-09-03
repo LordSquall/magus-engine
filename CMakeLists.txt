@@ -43,6 +43,11 @@ set(SubSystem_Input_SourceFiles
 src/subsystems/input/inputclass.cpp
 )	
 
+# subsystem - scenemanagement
+set(SubSystem_SceneManagement_SourceFiles
+	src/subsystems/scenemanagement/scenenodeclass.cpp
+)	
+
 #depending on OS add relevent source files
 MESSAGE("CMAKE_SYSTEM_NAME:         " ${CMAKE_SYSTEM_NAME} )
 if(WIN32)
@@ -90,6 +95,7 @@ add_executable(MagusEngine
 	${SubSystem_System_SourceFiles}
 	${SubSystem_Graphics_SourceFiles}
 	${SubSystem_Input_SourceFiles}
+	${SubSystem_SceneManagement_SourceFiles}
 )
 
 source_group("engine" FILES
@@ -106,4 +112,8 @@ source_group("subsystems\\graphics" FILES
 
 source_group("subsystems\\input" FILES
 	${SubSystem_Input_SourceFiles}
+)
+
+source_group("subsystems\\scenemanagement" FILES
+	${SubSystem_SceneManagement_SourceFiles}
 )

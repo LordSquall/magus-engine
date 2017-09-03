@@ -14,9 +14,7 @@ namespace MagusEngine
 
 	void SceneNodeClass::Render(RendererClass* renderer)
 	{
-		renderer->CheckError();
-		renderer->DrawRectangle(0, 0, 50, 50);
-		renderer->CheckError();
+
 	}
 
 	void SceneNodeClass::Shutdown()

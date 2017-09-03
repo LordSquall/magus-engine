@@ -55,6 +55,7 @@ namespace MagusEngine
 		// Clear the buffers to begin the scene.
 		m_renderer->BeginScene(0.5f, 0.5f, 0.5f, 1.0f);
 
+		
 		m_rootNode->Render(m_renderer);
 
 		// Present the rendered scene to the screen.
