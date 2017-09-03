@@ -2,9 +2,9 @@
 #define _SYSTEM_LINUX_CLASS_H_
 
 /* includes */
-#include "systemclass.h"
-#include "../graphics/rendererclass.h"
-#include "../input/inputclass.h"
+#include "os_interface.h"
+#include "../graphics/renderer_interface.h"
+#include "../input/input.h"
 
 /* system includes */
 #include<stdio.h>
@@ -17,15 +17,19 @@
 
 namespace MagusEngine
 {
-	class LinuxClass : public SystemClass
+	class OS_Linux : public OS_Interface
 	{
 	public:
-		LinuxClass();
+		OS_Linux();
 		
+	/* OS_Interface - Functions */
 		bool Initialise();
 		void Shutdown();
-		void Run();
+		Renderer_Interface* GetLowLevelRenderer();
 		
+	
+		void Run();
+
 		bool InitialiseX11(int screenWidth, int screenHeight);
 		
 		Display* getDisplay();
@@ -34,9 +38,8 @@ namespace MagusEngine
 		
 		
 	private:
-		RendererClass* m_renderer;
-		InputClass* m_input;
-		GraphicsClass* m_graphics;
+		Renderer_Interface* 	 _lowLevelRenderer;
+		Input*		 			_input;
 		
 		Display*					m_display;
 		Window						m_root;

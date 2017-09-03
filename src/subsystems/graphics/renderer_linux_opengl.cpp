@@ -1,67 +1,66 @@
-#include "opengllinuxclass.h"
+#include "renderer_linux_opengl.h"
 
-#include "../systems/linuxclass.h"
+#include "../os/os_linux.h"
 
 namespace MagusEngine
 {
-	OpenGLLinuxClass::OpenGLLinuxClass()
+	Renderer_Linux_OpenGL::Renderer_Linux_OpenGL()
 	{
 
 	}
 
-	bool OpenGLLinuxClass::InitialiseExtensions()
+	bool Renderer_Linux_OpenGL::InitialiseExtensions()
 	{
 		return true;
 	}
 
-	bool OpenGLLinuxClass::Initialise(void* system, int screenWidth, int screenHeight, float screenDepth, float screenNear, bool vsync)
+	bool Renderer_Linux_OpenGL::Initialise(void* system, int screenWidth, int screenHeight, float screenDepth, float screenNear, bool vsync)
 	{
-		LinuxClass* linuxSystem = (LinuxClass*)system;
+		OS_Linux* os = (OS_Linux*)system;
 		
-		
+		_os = system;
 		
 		printf("foobar 1\n");
-		m_glContext = glXCreateContext(linuxSystem->getDisplay(), linuxSystem->getVisualInfo(), NULL, GL_TRUE);
+		m_glContext = glXCreateContext(os->getDisplay(), os->getVisualInfo(), NULL, GL_TRUE);
 		
 		printf("foobar 2\n");
-		glXMakeCurrent(linuxSystem->getDisplay(), linuxSystem->getWindow(), m_glContext);
+		glXMakeCurrent(os->getDisplay(), os->getWindow(), m_glContext);
 		
 		printf("foobar 3\n");
 		return true;
 	}
-
-	void OpenGLLinuxClass::Shutdown()
+	
+	void Renderer_Linux_OpenGL::Shutdown()
 	{
-		return;
 	}
 
-	void OpenGLLinuxClass::BeginScene(float red, float green, float blue, float alpha)
+	void Renderer_Linux_OpenGL::DrawRectangle(int x, int y, int width, int height)
+	{
+		glBegin(GL_TRIANGLES);
+		glVertex3f(-0.5f, 0.5f, 0.0f);
+		glVertex3f(-0.5f, -0.5f, 0.0f);
+		glVertex3f(0.5f, 0.5f, 0.0f);
+		glEnd();
+	}
+
+	void Renderer_Linux_OpenGL::BeginScene(float red, float green, float blue, float alpha)
 	{
 		glClearColor(red, green, blue, alpha);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 		return;
 	}
 
 
-	void OpenGLLinuxClass::EndScene()
+	void Renderer_Linux_OpenGL::EndScene()
 	{
+		OS_Linux* os = (OS_Linux*)_os;
+		glXSwapBuffers(os->getDisplay(), os->getWindow());
 		return;
 	}
 	
-	void OpenGLLinuxClass::DrawRectangle(int x, int y, int width, int height)
-	{
-		CheckOpenGLError();
-		glBegin(GL_TRIANGLES);
-		glVertex2f(-0.5, 0.5);
-		glVertex2f(-0.5, -0.5);
-		glVertex2f(0.5, 0.5);
-		glVertex2f(0.5, 0.5);
-		glVertex2f(-0.5, -0.5);
-		glVertex2f(0.5, -0.5);
-		glEnd();
-	}
 	
-	void OpenGLLinuxClass::CheckOpenGLError()
+	void Renderer_Linux_OpenGL::CheckError()
 	{
 		// check OpenGL error
 		GLenum err = glGetError();

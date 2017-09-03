@@ -1,7 +1,7 @@
 #ifndef _OPENGL_CLASS_H_
 #define _OPENGL_CLASS_H_
 
-#include "rendererclass.h"
+#include "renderer_interface.h"
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -13,10 +13,10 @@
 
 namespace MagusEngine
 {
-	class OpenGLLinuxClass : public RendererClass
+	class Renderer_Linux_OpenGL : public Renderer_Interface
 	{
 	public:
-		OpenGLLinuxClass();
+		Renderer_Linux_OpenGL();
 
 		bool Initialise(void*, int, int, float, float, bool);
 		bool InitialiseExtensions();
@@ -27,9 +27,12 @@ namespace MagusEngine
 		void EndScene();
 		
 		
-		void CheckOpenGLError();
+		void DrawRectangle(int x, int y, int width, int height);
 
+		void CheckError();
+		
 	private:
+		void*						_os;
 		GLXContext					m_glContext;
 	};
 }

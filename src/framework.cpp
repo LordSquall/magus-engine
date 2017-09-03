@@ -17,7 +17,7 @@ namespace MagusEngine
 #endif
 
 		/* Initialise the os */
-		if (_os->Initialise() == FALSE)
+		if (_os->Initialise() == false)
 		{
 			printf("Error: Unable to Initialise OS SubSystem!\n");
 			return false;

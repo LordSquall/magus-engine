@@ -7,8 +7,7 @@ namespace MagusEngine
 {
 	OS_Linux::OS_Linux()
 	{
-		m_renderer = 0;
-		m_graphics = 0;
+		_lowLevelRenderer = 0;
 	}
 	
 	bool OS_Linux::Initialise()
@@ -22,8 +21,8 @@ namespace MagusEngine
 		screenHeight = 600;
 
 		// Create the OpenGL Linux Specific object.
-		m_renderer = new OpenGLLinuxClass();
-		if (!m_renderer)
+		_lowLevelRenderer = new Renderer_Linux_OpenGL();
+		if (!_lowLevelRenderer)
 		{
 			return false;
 		}
@@ -36,58 +35,19 @@ namespace MagusEngine
 			return false;
 		}
 		
-		m_renderer->Initialise(this, screenWidth, screenHeight, 1000.0f, 0.1f, true);
-
-		// Create the input object.  This object will be used to handle reading the input from the user.
-		m_input = new InputClass;
-		if (!m_input)
-		{
-			return false;
-		}
-
-		// Initialize the input object.
-		m_input->Initialise();
-
-		// Create the graphics object.  This object will handle rendering all the graphics for this application.
-		m_graphics = new GraphicsClass;
-		if (!m_graphics)
-		{
-			return false;
-		}
-
-		// Initialize the graphics object.
-		result = m_graphics->Initialise(m_renderer);
-		if (!result)
-		{
-			return false;
-		}
+		_lowLevelRenderer->Initialise(this, screenWidth, screenHeight, 1000.0f, 0.1f, true);
 
 		return true;
 	}
 	
 	void OS_Linux::Shutdown()
 	{
-		// Release the graphics object.
-		if (m_graphics)
+		// Release the Low Level Renderer object.
+		if (_lowLevelRenderer)
 		{
-			//m_graphics->Shutdown();
-			delete m_graphics;
-			m_graphics = 0;
-		}
-
-		// Release the input object.
-		if (m_input)
-		{
-			delete m_input;
-			m_input = 0;
-		}
-
-		// Release the OpenGL object.
-		if (m_renderer)
-		{
-			m_renderer->Shutdown();
-			delete m_renderer;
-			m_renderer = 0;
+			_lowLevelRenderer->Shutdown();
+			delete _lowLevelRenderer;
+			_lowLevelRenderer = 0;
 		}
 
 		return;
@@ -110,11 +70,9 @@ namespace MagusEngine
 					XGetWindowAttributes(m_display, m_window, &m_windowAttributes);
 					//glViewport(0, 0, gwa.width, gwa.height);
 					
-					m_renderer->BeginScene(1.0f, 1.0f, 0.0f, 1.0f);
+					_lowLevelRenderer->BeginScene(1.0f, 1.0f, 0.0f, 1.0f);
 					
-					m_renderer->EndScene();
-					
-					glXSwapBuffers(m_display, m_window);
+					_lowLevelRenderer->EndScene();
 			}
 					
 			else if(m_xEvent.type == KeyPress) {
@@ -130,24 +88,29 @@ namespace MagusEngine
 	
 		return;
 	}
+
+	Renderer_Interface* OS_Linux::GetLowLevelRenderer()
+	{
+		return _lowLevelRenderer;
+	}
 	
-	Display* LinuxClass::getDisplay()
+	Display* OS_Linux::getDisplay()
 	{
 		return m_display;
 	}
 	
-	Window LinuxClass::getWindow()
+	Window OS_Linux::getWindow()
 	{
 		return m_window;
 	}
 	
-	XVisualInfo* LinuxClass::getVisualInfo()
+	XVisualInfo* OS_Linux::getVisualInfo()
 	{
 		return m_visualInfo;
 	}
 		
 	
-	bool LinuxClass::InitialiseX11(int screenWidth, int screenHeight)
+	bool OS_Linux::InitialiseX11(int screenWidth, int screenHeight)
 	{
 		m_attributes[0] = GLX_RGBA;
 		m_attributes[1] = GLX_DEPTH_SIZE;

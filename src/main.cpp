@@ -1,5 +1,6 @@
 /* System Includes */
 #include <stdio.h>
+#include <cstring>
 
 /* Local Project Includes */
 #include "magusversion.h"
@@ -12,7 +13,7 @@ void DisplayVersionInfo();
 void DisplayUsage();
 
 /* Program Entry Point */
-void main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
 	/* Local variables */
 	bool running = true;		/* termination flag */
@@ -24,12 +25,12 @@ void main(int argc, char *argv[])
 	{
 		/* Failure to process args, display program usage */
 		DisplayUsage();
-		return;
+		return 0;
 	}
 	else if (result > 0)
 	{
 		/* No error, but args configuration means we terminate the application */
-		return;
+		return 0;
 	}
 
 	/* Create Framework */
@@ -45,7 +46,7 @@ void main(int argc, char *argv[])
 	}
 
 	framework->Shutdown();
-	return;
+	return 0;
 }
 
 unsigned int ProcessArguments(int argc, char *argv[])
