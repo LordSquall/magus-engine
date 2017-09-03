@@ -5,14 +5,6 @@
 #include "magusversion.h"
 #include "framework.h"
 
-#include "subsystems/os/os_interface.h"
-
-#ifdef _WIN32
-#include "subsystems/os/os_windows.h"
-#else
-#include "subsystems/os/os_linux.h"
-#endif
-
 unsigned int ProcessArguments(int argc, char *argv[]);
 
 void DisplayVersionInfo();
@@ -54,39 +46,6 @@ void main(int argc, char *argv[])
 
 	framework->Shutdown();
 	return;
-
-//	MagusEngine::OS_Interface* os;
-//	bool result;
-//
-//	/* Print the verion number info the screeen */
-//	printf("Magus Engine - Version %d.%d\n", MagusEngine_VERSION_MAJOR, MagusEngine_VERSION_MINOR);
-//	printf("Operating System: %s\n", MagusEngine_OS_VERSION);
-//
-//
-//#ifdef _WIN32
-//	os = new MagusEngine::OS_Windows();
-//#else
-//	system = new MagusEngine::LinuxClass();
-//#endif
-//
-//	if(!system)
-//	{
-//		return 0;
-//	}
-//	
-//	/* Initialise the system */
-//	result = os->Initialise();
-//	if(result)
-//	{
-//		/* Enter the main game loop */
-//		os->Run();
-//	}
-//	
-//	/* Shutdown and clean up any allocated objects and memory */
-//	os->Shutdown();
-//	delete os;
-//	os = 0;
-	
 }
 
 unsigned int ProcessArguments(int argc, char *argv[])

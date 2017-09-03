@@ -5,14 +5,14 @@
 #include <stdio.h>
 
 /* Local project includes */
-#include "subsystems\os\os_interface.h"
+#include "subsystems/os/os_interface.h"
 #ifdef _WIN32
-#include "subsystems\os\os_windows.h"
+#include "subsystems/os/os_windows.h"
 #else
-#include "subsystems\os\os_linux.h"
+#include "subsystems/os/os_linux.h"
 #endif
 
-#include "subsystems\graphics\graphics.h"
+#include "subsystems/graphics/graphics.h"
 
 namespace MagusEngine
 {

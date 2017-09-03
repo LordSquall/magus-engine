@@ -1,17 +1,17 @@
 /* includes */
-#include "linuxclass.h"
+#include "os_linux.h"
 
-#include "../graphics/opengllinuxclass.h"
+#include "../graphics/renderer_linux_opengl.h"
 
 namespace MagusEngine
 {
-	LinuxClass::LinuxClass()
+	OS_Linux::OS_Linux()
 	{
 		m_renderer = 0;
 		m_graphics = 0;
 	}
 	
-	bool LinuxClass::Initialise()
+	bool OS_Linux::Initialise()
 	{
 		int screenWidth, screenHeight;
 		bool result;
@@ -65,7 +65,7 @@ namespace MagusEngine
 		return true;
 	}
 	
-	void LinuxClass::Shutdown()
+	void OS_Linux::Shutdown()
 	{
 		// Release the graphics object.
 		if (m_graphics)
@@ -93,7 +93,7 @@ namespace MagusEngine
 		return;
 	}
 	
-	void LinuxClass::Run()
+	void OS_Linux::Run()
 	{
 		bool done;
 
