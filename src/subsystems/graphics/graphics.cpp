@@ -11,18 +11,17 @@ namespace MagusEngine
 	{
 		_os = os;
 
-		/* Initialise Graphics Subsystems */
+		/* Low level Hardware renderer, provided by the OS */
+		_lowLevelHardwareRenderer = os->GetLowLevelRenderer();
+		_lowLevelHardwareRenderer->Initialise(os, 800, 600, 0, 10000, false);
 
-		/* Low level renderer */
-		_lowLevelRenderer = os->GetLowLevelRenderer();
+		_lowLevelSoftwareRenderer = new Renderer_Software();
+		_lowLevelSoftwareRenderer->Initialise(os, 800, 600, 0, 10000, false );
 
-		/* Create basic test scene */
-		/*m_rootNode = new SceneNodeClass();
-		if (m_rootNode != NULL)
-		{
-			m_rootNode->Initialise();
-		}*/
+		_shader = Shader();
 
+		_softwareRendererThread = std::thread(&Graphics::SoftwareRender, this);
+		
 		return true;
 	}
 
@@ -30,7 +29,8 @@ namespace MagusEngine
 	void Graphics::Shutdown()
 	{
 		_os = 0;
-		_lowLevelRenderer = 0;
+		_lowLevelHardwareRenderer = 0;
+		_lowLevelSoftwareRenderer = 0;
 
 		return;
 	}
@@ -51,12 +51,25 @@ namespace MagusEngine
 
 	bool Graphics::Render()
 	{
-		// Clear the buffers to begin the scene.
-		_lowLevelRenderer->BeginScene(0.5f, 0.5f, 0.5f, 1.0f);
+		/* Begin Hardware Renderer scene */
+		_lowLevelHardwareRenderer->BeginScene(0.5f, 0.5f, 0.5f, 1.0f);
 
-	
-		// Present the rendered scene to the screen.
-		_lowLevelRenderer->EndScene();
+		/* End the Hardware Renderer scene */
+		_lowLevelHardwareRenderer->EndScene();
+		
+		return true;
+	}
+
+	bool Graphics::SoftwareRender()
+	{
+		while (true)
+		{
+			/* Begin the Software Renderer scene */
+			_lowLevelSoftwareRenderer->BeginScene(1.0f, 0.0f, 0.0f, 1.0f);
+
+			/* End the Software Renderer scene*/
+			_lowLevelSoftwareRenderer->EndScene();
+		}
 
 		return true;
 	}

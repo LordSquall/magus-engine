@@ -238,18 +238,52 @@ namespace MagusEngine
 		// Present the back buffer to the screen since rendering is complete.
 		SwapBuffers(m_deviceContext);
 
+		glFinish();
+
+		PAINTSTRUCT ps;
+		RECT r;
+
+		HWND handle = WindowFromDC(m_deviceContext);
+
+		GetClientRect(handle, &r);
+
+		if (r.bottom == 0) {
+
+			return;
+		}
+
+		HDC hdc = BeginPaint(handle, &ps);
+
+		Rectangle(hdc, 50, 50, 200, 100);
+
+		EndPaint(handle, &ps);
+
 		return;
 	}
 
 	void Renderer_Windows_OpenGL::DrawRectangle(int x, int y, int width, int height)
 	{
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+
+		glColor3f(1.0f, 0.0f, 00.0f);
+
 		glBegin(GL_TRIANGLES);
-		glVertex3f(-0.5f, 0.5f, 0.0f);
-		glVertex3f(-0.5f, -0.5f, 0.0f);
-		glVertex3f(0.5f, 0.5f, 0.0f);
+		glVertex3f(-50.0f, 50.0f, 0.0f);
+		glVertex3f(-50.0f, -50.0f, 0.0f);
+		glVertex3f(50.0f, 50.0f, 0.0f);
 		glEnd();
 	}
 	
+
+	void Renderer_Windows_OpenGL::CompileShader()
+	{
+
+	}
+
 	void Renderer_Windows_OpenGL::CheckError()
 	{
 		CheckOpenGLError();

@@ -9,7 +9,7 @@ namespace MagusEngine
 	{
 	public:
 		Shader();
-
+		
 	private:
 		unsigned int _program;
 		unsigned int _vertexShader;

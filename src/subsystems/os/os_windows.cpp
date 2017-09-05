@@ -169,7 +169,7 @@ namespace MagusEngine
 		m_applicationName = L"Engine";
 
 		// Setup the windows class with default settings.
-		wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+		wc.style = CS_HREDRAW | CS_VREDRAW;
 		wc.lpfnWndProc = WndProc;
 		wc.cbClsExtra = 0;
 		wc.cbWndExtra = 0;

@@ -92,6 +92,9 @@ namespace MagusEngine
 		void BeginScene(float, float, float, float);
 		void EndScene();
 
+		void CompileShader();
+
+
 		void DrawRectangle(int x, int y, int width, int height);
 
 		void CheckError();

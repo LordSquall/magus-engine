@@ -1,9 +1,14 @@
 #ifndef _GRAPHICS_CLASS_H_
 #define _GRAPHICS_CLASS_H_
 
+/* System Includes */
+#include <thread>
+
 /* Local Project Includes */
 #include "../os/os_interface.h"
 #include "renderer_interface.h"
+#include "renderers\renderer_software.h"
+#include "shader.h"
 #include "../scenemanagement/scenenode.h"
 
 namespace MagusEngine
@@ -20,9 +25,18 @@ namespace MagusEngine
 	private:
 		bool Render();
 
+		bool SoftwareRender();
+
 	private:
 		OS_Interface*		_os;
-		Renderer_Interface* _lowLevelRenderer;
+		
+		Renderer_Interface* _lowLevelHardwareRenderer; 
+		Renderer_Interface*	_lowLevelSoftwareRenderer;
+	
+		Shader				_shader;
+
+		std::thread			_hardwareRendererThread;
+		std::thread			_softwareRendererThread;
 	};
 }
 
