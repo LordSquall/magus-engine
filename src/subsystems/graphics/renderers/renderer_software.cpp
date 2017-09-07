@@ -25,6 +25,9 @@ namespace MagusEngine
 		/* Initialise debug bitmap */
 		_debugBitmap.Initialise(screenWidth, screenHeight);
 
+		/* Initialise the scane buffer */
+		_scanbuffer.Initialise(&_framebuffer);
+
 		return true;
 	}
 	
@@ -44,17 +47,14 @@ namespace MagusEngine
 
 	void Renderer_Software::BeginScene(float red, float green, float blue, float alpha)
 	{
+		SR_Vertex minYVert = SR_Vertex(100, 100);
+		SR_Vertex midYVert = SR_Vertex(150, 200);
+		SR_Vertex maxYVert = SR_Vertex(80, 300);
+
 		_framebuffer.Clear(red, green, blue, alpha);
 
-		_framebuffer.DrawPixel(100, 100, 0.0, 0.0, 1.0, 1.0);
-		_framebuffer.DrawPixel(101, 100, 0.0, 0.0, 1.0, 1.0);
-		_framebuffer.DrawPixel(102, 100, 0.0, 0.0, 1.0, 1.0);
-		_framebuffer.DrawPixel(103, 100, 0.0, 0.0, 1.0, 1.0);
-		_framebuffer.DrawPixel(104, 100, 0.0, 0.0, 1.0, 1.0);
-		_framebuffer.DrawPixel(105, 100, 0.0, 0.0, 1.0, 1.0);
-		_framebuffer.DrawPixel(106, 100, 0.0, 0.0, 1.0, 1.0);
-		_framebuffer.DrawPixel(107, 100, 0.0, 0.0, 1.0, 1.0);
-
+		_scanbuffer.FillTriangle(minYVert, midYVert, maxYVert);
+		
 		_debugBitmap.Save((BYTE*)_framebuffer.GetData(), 32, 24, "C:\\Temp\\image.bmp");
 		return;
 	}

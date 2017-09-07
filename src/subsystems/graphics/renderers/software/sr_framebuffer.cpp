@@ -41,12 +41,22 @@ namespace MagusEngine
 	}
 
 	void SR_Framebuffer::DrawPixel(int x, int y, float red, float green, float blue, float alpha)
-	{
+	{ 
 		unsigned int index = (x + y * _width) * 4;
 		_data[index	   ] = 255 * blue;
 		_data[index + 1] = 255 * green;
 		_data[index + 2] = 255 * red;
 		_data[index + 3] = 255 * alpha;
+	}
+
+	int SR_Framebuffer::GetWidth()
+	{
+		return _width;
+	}
+
+	int SR_Framebuffer::GetHeight()
+	{
+		return _height;
 	}
 
 	Byte* SR_Framebuffer::GetData()

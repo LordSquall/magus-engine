@@ -17,6 +17,8 @@ namespace MagusEngine
 
 		void DrawPixel(int x, int y, float red, float green, float blue, float alpha);
 
+		int GetWidth();
+		int GetHeight();
 		Byte* GetData();
 		
 	private:

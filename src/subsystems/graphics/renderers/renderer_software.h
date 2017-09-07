@@ -4,6 +4,7 @@
 #include "..\renderer_interface.h"
 #include "software\sr_bitmap.h"
 #include "software\sr_framebuffer.h"
+#include "software\sr_scanbuffer.h"
 
 typedef char Byte;
 
@@ -34,6 +35,8 @@ namespace MagusEngine
 		
 	private:
 		SR_Framebuffer _framebuffer;
+
+		SR_Scanbuffer _scanbuffer;
 		
 		unsigned int _screenSizeWidth;
 		unsigned int _screenSizeHeight;
