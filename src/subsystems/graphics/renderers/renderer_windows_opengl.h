@@ -115,16 +115,16 @@ namespace MagusEngine
 		bool LoadExtensionList();
 
 	private:
-		HDC m_deviceContext;
-		HGLRC m_renderingContext;
+		HDC		_deviceContext;
+		HGLRC	_renderingContext;
 
 		PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatARB;
 		PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsARB;
 		PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT;
 
-		float m_worldMatrix[16];
-		float m_projectionMatrix[16];
-		char m_videoCardDescription[128];
+		float	_worldMatrix[16];
+		float	_projectionMatrix[16];
+		char	_videoCardDescription[128];
 
 	public:
 

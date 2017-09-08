@@ -1,14 +1,15 @@
-#ifndef _SR_VECTOR_H_
-#define _SR_VECTOR_H_
+#ifndef _VECTOR_H_
+#define _VECTOR_H_
 
 typedef char Byte;
 
 namespace MagusEngine
 {
-	class SR_Vector2f
+	class Vector2f
 	{
 	public:
-		SR_Vector2f(float x, float y);
+		Vector2f();
+		Vector2f(float x, float y);
 
 		float GetX();
 		float GetY();
@@ -21,10 +22,12 @@ namespace MagusEngine
 		float _y;
 	};
 
-	class SR_Vector3f
+	class Vector3f
 	{
 	public:
-		SR_Vector3f(float x, float y, float z);
+
+		Vector3f();
+		Vector3f(float x, float y, float z);
 
 		float GetX();
 		float GetY();
@@ -40,10 +43,11 @@ namespace MagusEngine
 		float _z;
 	};
 
-	class SR_Vector4f
+	class Vector4f
 	{
 	public:
-		SR_Vector4f(float x, float y, float z, float w);
+		Vector4f();
+		Vector4f(float x, float y, float z, float w);
 
 		float GetX();
 		float GetY();

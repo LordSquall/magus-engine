@@ -1,7 +1,7 @@
 #ifndef _RENDERER_SOFTWARE_H_
 #define _RENDERER_SOFTWARE_H_
 
-#include "..\renderer_interface.h"
+#include "renderer_interface.h"
 #include "software\sr_bitmap.h"
 #include "software\sr_framebuffer.h"
 #include "software\sr_scanbuffer.h"
@@ -38,9 +38,9 @@ namespace MagusEngine
 
 		SR_Scanbuffer _scanbuffer;
 		
-		unsigned int _screenSizeWidth;
-		unsigned int _screenSizeHeight;
-		unsigned int _screenPixelDepth;
+		int _screenSizeWidth;
+		int _screenSizeHeight;
+		float _screenPixelDepth;
 
 		SR_Bitmap _debugBitmap;
 

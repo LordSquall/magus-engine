@@ -1,20 +1,22 @@
 /* includes */
 #include "os_windows.h"
 
-#include "../graphics/renderer_windows_opengl.h"
+#include "../graphics/renderers/renderer_windows_opengl.h"
 
 namespace MagusEngine
 {
-	OS_Windows::OS_Windows()
+	OS::OS()
 	{
 		_lowLevelRenderer = 0;
 	}
 	
-	bool OS_Windows::Initialise()
+	bool OS::Initialise(FrameworkConfig* config)
 	{
 		int screenWidth, screenHeight;
 		bool result;
 
+		/* Save reference to config */
+		_config = config;
 
 		// Initialize the width and height of the screen to zero.
 		screenWidth = 0;
@@ -31,14 +33,14 @@ namespace MagusEngine
 		result = InitialiseWindows(_lowLevelRenderer, screenWidth, screenHeight);
 		if (!result)
 		{
-			MessageBox(m_hwnd, "Could not initialize the window.", "Error", MB_OK);
+			MessageBox(_hwnd, "Could not initialize the window.", "Error", MB_OK);
 			return false;
 		}
 
 		return true;
 	}
 	
-	void OS_Windows::Shutdown()
+	void OS::Shutdown()
 	{
 		
 		// Release the Low Level Renderer object.
@@ -55,7 +57,7 @@ namespace MagusEngine
 		return;
 	}
 	
-	void OS_Windows::Run()
+	void OS::Run()
 	{
 		//MSG msg;
 		//bool done, result;
@@ -95,12 +97,12 @@ namespace MagusEngine
 		return;
 	}
 
-	Renderer_Interface* OS_Windows::GetLowLevelRenderer()
+	Renderer_Interface* OS::GetLowLevelRenderer()
 	{
 		return _lowLevelRenderer;
 	}
 
-	bool OS_Windows::Frame()
+	bool OS::Frame()
 	{
 		//// Check if the user pressed escape and wants to exit the application.
 		//if (m_input->IsKeyDown(VK_ESCAPE))
@@ -119,12 +121,12 @@ namespace MagusEngine
 	}
 
 
-	void OS_Windows::ShutdownWindows()
+	void OS::ShutdownWindows()
 	{
 		
 	}
 
-	LRESULT CALLBACK OS_Windows::MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM lparam)
+	LRESULT CALLBACK OS::MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM lparam)
 	{
 		switch (umsg)
 		{
@@ -152,7 +154,7 @@ namespace MagusEngine
 		}
 	}
 
-	bool OS_Windows::InitialiseWindows(Renderer_Interface* renderer, int& screenWidth, int& screenHeight)
+	bool OS::InitialiseWindows(Renderer_Interface* renderer, int& screenWidth, int& screenHeight)
 	{
 		WNDCLASSEX wc;
 		DEVMODE dmScreenSettings;
@@ -163,51 +165,48 @@ namespace MagusEngine
 		ApplicationHandle = this;
 
 		// Get the instance of this application.
-		m_hinstance = GetModuleHandle(NULL);
-
-		// Give the application a name.
-		m_applicationName = L"Engine";
+		_hinstance = GetModuleHandle(NULL);
 
 		// Setup the windows class with default settings.
 		wc.style = CS_HREDRAW | CS_VREDRAW;
 		wc.lpfnWndProc = WndProc;
 		wc.cbClsExtra = 0;
 		wc.cbWndExtra = 0;
-		wc.hInstance = m_hinstance;
+		wc.hInstance = _hinstance;
 		wc.hIcon = LoadIcon(NULL, IDI_WINLOGO);
 		wc.hIconSm = wc.hIcon;
 		wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 		wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 		wc.lpszMenuName = NULL;
-		wc.lpszClassName = (LPCSTR)m_applicationName;
+		wc.lpszClassName = (LPCSTR)_config->title;
 		wc.cbSize = sizeof(WNDCLASSEX);
 
 		// Register the window class.
 		RegisterClassEx(&wc);
 
 		// Create a temporary window for the OpenGL extension setup.
-		m_hwnd = CreateWindowEx(WS_EX_APPWINDOW, (LPCSTR)m_applicationName, (LPCSTR)m_applicationName, WS_POPUP,
-			0, 0, 640, 480, NULL, NULL, m_hinstance, NULL);
-		if (m_hwnd == NULL)
+		_hwnd = CreateWindowEx(WS_EX_APPWINDOW, (LPCSTR)_config->title, (LPCSTR)_config->title, WS_POPUP,
+			0, 0, 640, 480, NULL, NULL, _hinstance, NULL);
+		if (_hwnd == NULL)
 		{
 			return false;
 		}
 
 		// Don't show the window.
-		ShowWindow(m_hwnd, SW_HIDE);
+		ShowWindow(_hwnd, SW_HIDE);
 
 		// Initialize a temporary OpenGL window and load the OpenGL extensions.
-		renderer->m_windowSystemHandle = m_hwnd;
+		renderer->_windowSystemHandle = _hwnd;
 		result = renderer->InitialiseExtensions();
 		if (!result)
 		{
-			MessageBox(m_hwnd, "Could not initialize the OpenGL extensions.", "Error", MB_OK);
+			MessageBox(_hwnd, "Could not initialize the OpenGL extensions.", "Error", MB_OK);
 			return false;
 		}
 
 		// Release the temporary window now that the extensions have been initialized.
-		DestroyWindow(m_hwnd);
-		m_hwnd = NULL;
+		DestroyWindow(_hwnd);
+		_hwnd = NULL;
 
 		// Determine the resolution of the clients desktop screen.
 		screenWidth = GetSystemMetrics(SM_CXSCREEN);
@@ -233,8 +232,8 @@ namespace MagusEngine
 		else
 		{
 			// If windowed then set it to 800x600 resolution.
-			screenWidth = 800;
-			screenHeight = 600;
+			screenWidth = _config->width;
+			screenHeight = _config->height;
 
 			// Place the window in the middle of the screen.
 			posX = (GetSystemMetrics(SM_CXSCREEN) - screenWidth) / 2;
@@ -242,26 +241,26 @@ namespace MagusEngine
 		}
 
 		// Create the window with the screen settings and get the handle to it.
-		m_hwnd = CreateWindowEx(WS_EX_APPWINDOW, (LPCSTR)m_applicationName, (LPCSTR)m_applicationName, WS_POPUP,
-			posX, posY, screenWidth, screenHeight, NULL, NULL, m_hinstance, NULL);
-		if (m_hwnd == NULL)
+		_hwnd = CreateWindowEx(WS_EX_APPWINDOW, (LPCSTR)_config->title, (LPCSTR)_config->title, WS_POPUP,
+			posX, posY, screenWidth, screenHeight, NULL, NULL, _hinstance, NULL);
+		if (_hwnd == NULL)
 		{
 			return false;
 		}
 
 		// Initialize OpenGL now that the window has been created.
-		renderer->m_windowSystemHandle = m_hwnd;
+		renderer->_windowSystemHandle = _hwnd;
 		result = renderer->Initialise(this, screenWidth, screenHeight, SCREEN_DEPTH, SCREEN_NEAR, VSYNC_ENABLED);
 		if (!result)
 		{
-			MessageBox(m_hwnd, "Could not initialize OpenGL, check if video card supports OpenGL 4.0.", "Error", MB_OK);
+			MessageBox(_hwnd, "Could not initialize OpenGL, check if video card supports OpenGL 4.0.", "Error", MB_OK);
 			return false;
 		}
 
 		// Bring the window up on the screen and set it as main focus.
-		ShowWindow(m_hwnd, SW_SHOW);
-		SetForegroundWindow(m_hwnd);
-		SetFocus(m_hwnd);
+		ShowWindow(_hwnd, SW_SHOW);
+		SetForegroundWindow(_hwnd);
+		SetFocus(_hwnd);
 
 		// Hide the mouse cursor.
 		ShowCursor(false);

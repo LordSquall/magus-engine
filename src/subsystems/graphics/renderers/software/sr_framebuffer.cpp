@@ -7,7 +7,7 @@ namespace MagusEngine
 
 	}
 
-	bool SR_Framebuffer::Initialise(unsigned int width, unsigned int height, unsigned int depth)
+	bool SR_Framebuffer::Initialise(int width, int height, float depth)
 	{
 		_width = width;
 		_height = height;
@@ -19,8 +19,8 @@ namespace MagusEngine
 
 	void SR_Framebuffer::Clear(float red, float green, float blue, float alpha)
 	{
-		unsigned int r = 0;
-		unsigned int c = 0;
+		int r = 0;
+		int c = 0;
 
 		Byte* bytePtr = &_data[0];
 
@@ -30,10 +30,10 @@ namespace MagusEngine
 			for (c = 0; c < _height; c++)
 			{
 				// BGRA format
-				bytePtr[0]	= 255 * blue;
-				bytePtr[1]	= 255 * green;
-				bytePtr[2]	= 255 * red;
-				bytePtr[3]	= 255 * alpha;
+				bytePtr[0]	= (Byte)(255.0f * blue);
+				bytePtr[1]	= (Byte)(255.0f * green);
+				bytePtr[2]	= (Byte)(255.0f * red);
+				bytePtr[3]	= (Byte)(255.0f * alpha);
 
 				bytePtr += 4;
 			}
@@ -43,10 +43,10 @@ namespace MagusEngine
 	void SR_Framebuffer::DrawPixel(int x, int y, float red, float green, float blue, float alpha)
 	{ 
 		unsigned int index = (x + y * _width) * 4;
-		_data[index	   ] = 255 * blue;
-		_data[index + 1] = 255 * green;
-		_data[index + 2] = 255 * red;
-		_data[index + 3] = 255 * alpha;
+		_data[index	   ] = (Byte)(255.0f * blue);
+		_data[index + 1] = (Byte)(255.0f * green);
+		_data[index + 2] = (Byte)(255.0f * red);
+		_data[index + 3] = (Byte)(255.0f * alpha);
 	}
 
 	int SR_Framebuffer::GetWidth()

@@ -10,7 +10,7 @@ namespace MagusEngine
 	public:
 		SR_Framebuffer();
 
-		bool Initialise(unsigned int width, unsigned int height, unsigned int depth);
+		bool Initialise(int width, int height, float depth);
 
 
 		void Clear(float red, float green, float blue, float alpha);

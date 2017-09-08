@@ -11,7 +11,8 @@
 /* System Includes */
 
 /* Local Project Includes */
-#include "../graphics/renderer_interface.h"
+#include "../../frameworkconfig.h"
+#include "../graphics/renderers/renderer_interface.h"
 
 namespace MagusEngine
 {
@@ -25,7 +26,7 @@ namespace MagusEngine
 	public:
 
 		/* Called by the engine - initialise any operating system and windowing structures*/
-		virtual bool Initialise() = 0;
+		virtual bool Initialise(FrameworkConfig* config) = 0;
 
 		/* Called by the engine - shutdown and clean up any memory allocated by the operating system and windowing */
 		virtual void Shutdown() = 0;

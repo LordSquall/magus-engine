@@ -1,14 +1,14 @@
-#ifndef _SR_MATRIX_H_
-#define _SR_MATRIX_H_
+#ifndef _MATRIX_H_
+#define _MATRIX_H_
 
 typedef char Byte;
 
 namespace MagusEngine
 {
-	class SR_Matrix2f
+	class Matrix2f
 	{
 	public:
-		SR_Matrix2f();
+		Matrix2f();
 
 		float Get(int i, int j);
 		void Set(int i, int j, float v);
@@ -19,10 +19,10 @@ namespace MagusEngine
 		float _m[2][2];
 	};
 
-	class SR_Matrix3f
+	class Matrix3f
 	{
 	public:
-		SR_Matrix3f();
+		Matrix3f();
 
 		float Get(int i, int j);
 		void Set(int i, int j, float v);
@@ -33,10 +33,10 @@ namespace MagusEngine
 		float _m[3][3];
 	};
 
-	class SR_Matrix4f
+	class Matrix4f
 	{
 	public:
-		SR_Matrix4f();
+		Matrix4f();
 
 		float Get(int i, int j);
 		void Set(int i, int j, float v);

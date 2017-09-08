@@ -5,12 +5,12 @@
 
 namespace MagusEngine
 {
-	OS_Linux::OS_Linux()
+	OS::OS()
 	{
 		_lowLevelRenderer = 0;
 	}
 	
-	bool OS_Linux::Initialise()
+	bool OS::Initialise(FrameworkConfig* config)
 	{
 		int screenWidth, screenHeight;
 		bool result;
@@ -40,7 +40,7 @@ namespace MagusEngine
 		return true;
 	}
 	
-	void OS_Linux::Shutdown()
+	void OS::Shutdown()
 	{
 		// Release the Low Level Renderer object.
 		if (_lowLevelRenderer)
@@ -53,7 +53,7 @@ namespace MagusEngine
 		return;
 	}
 	
-	void OS_Linux::Run()
+	void OS::Run()
 	{
 		bool done;
 
@@ -89,28 +89,28 @@ namespace MagusEngine
 		return;
 	}
 
-	Renderer_Interface* OS_Linux::GetLowLevelRenderer()
+	Renderer_Interface* OS::GetLowLevelRenderer()
 	{
 		return _lowLevelRenderer;
 	}
 	
-	Display* OS_Linux::getDisplay()
+	Display* OS::getDisplay()
 	{
 		return m_display;
 	}
 	
-	Window OS_Linux::getWindow()
+	Window OS::getWindow()
 	{
 		return m_window;
 	}
 	
-	XVisualInfo* OS_Linux::getVisualInfo()
+	XVisualInfo* OS::getVisualInfo()
 	{
 		return m_visualInfo;
 	}
 		
 	
-	bool OS_Linux::InitialiseX11(int screenWidth, int screenHeight)
+	bool OS::InitialiseX11(int screenWidth, int screenHeight)
 	{
 		m_attributes[0] = GLX_RGBA;
 		m_attributes[1] = GLX_DEPTH_SIZE;

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<UA title="Synthetic Vision System">
+	<scene>
+		<node name="root" children="1">
+			<node name="background" children="2">
+				<transform>
+					<position x="0.0" y="0.0" z="0.0" />
+					<rotation x="0.0" y="0.0" z="0.0" />
+					<scale x="0.0" y="0.0" z="0.0" />
+				</transform>
+				<node name="sky" children="0">
+					<transform>
+						<position x="0.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="0.0" y="0.0" z="0.0" />
+					</transform>
+				</node>
+				<node name="earth" children="0">
+					<transform>
+						<position x="0.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="0.0" y="0.0" z="0.0" />
+					</transform>
+				</node>
+			</node>
+		</node>
+	</scene>
+</UA>

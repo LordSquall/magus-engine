@@ -4,8 +4,8 @@ namespace MagusEngine
 {
 	Renderer_Windows_OpenGL::Renderer_Windows_OpenGL()
 	{
-		m_deviceContext = 0;
-		m_renderingContext = 0;
+		_deviceContext = 0;
+		_renderingContext = 0;
 	}
 
 	bool Renderer_Windows_OpenGL::InitialiseExtensions()
@@ -18,7 +18,7 @@ namespace MagusEngine
 
 
 		// Get the device context for this window.
-		deviceContext = GetDC((HWND)m_windowSystemHandle);
+		deviceContext = GetDC((HWND)_windowSystemHandle);
 		if (!deviceContext)
 		{
 			return false;
@@ -58,7 +58,7 @@ namespace MagusEngine
 		renderContext = NULL;
 
 		// Release the device context for this window.
-		ReleaseDC((HWND)m_windowSystemHandle, deviceContext);
+		ReleaseDC((HWND)_windowSystemHandle, deviceContext);
 		deviceContext = 0;
 
 		return true;
@@ -77,8 +77,8 @@ namespace MagusEngine
 
 
 		// Get the device context for this window.
-		m_deviceContext = GetDC((HWND)m_windowSystemHandle);
-		if (!m_deviceContext)
+		_deviceContext = GetDC((HWND)_windowSystemHandle);
+		if (!_deviceContext)
 		{
 			return false;
 		}
@@ -123,14 +123,14 @@ namespace MagusEngine
 		attributeListInt[18] = 0;
 
 		// Query for a pixel format that fits the attributes we want.
-		result = wglChoosePixelFormatARB(m_deviceContext, attributeListInt, NULL, 1, pixelFormat, &formatCount);
+		result = wglChoosePixelFormatARB(_deviceContext, attributeListInt, NULL, 1, pixelFormat, &formatCount);
 		if (result != 1)
 		{
 			return false;
 		}
 
 		// If the video card/display can handle our desired pixel format then we set it as the current one.
-		result = SetPixelFormat(m_deviceContext, pixelFormat[0], &pixelFormatDescriptor);
+		result = SetPixelFormat(_deviceContext, pixelFormat[0], &pixelFormatDescriptor);
 		if (result != 1)
 		{
 			return false;
@@ -146,42 +146,40 @@ namespace MagusEngine
 		attributeList[4] = 0;
 
 		// Create a OpenGL 4.0 rendering context.
-		m_renderingContext = wglCreateContextAttribsARB(m_deviceContext, 0, attributeList);
-		if (m_renderingContext == NULL)
+		_renderingContext = wglCreateContextAttribsARB(_deviceContext, 0, attributeList);
+		if (_renderingContext == NULL)
 		{
 			return false;
 		}
 
 		// Set the rendering context to active.
-		result = wglMakeCurrent(m_deviceContext, m_renderingContext);
+		result = wglMakeCurrent(_deviceContext, _renderingContext);
 		if (result != 1)
 		{
 			return false;
 		}
 
 
-		
-
 		CheckOpenGLError();
 
 		// Initialize the world/model matrix to the identity matrix.
-		BuildIdentityMatrix(m_worldMatrix);
+		BuildIdentityMatrix(_worldMatrix);
 
 		// Set the field of view and screen aspect ratio.
 		fieldOfView = 3.14159265358979323846f / 4.0f;
 		screenAspect = (float)screenWidth / (float)screenHeight;
 
 		// Build the perspective projection matrix.
-		BuildPerspectiveFovLHMatrix(m_projectionMatrix, fieldOfView, screenAspect, screenNear, screenDepth);
+		BuildPerspectiveFovLHMatrix(_projectionMatrix, fieldOfView, screenAspect, screenNear, screenDepth);
 
 		// Get the name of the video card.
 		vendorString = (char*)glGetString(GL_VENDOR);
 		rendererString = (char*)glGetString(GL_RENDERER);
 
 		// Store the video card name in a class member variable so it can be retrieved later.
-		strcpy_s(m_videoCardDescription, vendorString);
-		strcat_s(m_videoCardDescription, " - ");
-		strcat_s(m_videoCardDescription, rendererString);
+		strcpy_s(_videoCardDescription, vendorString);
+		strcat_s(_videoCardDescription, " - ");
+		strcat_s(_videoCardDescription, rendererString);
 
 		// Turn on or off the vertical sync depending on the input bool value.
 		if (vsync)
@@ -205,18 +203,18 @@ namespace MagusEngine
 	void Renderer_Windows_OpenGL::Shutdown()
 	{
 		// Release the rendering context.
-		if (m_renderingContext)
+		if (_renderingContext)
 		{
 			wglMakeCurrent(NULL, NULL);
-			wglDeleteContext(m_renderingContext);
-			m_renderingContext = 0;
+			wglDeleteContext(_renderingContext);
+			_renderingContext = 0;
 		}
 
 		// Release the device context.
-		if (m_deviceContext)
+		if (_deviceContext)
 		{
 			//ReleaseDC(hwnd, m_deviceContext);
-			m_deviceContext = 0;
+			_deviceContext = 0;
 		}
 
 		return;
@@ -236,14 +234,14 @@ namespace MagusEngine
 	void Renderer_Windows_OpenGL::EndScene()
 	{
 		// Present the back buffer to the screen since rendering is complete.
-		SwapBuffers(m_deviceContext);
+		SwapBuffers(_deviceContext);
 
 		glFinish();
 
 		PAINTSTRUCT ps;
 		RECT r;
 
-		HWND handle = WindowFromDC(m_deviceContext);
+		HWND handle = WindowFromDC(_deviceContext);
 
 		GetClientRect(handle, &r);
 
@@ -514,57 +512,57 @@ namespace MagusEngine
 
 	void Renderer_Windows_OpenGL::GetWorldMatrix(float* matrix)
 	{
-		matrix[0] = m_worldMatrix[0];
-		matrix[1] = m_worldMatrix[1];
-		matrix[2] = m_worldMatrix[2];
-		matrix[3] = m_worldMatrix[3];
+		matrix[0] = _worldMatrix[0];
+		matrix[1] = _worldMatrix[1];
+		matrix[2] = _worldMatrix[2];
+		matrix[3] = _worldMatrix[3];
 
-		matrix[4] = m_worldMatrix[4];
-		matrix[5] = m_worldMatrix[5];
-		matrix[6] = m_worldMatrix[6];
-		matrix[7] = m_worldMatrix[7];
+		matrix[4] = _worldMatrix[4];
+		matrix[5] = _worldMatrix[5];
+		matrix[6] = _worldMatrix[6];
+		matrix[7] = _worldMatrix[7];
 
-		matrix[8] = m_worldMatrix[8];
-		matrix[9] = m_worldMatrix[9];
-		matrix[10] = m_worldMatrix[10];
-		matrix[11] = m_worldMatrix[11];
+		matrix[8] = _worldMatrix[8];
+		matrix[9] = _worldMatrix[9];
+		matrix[10] = _worldMatrix[10];
+		matrix[11] = _worldMatrix[11];
 
-		matrix[12] = m_worldMatrix[12];
-		matrix[13] = m_worldMatrix[13];
-		matrix[14] = m_worldMatrix[14];
-		matrix[15] = m_worldMatrix[15];
+		matrix[12] = _worldMatrix[12];
+		matrix[13] = _worldMatrix[13];
+		matrix[14] = _worldMatrix[14];
+		matrix[15] = _worldMatrix[15];
 
 		return;
 	}
 
 	void Renderer_Windows_OpenGL::GetProjectionMatrix(float* matrix)
 	{
-		matrix[0] = m_projectionMatrix[0];
-		matrix[1] = m_projectionMatrix[1];
-		matrix[2] = m_projectionMatrix[2];
-		matrix[3] = m_projectionMatrix[3];
+		matrix[0] = _projectionMatrix[0];
+		matrix[1] = _projectionMatrix[1];
+		matrix[2] = _projectionMatrix[2];
+		matrix[3] = _projectionMatrix[3];
 
-		matrix[4] = m_projectionMatrix[4];
-		matrix[5] = m_projectionMatrix[5];
-		matrix[6] = m_projectionMatrix[6];
-		matrix[7] = m_projectionMatrix[7];
+		matrix[4] = _projectionMatrix[4];
+		matrix[5] = _projectionMatrix[5];
+		matrix[6] = _projectionMatrix[6];
+		matrix[7] = _projectionMatrix[7];
 
-		matrix[8] = m_projectionMatrix[8];
-		matrix[9] = m_projectionMatrix[9];
-		matrix[10] = m_projectionMatrix[10];
-		matrix[11] = m_projectionMatrix[11];
+		matrix[8] = _projectionMatrix[8];
+		matrix[9] = _projectionMatrix[9];
+		matrix[10] = _projectionMatrix[10];
+		matrix[11] = _projectionMatrix[11];
 
-		matrix[12] = m_projectionMatrix[12];
-		matrix[13] = m_projectionMatrix[13];
-		matrix[14] = m_projectionMatrix[14];
-		matrix[15] = m_projectionMatrix[15];
+		matrix[12] = _projectionMatrix[12];
+		matrix[13] = _projectionMatrix[13];
+		matrix[14] = _projectionMatrix[14];
+		matrix[15] = _projectionMatrix[15];
 
 		return;
 	}
 
 	void Renderer_Windows_OpenGL::GetVideoCardInfo(char* cardName)
 	{
-		strcpy_s(cardName, 128, m_videoCardDescription);
+		strcpy_s(cardName, 128, _videoCardDescription);
 		return;
 	}
 

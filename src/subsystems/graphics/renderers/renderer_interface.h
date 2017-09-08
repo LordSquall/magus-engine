@@ -20,10 +20,8 @@ namespace MagusEngine
 
 		virtual void DrawRectangle(int x, int y, int width, int height) = 0;
 
-
-
 	public:
-		void* m_windowSystemHandle;
+		void* _windowSystemHandle;
 	};
 }
 

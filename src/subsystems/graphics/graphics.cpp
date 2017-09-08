@@ -18,9 +18,12 @@ namespace MagusEngine
 		_lowLevelSoftwareRenderer = new Renderer_Software();
 		_lowLevelSoftwareRenderer->Initialise(os, 800, 600, 0, 10000, false );
 
-		_shader = Shader();
-
 		_softwareRendererThread = std::thread(&Graphics::SoftwareRender, this);
+
+		_GraphicsVisitor = new GraphicsVisitor();
+		_GraphicsVisitor->Initialise(_lowLevelHardwareRenderer);
+
+		_rootScene.Initialise("Root Node");
 		
 		return true;
 	}
@@ -33,6 +36,11 @@ namespace MagusEngine
 		_lowLevelSoftwareRenderer = 0;
 
 		return;
+	}
+
+	void Graphics::AddScene(SceneNode* sceneNode)
+	{
+		_rootScene.AddChild(sceneNode);
 	}
 
 	bool Graphics::Frame()
@@ -53,6 +61,8 @@ namespace MagusEngine
 	{
 		/* Begin Hardware Renderer scene */
 		_lowLevelHardwareRenderer->BeginScene(0.5f, 0.5f, 0.5f, 1.0f);
+
+		_rootScene.Accept(_GraphicsVisitor);
 
 		/* End the Hardware Renderer scene */
 		_lowLevelHardwareRenderer->EndScene();

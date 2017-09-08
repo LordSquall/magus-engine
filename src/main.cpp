@@ -6,6 +6,8 @@
 #include "magusversion.h"
 #include "framework.h"
 
+char dataLocation[255];
+
 unsigned int ProcessArguments(int argc, char *argv[]);
 
 void DisplayVersionInfo();
@@ -37,7 +39,7 @@ int main(int argc, char *argv[])
 	MagusEngine::Framework* framework = new MagusEngine::Framework();
 
 	/* Initialise the framework */
-	framework->Initialise();
+	framework->Initialise(dataLocation);
 
 	while (running == true)
 	{
@@ -66,6 +68,19 @@ unsigned int ProcessArguments(int argc, char *argv[])
 		{
 			DisplayUsage();
 			return 1;
+		}
+		else if (strcmp(argv[i], "-d") == 0)
+		{
+			/* Make sure there is enought args to continue */
+			if (i+1 == argc)
+			{
+				printf("Unable to process '-d' directory\n");
+				return -1;
+			}
+
+			/* Copy arg to directory variable */
+			strcpy_s(dataLocation, argv[i + 1]);
+			i++;
 		}
 	}
 

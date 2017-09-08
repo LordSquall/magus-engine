@@ -7,7 +7,7 @@
 /* includes */
 #include "os_interface.h"
 
-#include "../graphics/renderer_interface.h"
+#include "../graphics/renderers/renderer_interface.h"
 #include "../input/input.h"
 
 /* system includes */
@@ -16,13 +16,13 @@
 
 namespace MagusEngine
 {
-	class OS_Windows : public OS_Interface
+	class OS : public OS_Interface
 	{
 	public:
-		OS_Windows();
+		OS();
 		
 		/* OS_Interface - Functions */
-		bool Initialise();
+		bool Initialise(FrameworkConfig* config);
 		void Shutdown();
 		void Run();
 		Renderer_Interface* GetLowLevelRenderer();
@@ -35,17 +35,18 @@ namespace MagusEngine
 		void ShutdownWindows();
 		
 	private:
-		LPCWSTR m_applicationName;
-		HINSTANCE m_hinstance;
-		HWND m_hwnd;
+		FrameworkConfig* _config;
+
+		HINSTANCE	_hinstance;
+		HWND		_hwnd;
 
 		Renderer_Interface* _lowLevelRenderer;
-		Input* _input;
+		Input*				_input;
 	};
 	
 	static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-	static OS_Windows* ApplicationHandle = 0;
+	static OS* ApplicationHandle = 0;
 }
 
 #endif

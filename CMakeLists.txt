@@ -28,6 +28,12 @@ set(Engine_SourceFiles
 	src/framework.cpp
 )	
 
+# subsystem - math
+set(SubSystem_Math_SourceFiles
+	src/subsystems/math/vector.cpp
+	src/subsystems/math/matrix.cpp
+)	
+
 # subsystem - os
 set(SubSystem_OS_SourceFiles
 	# pure abstracted sub system
@@ -37,6 +43,20 @@ set(SubSystem_OS_SourceFiles
 set(SubSystem_Graphics_SourceFiles
 	src/subsystems/graphics/graphics.cpp
 	src/subsystems/graphics/shader.cpp
+)
+
+# subsystem - graphics - renderer
+set(SubSystem_Graphics_Renderer_SourceFiles
+	src/subsystems/graphics/renderers/renderer_software.cpp
+)
+
+
+# subsystem - graphics - renderer - software
+set(SubSystem_Graphics_Renderer_Software_SourceFiles
+	src/subsystems/graphics/renderers/software/sr_framebuffer.cpp
+	src/subsystems/graphics/renderers/software/sr_scanbuffer.cpp
+	src/subsystems/graphics/renderers/software/sr_bitmap.cpp
+	src/subsystems/graphics/renderers/software/sr_vertex.cpp
 )
 
 # subsystem - input
@@ -49,6 +69,11 @@ set(SubSystem_SceneManagement_SourceFiles
 	src/subsystems/scenemanagement/scenenode.cpp
 )
 
+# subsystem - external
+set(SubSystem_External_SourceFiles
+	src/subsystems/external/tinyxml2/tinyxml2.cpp
+)
+
 #depending on OS add relevent source files
 MESSAGE("CMAKE_SYSTEM_NAME:         " ${CMAKE_SYSTEM_NAME} )
 if(WIN32)
@@ -57,9 +82,9 @@ if(WIN32)
 		src/subsystems/os/os_windows.cpp
 	)
 	
-	set(SubSystem_Graphics_SourceFiles
-		${SubSystem_Graphics_SourceFiles}		
-		src/subsystems/graphics/renderer_windows_opengl.cpp
+	set(SubSystem_Graphics_Renderer_SourceFiles
+		${SubSystem_Graphics_Renderer_SourceFiles}		
+		src/subsystems/graphics/renderers/renderer_windows_opengl.cpp
 	)
 	
 else()
@@ -68,9 +93,9 @@ else()
 		src/subsystems/os/os_linux.cpp
 	)
 	
-	set(SubSystem_Graphics_SourceFiles
-		${SubSystem_Graphics_SourceFiles}		
-		src/subsystems/graphics/renderer_linux_opengl.cpp
+	set(SubSystem_Graphics_Renderer_SourceFiles
+		${SubSystem_Graphics_Renderer_SourceFiles}		
+		src/subsystems/graphics/renderers/renderer_linux_opengl.cpp
 	)
 
 	find_package(X11 REQUIRED)
@@ -93,15 +118,23 @@ include_directories("${PROJECT_BINARY_DIR}")
 # add the executable
 add_executable(MagusEngine
 	${Engine_SourceFiles}
+	${SubSystem_Math_SourceFiles}
 	${SubSystem_OS_SourceFiles}
 	${SubSystem_Graphics_SourceFiles}
+	${SubSystem_Graphics_Renderer_SourceFiles}
+	${SubSystem_Graphics_Renderer_Software_SourceFiles}
 	${SubSystem_Input_SourceFiles}
 	${SubSystem_SceneManagement_SourceFiles}
+	${SubSystem_External_SourceFiles}
 )
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT MagusEngine)
 
 source_group("engine" FILES
 	${Engine_SourceFiles}
+)
+
+source_group("subsystems\\math" FILES
+	${SubSystem_Math_SourceFiles}
 )
 
 source_group("subsystems\\os" FILES
@@ -112,10 +145,22 @@ source_group("subsystems\\graphics" FILES
 	${SubSystem_Graphics_SourceFiles}
 )
 
+source_group("subsystems\\graphics\\renderers" FILES
+	${SubSystem_Graphics_Renderer_SourceFiles}
+)
+
+source_group("subsystems\\graphics\\renderers\\software" FILES
+	${SubSystem_Graphics_Renderer_Software_SourceFiles}
+)
+
 source_group("subsystems\\input" FILES
 	${SubSystem_Input_SourceFiles}
 )
 
 source_group("subsystems\\scenemanagement" FILES
 	${SubSystem_SceneManagement_SourceFiles}
+)
+
+source_group("subsystems\\external" FILES
+	${SubSystem_External_SourceFiles}
 )

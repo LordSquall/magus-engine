@@ -5,11 +5,11 @@
 #include <thread>
 
 /* Local Project Includes */
-#include "../os/os_interface.h"
-#include "renderer_interface.h"
+#include "..\os\os_interface.h"
+#include "renderers\renderer_interface.h"
 #include "renderers\renderer_software.h"
-#include "shader.h"
-#include "../scenemanagement/scenenode.h"
+#include "..\scenemanagement\scenenode.h"
+#include "graphics_visitor.h"
 
 namespace MagusEngine
 {
@@ -22,6 +22,8 @@ namespace MagusEngine
 		void Shutdown();
 		bool Frame();
 
+		void AddScene(SceneNode* sceneNode);
+
 	private:
 		bool Render();
 
@@ -33,7 +35,9 @@ namespace MagusEngine
 		Renderer_Interface* _lowLevelHardwareRenderer; 
 		Renderer_Interface*	_lowLevelSoftwareRenderer;
 	
-		Shader				_shader;
+		Visitor*			_GraphicsVisitor;
+
+		SceneNode			_rootScene;
 
 		std::thread			_hardwareRendererThread;
 		std::thread			_softwareRendererThread;

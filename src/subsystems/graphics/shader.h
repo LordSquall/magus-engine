@@ -1,7 +1,7 @@
 #ifndef _SHADER_H_
 #define _SHADER_H_
 
-#include "../graphics/renderer_interface.h"
+#include "../graphics/renderers/renderer_interface.h"
 
 namespace MagusEngine
 {
