@@ -6,7 +6,8 @@
 
 /* includes */
 #include "os_interface.h"
-
+#include "../graphics/renderers/windows/renderer_windows_initialise_visitor.h"
+#include "../graphics/renderers/windows/renderer_windows_render_visitor.h"
 #include "../graphics/renderers/renderer_interface.h"
 #include "../input/input.h"
 
@@ -22,10 +23,12 @@ namespace MagusEngine
 		OS();
 		
 		/* OS_Interface - Functions */
-		bool Initialise(FrameworkConfig* config);
+		bool Initialise(FrameworkConfig* config, Resources* resources);
 		void Shutdown();
 		void Run();
 		Renderer_Interface* GetLowLevelRenderer();
+		Visitor* GetLowLevelRendererInitialisationVisitor();
+		Visitor* GetLowLevelRendererRenderVisitor();
 		
 		LRESULT CALLBACK MessageHandler(HWND, UINT, WPARAM, LPARAM);
 		
@@ -36,11 +39,14 @@ namespace MagusEngine
 		
 	private:
 		FrameworkConfig* _config;
+		Resources*		 _resources;
 
 		HINSTANCE	_hinstance;
 		HWND		_hwnd;
 
 		Renderer_Interface* _lowLevelRenderer;
+		Visitor*			_lowLevelRendererInitialisationVisitor;
+		Visitor*			_lowLevelRendererRenderVisitor;
 		Input*				_input;
 	};
 	

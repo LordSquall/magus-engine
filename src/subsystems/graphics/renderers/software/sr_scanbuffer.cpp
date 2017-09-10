@@ -36,29 +36,29 @@ namespace MagusEngine
 	}
 
 
-	void SR_Scanbuffer::FillTriangle(SR_Vertex v1, SR_Vertex v2, SR_Vertex v3)
+	void SR_Scanbuffer::FillTriangle(Vertex v1, Vertex v2, Vertex v3)
 	{
-		SR_Vertex minY = v1;
-		SR_Vertex midY = v2;
-		SR_Vertex maxY = v3;
+		Vertex minY = v1;
+		Vertex midY = v2;
+		Vertex maxY = v3;
 
 		if (maxY.GetY() < midY.GetY())
 		{
-			SR_Vertex temp = maxY;
+			Vertex temp = maxY;
 			maxY = midY;
 			midY = temp;
 		}
 
 		if (midY.GetY() < minY.GetY())
 		{
-			SR_Vertex temp = midY;
+			Vertex temp = midY;
 			midY = minY;
 			minY = temp;
 		}
 
 		if (maxY.GetY() < midY.GetY())
 		{
-			SR_Vertex temp = maxY;
+			Vertex temp = maxY;
 			maxY = midY;
 			midY = temp;
 		}
@@ -71,14 +71,14 @@ namespace MagusEngine
 	}
 
 
-	void SR_Scanbuffer::ScanConvertTriangle(SR_Vertex minYVert, SR_Vertex midYVert, SR_Vertex maxYVert, int side)
+	void SR_Scanbuffer::ScanConvertTriangle(Vertex minYVert, Vertex midYVert, Vertex maxYVert, int side)
 	{
 		ScanConvertLine(minYVert, maxYVert, 0 + side);
 		ScanConvertLine(minYVert, midYVert, 1 - side);
 		ScanConvertLine(midYVert, maxYVert, 1 - side);
 	}
 
-	void SR_Scanbuffer::ScanConvertLine(SR_Vertex minYVert, SR_Vertex maxYVert, int side)
+	void SR_Scanbuffer::ScanConvertLine(Vertex minYVert, Vertex maxYVert, int side)
 	{
 		int yS = (int)minYVert.GetY();
 		int yE = (int)maxYVert.GetY();

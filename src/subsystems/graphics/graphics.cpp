@@ -7,9 +7,10 @@ namespace MagusEngine
 		_os = 0;
 	}
 
-	bool Graphics::Initialise(OS_Interface* os)
+	bool Graphics::Initialise(OS_Interface* os, Resources* resources, int maxSceneCount)
 	{
 		_os = os;
+		_resources = resources;
 
 		/* Low level Hardware renderer, provided by the OS */
 		_lowLevelHardwareRenderer = os->GetLowLevelRenderer();
@@ -18,12 +19,9 @@ namespace MagusEngine
 		_lowLevelSoftwareRenderer = new Renderer_Software();
 		_lowLevelSoftwareRenderer->Initialise(os, 800, 600, 0, 10000, false );
 
-		_softwareRendererThread = std::thread(&Graphics::SoftwareRender, this);
+		//_softwareRendererThread = std::thread(&Graphics::SoftwareRender, this);
 
-		_GraphicsVisitor = new GraphicsVisitor();
-		_GraphicsVisitor->Initialise(_lowLevelHardwareRenderer);
-
-		_rootScene.Initialise("Root Node");
+		_rootScene.Initialise("Root Node", maxSceneCount);
 		
 		return true;
 	}
@@ -41,6 +39,24 @@ namespace MagusEngine
 	void Graphics::AddScene(SceneNode* sceneNode)
 	{
 		_rootScene.AddChild(sceneNode);
+	}
+
+	bool Graphics::InitialiseFrame()
+	{
+		/* retrieve hardware path visitors */
+		_hardwareInitialiseVisitor = _os->GetLowLevelRendererInitialisationVisitor();
+		_hardwareRenderVisitor = _os->GetLowLevelRendererRenderVisitor();
+		
+		/* Initialise software path visitors */
+		_softwareInitialiseVisitor = new Renderer_Software_Initialise_Visitor();
+		_softwareInitialiseVisitor->Initialise(_lowLevelSoftwareRenderer, _resources);
+
+		_softwareRenderVisitor = new Renderer_Software_Render_Visitor();
+		_softwareRenderVisitor->Initialise(_lowLevelSoftwareRenderer, _resources);
+
+		_rootScene.Accept(_hardwareInitialiseVisitor);
+
+		return true;
 	}
 
 	bool Graphics::Frame()
@@ -62,7 +78,7 @@ namespace MagusEngine
 		/* Begin Hardware Renderer scene */
 		_lowLevelHardwareRenderer->BeginScene(0.5f, 0.5f, 0.5f, 1.0f);
 
-		_rootScene.Accept(_GraphicsVisitor);
+		_rootScene.Accept(_hardwareRenderVisitor);
 
 		/* End the Hardware Renderer scene */
 		_lowLevelHardwareRenderer->EndScene();

@@ -1,35 +1,41 @@
-#include "sr_vertex.h"
+#include "vertex.h"
 
 namespace MagusEngine
 {
-	
-	SR_Vertex::SR_Vertex(float x, float y)
+
+	Vertex::Vertex()
+	{
+		_x = 0.0f;
+		_y = 0.0f;
+	}
+
+	Vertex::Vertex(float x, float y)
 	{
 		_x = x;
 		_y = y;
 	}
 
-	float SR_Vertex::GetX()
+	float Vertex::GetX()
 	{
 		return _x;
 	}
 
-	float SR_Vertex::GetY()
+	float Vertex::GetY()
 	{
 		return _y;
 	}
 
-	void SR_Vertex::SetX(float x)
+	void Vertex::SetX(float x)
 	{
 		_x = x;
 	}
 
-	void SR_Vertex::SetY(float y)
+	void Vertex::SetY(float y)
 	{
 		_y = y;
 	}
 
-	float SR_Vertex::TriangleArea(SR_Vertex b, SR_Vertex c)
+	float Vertex::TriangleArea(Vertex b, Vertex c)
 	{
 		float x1 = b.GetX() - _x;
 		float y1 = b.GetY() - _y;

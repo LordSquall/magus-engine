@@ -2,7 +2,8 @@
 #define _SCENE_NODE_H_
 
 #include "../math/vector.h"
-
+#include "visitable.h"
+#include "component.h"
 #include <vector>
 
 namespace MagusEngine
@@ -18,17 +19,20 @@ namespace MagusEngine
 		Transform();
 	};
 
-	class SceneNode
+	class SceneNode : public Visitable
 	{
 	public:
 		SceneNode();
 		
-		bool Initialise(const char* name);
+		bool Initialise(const char* name, int maxChildren);
 
+		bool InitialiseComponents(int maxComponent);
 
 		void Shutdown();
 
 		void AddChild(SceneNode* sceneNode);
+
+		void AddComponent(Component* component);
 
 		char* GetName();
 
@@ -46,8 +50,13 @@ namespace MagusEngine
 		char _name[25];
 
 		Transform _tranform;
-		std::vector<SceneNode*> _children;
+		SceneNode** _children;
+		unsigned int _maxChildCount;
+		unsigned int _childCount;
 
+		Component** _components;
+		unsigned int _maxComponentCount;
+		unsigned int _componentCount;
 	};
 }
 

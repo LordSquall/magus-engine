@@ -6,13 +6,14 @@
 #include "magusversion.h"
 #include "framework.h"
 
-char dataLocation[255];
+char configLocation[255];
 
 unsigned int ProcessArguments(int argc, char *argv[]);
 
 void DisplayVersionInfo();
 
 void DisplayUsage();
+
 
 /* Program Entry Point */
 int main(int argc, char *argv[])
@@ -39,7 +40,7 @@ int main(int argc, char *argv[])
 	MagusEngine::Framework* framework = new MagusEngine::Framework();
 
 	/* Initialise the framework */
-	framework->Initialise(dataLocation);
+	framework->Initialise(configLocation);
 
 	while (running == true)
 	{
@@ -69,17 +70,17 @@ unsigned int ProcessArguments(int argc, char *argv[])
 			DisplayUsage();
 			return 1;
 		}
-		else if (strcmp(argv[i], "-d") == 0)
+		else if (strcmp(argv[i], "-i") == 0)
 		{
 			/* Make sure there is enought args to continue */
 			if (i+1 == argc)
 			{
-				printf("Unable to process '-d' directory\n");
+				printf("Unable to process '-i' file\n");
 				return -1;
 			}
 
 			/* Copy arg to directory variable */
-			strcpy_s(dataLocation, argv[i + 1]);
+			strcpy_s(configLocation, argv[i + 1]);
 			i++;
 		}
 	}
@@ -98,4 +99,5 @@ void DisplayUsage()
 	printf("Usage:\n");
 	printf("\t-h\t\t:Show usage page\n");
 	printf("\t-v\t\t:Show version info\n");
+	printf("\t-i <path>\t\t:Engine configuration .conf file\n");
 }

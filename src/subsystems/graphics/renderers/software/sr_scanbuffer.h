@@ -3,7 +3,8 @@
 
 /* Project Includes */
 #include "sr_framebuffer.h"
-#include "sr_vertex.h"
+
+#include "../../../math/vertex.h"
 
 typedef char Byte;
 
@@ -20,11 +21,11 @@ namespace MagusEngine
 
 		void FillShape(int yMin, int yMax);
 
-		void FillTriangle(SR_Vertex v1, SR_Vertex v2, SR_Vertex v3);
+		void FillTriangle(Vertex v1, Vertex v2, Vertex v3);
 
-		void ScanConvertLine(SR_Vertex minYVert, SR_Vertex maxYVert, int side);
+		void ScanConvertLine(Vertex minYVert, Vertex maxYVert, int side);
 
-		void ScanConvertTriangle(SR_Vertex minYVert, SR_Vertex midYVert, SR_Vertex maxYVert, int side);
+		void ScanConvertTriangle(Vertex minYVert, Vertex midYVert, Vertex maxYVert, int side);
 
 
 	private:

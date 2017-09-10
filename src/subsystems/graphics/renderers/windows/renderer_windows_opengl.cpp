@@ -276,16 +276,92 @@ namespace MagusEngine
 		glEnd();
 	}
 	
-
-	void Renderer_Windows_OpenGL::CompileShader()
-	{
-
-	}
-
 	void Renderer_Windows_OpenGL::CheckError()
 	{
 		CheckOpenGLError();
 	}
+
+	/* Data Loading API */
+	unsigned int Renderer_Windows_OpenGL::GenerateVertexBuffer(Vertex* vertices, unsigned int vertexCount)
+	{
+		/* Create VBO */
+		GLuint vbo;
+		glGenBuffers(1, &vbo);
+
+		/* Bind Buffer */
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+		/* Upload data to GPU */
+		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertexCount, vertices, GL_STATIC_DRAW);
+
+		return vbo;
+	}
+
+	unsigned int Renderer_Windows_OpenGL::DrawBuffers(unsigned int bufferHandle)
+	{
+		/* Bind Buffer */
+		glBindBuffer(GL_ARRAY_BUFFER, bufferHandle);
+
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+		return 0;
+	}
+
+	/* Shader API */
+	unsigned int Renderer_Windows_OpenGL::CreateVertexShader()
+	{
+		return glCreateShader(GL_VERTEX_SHADER);
+	}
+
+	unsigned int Renderer_Windows_OpenGL::CreateFragmentShader()
+	{
+		return glCreateShader(GL_FRAGMENT_SHADER);
+	}
+
+	void Renderer_Windows_OpenGL::SetShaderSource(unsigned int shaderHandle, const char** source)
+	{
+		glShaderSource(shaderHandle, 1, source, NULL);
+	}
+
+	void Renderer_Windows_OpenGL::CompileShader(unsigned int shaderHandle)
+	{
+		glCompileShader(shaderHandle);
+	}
+	
+	unsigned int Renderer_Windows_OpenGL::CreateShaderProgram()
+	{
+		return glCreateProgram();
+	}
+	
+	void Renderer_Windows_OpenGL::AttachShader(unsigned int programHandle, unsigned int shaderHandle)
+	{
+		glAttachShader(programHandle, shaderHandle);
+	}
+	
+	void Renderer_Windows_OpenGL::BindAttribute(unsigned int programHandle, unsigned int index, const char* name)
+	{
+		glBindAttribLocation(programHandle, index, name);
+	}
+	
+	void Renderer_Windows_OpenGL::LinkShaderProgram(unsigned int programHandle)
+	{
+		glLinkProgram(programHandle);
+	}
+
+	void Renderer_Windows_OpenGL::GetShaderLogLength(unsigned int shaderHandle, int* length)
+	{
+		glGetShaderiv(shaderHandle, GL_INFO_LOG_LENGTH, length);
+	}
+
+	void Renderer_Windows_OpenGL::GetShaderInfoLog(unsigned int shaderHandle, int size, char* logBuffer)
+	{
+		glGetShaderInfoLog(shaderHandle, size, NULL, logBuffer);
+	}
+
+	void Renderer_Windows_OpenGL::GetShaderProgramInfoLog(unsigned int programHandle, int size, char* logBuffer)
+	{
+		glGetProgramInfoLog(programHandle, size, NULL, logBuffer);
+	}
+
 
 	bool Renderer_Windows_OpenGL::LoadExtensionList()
 	{

@@ -1,7 +1,7 @@
 /* includes */
 #include "os_windows.h"
 
-#include "../graphics/renderers/renderer_windows_opengl.h"
+#include "../graphics/renderers/windows/renderer_windows_opengl.h"
 
 namespace MagusEngine
 {
@@ -10,13 +10,14 @@ namespace MagusEngine
 		_lowLevelRenderer = 0;
 	}
 	
-	bool OS::Initialise(FrameworkConfig* config)
+	bool OS::Initialise(FrameworkConfig* config, Resources* resources)
 	{
 		int screenWidth, screenHeight;
 		bool result;
 
 		/* Save reference to config */
 		_config = config;
+		_resources = resources;
 
 		// Initialize the width and height of the screen to zero.
 		screenWidth = 0;
@@ -36,6 +37,13 @@ namespace MagusEngine
 			MessageBox(_hwnd, "Could not initialize the window.", "Error", MB_OK);
 			return false;
 		}
+
+		// Create the low level visitors to allow walking of the scene graph
+		_lowLevelRendererInitialisationVisitor = new Renderer_Windows_Initialise_Visitor();
+		_lowLevelRendererInitialisationVisitor->Initialise(_lowLevelRenderer, _resources);
+
+		_lowLevelRendererRenderVisitor = new Renderer_Windows_Render_Visitor();
+		_lowLevelRendererRenderVisitor->Initialise(_lowLevelRenderer, _resources);
 
 		return true;
 	}
@@ -100,6 +108,16 @@ namespace MagusEngine
 	Renderer_Interface* OS::GetLowLevelRenderer()
 	{
 		return _lowLevelRenderer;
+	}
+
+	Visitor* OS::GetLowLevelRendererInitialisationVisitor()
+	{
+		return _lowLevelRendererInitialisationVisitor;
+	}
+
+	Visitor* OS::GetLowLevelRendererRenderVisitor()
+	{
+		return _lowLevelRendererRenderVisitor;
 	}
 
 	bool OS::Frame()

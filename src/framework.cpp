@@ -4,31 +4,47 @@ namespace MagusEngine
 {
 	Framework::Framework()
 	{
-
+		_uas = 0;
+		_maxUACount = 0;
+		_uaCount = 0;
 	}
 
-	bool Framework::Initialise(char* dataDirectory)
+	bool Framework::Initialise(char* configfilePath)
 	{
-		/* Process the data directory to load external resources */
-		ProcessDataDirectory(dataDirectory);
+		/* Initialise Variables */
+		_uaCount = 0;
+		_maxUACount = 2;
+
+		/* Allocate memory for uaScenes */
+		_uas = (UA**)malloc(sizeof(UA**) * _maxUACount);
+
+		/* Process the configuration file */
+		ProcessEngineConfig(configfilePath);
+
+		/* Process the UA files */
+		ProcessUADataDirectory("C:/Projects/magus-engine/data");// _resources.GetRootPath());
 
 		/* Create the os subsystem depending on current platform */
 		_os = new OS();
 
 		/* Initialise the os */
-		if (_os->Initialise(&_config) == false)
+		if (_os->Initialise(&_config, &_resources) == false)
 		{
 			printf("Error: Unable to Initialise OS SubSystem!\n");
 			return false;
 		}
 
 		/* Initialise the graphics subsystem */
-		_graphics.Initialise(_os);
+		_graphics.Initialise(_os, &_resources, _uaCount-1);
 
-		for(std::vector<SceneNode*>::iterator it = _uaScenes.begin(); it != _uaScenes.end(); ++it)
+		/* Add each of the generated ua to the graphical root node */
+		for (int i = 0; i < _uaCount; i++)
 		{
-			_graphics.AddScene((SceneNode*)&it);
+			_graphics.AddScene(_uas[i]->GetRootNode());
 		}
+
+		/* Run the Initialise frame to allocate renderer specific memory and initialise visitors */
+		_graphics.InitialiseFrame();
 		
 		return true;
 	}
@@ -45,16 +61,20 @@ namespace MagusEngine
 
 	void Framework::Shutdown()
 	{
-
+		if (_uas != 0)
+		{
+			delete _uas;
+			_uas = 0;
+		}
 	}
 
-	bool Framework::ProcessDataDirectory(const char* dataDirectory)
+	bool Framework::ProcessUADataDirectory(const char* uadir)
 	{
 		int uaCount = 0;
 
 		/* look for engine config file in directory */
 		tinydir_dir dir;
-		tinydir_open(&dir, dataDirectory);
+		tinydir_open(&dir, uadir);
 
 		/* Process each file in turn */
 		while (dir.has_next)
@@ -66,21 +86,17 @@ namespace MagusEngine
 			/* Open the file as XML Document*/
 			if (dirFile.is_dir == false)
 			{
-				if(strcmp(dirFile.extension, "conf") == 0)
-				{
-					ProcessEngineConfig(dirFile.path);
-				}
-
 				if(strcmp(dirFile.extension, "uadf") == 0)
 				{
-					ProcessUA(dirFile.path);
+					_uas[_uaCount] = UAParser::ParserUAFile(dirFile.path);
+					_uaCount++;
 				}
 			}
 			else
 			{
 				if((strcmp(dirFile.name, ".") != 0) && (strcmp(dirFile.name, "..") != 0))
 				{
-					ProcessDataDirectory(dirFile.path);
+					ProcessUADataDirectory(dirFile.path);
 				}
 			}
 			tinydir_next(&dir);
@@ -121,6 +137,38 @@ namespace MagusEngine
 			{
 				return false;
 			}
+
+
+			/* Set resources element */
+			tinyxml2::XMLElement* resourcesElement = engineElement->FirstChildElement("resources");
+
+			/* Check to make sure the resources element is present */
+			if (resourcesElement != NULL)
+			{
+				/* Root path */
+				_resources.SetRootPath(resourcesElement->Attribute("root"));
+
+				/* Initialise resources object */
+				_resources.Initialise(resourcesElement->IntAttribute("texturemax"),
+					resourcesElement->IntAttribute("shadermax"));
+
+				/* Process each of the texture tags in turn */
+				for (tinyxml2::XMLElement* e = resourcesElement->FirstChildElement("texture"); e != NULL; e = e->NextSiblingElement("texture"))
+				{
+					_resources.AddTextureFromFile(e->Attribute("name"), e->Attribute("path"));
+				}
+
+				/* Process each of the shader tags in turn */
+				for (tinyxml2::XMLElement* e = resourcesElement->FirstChildElement("shader"); e != NULL; e = e->NextSiblingElement("shader"))
+				{
+					_resources.AddShaderFromFile(e->Attribute("name"), e->Attribute("vertexpath"), e->Attribute("fragmentpath"));
+				}
+
+			}
+			else
+			{
+				return false;
+			}
 		}
 		else
 		{
@@ -128,115 +176,5 @@ namespace MagusEngine
 		}
 
 		return true;
-	}
-
-
-	bool Framework::ProcessUA(const char* uaFile)
-	{
-
-		tinyxml2::XMLDocument doc;
-		doc.LoadFile(uaFile);
-
-		/* Get engine element */
-		tinyxml2::XMLElement* uaElement = doc.FirstChildElement("UA");
-
-		/* Check to make sure the root tag is UA */
-		if (uaElement != NULL)
-		{
-			/* Set scene element */
-			tinyxml2::XMLElement* sceneElement = uaElement->FirstChildElement("scene");
-
-			/* Check to make sure the scene element is present */
-			if(sceneElement != NULL)
-			{
-				/* Set root element of the scene */
-				tinyxml2::XMLElement* rootElement = sceneElement->FirstChildElement("node");
-
-				_uaScenes.push_back(ProcessSceneNode(rootElement));
-			}
-		}
-
-		return true;
-	}
-
-
-	SceneNode* Framework::ProcessSceneNode(tinyxml2::XMLElement* element)
-	{
-		/* Create a new scene node */
-		SceneNode* newNode = new SceneNode();
-		
-		/* Get the children count */
-		int childrenCount = element->IntAttribute("children");
-
-		/* Initialise the node name */
-		newNode->Initialise(element->Attribute("name"));
-
-		if(childrenCount > 0)
-		{
-			for(tinyxml2::XMLElement* e = element->FirstChildElement("node"); e != NULL; e = e->NextSiblingElement("node"))
-			{
-				newNode->AddChild(ProcessSceneNode(e));
-			}
-		}
-	
-		/* Check for transform information */
-		tinyxml2::XMLElement* transformElement = element->FirstChildElement("transform");
-
-		if(transformElement != NULL)
-		{
-			/* Check for position information */
-			tinyxml2::XMLElement* positionElement = transformElement->FirstChildElement("position");
-
-			if(positionElement != NULL)
-			{
-				newNode->SetPosition(positionElement->FloatAttribute("x"), positionElement->FloatAttribute("y"), positionElement->FloatAttribute("z"));
-			}
-
-			/* Check for rotation information */
-			tinyxml2::XMLElement* rotationElement = transformElement->FirstChildElement("rotation");
-
-			if(rotationElement != NULL)
-			{
-				newNode->SetPosition(rotationElement->FloatAttribute("x"), rotationElement->FloatAttribute("y"), rotationElement->FloatAttribute("z"));
-			}
-
-			/* Check for scale information */
-			tinyxml2::XMLElement* scaleElement = transformElement->FirstChildElement("scale");
-
-			if(scaleElement != NULL)
-			{
-				newNode->SetPosition(scaleElement->FloatAttribute("x"), scaleElement->FloatAttribute("y"), scaleElement->FloatAttribute("z"));
-			}
-		}
-
-		return newNode;
-	}
-
-	int Framework::CountUAFiles(const char* directory)
-	{
-		int file_count = 0;
-
-		/* look for ua config files in directory */
-		tinydir_dir dir;
-		tinydir_open(&dir, directory);
-
-		/* Process each file in turn */
-		while (dir.has_next)
-		{
-			/* Get file information */
-			tinydir_file dirFile;
-			tinydir_readfile(&dir, &dirFile);
-
-			/* Open the file as XML Document*/
-			if (dirFile.is_dir == false)
-			{
-				file_count++;
-			}
-			tinydir_next(&dir);
-		}
-
-		tinydir_close(&dir);
-
-		return file_count;
 	}
 }

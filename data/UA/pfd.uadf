@@ -14,6 +14,11 @@
 						<rotation x="0.0" y="0.0" z="0.0" />
 						<scale x="0.0" y="0.0" z="0.0" />
 					</transform>
+					<components count="1">
+						<graphics2d>
+							<rectangle x="0.0" y="0.0" width="20.0" height="20.0" />
+						</graphics2d>
+					</components>
 				</node>
 				<node name="earth" children="0">
 					<transform>
@@ -21,6 +26,11 @@
 						<rotation x="0.0" y="0.0" z="0.0" />
 						<scale x="0.0" y="0.0" z="0.0" />
 					</transform>
+					<components count="1">
+						<graphics2d>
+							<rectangle x="0.0" y="0.0" width="20.0" height="20.0" />
+						</graphics2d>
+					</components>
 				</node>
 			</node>
 		</node>

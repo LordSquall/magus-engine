@@ -1,6 +1,6 @@
 #include "scenenode.h"
 
-#include "../graphics/visitor.h"
+#include "visitor.h"
 
 namespace MagusEngine
 {
@@ -24,9 +24,31 @@ namespace MagusEngine
 		_tranform = Transform();
 	}
 	
-	bool SceneNode::Initialise(const char* name)
+	bool SceneNode::Initialise(const char* name, int maxChildren)
 	{
+		/* Initialise variables */
+		_childCount = 0;
+		_maxChildCount = maxChildren;
+		_componentCount = 0;
+
+		/* Allocate memory for children pointers */
+		_children = (SceneNode**)malloc(sizeof(SceneNode**) * maxChildren);
+
+		/* Copy the name */
 		strcpy_s(_name, name);
+
+		return true;
+	}
+
+	bool SceneNode::InitialiseComponents(int maxComponent)
+	{
+		/* Initialise variables */
+		_componentCount = 0;
+		_maxComponentCount = maxComponent;
+		
+		/* Allocate memory for component pointers */
+		_components = (Component**)malloc(sizeof(Component**) * maxComponent);
+
 		return true;
 	}
 
@@ -36,18 +58,29 @@ namespace MagusEngine
 
 	void SceneNode::AddChild(SceneNode* sceneNode)
 	{
-		_children.push_back(sceneNode);
+		_children[_childCount] = sceneNode;
+		_childCount++;
 	}
 
-	
+	void SceneNode::AddComponent(Component* component)
+	{
+		_components[_componentCount] = component;
+		_componentCount++;
+	}
+
 	void SceneNode::Accept(Visitor* visitor)
 	{
-		for(std::vector<SceneNode*>::iterator it = _children.begin(); it != _children.end(); ++it)
+		visitor->Visit(this);
+
+		for (unsigned int i = 0; i < _componentCount; i++)
 		{
-			visitor->Visit((SceneNode*)*it);
+			_components[i]->Accept(visitor);
 		}
 
-		visitor->Visit(this);
+		for (unsigned int i = 0; i < _childCount; i++)
+		{
+			_children[i]->Accept(visitor);
+		}
 	}
 
 	char* SceneNode::GetName()

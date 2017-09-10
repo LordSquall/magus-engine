@@ -43,6 +43,7 @@ set(SubSystem_OS_SourceFiles
 set(SubSystem_Graphics_SourceFiles
 	src/subsystems/graphics/graphics.cpp
 	src/subsystems/graphics/shader.cpp
+	src/subsystems/graphics/graphics_visitor.cpp
 )
 
 # subsystem - graphics - renderer

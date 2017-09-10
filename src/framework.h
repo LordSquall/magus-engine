@@ -18,8 +18,10 @@
 #else
 #include "subsystems/os/os_linux.h"
 #endif
-
+#include "subsystems/resources/resources.h"
 #include "subsystems/graphics/graphics.h"
+#include "subsystems/io/UA.h"
+#include "subsystems/io/UAParser.h"
 
 namespace MagusEngine
 {
@@ -28,27 +30,27 @@ namespace MagusEngine
 	public:
 		Framework();
 
-		bool Initialise(char* dataDirectory);
+		bool Initialise(char* configfilePath);
 		bool Frame();
 		void Shutdown();
 
-		bool ProcessDataDirectory(const char* dataDirectory);
+		bool ProcessUADataDirectory(const char* uadir);
 
 	private:
 		FrameworkConfig _config;
 		OS_Interface*	_os;
 		Graphics		_graphics;
+		Resources		_resources;
 
-		std::vector<SceneNode*>		_uaScenes;
+		UA**			_uas;
+		int				_maxUACount;
+		int				_uaCount;
 
 	private:
-		int CountUAFiles(const char* directory);
-		
 		bool ProcessEngineConfig(const char* filename);
 
-		bool ProcessUA(const char* filename);
-
-		SceneNode* ProcessSceneNode(tinyxml2::XMLElement* element);
+		unsigned int _textureCount;
+		unsigned int _shaderCount;
 	};
 }
 #endif
