@@ -15,6 +15,7 @@ namespace MagusEngine
 		_uaCount = 0;
 		_maxUACount = 2;
 
+
 		/* Allocate memory for uaScenes */
 		_uas = (UA**)malloc(sizeof(UA**) * _maxUACount);
 
@@ -22,7 +23,7 @@ namespace MagusEngine
 		ProcessEngineConfig(configfilePath);
 
 		/* Process the UA files */
-		ProcessUADataDirectory("C:/Projects/magus-engine/data");// _resources.GetRootPath());
+		ProcessUADataDirectory(_resources.GetRootPath());
 
 		/* Create the os subsystem depending on current platform */
 		_os = new OS();
@@ -35,7 +36,7 @@ namespace MagusEngine
 		}
 
 		/* Initialise the graphics subsystem */
-		_graphics.Initialise(_os, &_resources, _uaCount-1);
+		_graphics.Initialise(_os, &_resources, &_config, _uaCount - 1);
 
 		/* Add each of the generated ua to the graphical root node */
 		for (int i = 0; i < _uaCount; i++)

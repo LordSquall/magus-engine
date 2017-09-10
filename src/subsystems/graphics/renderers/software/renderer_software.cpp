@@ -76,6 +76,11 @@ namespace MagusEngine
 	}
 
 	/* Shader API */
+	void Renderer_Software::CompileShaderObject(Shader* shader)
+	{
+		return;
+	}
+
 	unsigned int Renderer_Software::CreateVertexShader()
 	{
 		return 0;
@@ -86,7 +91,7 @@ namespace MagusEngine
 		return 0;
 	}
 
-	void Renderer_Software::SetShaderSource(unsigned int shaderHandle, const char** source)
+	void Renderer_Software::SetShaderSource(unsigned int shaderHandle, char* source)
 	{
 	}
 

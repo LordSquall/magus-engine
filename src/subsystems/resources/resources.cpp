@@ -90,6 +90,11 @@ namespace MagusEngine
 		delete[] datBuff[0];
 		delete[] datBuff[1];
 
+
+		/* Add the resources object */
+		_textures[_textureCount] = newTexture;
+		_textureCount++;
+
 		return true;
 	}
 
@@ -122,7 +127,7 @@ namespace MagusEngine
 		vertexFile.seekg(0);
 
 		/* Allocate memory in shader for source */
-		newShader->InitailiseVertexSourceBuffer((unsigned int)filesize);
+		newShader->InitailiseVertexSourceBuffer((unsigned int)filesize - 1);
 
 		/* Read fill contents into the shader source buffer */
 		vertexFile.read(newShader->GetVertexSrc(), filesize);
@@ -130,7 +135,8 @@ namespace MagusEngine
 		/* Close file stream */
 		vertexFile.close();
 
-		printf(newShader->GetVertexSrc());
+		/* Append termination character */
+		newShader->GetVertexSrc()[filesize] = '\0';
 
 		/* Open the fragment file */
 		std::ifstream fragmentFile(fullFragmentPathBuffer, std::ios::binary);
@@ -147,7 +153,7 @@ namespace MagusEngine
 		fragmentFile.seekg(0);
 
 		/* Allocate memory in shader for source */
-		newShader->InitailiseFragmentSourceBuffer((unsigned int)filesize);
+		newShader->InitailiseFragmentSourceBuffer((unsigned int)filesize + 1);
 
 		/* Read fill contents into the shader source buffer */
 		fragmentFile.read(newShader->GetFragmentSrc(), filesize);
@@ -155,9 +161,37 @@ namespace MagusEngine
 		/* Close the file stream */
 		fragmentFile.close();
 
+		/* Append termination character */
+		newShader->GetFragmentSrc()[filesize] = '\0';
+
+		/* Add the resources object */
+		_shaders[_shaderCount] = newShader;
+		_shaderCount++;
+
 		return true;
 	}
 
+	/* Shader Functions */
+	unsigned int Resources::GetShaderCount()
+	{
+		return _shaderCount;
+	}
+
+	Shader* Resources::GetShader(unsigned int index)
+	{
+		return _shaders[index];
+	}
+
+	/* Texture Functions */
+	unsigned int Resources::GetTextureCount()
+	{
+		return _textureCount;
+	}
+
+	Texture* Resources::GetTexture(unsigned int index)
+	{
+		return _textures[index];
+	}
 
 	/* Setters */
 	void Resources::SetRootPath(const char* path) { strcpy_s(_rootPath, path); }

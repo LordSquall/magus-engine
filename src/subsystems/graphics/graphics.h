@@ -3,6 +3,7 @@
 
 /* System Includes */
 #include <thread>
+#include <GLFW\glfw3.h>
 
 /* Local Project Includes */
 #include "..\os\os_interface.h"
@@ -21,7 +22,7 @@ namespace MagusEngine
 	public:
 		Graphics();
 
-		bool Initialise(OS_Interface* os, Resources* resources, int maxSceneCount);
+		bool Initialise(OS_Interface* os, Resources* resources, FrameworkConfig* _config, int maxSceneCount);
 		void Shutdown();
 
 		bool InitialiseFrame();
@@ -36,9 +37,10 @@ namespace MagusEngine
 
 	private:
 		OS_Interface*		_os;
-
 		Resources*			_resources;
-		
+		FrameworkConfig*	_config;
+		GLFWwindow*			_window;
+
 		Renderer_Interface* _lowLevelHardwareRenderer;
 		Renderer_Interface*	_lowLevelSoftwareRenderer;
 	

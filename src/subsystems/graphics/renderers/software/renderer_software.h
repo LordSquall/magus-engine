@@ -2,6 +2,8 @@
 #define _RENDERER_SOFTWARE_H_
 
 #include "../renderer_interface.h"
+#include "../../../resources/shader.h"
+#include "../../../resources/texture.h"
 #include "sr_bitmap.h"
 #include "sr_framebuffer.h"
 #include "sr_scanbuffer.h"
@@ -31,10 +33,11 @@ namespace MagusEngine
 		unsigned int GenerateVertexBuffer(Vertex* vertices, unsigned int vertexCount);
 		unsigned int DrawBuffers(unsigned int bufferHandle);
 
-		/* Shader API */
+		/* Shader API */		
+		void CompileShaderObject(Shader* shader);
 		unsigned int CreateVertexShader();
 		unsigned int CreateFragmentShader();
-		void SetShaderSource(unsigned int shaderHandle, const char** source);
+		void SetShaderSource(unsigned int shaderHandle, char* source);
 		void CompileShader(unsigned int shaderHandle);
 		unsigned int CreateShaderProgram();
 		void AttachShader(unsigned int programHandle, unsigned int shaderHandle);

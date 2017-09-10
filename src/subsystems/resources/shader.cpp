@@ -49,50 +49,10 @@ namespace MagusEngine
 	char* Shader::GetVertexSrc() { return _vertexShaderSrc; }
 	char* Shader::GetFragmentSrc() { return _fragmentShaderSrc; }
 
-	bool Shader::Compile(char* vertexFile, char* fragmentFile)
-	{
-		const char* vertexFileBuffer;
-		const char* fragmentFileBuffer;
-
-		/* Load shader files into buffer */
-		//vertexFileBuffer = LoadShaderSourceFile(vertexFile);
-		//fragmentFileBuffer = LoadShaderSourceFile(fragmentFile);
-
-		/* Create objects from low level renderer */
-		_vertexShader = _lowLevelRenderer->CreateVertexShader();
-		_fragmentShader = _lowLevelRenderer->CreateFragmentShader();
-
-		/* Send shader source to low level renderer */
-		_lowLevelRenderer->SetShaderSource(_vertexShader, &vertexFileBuffer);
-		_lowLevelRenderer->SetShaderSource(_fragmentShader, &fragmentFileBuffer);
-
-		/* Release memory for buffer now its been recieved by the gpu */
-		delete[] vertexFileBuffer;
-		vertexFileBuffer = 0;
-
-		delete[] fragmentFileBuffer;
-		fragmentFileBuffer = 0;
-
-		/* Compile the shader source */
-		_lowLevelRenderer->CompileShader(_vertexShader);
-		_lowLevelRenderer->CompileShader(_fragmentShader);
-
-		/* Create the shader project */
-		_program = _lowLevelRenderer->CreateShaderProgram();
-
-		/* Attach shaders to program */
-		_lowLevelRenderer->AttachShader(_program, _vertexShader);
-		_lowLevelRenderer->AttachShader(_program, _fragmentShader);
-
-		/* Bind any attribute locations */
-		_lowLevelRenderer->BindAttribute(_program, 0, "inputPosition");
-		_lowLevelRenderer->BindAttribute(_program, 1, "inputColor");
-
-		/* Link Shader */
-		_lowLevelRenderer->LinkShaderProgram(_program);
-
-		return true;
-	}
+	/* Setters */
+	void Shader::SetProgramHandle(unsigned int programHandle) { _program = programHandle; }
+	void Shader::SetVertexHandle(unsigned int vertexHandle) { _vertexShader = vertexHandle; }
+	void Shader::SetFragmentHandle(unsigned int fragmentHandle) { _fragmentShader = fragmentHandle; }
 
 	void Shader::OutputShaderErrorMessage(unsigned int shaderHandle)
 	{

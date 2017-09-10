@@ -20,18 +20,14 @@ namespace MagusEngine
 
 	void Renderer_Windows_Render_Visitor::Visit(SceneNode* sceneNode)
 	{
-		printf("[Windows Render Visitor]\tVisit Scene Node\n");
 	}
 
 	void Renderer_Windows_Render_Visitor::Visit(Component* component)
 	{
-		printf("[Windows Render Visitor]\tVisit Component\n");
 	}
 
 	void Renderer_Windows_Render_Visitor::Visit(Graphic2D* graphic2D)
 	{
-		printf("[Windows Render Visitor]\tVisit Graphic2D\n");
-
 		_lowLevelRenderer->DrawBuffers(graphic2D->GetRenderDataHandle());
 	}
 

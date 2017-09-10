@@ -16,6 +16,13 @@ namespace MagusEngine
 		_lowLevelRenderer = lowlevelRenderer;
 		_resources = resources;
 
+		/* Process any resources which require render specific modification */
+		for (int i = 0; i < resources->GetShaderCount(); i++)
+		{
+			_lowLevelRenderer->CompileShaderObject(resources->GetShader(i));
+		}
+
+
 		return true;
 	}
 
@@ -34,8 +41,11 @@ namespace MagusEngine
 		printf("[Windows Init Visitor]\tVisit Graphic2D\n");
 		Drawable* d = graphic2D->GetDrawable();
 
+		printf("[Windows Init Visitor]\tBuild Vertex Buffer\n");
+
 		_vertexBuildBufferCount =  d->Build(&_vertexBuildBuffer[0]);
 
+		printf("[Windows Init Visitor]\tGenerating GPU memory\n");
 		graphic2D->SetRenderDataHandle(_lowLevelRenderer->GenerateVertexBuffer(&_vertexBuildBuffer[0], _vertexBuildBufferCount));
 	}
 

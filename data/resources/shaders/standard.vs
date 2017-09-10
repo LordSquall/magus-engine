@@ -1,21 +1,8 @@
-#version 400
+#version 330 core
 
-in vec3 inputPosition;
-in vec3 inputColor;
+layout (location = 0) in vec3 aPos;
 
-out vec3 color;
-
-uniform mat4 worldMatrix;
-uniform mat4 viewMatrix;
-uniform mat4 projectionMatrix;
-
-void main(void)
+void main()
 {
-	// Calculate the position of the vertex against the world, view, and projection matrices.
-	gl_Position = worldMatrix * vec4(inputPosition, 1.0f);
-	gl_Position = viewMatrix * gl_Position;
-	gl_Position = projectionMatrix * gl_Position;
-
-	// Store the input color for the pixel shader to use.
-	color = inputColor;
+	gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
 }

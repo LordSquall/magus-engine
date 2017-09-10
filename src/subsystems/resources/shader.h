@@ -16,6 +16,9 @@ namespace MagusEngine
 		bool InitailiseVertexSourceBuffer(unsigned int size);
 		bool InitailiseFragmentSourceBuffer(unsigned int size);
 
+		void OutputShaderErrorMessage(unsigned int);
+		void OutputLinkerErrorMessage(unsigned int);
+
 		void Shutdown();
 
 		/* Getters */
@@ -26,11 +29,11 @@ namespace MagusEngine
 		char* GetVertexSrc();
 		char* GetFragmentSrc();
 
-	private:
-		bool Compile(char*, char*);
-		void OutputShaderErrorMessage(unsigned int);
-		void OutputLinkerErrorMessage(unsigned int);
-		
+		/* Setters */
+		void SetProgramHandle(unsigned int programHandle);
+		void SetVertexHandle(unsigned int vertexHandle);
+		void SetFragmentHandle(unsigned int fragmentHandle);
+
 	private:
 		char _name[255];
 		unsigned int _program;

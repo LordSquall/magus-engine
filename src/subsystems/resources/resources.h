@@ -22,6 +22,14 @@ namespace MagusEngine
 
 		bool AddShaderFromFile(const char* name, const char* vertexpath, const char* fragmentPath);
 
+		/* Shader Functions */
+		unsigned int GetShaderCount();
+		Shader* GetShader(unsigned int index);
+
+		/* Texture Functions */
+		unsigned int GetTextureCount();
+		Texture* GetTexture(unsigned int index);
+
 		/* Setters */
 		void SetRootPath(const char* path);
 

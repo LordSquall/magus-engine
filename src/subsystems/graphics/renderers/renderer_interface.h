@@ -8,6 +8,8 @@
 
 namespace MagusEngine
 {
+	class Shader;
+
 	class Renderer_Interface
 	{
 	public:
@@ -28,9 +30,10 @@ namespace MagusEngine
 		virtual unsigned int DrawBuffers(unsigned int bufferHandle) = 0;
 
 		/* Shader API */
+		virtual void CompileShaderObject(Shader* shader) = 0;
 		virtual unsigned int CreateVertexShader() = 0;
 		virtual unsigned int CreateFragmentShader() = 0;
-		virtual void SetShaderSource(unsigned int shaderHandle, const char** source) = 0;
+		virtual void SetShaderSource(unsigned int shaderHandle, char* source) = 0;
 		virtual void CompileShader(unsigned int shaderHandle) = 0;
 		virtual unsigned int CreateShaderProgram() = 0;
 		virtual void AttachShader(unsigned int programHandle, unsigned int shaderHandle) = 0;

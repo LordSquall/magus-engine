@@ -6,29 +6,24 @@
 				<transform>
 					<position x="0.0" y="0.0" z="0.0" />
 					<rotation x="0.0" y="0.0" z="0.0" />
-					<scale x="0.0" y="0.0" z="0.0" />
+					<scale x="1.0" y="1.0" z="1.0" />
 				</transform>
 				<node name="sky" children="0">
 					<transform>
 						<position x="0.0" y="0.0" z="0.0" />
 						<rotation x="0.0" y="0.0" z="0.0" />
-						<scale x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
 					</transform>
-					<components count="1">
-						<graphics2d>
-							<rectangle x="0.0" y="0.0" width="20.0" height="20.0" />
-						</graphics2d>
-					</components>
 				</node>
 				<node name="earth" children="0">
 					<transform>
 						<position x="0.0" y="0.0" z="0.0" />
 						<rotation x="0.0" y="0.0" z="0.0" />
-						<scale x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
 					</transform>
 					<components count="1">
 						<graphics2d>
-							<rectangle x="0.0" y="0.0" width="20.0" height="20.0" />
+							<rectangle x="0.0" y="0.0" width="200.0" height="200.0" />
 						</graphics2d>
 					</components>
 				</node>

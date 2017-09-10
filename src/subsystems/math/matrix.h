@@ -1,6 +1,9 @@
 #ifndef _MATRIX_H_
 #define _MATRIX_H_
 
+/* System Includes */
+#include <math.h>
+
 typedef char Byte;
 
 namespace MagusEngine
@@ -13,7 +16,7 @@ namespace MagusEngine
 		float Get(int i, int j);
 		void Set(int i, int j, float v);
 
-		void SetIdentity();
+		void BuildIdentity();
 		
 	private:
 		float _m[2][2];
@@ -27,7 +30,7 @@ namespace MagusEngine
 		float Get(int i, int j);
 		void Set(int i, int j, float v);
 
-		void SetIdentity();
+		void BuildIdentity();
 
 	private:
 		float _m[3][3];
@@ -41,7 +44,11 @@ namespace MagusEngine
 		float Get(int i, int j);
 		void Set(int i, int j, float v);
 
-		void SetIdentity();
+		float* GetData();
+
+		void BuildIdentity();
+		void BuildOrthographic(float left, float right, float top, float bottom, float far, float near);
+		void BuildPerspective(float fov, float aspectRatio, float znear, float zfar);
 
 	private:
 		float _m[4][4];

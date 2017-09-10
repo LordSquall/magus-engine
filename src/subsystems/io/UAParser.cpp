@@ -136,7 +136,7 @@ namespace MagusEngine
 				float width = e->FloatAttribute("width");
 				float height = e->FloatAttribute("height");
 				newGraphics2DComponent->GetDrawable();
-				Rectangle* newDrawable = new Rectangle();
+				Rectangle* newDrawable = new Rectangle(x, y, width, height);
 				newGraphics2DComponent->SetDrawable(newDrawable);
 			}
 		}

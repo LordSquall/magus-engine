@@ -4,6 +4,10 @@
 /* OS Defines */
 #define WIN32_LEAN_AND_MEAN
 
+/* system includes */
+#include <glad\glad.h>
+#include <GLFW\glfw3.h>
+
 /* includes */
 #include "os_interface.h"
 #include "../graphics/renderers/windows/renderer_windows_initialise_visitor.h"
@@ -11,9 +15,6 @@
 #include "../graphics/renderers/renderer_interface.h"
 #include "../input/input.h"
 
-/* system includes */
-#include <windows.h>
-#include <cstdio>
 
 namespace MagusEngine
 {
@@ -36,13 +37,12 @@ namespace MagusEngine
 		bool Frame();
 		bool InitialiseWindows(Renderer_Interface*, int&, int&);
 		void ShutdownWindows();
+
+		static void ErrorCallback(int error, const char* description);
 		
 	private:
 		FrameworkConfig* _config;
 		Resources*		 _resources;
-
-		HINSTANCE	_hinstance;
-		HWND		_hwnd;
 
 		Renderer_Interface* _lowLevelRenderer;
 		Visitor*			_lowLevelRendererInitialisationVisitor;
@@ -50,8 +50,6 @@ namespace MagusEngine
 		Input*				_input;
 	};
 	
-	static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
-
 	static OS* ApplicationHandle = 0;
 }
 
