@@ -29,7 +29,7 @@ namespace MagusEngine
 		{
 			printf("Failed to create GLFW window");
 			glfwTerminate();
-			return -1;
+			return false;
 		}
 		glfwMakeContextCurrent(_window);
 		//glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
@@ -97,7 +97,7 @@ namespace MagusEngine
 		glfwSwapBuffers(_window);
 		glfwPollEvents();
 
-		return glfwWindowShouldClose(_window);
+		return (bool)glfwWindowShouldClose(_window);
 	}
 
 

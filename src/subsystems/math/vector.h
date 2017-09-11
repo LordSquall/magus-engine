@@ -1,6 +1,9 @@
 #ifndef _VECTOR_H_
 #define _VECTOR_H_
 
+/* System Includes */
+#include <math.h>
+
 typedef char Byte;
 
 namespace MagusEngine
@@ -16,6 +19,10 @@ namespace MagusEngine
 
 		void SetX(float x);
 		void SetY(float y);
+
+		float Length();
+
+		void Normalise();
 		
 	private:
 		float _x;

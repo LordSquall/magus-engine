@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <UA title="Primary Flight Display">
+	<styles>
+		<color id="0" name="white" 	r="1.0f" 	g="1.0f" 	b="1.0f" 	a="1.0f" />
+		<color id="1" name="black" 	r="0.0f" 	g="0.0f" 	b="0.0f" 	a="1.0f" />
+		<color id="2" name="red" 	r="1.0f" 	g="0.0f" 	b="0.0f" 	a="1.0f" />
+		<color id="3" name="green" 	r="0.0f" 	g="1.0f" 	b="0.0f" 	a="1.0f" />
+		<color id="4" name="blue" 	r="0.0f" 	g="0.0f" 	b="1.0f" 	a="1.0f" />
+		<color id="5" name="sky"	r="0.141f" 	g="0.662f" 	b="1.0f" 	a="1.0f" />
+		<color id="6" name="earth"	r="1.0f" 	g="0.619f" 	b="0.117" 	a="1.0f" />
+		
+		<material id="0" name="mat_white" 	colorid="0" />
+		<material id="1" name="mat_black" 	colorid="1" />
+		<material id="2" name="mat_red" 	colorid="2" />
+		<material id="3" name="mat_green" 	colorid="3" />
+		<material id="4" name="mat_blue" 	colorid="4" />
+		<material id="5" name="mat_sky" 	colorid="5" />
+		<material id="6" name="mat_earth" 	colorid="6" />
+	</styles>
 	<scene>
 		<node name="root" children="1">
-			<node name="background" children="2">
+			<node name="background" children="3">
 				<transform>
-					<position x="0.0" y="0.0" z="0.0" />
+					<position x="400.0" y="300.0" z="0.0" />
 					<rotation x="0.0" y="0.0" z="0.0" />
 					<scale x="1.0" y="1.0" z="1.0" />
 				</transform>
@@ -14,6 +31,11 @@
 						<rotation x="0.0" y="0.0" z="0.0" />
 						<scale x="1.0" y="1.0" z="1.0" />
 					</transform>
+					<components count="1">
+						<graphics2d material="5">
+							<rectangle x="-800.0" y="0.0" width="1600.0" height="1200.0" />
+						</graphics2d>
+					</components>
 				</node>
 				<node name="earth" children="0">
 					<transform>
@@ -22,8 +44,20 @@
 						<scale x="1.0" y="1.0" z="1.0" />
 					</transform>
 					<components count="1">
-						<graphics2d>
-							<rectangle x="0.0" y="0.0" width="200.0" height="200.0" />
+						<graphics2d material="6">
+							<rectangle x="-800.0" y="0.0" width="1600.0" height="-1200" />
+						</graphics2d>
+					</components>
+				</node>
+				<node name="centerline" children="0">
+					<transform>
+						<position x="0.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d material="3">
+							<line x1="-800.0" y1="0.0" x2="800.0" y2="0.0" width="5.0" />
 						</graphics2d>
 					</components>
 				</node>

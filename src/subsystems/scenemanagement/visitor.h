@@ -19,9 +19,18 @@ namespace MagusEngine
 	public:
 		virtual bool Initialise(Renderer_Interface* lowlevelRenderer, Resources* resources) = 0;
 
+		virtual void PreVisit(SceneNode* sceneNode) = 0;
 		virtual void Visit(SceneNode* sceneNode) = 0;
+		virtual void PostVisit(SceneNode* sceneNode) = 0;
+
+		virtual void PreVisit(Component* component) = 0;
 		virtual void Visit(Component* component) = 0;
+		virtual void PostVisit(Component* component) = 0;
+
+		virtual void PreVisit(Graphic2D* graphic2d) = 0;
 		virtual void Visit(Graphic2D* graphic2d) = 0;
+		virtual void PostVisit(Graphic2D* graphic2d) = 0;
+
 	};
 }
 

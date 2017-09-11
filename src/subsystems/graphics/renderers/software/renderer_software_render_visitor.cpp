@@ -15,20 +15,26 @@ namespace MagusEngine
 		return true;
 	}
 
+	void Renderer_Software_Render_Visitor::PreVisit(SceneNode* sceneNode) {}
 	void Renderer_Software_Render_Visitor::Visit(SceneNode* sceneNode)
 	{
 		printf("[Windows Render Visitor]\tVisit Scene Node\n");
 	}
+	void Renderer_Software_Render_Visitor::PostVisit(SceneNode* sceneNode) {}
 
+	void Renderer_Software_Render_Visitor::PreVisit(Component* component) {}
 	void Renderer_Software_Render_Visitor::Visit(Component* component)
 	{
 		printf("[Windows Render Visitor]\tVisit Component\n");
 	}
+	void Renderer_Software_Render_Visitor::PostVisit(Component* component) {}
 
+	void Renderer_Software_Render_Visitor::PreVisit(Graphic2D* graphic2D) {}
 	void Renderer_Software_Render_Visitor::Visit(Graphic2D* graphic2D)
 	{
 		printf("[Windows Render Visitor]\tVisit Graphic2D\n");
 	}
+	void Renderer_Software_Render_Visitor::PostVisit(Graphic2D* graphic2D) {}
 
 	/* Getters */
 	Renderer_Interface* Renderer_Software_Render_Visitor::GetLowLevelRenderer()

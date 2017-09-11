@@ -16,9 +16,6 @@ namespace MagusEngine
 		bool InitailiseVertexSourceBuffer(unsigned int size);
 		bool InitailiseFragmentSourceBuffer(unsigned int size);
 
-		void OutputShaderErrorMessage(unsigned int);
-		void OutputLinkerErrorMessage(unsigned int);
-
 		void Shutdown();
 
 		/* Getters */

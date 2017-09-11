@@ -7,6 +7,8 @@
 /* Local Project Include */
 #include "texture.h"
 #include "shader.h"
+#include "color.h"
+#include "material.h"
 #include "../scenemanagement/visitable.h"
 
 namespace MagusEngine
@@ -16,11 +18,15 @@ namespace MagusEngine
 	public:
 		Resources();
 
-		bool Initialise(unsigned int textureMax, unsigned int shaderMax);
+		bool Initialise(unsigned int textureMax, unsigned int shaderMax, unsigned int colorMax, unsigned int materialMax);
 
 		bool AddTextureFromFile(const char* name, const char* path);
 
 		bool AddShaderFromFile(const char* name, const char* vertexpath, const char* fragmentPath);
+
+		bool AddColor(int id, const char* name, float r, float g, float b, float a);
+
+		bool AddMaterial(Material* material);
 
 		/* Shader Functions */
 		unsigned int GetShaderCount();
@@ -29,6 +35,15 @@ namespace MagusEngine
 		/* Texture Functions */
 		unsigned int GetTextureCount();
 		Texture* GetTexture(unsigned int index);
+
+		/* Color Functions */
+		unsigned int GetColorCount();
+		Color* GetColor(unsigned int index);
+
+		/* Material Functions */
+		unsigned int GetMaterialCount();
+		Material* GetMaterial(unsigned int index);
+
 
 		/* Setters */
 		void SetRootPath(const char* path);
@@ -42,6 +57,14 @@ namespace MagusEngine
 		Texture** _textures;
 		unsigned int _textureMaxCount;
 		unsigned int _textureCount;
+
+		Color** _colors;
+		unsigned int _colorMaxCount;
+		unsigned int _colorCount;
+
+		Material** _materials;
+		unsigned int _materialMaxCount;
+		unsigned int _materialCount;
 
 		Shader** _shaders;
 		unsigned int _shaderMaxCount;

@@ -89,7 +89,7 @@ namespace MagusEngine
 			{
 				if(strcmp(dirFile.extension, "uadf") == 0)
 				{
-					_uas[_uaCount] = UAParser::ParserUAFile(dirFile.path);
+					_uas[_uaCount] = UAParser::ParserUAFile(dirFile.path, &_resources);
 					_uaCount++;
 				}
 			}
@@ -151,7 +151,9 @@ namespace MagusEngine
 
 				/* Initialise resources object */
 				_resources.Initialise(resourcesElement->IntAttribute("texturemax"),
-					resourcesElement->IntAttribute("shadermax"));
+					resourcesElement->IntAttribute("shadermax"),
+					resourcesElement->IntAttribute("colormax"),
+					resourcesElement->IntAttribute("materialmax"));
 
 				/* Process each of the texture tags in turn */
 				for (tinyxml2::XMLElement* e = resourcesElement->FirstChildElement("texture"); e != NULL; e = e->NextSiblingElement("texture"))

@@ -1,5 +1,5 @@
-#ifndef _MAGUS_RECTANGLE_H_
-#define _MAGUS_RECTANGLE_H_
+#ifndef _RECTANGLE_H_
+#define _RECTANGLE_H_
 
 /* System Includes */
 

@@ -24,14 +24,14 @@ namespace MagusEngine
 		buffer[0].SetX(_x);
 		buffer[0].SetY(_y);
 
-		buffer[1].SetX(_x + _height);
-		buffer[1].SetY(_y);
+		buffer[1].SetX(_x);
+		buffer[1].SetY(_y +  _height);
 
-		buffer[2].SetX(_x);
-		buffer[2].SetY(_y + _width);
+		buffer[2].SetX(_x + _width);
+		buffer[2].SetY(_y);
 
-		buffer[3].SetX(_x + _height);
-		buffer[3].SetY(_y + _width);
+		buffer[3].SetX(_x + _width);
+		buffer[3].SetY(_y + _height);
 
 		return 4;
 

@@ -44,6 +44,10 @@ namespace MagusEngine
 		void SetRotation(float x, float y, float z);
 		void SetScale(float x, float y, float z);
 
+		Vector3f* GetPosition();
+		Vector3f* GetRotation();
+		Vector3f* GetScale();
+
 		void Accept(Visitor* visitor);
 
 	public:

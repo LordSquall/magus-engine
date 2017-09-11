@@ -7,7 +7,7 @@ namespace MagusEngine
 		
 	}
 
-	bool Resources::Initialise(unsigned int textureMax, unsigned int shaderMax)
+	bool Resources::Initialise(unsigned int textureMax, unsigned int shaderMax, unsigned int colorMax, unsigned int materialMax)
 	{
 		/* Initialse memory for texture pointers */
 		_textures = (Texture**)malloc(sizeof(Texture**) * textureMax);
@@ -19,9 +19,18 @@ namespace MagusEngine
 		_shaderMaxCount = shaderMax;
 		_shaderCount = 0;
 
+		/* Initialse memory for color pointers */
+		_colors = (Color**)malloc(sizeof(Color**) * colorMax);
+		_colorMaxCount = colorMax;
+		_colorCount = 0;
+
+		/* Initialse memory for material pointers */
+		_materials = (Material**)malloc(sizeof(Material**) * colorMax);
+		_materialMaxCount = colorMax;
+		_materialCount = 0;
+
 		return true;
 	}
-
 
 	bool Resources::AddTextureFromFile(const char* name, const char* path)
 	{
@@ -43,13 +52,13 @@ namespace MagusEngine
 		BITMAPFILEHEADER* bmpHeader = nullptr; // Header
 		BITMAPINFOHEADER* bmpInfo = nullptr; // Info 
 
-		uint8_t* datBuff[2] = { nullptr, nullptr };
+		Byte* datBuff[2] = { nullptr, nullptr };
 
-		uint8_t* pixels = nullptr;
+		Byte* pixels = nullptr;
 
 		// Allocate byte memory that will hold the two headers
-		datBuff[0] = new uint8_t[sizeof(BITMAPFILEHEADER)];
-		datBuff[1] = new uint8_t[sizeof(BITMAPINFOHEADER)];
+		datBuff[0] = new Byte[sizeof(BITMAPFILEHEADER)];
+		datBuff[1] = new Byte[sizeof(BITMAPINFOHEADER)];
 
 		file.read((char*)datBuff[0], sizeof(BITMAPFILEHEADER));
 		file.read((char*)datBuff[1], sizeof(BITMAPINFOHEADER));
@@ -69,14 +78,14 @@ namespace MagusEngine
 		long imageSize = bmpInfo->biWidth * bmpInfo->biHeight * (bmpInfo->biBitCount / 8);
 
 		// First allocate pixel memory
-		pixels = new uint8_t[imageSize];
+		pixels = new Byte[imageSize];
 
 		// Go to where image data starts, then read in image data
 		file.seekg(bmpHeader->bfOffBits);
 		file.read((char*)pixels, imageSize);
 
 
-		uint8_t tmpRGB = 0; // Swap buffer
+		Byte tmpRGB = 0; // Swap buffer
 		for (long i = 0; i < imageSize; i += 3)
 		{
 			tmpRGB = pixels[i];
@@ -139,7 +148,7 @@ namespace MagusEngine
 		newShader->GetVertexSrc()[filesize] = '\0';
 
 		/* Open the fragment file */
-		std::ifstream fragmentFile(fullFragmentPathBuffer, std::ios::binary);
+		std::ifstream fragmentFile(fullFragmentPathBuffer, std::ios::binary | std::ios::ate);
 		if (!fragmentFile)
 		{
 			printf("Failure to open fragment file.\n");
@@ -171,6 +180,25 @@ namespace MagusEngine
 		return true;
 	}
 
+	bool Resources::AddColor(int id, const char* name, float r, float g, float b, float a)
+	{
+		_colors[_colorCount] = new Color(id, name, r, g, b, a);
+		_colorCount++;
+		return true;
+	}
+
+	bool Resources::AddMaterial(Material* material)
+	{
+		_materials[_materialCount] = material;
+		_materialCount++;
+
+		/* resolve color */
+		material->SetColor(GetColor(material->GetColorId()));
+
+		return true;
+	}
+
+
 	/* Shader Functions */
 	unsigned int Resources::GetShaderCount()
 	{
@@ -191,6 +219,29 @@ namespace MagusEngine
 	Texture* Resources::GetTexture(unsigned int index)
 	{
 		return _textures[index];
+	}
+
+	/* Color Functions */
+	unsigned int Resources::GetColorCount()
+	{
+		return _colorCount;
+	}
+
+	Color* Resources::GetColor(unsigned int index)
+	{
+		return _colors[index];
+	}
+
+
+	/* Material Functions */
+	unsigned int Resources::GetMaterialCount()
+	{
+		return _materialCount;
+	}
+
+	Material* Resources::GetMaterial(unsigned int index)
+	{
+		return _materials[index];
 	}
 
 	/* Setters */

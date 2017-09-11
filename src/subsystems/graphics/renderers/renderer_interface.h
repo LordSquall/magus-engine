@@ -4,7 +4,9 @@
 /* System Include */
 
 /* Local Project Includes */
+#include "../../math/matrix.h"
 #include "../../math/vertex.h"
+#include "../../resources/material.h"
 
 namespace MagusEngine
 {
@@ -14,7 +16,6 @@ namespace MagusEngine
 	{
 	public:
 		virtual bool Initialise(void*, int, int, float, float, bool) = 0;
-		virtual bool InitialiseExtensions() = 0;
 
 		virtual void Shutdown() = 0;
 
@@ -28,20 +29,12 @@ namespace MagusEngine
 		/* Data Loading API*/
 		virtual unsigned int GenerateVertexBuffer(Vertex* vertices, unsigned int vertexCount) = 0;
 		virtual unsigned int DrawBuffers(unsigned int bufferHandle) = 0;
+		virtual void SetCurrentModelMatrix(Matrix4f* matrix) = 0;
+		virtual void SetMaterial(Material* material) = 0;
 
 		/* Shader API */
 		virtual void CompileShaderObject(Shader* shader) = 0;
-		virtual unsigned int CreateVertexShader() = 0;
-		virtual unsigned int CreateFragmentShader() = 0;
-		virtual void SetShaderSource(unsigned int shaderHandle, char* source) = 0;
-		virtual void CompileShader(unsigned int shaderHandle) = 0;
-		virtual unsigned int CreateShaderProgram() = 0;
-		virtual void AttachShader(unsigned int programHandle, unsigned int shaderHandle) = 0;
-		virtual void BindAttribute(unsigned int programHandle, unsigned int index, const char* name) = 0;
-		virtual void LinkShaderProgram(unsigned int programHandle) = 0;
-		virtual void GetShaderLogLength(unsigned int programHandle, int* length) = 0;
-		virtual void GetShaderInfoLog(unsigned int programHandle, int size, char* logBuffer) = 0;
-		virtual void GetShaderProgramInfoLog(unsigned int programHandle, int size, char* logBuffer) = 0;
+		virtual void SetCurrentShader(Shader* shader) = 0;
 
 
 	public:

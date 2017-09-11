@@ -8,6 +8,7 @@
 #include "../scenemanagement/visitor.h"
 #include "../scenemanagement/visitable.h"
 #include "drawable.h"
+#include "../resources/material.h"
 
 namespace MagusEngine
 {
@@ -26,14 +27,18 @@ namespace MagusEngine
 
 		/* Getters */
 		Drawable* GetDrawable();
+		Material* GetMaterial();
 		unsigned int GetRenderDataHandle();
 
 		/* Setters */
 		void SetDrawable(Drawable* drawable);
+		void SetMaterial(Material* material);
 		void SetRenderDataHandle(unsigned int handle);
 
 	private:
 		Drawable* _drawable;
+
+		Material* _material;
 
 		unsigned int _renderDataHandle;
 

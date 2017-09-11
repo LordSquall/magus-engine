@@ -32,21 +32,12 @@ namespace MagusEngine
 		/* Data Loading API */
 		unsigned int GenerateVertexBuffer(Vertex* vertices, unsigned int vertexCount);
 		unsigned int DrawBuffers(unsigned int bufferHandle);
+		void SetCurrentModelMatrix(Matrix4f* matrix);
+		void SetMaterial(Material* material);
 
 		/* Shader API */		
 		void CompileShaderObject(Shader* shader);
-		unsigned int CreateVertexShader();
-		unsigned int CreateFragmentShader();
-		void SetShaderSource(unsigned int shaderHandle, char* source);
-		void CompileShader(unsigned int shaderHandle);
-		unsigned int CreateShaderProgram();
-		void AttachShader(unsigned int programHandle, unsigned int shaderHandle);
-		void BindAttribute(unsigned int programHandle, unsigned int index, const char* name);
-		void LinkShaderProgram(unsigned int programHandle);
-		void GetShaderLogLength(unsigned int programHandle, int* length);
-		void GetShaderInfoLog(unsigned int programHandle, int size, char* logBuffer);
-		void GetShaderProgramInfoLog(unsigned int programHandle, int size, char* logBuffer);
-
+		void SetCurrentShader(Shader* shader);
 
 		/* Debug functions */
 		void SaveBitmap();

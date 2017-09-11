@@ -75,60 +75,25 @@ namespace MagusEngine
 		return 0;
 	}
 
+	void Renderer_Software::SetCurrentModelMatrix(Matrix4f* matrix)
+	{
+		return;
+	}
+
+	void Renderer_Software::SetMaterial(Material* material)
+	{
+		return;
+	}
+
 	/* Shader API */
 	void Renderer_Software::CompileShaderObject(Shader* shader)
 	{
 		return;
 	}
 
-	unsigned int Renderer_Software::CreateVertexShader()
+	void Renderer_Software::SetCurrentShader(Shader* shader)
 	{
-		return 0;
-	}
-
-	unsigned int Renderer_Software::CreateFragmentShader()
-	{
-		return 0;
-	}
-
-	void Renderer_Software::SetShaderSource(unsigned int shaderHandle, char* source)
-	{
-	}
-
-	void Renderer_Software::CompileShader(unsigned int shaderHandle)
-	{
-	}
-
-	unsigned int Renderer_Software::CreateShaderProgram()
-	{
-		return 0;
-	}
-
-	void Renderer_Software::AttachShader(unsigned int programHandle, unsigned int shaderHandle)
-	{
-	}
-
-	void Renderer_Software::BindAttribute(unsigned int programHandle, unsigned int index, const char* name)
-	{
-	}
-
-	void Renderer_Software::LinkShaderProgram(unsigned int programHandle)
-	{
-	}
-
-	void Renderer_Software::GetShaderLogLength(unsigned int programHandle, int* length)
-	{
-
-	}
-
-	void Renderer_Software::GetShaderInfoLog(unsigned int programHandle, int size, char* logBuffer)
-	{
-
-	}
-
-	void Renderer_Software::GetShaderProgramInfoLog(unsigned int programHandle, int size, char* logBuffer)
-	{
-
+		return;
 	}
 
 	void Renderer_Software::SaveBitmap()

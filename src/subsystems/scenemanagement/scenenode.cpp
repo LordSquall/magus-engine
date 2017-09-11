@@ -70,6 +70,8 @@ namespace MagusEngine
 
 	void SceneNode::Accept(Visitor* visitor)
 	{
+		visitor->PreVisit(this);
+
 		visitor->Visit(this);
 
 		for (unsigned int i = 0; i < _componentCount; i++)
@@ -81,6 +83,8 @@ namespace MagusEngine
 		{
 			_children[i]->Accept(visitor);
 		}
+
+		visitor->PostVisit(this);
 	}
 
 	char* SceneNode::GetName()
@@ -110,4 +114,9 @@ namespace MagusEngine
 		_tranform.scale.SetY(y); 
 		_tranform.scale.SetZ(z); 
 	}
+
+	Vector3f* SceneNode::GetPosition() { return &_tranform.position; }
+	Vector3f* SceneNode::GetRotation() { return &_tranform.rotation; }
+	Vector3f* SceneNode::GetScale() { return &_tranform.scale; }
+
 }

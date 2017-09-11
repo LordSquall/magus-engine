@@ -2,7 +2,7 @@
 
 namespace MagusEngine
 {
-	UA* UAParser::ParserUAFile(const char* filename)
+	UA* UAParser::ParserUAFile(const char* filename, Resources* resources)
 	{
 		UA* newUA = new UA();
 
@@ -18,6 +18,30 @@ namespace MagusEngine
 			/* UA Title */
 			newUA->Initialise(uaElement->Attribute("title"));
 
+			/* Set the styles element */
+			tinyxml2::XMLElement* stylesElement = uaElement->FirstChildElement("styles");
+
+			/* Check to make sure the styles element is present */
+			if (stylesElement != NULL)
+			{
+				/* Load color table */
+				for (tinyxml2::XMLElement* e = stylesElement->FirstChildElement("color"); e != NULL; e = e->NextSiblingElement("color"))
+				{
+					float r = e->FloatAttribute("r");
+					float g = e->FloatAttribute("g");
+					float b = e->FloatAttribute("b");
+					float a = e->FloatAttribute("a");
+
+					resources->AddColor(e->IntAttribute("id"), e->Attribute("name"), r, g, b, a);
+				}
+
+				/* Load material table */
+				for (tinyxml2::XMLElement* e = stylesElement->FirstChildElement("material"); e != NULL; e = e->NextSiblingElement("material"))
+				{
+					resources->AddMaterial(new Material(e->IntAttribute("id"), e->Attribute("name"), e->IntAttribute("colorid")));
+				}
+			}
+
 			/* Set scene element */
 			tinyxml2::XMLElement* sceneElement = uaElement->FirstChildElement("scene");
 
@@ -27,14 +51,15 @@ namespace MagusEngine
 				/* Set root element of the scene */
 				tinyxml2::XMLElement* rootElement = sceneElement->FirstChildElement("node");
 
-				newUA->SetRootNode(ProcessSceneNode(rootElement));
+				newUA->SetRootNode(ProcessSceneNode(rootElement, resources));
 			}
+
 		}
 
 		return newUA;
 	}
 
-	SceneNode* UAParser::ProcessSceneNode(tinyxml2::XMLElement* element)
+	SceneNode* UAParser::ProcessSceneNode(tinyxml2::XMLElement* element, Resources* resources)
 	{
 		/* Create a new scene node */
 		SceneNode* newNode = new SceneNode();
@@ -50,7 +75,7 @@ namespace MagusEngine
 		{
 			for (tinyxml2::XMLElement* e = element->FirstChildElement("node"); e != NULL; e = e->NextSiblingElement("node"))
 			{
-				newNode->AddChild(ProcessSceneNode(e));
+				newNode->AddChild(ProcessSceneNode(e, resources));
 			}
 		}
 
@@ -72,7 +97,7 @@ namespace MagusEngine
 
 			if (rotationElement != NULL)
 			{
-				newNode->SetPosition(rotationElement->FloatAttribute("x"), rotationElement->FloatAttribute("y"), rotationElement->FloatAttribute("z"));
+				newNode->SetRotation(rotationElement->FloatAttribute("x"), rotationElement->FloatAttribute("y"), rotationElement->FloatAttribute("z"));
 			}
 
 			/* Check for scale information */
@@ -80,7 +105,7 @@ namespace MagusEngine
 
 			if (scaleElement != NULL)
 			{
-				newNode->SetPosition(scaleElement->FloatAttribute("x"), scaleElement->FloatAttribute("y"), scaleElement->FloatAttribute("z"));
+				newNode->SetScale(scaleElement->FloatAttribute("x"), scaleElement->FloatAttribute("y"), scaleElement->FloatAttribute("z"));
 			}
 		}
 
@@ -100,7 +125,7 @@ namespace MagusEngine
 				/* Process each of the component tags in turn */
 				for (tinyxml2::XMLElement* e = componentElement->FirstChildElement(); e != NULL; e = e->NextSiblingElement())
 				{
-					newNode->AddComponent(ProcessSceneNodeComponent(e));
+					newNode->AddComponent(ProcessSceneNodeComponent(e, resources));
 				}
 			}
 		}
@@ -109,21 +134,24 @@ namespace MagusEngine
 	}
 
 
-	Component* UAParser::ProcessSceneNodeComponent(tinyxml2::XMLElement* element)
+	Component* UAParser::ProcessSceneNodeComponent(tinyxml2::XMLElement* element, Resources* resources)
 	{
 		/* Check to determine the type of the component */
 		if (strcmp(element->Name(), "graphics2d") == 0)
 		{
-			return ProcessSceneNodeComponentGraphics2D(element);
+			return ProcessSceneNodeComponentGraphics2D(element, resources);
 		}
 		
 		return NULL;
 	}
 
-	Graphic2D* UAParser::ProcessSceneNodeComponentGraphics2D(tinyxml2::XMLElement* element)
+	Graphic2D* UAParser::ProcessSceneNodeComponentGraphics2D(tinyxml2::XMLElement* element, Resources* resources)
 	{
 		/* Create component as a 2d graphic */
 		Graphic2D* newGraphics2DComponent = new Graphic2D();
+
+		/* Retrive material id */
+		newGraphics2DComponent->SetMaterial(resources->GetMaterial(element->IntAttribute("material")));
 
 		/* Process each of the children tags in turn */
 		for (tinyxml2::XMLElement* e = element->FirstChildElement(); e != NULL; e = e->NextSiblingElement())
@@ -131,12 +159,13 @@ namespace MagusEngine
 			/* Check to determine the type of the drawable */
 			if (strcmp(e->Name(), "rectangle") == 0)
 			{
-				float x = e->FloatAttribute("x");
-				float y = e->FloatAttribute("y");
-				float width = e->FloatAttribute("width");
-				float height = e->FloatAttribute("height");
-				newGraphics2DComponent->GetDrawable();
-				Rectangle* newDrawable = new Rectangle(x, y, width, height);
+				Rectangle* newDrawable = new Rectangle(e->FloatAttribute("x"), e->FloatAttribute("y"), e->FloatAttribute("width"), e->FloatAttribute("height"));
+				newGraphics2DComponent->SetDrawable(newDrawable);
+			}
+			if (strcmp(e->Name(), "line") == 0)
+			{
+				Line* newDrawable = new Line(e->FloatAttribute("x1"), e->FloatAttribute("y1"), e->FloatAttribute("x2"), e->FloatAttribute("y2"));
+				newDrawable->SetWidth(e->FloatAttribute("width"));
 				newGraphics2DComponent->SetDrawable(newDrawable);
 			}
 		}

@@ -9,6 +9,8 @@
 #include "../../../math/matrix.h"
 #include "../../../resources/shader.h"
 #include "../../../resources/texture.h"
+#include "../../../resources/color.h"
+#include "../../../resources/material.h"
 
 #pragma comment(lib, "opengl32.lib")
 
@@ -20,7 +22,6 @@ namespace MagusEngine
 		Renderer_Windows_OpenGL();
 
 		bool Initialise(void* system, int screenWidth, int screenHeight, float screenDepth, float screenNear, bool vsync);
-		bool InitialiseExtensions();
 
 		void Shutdown();
 
@@ -34,29 +35,14 @@ namespace MagusEngine
 		/* Drawing API */
 		unsigned int GenerateVertexBuffer(Vertex* vertices, unsigned int vertexCount);
 		unsigned int DrawBuffers(unsigned int bufferHandle);
+		void SetCurrentModelMatrix(Matrix4f* matrix);
+		void SetMaterial(Material* material);
 
 		/* Shader API */
 		void CompileShaderObject(Shader* shader);
-		unsigned int CreateVertexShader();
-		unsigned int CreateFragmentShader();
-		void SetShaderSource(unsigned int shaderHandle, char* source);
-		void CompileShader(unsigned int shaderHandle);
-		unsigned int CreateShaderProgram();
-		void AttachShader(unsigned int programHandle, unsigned int shaderHandle);
-		void BindAttribute(unsigned int programHandle, unsigned int index, const char* name);
-		void LinkShaderProgram(unsigned int programHandle);
-		void GetShaderLogLength(unsigned int programHandle, int* length);
-		void GetShaderInfoLog(unsigned int programHandle, int size, char* logBuffer);
-		void GetShaderProgramInfoLog(unsigned int programHandle, int size, char* logBuffer);
-
+		void SetCurrentShader(Shader* shader);
 
 		void CheckOpenGLError();
-
-		void OutputShaderErrorMessage(unsigned int shaderHandle);
-		void OutputLinkerErrorMessage(unsigned int programHandle);
-
-	private:
-		bool LoadExtensionList();
 
 	private:
 		HDC		_deviceContext;

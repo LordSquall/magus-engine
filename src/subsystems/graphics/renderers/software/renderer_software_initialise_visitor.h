@@ -23,9 +23,18 @@ namespace MagusEngine
 
 		/* Visitor Functions */
 		bool Initialise(Renderer_Interface* lowlevelRenderer, Resources* resources);
+
+		void PreVisit(SceneNode* sceneNode);
 		void Visit(SceneNode* sceneNode);
+		void PostVisit(SceneNode* sceneNode);
+		
+		void PreVisit(Component* component);
 		void Visit(Component* component);
+		void PostVisit(Component* component);
+
+		void PreVisit(Graphic2D* graphic2D);
 		void Visit(Graphic2D* graphic2D);
+		void PostVisit(Graphic2D* graphic2D);
 
 		/* Getters */
 		Renderer_Interface* GetLowLevelRenderer();

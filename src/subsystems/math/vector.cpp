@@ -20,6 +20,18 @@ namespace MagusEngine
 	void Vector2f::SetX(float x) { _x = x; }
 	void Vector2f::SetY(float y) { _y = y; }
 
+	float Vector2f::Length()
+	{
+		return sqrt((_x * _x) + (_y * _y));
+	}
+
+	void Vector2f::Normalise()
+	{
+		float length = Length();
+
+		_x = _x / length;
+		_y = _y / length;
+	}
 
 	Vector3f::Vector3f()
 	{

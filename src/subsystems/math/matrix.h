@@ -4,6 +4,11 @@
 /* System Includes */
 #include <math.h>
 
+/* Local Projection Includes */
+#include "vector.h"
+
+#define PI 3.14159265359f
+
 typedef char Byte;
 
 namespace MagusEngine
@@ -18,8 +23,7 @@ namespace MagusEngine
 
 		void BuildIdentity();
 		
-	private:
-		float _m[2][2];
+		float m[2][2];
 	};
 
 	class Matrix3f
@@ -32,8 +36,7 @@ namespace MagusEngine
 
 		void BuildIdentity();
 
-	private:
-		float _m[3][3];
+		float m[3][3];
 	};
 
 	class Matrix4f
@@ -47,11 +50,20 @@ namespace MagusEngine
 		float* GetData();
 
 		void BuildIdentity();
-		void BuildOrthographic(float left, float right, float top, float bottom, float far, float near);
+		
+		void BuildTranslation(float x, float y, float z);
+		void BuildTranslation(Vector3f* vec);
+		void BuildRotation(float x, float y, float z);
+		void BuildRotation(Vector3f* vec);
+		void BuildScale(float x, float y, float z);
+		void BuildScale(Vector3f* vec);
+
+		void BuildOrthographic(float left, float right, float top, float bottom, float znear, float zfar);
 		void BuildPerspective(float fov, float aspectRatio, float znear, float zfar);
 
-	private:
-		float _m[4][4];
+		Matrix4f operator*(const Matrix4f& b);
+
+		float m[4][4];
 	};
 
 	
