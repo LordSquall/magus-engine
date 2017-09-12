@@ -9,6 +9,9 @@
 #include "shader.h"
 #include "color.h"
 #include "material.h"
+#include "font.h"
+#include "../external/tinydir/tinydir.h"
+#include "../external/lodepng/lodepng.h"
 #include "../scenemanagement/visitable.h"
 
 namespace MagusEngine
@@ -18,11 +21,13 @@ namespace MagusEngine
 	public:
 		Resources();
 
-		bool Initialise(unsigned int textureMax, unsigned int shaderMax, unsigned int colorMax, unsigned int materialMax);
+		bool Initialise(unsigned int textureMax, unsigned int shaderMax, unsigned int colorMax, unsigned int materialMax, unsigned int fontMax);
 
 		bool AddTextureFromFile(const char* name, const char* path);
 
 		bool AddShaderFromFile(const char* name, const char* vertexpath, const char* fragmentPath);
+
+		bool AddFontFromFile(const char* name, const char* path);
 
 		bool AddColor(int id, const char* name, float r, float g, float b, float a);
 
@@ -44,6 +49,9 @@ namespace MagusEngine
 		unsigned int GetMaterialCount();
 		Material* GetMaterial(unsigned int index);
 
+		/* Font Functions */
+		unsigned int GetFontCount();
+		Font* GetFont(unsigned int index);
 
 		/* Setters */
 		void SetRootPath(const char* path);
@@ -69,7 +77,21 @@ namespace MagusEngine
 		Shader** _shaders;
 		unsigned int _shaderMaxCount;
 		unsigned int _shaderCount;
+
+		Font** _fonts;
+		unsigned int _fontMaxCount;
+		unsigned int _fontCount;
+
+	private:
+		Texture* LoadBmp(const char* name, const char* path);
+		Texture* LoadPng(const char* name, const char* path);
+
+		static const char *GetFileExt(const char *filename) {
+			const char *dot = strrchr(filename, '.');
+			if(!dot || dot == filename) return "";
+				return dot + 1;
+		}
+
 	};
 }
-
 #endif

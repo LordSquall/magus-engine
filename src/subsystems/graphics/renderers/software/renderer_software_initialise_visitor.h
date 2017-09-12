@@ -5,6 +5,9 @@
 
 /* Local Project Includes */
 #include "../../../scenemanagement/visitor.h"
+#include "../../../math/vertex.h"
+#include "../../../resources/resources.h"
+#include "renderer_software.h"
 
 namespace MagusEngine
 {
@@ -19,7 +22,7 @@ namespace MagusEngine
 		/*
 		Default contstructor
 		*/
-		Renderer_Software_Initialise_Visitor();
+		Renderer_Software_Initialise_Visitor(Renderer_Software* softwareRenderer);
 
 		/* Visitor Functions */
 		bool Initialise(Renderer_Interface* lowlevelRenderer, Resources* resources);
@@ -42,6 +45,8 @@ namespace MagusEngine
 	private:
 		Renderer_Interface* _lowLevelRenderer;
 		Resources*			_resources;
+
+		Renderer_Software* _softwareRenderer;
 	};
 }
 

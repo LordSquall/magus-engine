@@ -6,6 +6,7 @@
 /* Local Project Includes */
 #include "../../math/matrix.h"
 #include "../../math/vertex.h"
+#include "../../resources/texture.h"
 #include "../../resources/material.h"
 
 namespace MagusEngine
@@ -35,6 +36,9 @@ namespace MagusEngine
 		/* Shader API */
 		virtual void CompileShaderObject(Shader* shader) = 0;
 		virtual void SetCurrentShader(Shader* shader) = 0;
+
+		/* Texture API */
+		virtual void CreateTexture(Texture* texture) = 0;
 
 
 	public:

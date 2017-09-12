@@ -18,11 +18,16 @@ namespace MagusEngine
 			printf("Failed to initialize GLAD\n");
 			return false;
 		}
-
+		
 		/* Generate vao */
 		glGenVertexArrays(1, &_vao);
 		
 		glBindVertexArray(_vao);
+
+		
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glBlendEquation(GL_FUNC_ADD);
 
 		return true;
 	}
@@ -89,7 +94,9 @@ namespace MagusEngine
 		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertexCount, vertices, GL_STATIC_DRAW);
 		CheckError();
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(float)));
+		glEnableVertexAttribArray(0);	
+		glEnableVertexAttribArray(1);
 		CheckError();
 		return VBO;
 	}
@@ -131,6 +138,9 @@ namespace MagusEngine
 		glBindBuffer(GL_ARRAY_BUFFER, bufferHandle);
 
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(float)));
+		glEnableVertexAttribArray(0);	
+		glEnableVertexAttribArray(1);
 
 		CheckError();
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
@@ -155,18 +165,29 @@ namespace MagusEngine
 
 	void Renderer_Windows_OpenGL::SetMaterial(Material* material)
 	{
-		CheckError();
-		int location = glGetUniformLocation(_currentShader->GetProgramHandle(), "color");
-		if(location == -1)
+		int location = 0;
+
+		/* Set current color */
+		if(material->GetColorId() >= 0)
 		{
-			return;
+			location = glGetUniformLocation(_currentShader->GetProgramHandle(), "color");
+			if(location == -1)
+			{
+				return;
+			}
+			glUniform4fv(location, 1, (float*)material->GetColor());
 		}
 		
-		CheckError();
-
-		glUniform4fv(location, 1, (float*)material->GetColor());
-		
-		CheckError();
+		/* Set texture */
+		if(material->GetTextureId() >= 0)
+		{
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, material->GetTexture()->GetRenderDataHandle());
+		}
+		else
+		{
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
 		return;
 	}
 
@@ -192,6 +213,7 @@ namespace MagusEngine
 		{
 			glGetShaderInfoLog(shader->GetVertexHandle(), 512, NULL, infoLog);
 			printf("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n");
+			printf("%s", infoLog);
 		}
 
 		/* Fragment Shader */
@@ -206,6 +228,7 @@ namespace MagusEngine
 		{
 			glGetShaderInfoLog(shader->GetFragmentHandle(), 512, NULL, infoLog);
 			printf("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n");
+			printf("%s", infoLog);
 		}
 
 		/* Link shaders */
@@ -221,6 +244,7 @@ namespace MagusEngine
 		if (!success) {
 			glGetProgramInfoLog(shader->GetProgramHandle(), 512, NULL, infoLog);
 			printf("ERROR::SHADER::PROGRAM::LINKING_FAILED\n");
+			printf("%s", infoLog);
 		}
 
 		/* Delete shader as program is complete */
@@ -234,6 +258,24 @@ namespace MagusEngine
 	void Renderer_Windows_OpenGL::SetCurrentShader(Shader* shader)
 	{
 		glUseProgram(shader->GetProgramHandle());
+	}
+
+	/* Texture API */
+	void Renderer_Windows_OpenGL::CreateTexture(Texture* texture)
+	{
+		unsigned int TB;
+		glGenTextures(1, &TB);
+		glBindTexture(GL_TEXTURE_2D, TB);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->GetWidth(), texture->GetHeight(), 0,  GL_RGBA, GL_UNSIGNED_BYTE, texture->GetData());
+
+		texture->SetRenderDataHandle(TB);
 	}
 
 	void Renderer_Windows_OpenGL::CheckOpenGLError()

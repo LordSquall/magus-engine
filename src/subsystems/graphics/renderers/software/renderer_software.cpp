@@ -42,21 +42,15 @@ namespace MagusEngine
 
 	void Renderer_Software::BeginScene(float red, float green, float blue, float alpha)
 	{
-		Vertex minYVert = Vertex(100, 100);
-		Vertex midYVert = Vertex(150, 200);
-		Vertex maxYVert = Vertex(80, 300);
-
 		_framebuffer.Clear(red, green, blue, alpha);
 
-		_scanbuffer.FillTriangle(minYVert, midYVert, maxYVert);
-		
-		_debugBitmap.Save((BYTE*)_framebuffer.GetData(), 32, 24, "C:\\Temp\\image.bmp");
 		return;
 	}
 	
 	void Renderer_Software::EndScene()
 	{
 		
+		_debugBitmap.Save((BYTE*)_framebuffer.GetData(), 32, 24, "C:\\Temp\\image.bmp");
 		return;
 	}
 	
@@ -94,6 +88,12 @@ namespace MagusEngine
 	void Renderer_Software::SetCurrentShader(Shader* shader)
 	{
 		return;
+	}
+
+	/* Texture API */
+	void Renderer_Software::CreateTexture(Texture* texture)
+	{
+
 	}
 
 	void Renderer_Software::SaveBitmap()

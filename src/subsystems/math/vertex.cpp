@@ -9,10 +9,12 @@ namespace MagusEngine
 		_y = 0.0f;
 	}
 
-	Vertex::Vertex(float x, float y)
+	Vertex::Vertex(float x, float y, float u, float v)
 	{
 		_x = x;
 		_y = y;
+		_u = u;
+		_v = v;
 	}
 
 	float Vertex::GetX()
@@ -24,6 +26,16 @@ namespace MagusEngine
 	{
 		return _y;
 	}
+	
+	float Vertex::GetU()
+	{
+		return _u;
+	}
+
+	float Vertex::GetV()
+	{
+		return _v;
+	}
 
 	void Vertex::SetX(float x)
 	{
@@ -33,6 +45,16 @@ namespace MagusEngine
 	void Vertex::SetY(float y)
 	{
 		_y = y;
+	}
+
+	void Vertex::SetU(float u)
+	{
+		_u = u;
+	}
+
+	void Vertex::SetV(float v)
+	{
+		_v = v;
 	}
 
 	float Vertex::TriangleArea(Vertex b, Vertex c)

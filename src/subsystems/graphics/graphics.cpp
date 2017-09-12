@@ -71,7 +71,7 @@ namespace MagusEngine
 		_hardwareRenderVisitor->Initialise(_lowLevelHardwareRenderer, _resources);
 		
 		/* Initialise software path visitors */
-		_softwareInitialiseVisitor = new Renderer_Software_Initialise_Visitor();
+		_softwareInitialiseVisitor = new Renderer_Software_Initialise_Visitor((Renderer_Software*)_lowLevelSoftwareRenderer);
 		_softwareInitialiseVisitor->Initialise(_lowLevelSoftwareRenderer, _resources);
 
 		_softwareRenderVisitor = new Renderer_Software_Render_Visitor();
@@ -106,6 +106,7 @@ namespace MagusEngine
 		/* Begin Hardware Renderer scene */
 		_lowLevelHardwareRenderer->BeginScene(0.2f, 0.3f, 0.3f, 1.0f);
 
+		/* Walk the scene using the hardware visitor */
 		_rootScene.Accept(_hardwareRenderVisitor);
 
 		/* End the Hardware Renderer scene */

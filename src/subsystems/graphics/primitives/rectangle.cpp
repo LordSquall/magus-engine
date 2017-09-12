@@ -23,15 +23,23 @@ namespace MagusEngine
 	{
 		buffer[0].SetX(_x);
 		buffer[0].SetY(_y);
+		buffer[0].SetU(0.0f);
+		buffer[0].SetV(1.0f);
 
 		buffer[1].SetX(_x);
 		buffer[1].SetY(_y +  _height);
+		buffer[1].SetU(0.0f);
+		buffer[1].SetV(0.0f);
 
 		buffer[2].SetX(_x + _width);
 		buffer[2].SetY(_y);
+		buffer[2].SetU(1.0f);
+		buffer[2].SetV(1.0f);
 
 		buffer[3].SetX(_x + _width);
 		buffer[3].SetY(_y + _height);
+		buffer[3].SetU(1.0f);
+		buffer[3].SetV(0.0f);
 
 		return 4;
 

@@ -7,19 +7,41 @@
 /* Local Project Include */
 #include "texture.h"
 
+typedef char Byte;
+
 namespace MagusEngine
 {
 	class Texture
 	{
 	public:
-		Texture(const char* name);
+		Texture(const char* name, int width, int height);
 
-		bool Initialise();
+		bool Initialise(unsigned int pixelSize);
+
+		bool LoadPixelData(Byte* data, unsigned int pixelSize);
 
 		void Shutdown();
 
+		/* Getters */
+		char* GetName();
+		int GetId();
+		int GetWidth();
+		int GetHeight();
+		Byte* GetData();
+		unsigned int GetRenderDataHandle();
+
+		/* Setters */
+		void SetRenderDataHandle(unsigned int handle);
+
 	private:
 		char _name[25];
+		int	_id;
+
+		int	_width;
+		int _height;
+		Byte* _data;
+
+		unsigned int _renderDataHandle;
 	};
 }
 

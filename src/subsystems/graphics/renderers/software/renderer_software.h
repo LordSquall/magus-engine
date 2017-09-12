@@ -39,6 +39,9 @@ namespace MagusEngine
 		void CompileShaderObject(Shader* shader);
 		void SetCurrentShader(Shader* shader);
 
+		/* Texture API */
+		void CreateTexture(Texture* texture);
+		
 		/* Debug functions */
 		void SaveBitmap();
 		

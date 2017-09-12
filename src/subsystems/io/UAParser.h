@@ -10,6 +10,7 @@
 #include "../graphics/graphic2d.h"
 #include "../graphics/primitives/rectangle.h"
 #include "../graphics/primitives/line.h"
+#include "../graphics/primitives/text.h"
 #include "../external/tinydir/tinydir.h"
 #include "../external/tinyxml2/tinyxml2.h"
 

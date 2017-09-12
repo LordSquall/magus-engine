@@ -41,7 +41,13 @@ namespace MagusEngine
 		_matrixStackHead++;
 	}
 
-	void Renderer_Windows_Render_Visitor::Visit(SceneNode* sceneNode){}
+	void Renderer_Windows_Render_Visitor::Visit(SceneNode* sceneNode)
+	{
+		if(strcmp(sceneNode->GetName(), "testnode") == 0)
+		{
+			//sceneNode->SetRotation(0.0f, 0.0f, sceneNode->GetRotation()->GetZ() + 1.0f);
+		}
+	}
 	
 	void Renderer_Windows_Render_Visitor::PostVisit(SceneNode* sceneNode) 
 	{

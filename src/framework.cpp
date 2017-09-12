@@ -153,7 +153,8 @@ namespace MagusEngine
 				_resources.Initialise(resourcesElement->IntAttribute("texturemax"),
 					resourcesElement->IntAttribute("shadermax"),
 					resourcesElement->IntAttribute("colormax"),
-					resourcesElement->IntAttribute("materialmax"));
+					resourcesElement->IntAttribute("materialmax"),
+					resourcesElement->IntAttribute("fontmax"));
 
 				/* Process each of the texture tags in turn */
 				for (tinyxml2::XMLElement* e = resourcesElement->FirstChildElement("texture"); e != NULL; e = e->NextSiblingElement("texture"))
@@ -165,6 +166,12 @@ namespace MagusEngine
 				for (tinyxml2::XMLElement* e = resourcesElement->FirstChildElement("shader"); e != NULL; e = e->NextSiblingElement("shader"))
 				{
 					_resources.AddShaderFromFile(e->Attribute("name"), e->Attribute("vertexpath"), e->Attribute("fragmentpath"));
+				}
+
+				/* Process each of the shader tags in turn */
+				for (tinyxml2::XMLElement* e = resourcesElement->FirstChildElement("font"); e != NULL; e = e->NextSiblingElement("font"))
+				{
+					_resources.AddFontFromFile(e->Attribute("name"), e->Attribute("path"));
 				}
 
 			}

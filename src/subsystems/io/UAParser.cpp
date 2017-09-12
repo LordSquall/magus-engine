@@ -38,7 +38,7 @@ namespace MagusEngine
 				/* Load material table */
 				for (tinyxml2::XMLElement* e = stylesElement->FirstChildElement("material"); e != NULL; e = e->NextSiblingElement("material"))
 				{
-					resources->AddMaterial(new Material(e->IntAttribute("id"), e->Attribute("name"), e->IntAttribute("colorid")));
+					resources->AddMaterial(new Material(e->IntAttribute("id"), e->Attribute("name"), e->IntAttribute("colorid", -1), e->IntAttribute("textureid", -1)));
 				}
 			}
 
@@ -166,6 +166,11 @@ namespace MagusEngine
 			{
 				Line* newDrawable = new Line(e->FloatAttribute("x1"), e->FloatAttribute("y1"), e->FloatAttribute("x2"), e->FloatAttribute("y2"));
 				newDrawable->SetWidth(e->FloatAttribute("width"));
+				newGraphics2DComponent->SetDrawable(newDrawable);
+
+			}if (strcmp(e->Name(), "text") == 0)
+			{
+				Text* newDrawable = new Text(e->FloatAttribute("x", 0.0f), e->FloatAttribute("y", 0.0f), e->Attribute("content", "UNKNOWN"));
 				newGraphics2DComponent->SetDrawable(newDrawable);
 			}
 		}

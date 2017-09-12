@@ -7,7 +7,7 @@ namespace MagusEngine
 		
 	}
 
-	bool Resources::Initialise(unsigned int textureMax, unsigned int shaderMax, unsigned int colorMax, unsigned int materialMax)
+	bool Resources::Initialise(unsigned int textureMax, unsigned int shaderMax, unsigned int colorMax, unsigned int materialMax, unsigned int fontMax)
 	{
 		/* Initialse memory for texture pointers */
 		_textures = (Texture**)malloc(sizeof(Texture**) * textureMax);
@@ -29,76 +29,27 @@ namespace MagusEngine
 		_materialMaxCount = colorMax;
 		_materialCount = 0;
 
+		/* Initialse memory for font pointers */
+		_fonts = (Font**)malloc(sizeof(Font**) * fontMax);
+		_fontMaxCount = fontMax;
+		_fontCount = 0;
+
 		return true;
 	}
 
 	bool Resources::AddTextureFromFile(const char* name, const char* path)
 	{
-		/* Full path buffer */
-		char fullPathBuffer[255];
-		sprintf_s(fullPathBuffer, "%s%s", _rootPath, path);
+		Texture* newTexture = 0;
+		const char* extension = GetFileExt(path);
 
-		/* New texture object */
-		Texture* newTexture = new Texture(name);
-
-		/* Open the file */
-		std::ifstream file(fullPathBuffer, std::ios::binary);
-		if (!file)
+		if(strcmp(extension, "bmp") == 0)
 		{
-			printf("Failure to open bitmap file.\n");
-			return false;
+			newTexture = LoadBmp(name, path);
 		}
-
-		BITMAPFILEHEADER* bmpHeader = nullptr; // Header
-		BITMAPINFOHEADER* bmpInfo = nullptr; // Info 
-
-		Byte* datBuff[2] = { nullptr, nullptr };
-
-		Byte* pixels = nullptr;
-
-		// Allocate byte memory that will hold the two headers
-		datBuff[0] = new Byte[sizeof(BITMAPFILEHEADER)];
-		datBuff[1] = new Byte[sizeof(BITMAPINFOHEADER)];
-
-		file.read((char*)datBuff[0], sizeof(BITMAPFILEHEADER));
-		file.read((char*)datBuff[1], sizeof(BITMAPINFOHEADER));
-
-		// Construct the values from the buffers
-		bmpHeader = (BITMAPFILEHEADER*)datBuff[0];
-		bmpInfo = (BITMAPINFOHEADER*)datBuff[1];
-
-		// Check if the file is an actual BMP file
-		if (bmpHeader->bfType != 0x4D42)
+		else if(strcmp(extension, "png") == 0)
 		{
-			printf("File %s isn't a bitmap file\n", fullPathBuffer);
-			return false;
+			newTexture = LoadPng(name, path);
 		}
-
-		// Calculate image size
-		long imageSize = bmpInfo->biWidth * bmpInfo->biHeight * (bmpInfo->biBitCount / 8);
-
-		// First allocate pixel memory
-		pixels = new Byte[imageSize];
-
-		// Go to where image data starts, then read in image data
-		file.seekg(bmpHeader->bfOffBits);
-		file.read((char*)pixels, imageSize);
-
-
-		Byte tmpRGB = 0; // Swap buffer
-		for (long i = 0; i < imageSize; i += 3)
-		{
-			tmpRGB = pixels[i];
-			pixels[i] = pixels[i + 2];
-			pixels[i + 2] = tmpRGB;
-		}
-
-
-		file.close();
-
-		delete[] datBuff[0];
-		delete[] datBuff[1];
-
 
 		/* Add the resources object */
 		_textures[_textureCount] = newTexture;
@@ -180,6 +131,74 @@ namespace MagusEngine
 		return true;
 	}
 
+	bool Resources::AddFontFromFile(const char* name, const char* path)
+	{
+		/* Full path buffer */
+		char fullPathBuffer[255];
+		sprintf_s(fullPathBuffer, "%s%s", _rootPath, path);
+
+		char* tokstate = 0;		
+		char* tokpairstate = 0;
+
+		
+		Font* newFont = new Font(0, name);
+
+		//FILE* fp;
+		//char buffer[255];
+
+		//fp = fopen(fullPathBuffer, "r");
+
+		///* Read and parse the first 4 lines */
+		///* info information */
+		//fgets(buffer, 255, (FILE*)fp);
+		//printf("%s\n", buffer);
+		//char *p = strtok_s(buffer, " ", &tokstate);
+		//
+		///* ignore the first token as it's a label */
+		//p = strtok_s(buffer, " ", &tokstate);
+		//while(p != NULL) {
+		//	printf("%s\n", p);
+
+		//	char* pair = strtok_s(p, "=", &tokpairstate);
+		//	while(pair != NULL) {
+		//		printf("%s\n", pair);
+		//		pair = strtok_s(NULL, "=", &tokpairstate);
+		//	}
+
+
+		//	/* Get value pair */
+		//	p = strtok_s(NULL, " ", &tokstate);
+		//}
+		//
+		///* common information */
+		//fgets(buffer, 255, (FILE*)fp);
+		//printf("%s\n", buffer);
+
+		//
+		///* page information */
+		//fgets(buffer, 255, (FILE*)fp);
+		//printf("%s\n", buffer);
+
+		//
+		///* char count information */
+		//fgets(buffer, 255, (FILE*)fp);
+		//printf("%s\n", buffer);
+
+		//
+
+		///* chars information */
+		//printf("%s\n", buffer);
+
+		//fclose(fp);
+
+
+		/* Add the resources object */
+		_fonts[_fontCount] = newFont;
+		_fontCount++;
+
+		return true;
+	}
+
 	bool Resources::AddColor(int id, const char* name, float r, float g, float b, float a)
 	{
 		_colors[_colorCount] = new Color(id, name, r, g, b, a);
@@ -194,10 +213,115 @@ namespace MagusEngine
 
 		/* resolve color */
 		material->SetColor(GetColor(material->GetColorId()));
+		
+		/* resolve texture */
+		material->SetTexture(GetTexture(material->GetTextureId()));
 
 		return true;
 	}
 
+	Texture* Resources::LoadBmp(const char* name, const char* path)
+	{
+		/* Full path buffer */
+		char fullPathBuffer[255];
+		sprintf_s(fullPathBuffer, "%s%s", _rootPath, path);
+
+		/* Open the file */
+		std::ifstream file(fullPathBuffer, std::ios::binary);
+		if (!file)
+		{
+			printf("Failure to open bitmap file.\n");
+			return false;
+		}
+
+		BITMAPFILEHEADER* bmpHeader = nullptr; // Header
+		BITMAPINFOHEADER* bmpInfo = nullptr; // Info 
+
+		Byte* datBuff[2] = { nullptr, nullptr };
+
+		Byte* pixels = nullptr;
+
+		// Allocate byte memory that will hold the two headers
+		datBuff[0] = new Byte[sizeof(BITMAPFILEHEADER)];
+		datBuff[1] = new Byte[sizeof(BITMAPINFOHEADER)];
+
+		file.read((char*)datBuff[0], sizeof(BITMAPFILEHEADER));
+		file.read((char*)datBuff[1], sizeof(BITMAPINFOHEADER));
+
+		// Construct the values from the buffers
+		bmpHeader = (BITMAPFILEHEADER*)datBuff[0];
+		bmpInfo = (BITMAPINFOHEADER*)datBuff[1];
+
+		// Check if the file is an actual BMP file
+		if (bmpHeader->bfType != 0x4D42)
+		{
+			printf("File %s isn't a bitmap file\n", fullPathBuffer);
+			return false;
+		}
+
+		// Calculate image size
+		long imageSize = bmpInfo->biWidth * bmpInfo->biHeight * (bmpInfo->biBitCount / 8);
+
+		// First allocate pixel memory
+		pixels = new Byte[imageSize];
+
+		// Go to where image data starts, then read in image data
+		file.seekg(bmpHeader->bfOffBits);
+		file.read((char*)pixels, imageSize);
+
+
+		Byte tmpRGB = 0; // Swap buffer
+		for (long i = 0; i < imageSize; i += 3)
+		{
+			tmpRGB = pixels[i];
+			pixels[i] = pixels[i + 2];
+			pixels[i + 2] = tmpRGB;
+		}
+
+
+		file.close();
+
+		/* New texture object */
+		Texture* newTexture = new Texture(name, bmpInfo->biWidth, bmpInfo->biHeight);
+
+		/* Intialise texture memory */
+		newTexture->Initialise(imageSize);
+
+		/* Load pixels in to texture object */
+		newTexture->LoadPixelData(pixels, imageSize);
+
+		delete[] datBuff[0];
+		delete[] datBuff[1];
+
+		return newTexture;
+	}
+
+	Texture* Resources::LoadPng(const char* name, const char* path)
+	{
+		/* Full path buffer */
+		char fullPathBuffer[255];
+		sprintf_s(fullPathBuffer, "%s%s", _rootPath, path);
+
+		unsigned int error;
+		unsigned width, height;
+		unsigned char* pixels = nullptr;
+
+		error = lodepng_decode32_file(&pixels, &width, &height, fullPathBuffer);
+
+		/* Calculate image size */
+		long imageSize = width * height * 4;
+
+		/* New texture object */
+		Texture* newTexture = new Texture(name, width, height);
+
+		/* Intialise texture memory */
+		newTexture->Initialise(imageSize);
+
+		/* Load pixels in to texture object */
+		newTexture->LoadPixelData((Byte*)pixels, imageSize);
+
+		return newTexture;
+	}
 
 	/* Shader Functions */
 	unsigned int Resources::GetShaderCount()
@@ -242,6 +366,17 @@ namespace MagusEngine
 	Material* Resources::GetMaterial(unsigned int index)
 	{
 		return _materials[index];
+	}
+
+	/* Font Functions */
+	unsigned int Resources::GetFontCount()
+	{
+		return _fontCount;
+	}
+
+	Font* Resources::GetFont(unsigned int index)
+	{
+		return _fonts[index];
 	}
 
 	/* Setters */

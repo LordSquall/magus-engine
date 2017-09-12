@@ -22,6 +22,10 @@ namespace MagusEngine
 			_lowLevelRenderer->CompileShaderObject(resources->GetShader(i));
 		}
 
+		for (unsigned int i = 0; i < resources->GetTextureCount(); i++)
+		{
+			_lowLevelRenderer->CreateTexture(resources->GetTexture(i));
+		}
 
 		return true;
 	}

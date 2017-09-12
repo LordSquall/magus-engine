@@ -1,10 +1,13 @@
 #include "renderer_software_initialise_visitor.h"
 
+#include "../../graphic2d.h"
+
 namespace MagusEngine
 {
-	Renderer_Software_Initialise_Visitor::Renderer_Software_Initialise_Visitor()
+	Renderer_Software_Initialise_Visitor::Renderer_Software_Initialise_Visitor(Renderer_Software* software)
 	{
 		_lowLevelRenderer = 0;
+		_softwareRenderer = software;
 	}
 
 	/* Visitor Functions */
@@ -34,6 +37,12 @@ namespace MagusEngine
 	void Renderer_Software_Initialise_Visitor::Visit(Graphic2D* graphic2D)
 	{
 		printf("[Software Init Visitor]\tVisit Graphic2D\n");
+		Drawable* d = graphic2D->GetDrawable();
+
+		printf("[Software Init Visitor]\tBuild Vertex Buffer\n");
+
+		//d->Build(&_vertexBuildBuffer[0]);
+
 	}
 	void Renderer_Software_Initialise_Visitor::PostVisit(Graphic2D* graphic2D) {}
 

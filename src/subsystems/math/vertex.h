@@ -9,19 +9,28 @@ namespace MagusEngine
 	{
 	public:
 		Vertex();
-		Vertex(float x, float y);
+		Vertex(float x, float y, float u, float v);
 
 		float GetX();
 		float GetY();
+		
+		float GetU();
+		float GetV();
 
 		void SetX(float x);
 		void SetY(float y);
+		
+		void SetU(float u);
+		void SetV(float v);
 
 		float TriangleArea(Vertex b, Vertex c);
 
 	private:
 		float _x;
 		float _y;
+		
+		float _u;
+		float _v;
 	};
 }
 
