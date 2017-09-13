@@ -20,7 +20,10 @@ namespace MagusEngine
 		_uas = (UA**)malloc(sizeof(UA**) * _maxUACount);
 
 		/* Process the configuration file */
-		ProcessEngineConfig(configfilePath);
+		if (!ProcessEngineConfig(configfilePath))
+		{
+			return false;
+		}
 
 		/* Process the UA files */
 		ProcessUADataDirectory(_resources.GetRootPath());
@@ -148,6 +151,16 @@ namespace MagusEngine
 			{
 				/* Root path */
 				_resources.SetRootPath(resourcesElement->Attribute("root"));
+
+				/* Check to ensure resource path is available */
+				tinydir_dir dir;
+				tinydir_open(&dir, _resources.GetRootPath());
+
+				if (strcmp(dir.path, "") == 0)
+				{
+					printf("Unable to find resource path: %s\n", _resources.GetRootPath());
+					return false;
+				}
 
 				/* Initialise resources object */
 				_resources.Initialise(resourcesElement->IntAttribute("texturemax"),

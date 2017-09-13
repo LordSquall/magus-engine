@@ -45,7 +45,7 @@ namespace MagusEngine
 		Renderer_Interface* _lowLevelRenderer;
 		Resources*			_resources;
 		Vertex _vertexBuildBuffer[200];
-		int _vertexBuildBufferCount;
+		unsigned int _indicesBuildBuffer[400];
 	};
 }
 

@@ -170,7 +170,8 @@ namespace MagusEngine
 
 			}if (strcmp(e->Name(), "text") == 0)
 			{
-				Text* newDrawable = new Text(e->FloatAttribute("x", 0.0f), e->FloatAttribute("y", 0.0f), e->Attribute("content", "UNKNOWN"));
+				Text* newDrawable = new Text(e->FloatAttribute("x", 0.0f), e->FloatAttribute("y", 0.0f), "UNKNOWN");
+				newDrawable->SetContent(e->Attribute("content"));
 				newGraphics2DComponent->SetDrawable(newDrawable);
 			}
 		}

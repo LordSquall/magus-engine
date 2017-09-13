@@ -62,6 +62,7 @@ set(Engine_SourceFiles
 # subsystem - external
 set(SubSystem_External_SourceFiles
 	src/subsystems/external/tinyxml2/tinyxml2.cpp
+	src/subsystems/external/lodepng/lodepng.cpp
 )
 
 # subsystem - graphics
@@ -74,6 +75,8 @@ set(SubSystem_Graphics_SourceFiles
 # subsystem - primitives
 set(SubSystem_Graphics_Primitives_SourceFiles
 	src/subsystems/graphics/primitives/rectangle.cpp
+	src/subsystems/graphics/primitives/line.cpp
+	src/subsystems/graphics/primitives/text.cpp
 )
 
 # subsystem - graphics - renderer - software
@@ -96,8 +99,6 @@ set(SubSystem_Graphics_Renderer_Windows_SourceFiles
 # subsystem - graphics - renderer - linux
 set(SubSystem_Graphics_Renderer_linux_SourceFiles
 	src/subsystems/graphics/renderers/linux/renderer_linux_opengl.cpp
-	#/subsystems/graphics/renderers/linux/renderer_linux_initialise_visitor.cpp
-	#src/subsystems/graphics/renderers/linux/renderer_linux_render_visitor.cpp
 )
 
 # subsystem - input
@@ -125,10 +126,13 @@ set(SubSystem_OS_SourceFiles
 
 # subsystem - resources
 set(SubSystem_Resources_SourceFiles
-	src/subsystems/resources/resources.cpp
-	src/subsystems/resources/texture.cpp
-	src/subsystems/resources/shader.cpp
 	src/subsystems/resources/bitmap.cpp
+	src/subsystems/resources/color.cpp
+	src/subsystems/resources/font.cpp
+	src/subsystems/resources/material.cpp
+	src/subsystems/resources/resources.cpp
+	src/subsystems/resources/shader.cpp
+	src/subsystems/resources/texture.cpp
 )
 
 # subsystem - scenemanagement

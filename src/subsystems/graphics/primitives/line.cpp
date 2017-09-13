@@ -19,36 +19,47 @@ namespace MagusEngine
 	}
 
 	/* Drawable Functions */
-	int Line::Build(Vertex* buffer)
+	void Line::Build(Vertex* vbuffer, int* vbufferLength, unsigned int* ibuffer, int* ibufferLength)
 	{
 		/* calculate normal */
 		Vector2f delta = Vector2f(_x2 - _x1, _y2 - _y1);
 
 		Vector2f normal;
 		
+		/* Build vertex buffer */
 		/* point 1 */
 		normal = Vector2f(-delta.GetY(), delta.GetX());
 		normal.Normalise();
-		buffer[0].SetX(_x1 + (normal.GetX() * _width));
-		buffer[0].SetY(_y1 + (normal.GetY() * _width));
+		vbuffer[0].SetX(_x1 + (normal.GetX() * _width));
+		vbuffer[0].SetY(_y1 + (normal.GetY() * _width));
 
 		normal = Vector2f(delta.GetY(), -delta.GetX());
 		normal.Normalise();
-		buffer[1].SetX(_x1 + (normal.GetX() * _width));
-		buffer[1].SetY(_y1 + (normal.GetY() * _width));
+		vbuffer[1].SetX(_x1 + (normal.GetX() * _width));
+		vbuffer[1].SetY(_y1 + (normal.GetY() * _width));
 
 		normal = Vector2f(-delta.GetY(), delta.GetX());
 		normal.Normalise();
-		buffer[2].SetX(_x2 + (normal.GetX() * _width));
-		buffer[2].SetY(_y2 + (normal.GetY() * _width));
+		vbuffer[2].SetX(_x2 + (normal.GetX() * _width));
+		vbuffer[2].SetY(_y2 + (normal.GetY() * _width));
 
 		normal = Vector2f(delta.GetY(), -delta.GetX());
 		normal.Normalise();
-		buffer[3].SetX(_x2 + (normal.GetX() * _width));
-		buffer[3].SetY(_y2 + (normal.GetY() * _width));
+		vbuffer[3].SetX(_x2 + (normal.GetX() * _width));
+		vbuffer[3].SetY(_y2 + (normal.GetY() * _width));
 
-		return 4;
 
+		/* Build indicies buffer */
+		ibuffer[0] = 0;
+		ibuffer[1] = 1;
+		ibuffer[2] = 2;
+		ibuffer[3] = 1;
+		ibuffer[4] = 2;
+		ibuffer[5] = 3;
+
+		/* Set buffer lengths */
+		*vbufferLength = 4;
+		*ibufferLength = 6;
 	}
 
 	/* Getters */

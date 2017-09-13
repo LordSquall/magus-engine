@@ -8,6 +8,7 @@
 #include "../../math/vertex.h"
 #include "../../resources/texture.h"
 #include "../../resources/material.h"
+#include "renderer_structures.h"
 
 namespace MagusEngine
 {
@@ -29,7 +30,8 @@ namespace MagusEngine
 
 		/* Data Loading API*/
 		virtual unsigned int GenerateVertexBuffer(Vertex* vertices, unsigned int vertexCount) = 0;
-		virtual unsigned int DrawBuffers(unsigned int bufferHandle) = 0;
+		virtual unsigned int GenerateIndicesBuffer(unsigned int* indices, unsigned int indicesCount) = 0;
+		virtual unsigned int DrawBuffers(VBO_Structure* bufferData) = 0;
 		virtual void SetCurrentModelMatrix(Matrix4f* matrix) = 0;
 		virtual void SetMaterial(Material* material) = 0;
 

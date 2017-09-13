@@ -24,10 +24,8 @@ namespace MagusEngine
 		
 		glBindVertexArray(_vao);
 
-		
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glBlendEquation(GL_FUNC_ADD);
 
 		return true;
 	}
@@ -101,7 +99,21 @@ namespace MagusEngine
 		return VBO;
 	}
 
-	unsigned int Renderer_Windows_OpenGL::DrawBuffers(unsigned int bufferHandle)
+
+	unsigned int Renderer_Windows_OpenGL::GenerateIndicesBuffer(unsigned int* indices, unsigned int indicesCount)
+	{
+		unsigned int EBO;
+		glGenBuffers(1, &EBO);
+		CheckError();
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Vertex) * indicesCount, indices, GL_STATIC_DRAW);
+		CheckError();
+
+		return EBO;
+	}
+
+	unsigned int Renderer_Windows_OpenGL::DrawBuffers(VBO_Structure* bufferData)
 	{
 		unsigned int location;
 		Matrix4f tempMat = Matrix4f();
@@ -113,20 +125,6 @@ namespace MagusEngine
 		CheckError();
 		glUseProgram(_currentShader->GetProgramHandle());
 
-		//location = glGetUniformLocation(_currentShader->GetProgramHandle(), "worldMatrix");
-		//if(location == -1)
-		//{
-		//	return false;
-		//}
-		//glUniformMatrix4fv(location, 1, false, tempMat.GetData());
-
-		//location = glGetUniformLocation(_currentShader->GetProgramHandle(), "viewMatrix");
-		//if(location == -1)
-		//{
-		//	return false;
-		//}
-		//glUniformMatrix4fv(location, 1, false, tempMat.GetData());
-
 		location = glGetUniformLocation(_currentShader->GetProgramHandle(), "projectionMatrix");
 		if(location == -1)
 		{
@@ -135,15 +133,23 @@ namespace MagusEngine
 		glUniformMatrix4fv(location, 1, false, tempProjection.GetData());
 
 		CheckError();
-		glBindBuffer(GL_ARRAY_BUFFER, bufferHandle);
+		glBindBuffer(GL_ARRAY_BUFFER, bufferData->vertexhandle);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferData->indexhandle);
 
+		CheckError();
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+
+		CheckError();
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(float)));
+
+		CheckError();
 		glEnableVertexAttribArray(0);	
+
+		CheckError(); 
 		glEnableVertexAttribArray(1);
 
 		CheckError();
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		glDrawElements(GL_TRIANGLES, bufferData->indexlength, GL_UNSIGNED_INT, 0);
 
 
 		CheckError();

@@ -13,6 +13,8 @@ uniform sampler2D uni_texture;
 
 void main()
 {
-	vec4 finalColor = texture2D(uni_texture,v_UV);
-	FragColor = finalColor * color;//mix(finalColor, color, 0.5f);
+	/* sample current texture */
+	vec4 texture = texture2D(uni_texture,v_UV);
+	
+	FragColor = mix(texture, color, texture.a);
 }

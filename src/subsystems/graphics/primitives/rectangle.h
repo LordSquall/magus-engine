@@ -24,7 +24,7 @@ namespace MagusEngine
 		Rectangle(float x, float y, float width, float height);
 
 		/* Drawable Functions */
-		int Build(Vertex* buffer);
+		void Build(Vertex* vbuffer, int* vbufferLength, unsigned int* ibuffer, int* ibufferLength);
 
 		/* Getters */
 		float GetX();

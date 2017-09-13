@@ -31,7 +31,9 @@ namespace MagusEngine
 
 		/* Data Loading API */
 		unsigned int GenerateVertexBuffer(Vertex* vertices, unsigned int vertexCount);
-		unsigned int DrawBuffers(unsigned int bufferHandle);
+		unsigned int GenerateIndicesBuffer(unsigned int* indices, unsigned int indicesCount);
+
+		unsigned int DrawBuffers(VBO_Structure* bufferData);
 		void SetCurrentModelMatrix(Matrix4f* matrix);
 		void SetMaterial(Material* material);
 

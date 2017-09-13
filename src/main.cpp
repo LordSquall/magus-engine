@@ -8,7 +8,7 @@
 
 char configLocation[255];
 
-unsigned int ProcessArguments(int argc, char *argv[]);
+int ProcessArguments(int argc, char *argv[]);
 
 void DisplayVersionInfo();
 
@@ -40,22 +40,28 @@ int main(int argc, char *argv[])
 	MagusEngine::Framework* framework = new MagusEngine::Framework();
 
 	/* Initialise the framework */
-	framework->Initialise(configLocation);
-
-	while (running == true)
+	if (framework->Initialise(configLocation))
 	{
-		/* Update framework timings */
-		running = framework->Frame();
+		while (running == true)
+		{
+			/* Update framework timings */
+			running = framework->Frame();
+		}
+	}
+	else
+	{
+		printf("Unable to initialise framework\n");
 	}
 
 	framework->Shutdown();
 	return 0;
 }
 
-unsigned int ProcessArguments(int argc, char *argv[])
+int ProcessArguments(int argc, char *argv[])
 {
 	/* Flow variables */
 	int i = 0;
+	int result = -1;
 
 	/* Process Arguments */
 	for (i = 0; i < argc; i++)
@@ -82,10 +88,13 @@ unsigned int ProcessArguments(int argc, char *argv[])
 			/* Copy arg to directory variable */
 			strcpy_s(configLocation, argv[i + 1]);
 			i++;
+
+			/* Mark result */
+			result = 0;
 		}
 	}
 
-	return 0;
+	return result;
 }
 
 void DisplayVersionInfo()
@@ -99,5 +108,5 @@ void DisplayUsage()
 	printf("Usage:\n");
 	printf("\t-h\t\t:Show usage page\n");
 	printf("\t-v\t\t:Show version info\n");
-	printf("\t-i <path>\t\t:Engine configuration .conf file\n");
+	printf("\t-i <path>\t\t:Engine configuration .conf file (Required)\n");
 }

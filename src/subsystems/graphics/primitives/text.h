@@ -2,6 +2,7 @@
 #define _TEXT_H_
 
 /* System Includes */
+#include <string>
 
 /* Local Project Includes */
 #include "../drawable.h"
@@ -24,7 +25,7 @@ namespace MagusEngine
 		Text(float x, float y, const char* content);
 
 		/* Drawable Functions */
-		int Build(Vertex* buffer);
+		void Build(Vertex* vbuffer, int* vbufferLength, unsigned int* ibuffer, int* ibufferLength);
 
 		/* Getters */
 		float GetX();
@@ -39,7 +40,7 @@ namespace MagusEngine
 	private:
 		float _x;
 		float _y;
-		const char* _content;
+		char _content[255];
 	};
 }
 

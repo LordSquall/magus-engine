@@ -11,7 +11,7 @@ namespace MagusEngine
 	class Drawable
 	{
 	public:
-		virtual int Build(Vertex* buffer) = 0;
+		virtual void Build(Vertex* vbuffer, int* vbufferLength, unsigned int* ibuffer, int* ibufferLength) = 0;
 	};
 }
 

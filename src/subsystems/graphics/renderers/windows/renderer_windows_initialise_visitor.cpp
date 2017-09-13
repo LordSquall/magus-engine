@@ -47,16 +47,19 @@ namespace MagusEngine
 	void Renderer_Windows_Initialise_Visitor::PreVisit(Graphic2D* graphic2D) {}
 	void Renderer_Windows_Initialise_Visitor::Visit(Graphic2D* graphic2D)
 	{
-		printf("[Windows Init Visitor]\tVisit Graphic2D\n");
+		int vertexBufferLength; 
+		int indicesBufferLength;
+
 		Drawable* d = graphic2D->GetDrawable();
+		d->Build(&_vertexBuildBuffer[0], &vertexBufferLength, &_indicesBuildBuffer[0], &indicesBufferLength);
 
-		printf("[Windows Init Visitor]\tBuild Vertex Buffer\n");
+		graphic2D->GetRenderDataHandle()->vertexlength = vertexBufferLength;
+		graphic2D->GetRenderDataHandle()->vertexhandle = _lowLevelRenderer->GenerateVertexBuffer(&_vertexBuildBuffer[0], vertexBufferLength);
 
-		_vertexBuildBufferCount =  d->Build(&_vertexBuildBuffer[0]);
-
-		printf("[Windows Init Visitor]\tGenerating GPU memory\n");
-		graphic2D->SetRenderDataHandle(_lowLevelRenderer->GenerateVertexBuffer(&_vertexBuildBuffer[0], _vertexBuildBufferCount));
+		graphic2D->GetRenderDataHandle()->indexlength = indicesBufferLength;
+		graphic2D->GetRenderDataHandle()->indexhandle = _lowLevelRenderer->GenerateIndicesBuffer(&_indicesBuildBuffer[0], indicesBufferLength);
 	}
+
 	void Renderer_Windows_Initialise_Visitor::PostVisit(Graphic2D* graphic2D) {}
 	
 	/* Getters */

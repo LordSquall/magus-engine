@@ -64,7 +64,13 @@ namespace MagusEngine
 		return 0;
 	}
 
-	unsigned int Renderer_Software::DrawBuffers(unsigned int bufferHandle)
+	unsigned int Renderer_Software::GenerateIndicesBuffer(unsigned int* indices, unsigned int indicesCount)
+	{
+		return 0;
+	}
+
+
+	unsigned int Renderer_Software::DrawBuffers(VBO_Structure* bufferData)
 	{
 		return 0;
 	}

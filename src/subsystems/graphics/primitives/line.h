@@ -25,7 +25,7 @@ namespace MagusEngine
 		Line(float x1, float y1, float x2, float y2);
 
 		/* Drawable Functions */
-		int Build(Vertex* buffer);
+		void Build(Vertex* vbuffer, int* vbufferLength, unsigned int* ibuffer, int* ibufferLength);
 
 		/* Getters */
 		float GetX1();

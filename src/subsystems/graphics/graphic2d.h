@@ -28,19 +28,18 @@ namespace MagusEngine
 		/* Getters */
 		Drawable* GetDrawable();
 		Material* GetMaterial();
-		unsigned int GetRenderDataHandle();
+		VBO_Structure* GetRenderDataHandle();
 
 		/* Setters */
 		void SetDrawable(Drawable* drawable);
 		void SetMaterial(Material* material);
-		void SetRenderDataHandle(unsigned int handle);
 
 	private:
 		Drawable* _drawable;
 
 		Material* _material;
 
-		unsigned int _renderDataHandle;
+		VBO_Structure _renderDataHandle;
 
 	};
 }
