@@ -8,10 +8,12 @@ namespace MagusEngine
 
 	}
 
-	void SR_Scanbuffer::Initialise(SR_Framebuffer* frame)
+	void SR_Scanbuffer::Initialise(int screenWidth, int screenHeight, SR_Framebuffer* frame)
 	{
 		_frame = frame;
 
+		_screenWidth = (float)screenWidth;
+		_screenHeight = (float)screenHeight;
 	}
 
 	void SR_Scanbuffer::FillTriangle(Vertex v1, Vertex v2, Vertex v3, Material* material)
@@ -20,7 +22,7 @@ namespace MagusEngine
 
 		/* Convert vertices to screen space */
 		Matrix4f screenSpace;
-		screenSpace.BuildScreenSpaceTransform(1920.0f / 2.0f, 1080.0f / 2.0f);
+		screenSpace.BuildScreenSpaceTransform(_screenWidth / 2.0f, _screenHeight / 2.0f);
 		Vertex minY = v1.Transform(screenSpace).PrespectiveDivide();
 		Vertex midY = v2.Transform(screenSpace).PrespectiveDivide();
 		Vertex maxY = v3.Transform(screenSpace).PrespectiveDivide();

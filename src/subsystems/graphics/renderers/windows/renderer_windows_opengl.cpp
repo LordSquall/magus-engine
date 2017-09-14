@@ -119,21 +119,13 @@ namespace MagusEngine
 	unsigned int Renderer_Windows_OpenGL::DrawBuffers(VBO_Structure* bufferData)
 	{
 		unsigned int location;
-		Matrix4f tempMat = Matrix4f();
-		tempMat.BuildIdentity();
-
-		Matrix4f tempProjection = Matrix4f();
-		tempProjection.BuildOrthographic(0.0f, 1920.0f, 1080.0f, 0.0f,  1.0f, -1.0f);
-
-		CheckError();
-		glUseProgram(_CurrentShader->GetProgramHandle());
 
 		location = glGetUniformLocation(_CurrentShader->GetProgramHandle(), "projectionMatrix");
 		if(location == -1)
 		{
 			return false;
 		}
-		glUniformMatrix4fv(location, 1, false, tempProjection.GetData());
+		glUniformMatrix4fv(location, 1, false, _projectionMatrix->GetData());
 
 		CheckError();
 		glBindBuffer(GL_ARRAY_BUFFER, bufferData->vertexhandle);
@@ -176,6 +168,22 @@ namespace MagusEngine
 		}
 		glUniformMatrix4fv(location, 1, false, matrix->GetData());
 		CheckError();
+	}
+
+	
+	void Renderer_Windows_OpenGL::SetCurrentProjectionMatrix(Matrix4f* matrix)
+	{
+		CheckError();
+		int location = glGetUniformLocation(_CurrentShader->GetProgramHandle(), "projectionMatrix");
+		CheckError();
+		if(location == -1)
+		{
+			return;
+		}
+		glUniformMatrix4fv(location, 1, false, matrix->GetData());
+		CheckError();
+
+		_projectionMatrix = matrix;
 	}
 
 	void Renderer_Windows_OpenGL::SetMaterial(Material* material)
@@ -354,7 +362,7 @@ namespace MagusEngine
 
 		glStencilFunc(GL_ALWAYS, 1, 0xFF);
 		glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
-		glStencilMask(0xFF);
+		glStencilMask(0x00);
 
 		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 

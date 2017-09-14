@@ -7,15 +7,15 @@ namespace MagusEngine
 
 	}
 
-	bool Graphics_Blender::Initialise(Renderer_Interface* hardwareRenderer, Renderer_Interface* softwareRenderer)
+	bool Graphics_Blender::Initialise(Renderer_Interface* hardwareRenderer, Renderer_Interface* softwareRenderer, int screenWidth, int screenHeight)
 	{
 		_hardwareRenderer = (Renderer_Windows_OpenGL*)hardwareRenderer;
 		_softwareRenderer = (Renderer_Software*)softwareRenderer;
 
 		/* Create a texture */
 		_texture.SetName("Software Texture");
-		_texture.SetWidth(1920);
-		_texture.SetHeight(1080);
+		_texture.SetWidth(screenWidth);
+		_texture.SetHeight(screenHeight);
 		_texture.SetData(0);
 
 		_hardwareRenderer->CreateTexture(&_texture);
@@ -25,13 +25,13 @@ namespace MagusEngine
 		vertices[0] = Vertex(0.0f, 0.0f, 0.0, 0.0f, 0.0f, 0.0f, 1.0f);
 		vertices[0].SetU(0.0f);
 		vertices[0].SetV(1.0f);
-		vertices[1] = Vertex(0.0f, 1080.0f, 0.0, 0.0f, 0.0f, 0.0f, 1.0f);
+		vertices[1] = Vertex(0.0f, (float)screenHeight, 0.0, 0.0f, 0.0f, 0.0f, 1.0f);
 		vertices[1].SetU(0.0f);
 		vertices[1].SetV(0.0f);
-		vertices[2] = Vertex(1920.0f, 0.0f, 0.0, 0.0f, 0.0f, 0.0f, 1.0f);
+		vertices[2] = Vertex((float)screenWidth, 0.0f, 0.0, 0.0f, 0.0f, 0.0f, 1.0f);
 		vertices[2].SetU(1.0f);
 		vertices[2].SetV(1.0f);
-		vertices[3] = Vertex(1920.0f, 1080.0f, 0.0, 0.0f, 0.0f, 0.0f, 1.0f);
+		vertices[3] = Vertex((float)screenWidth, (float)screenHeight, 0.0, 0.0f, 0.0f, 0.0f, 1.0f);
 		vertices[3].SetU(1.0f);
 		vertices[3].SetV(0.0f);
 

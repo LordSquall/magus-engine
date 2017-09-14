@@ -33,6 +33,7 @@ namespace MagusEngine
 		virtual unsigned int GenerateIndicesBuffer(unsigned int* indices, unsigned int indicesCount) = 0;
 		virtual unsigned int DrawBuffers(VBO_Structure* bufferData) = 0;
 		virtual void SetCurrentModelMatrix(Matrix4f* matrix) = 0;
+		virtual void SetCurrentProjectionMatrix(Matrix4f* matrix) = 0;
 		virtual void SetMaterial(Material* material) = 0;
 		virtual void SetTexture(Texture* texture) = 0;
 

@@ -44,7 +44,7 @@ namespace MagusEngine
 		_debugBitmap.Initialise(screenWidth, screenHeight);
 
 		/* Initialise the scane buffer */
-		_scanbuffer.Initialise(&_framebuffer);
+		_scanbuffer.Initialise(screenWidth, screenHeight, &_framebuffer);
 
 		return true;
 	}
@@ -131,11 +131,7 @@ namespace MagusEngine
 	unsigned int Renderer_Software::DrawBuffers(VBO_Structure* bufferData)
 	{
 
-		/* Apply Vertex Functions */
-		Matrix4f tempProjection = Matrix4f();
-		tempProjection.BuildOrthographic(0.0f, 1920.0f, 1080.0f, 0.0f, 1.0f, -1.0f);
-
-		Matrix4f mvp = tempProjection * (*_modelMatrix);
+		Matrix4f mvp = (*_projectionMatix) * (*_modelMatrix);
 
 		/* Get vbo structure */
 		MemoryBuffer* vboMemoryBuffer = &_vboMemoryBufferTable[bufferData->vertexhandle];
@@ -161,6 +157,11 @@ namespace MagusEngine
 	{
 		_modelMatrix = matrix;
 		return;
+	}
+
+	void Renderer_Software::SetCurrentProjectionMatrix(Matrix4f* matrix)
+	{
+		_projectionMatix = matrix;
 	}
 
 	void Renderer_Software::SetMaterial(Material* material)

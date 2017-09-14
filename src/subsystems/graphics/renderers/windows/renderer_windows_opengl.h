@@ -38,6 +38,7 @@ namespace MagusEngine
 
 		unsigned int DrawBuffers(VBO_Structure* bufferData);
 		void SetCurrentModelMatrix(Matrix4f* matrix);
+		void SetCurrentProjectionMatrix(Matrix4f* matrix);
 		void SetMaterial(Material* material);
 		void SetTexture(Texture* texture);
 
@@ -60,10 +61,7 @@ namespace MagusEngine
 
 		unsigned int _vao;
 
-
-		float	_worldMatrix[16];
-		float	_projectionMatrix[16];
-		char	_videoCardDescription[128];
+		Matrix4f* _projectionMatrix;
 
 	};
 }

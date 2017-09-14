@@ -20,7 +20,7 @@ namespace MagusEngine
 	public:
 		SR_Scanbuffer();
 
-		void Initialise(SR_Framebuffer* frame);
+		void Initialise(int screenWidth, int screenHeight, SR_Framebuffer* frame);
 
 		void FillTriangle(Vertex v1, Vertex v2, Vertex v3, Material* material);
 
@@ -34,6 +34,9 @@ namespace MagusEngine
 		SR_Framebuffer* _frame;
 
 		Material* _currentMaterial;
+
+		float _screenWidth;
+		float _screenHeight;
 	};
 }
 

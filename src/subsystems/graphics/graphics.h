@@ -40,6 +40,8 @@ namespace MagusEngine
 		FrameworkConfig*	_config;
 		GLFWwindow*			_window;
 
+		Matrix4f			_projectionMatrix;
+
 		Renderer_Interface* _lowLevelHardwareRenderer;
 		Renderer_Interface*	_lowLevelSoftwareRenderer;
 		

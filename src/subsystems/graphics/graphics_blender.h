@@ -15,7 +15,7 @@ namespace MagusEngine
 	public:
 		Graphics_Blender();
 
-		bool Initialise(Renderer_Interface* hardwareRenderer, Renderer_Interface* softwareRenderer);
+		bool Initialise(Renderer_Interface* hardwareRenderer, Renderer_Interface* softwareRenderer, int screenWidth, int screenHeight);
 
 		bool Render();
 

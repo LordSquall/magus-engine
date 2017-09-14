@@ -63,6 +63,11 @@ set(Engine_SourceFiles
 set(SubSystem_External_SourceFiles
 	src/subsystems/external/tinyxml2/tinyxml2.cpp
 	src/subsystems/external/lodepng/lodepng.cpp
+	src/subsystems/external/poly2tri/common/shapes.cc
+	src/subsystems/external/poly2tri/sweep/advancing_front.cc
+	src/subsystems/external/poly2tri/sweep/cdt.cc
+	src/subsystems/external/poly2tri/sweep/sweep.cc
+	src/subsystems/external/poly2tri/sweep/sweep_context.cc
 )
 
 # subsystem - graphics
@@ -70,6 +75,7 @@ set(SubSystem_Graphics_SourceFiles
 	src/subsystems/graphics/graphics.cpp
 	src/subsystems/graphics/graphic2d.cpp
 	src/subsystems/graphics/graphic3d.cpp
+	src/subsystems/graphics/graphics_blender.cpp
 )
 
 # subsystem - primitives
@@ -77,6 +83,13 @@ set(SubSystem_Graphics_Primitives_SourceFiles
 	src/subsystems/graphics/primitives/rectangle.cpp
 	src/subsystems/graphics/primitives/line.cpp
 	src/subsystems/graphics/primitives/text.cpp
+	src/subsystems/graphics/primitives/ellipse.cpp
+	src/subsystems/graphics/primitives/path.cpp
+)
+
+# subsystem - graphics - renderer
+set(SubSystem_Graphics_Renderer_SourceFiles
+	src/subsystems/graphics/renderers/renderer_interface.cpp
 )
 
 # subsystem - graphics - renderer - software
@@ -87,6 +100,8 @@ set(SubSystem_Graphics_Renderer_Software_SourceFiles
 	src/subsystems/graphics/renderers/software/sr_framebuffer.cpp
 	src/subsystems/graphics/renderers/software/sr_scanbuffer.cpp
 	src/subsystems/graphics/renderers/software/sr_bitmap.cpp
+	src/subsystems/graphics/renderers/software/sr_edge.cpp
+	src/subsystems/graphics/renderers/software/sr_varier.cpp
 )
 
 # subsystem - graphics - renderer - windows
@@ -110,6 +125,8 @@ src/subsystems/input/input.cpp
 set(SubSystem_IO_SourceFiles
 	src/subsystems/io/UA.cpp
 	src/subsystems/io/UAParser.cpp
+	src/subsystems/io/FontParser.cpp
+	src/subsystems/io/OBJParser.cpp
 )
 
 # subsystem - math
@@ -121,7 +138,7 @@ set(SubSystem_Math_SourceFiles
 
 # subsystem - os
 set(SubSystem_OS_SourceFiles
-	# pure abstracted sub system
+	# populate later to platform specific files
 )	
 
 # subsystem - resources
@@ -129,7 +146,9 @@ set(SubSystem_Resources_SourceFiles
 	src/subsystems/resources/bitmap.cpp
 	src/subsystems/resources/color.cpp
 	src/subsystems/resources/font.cpp
+	src/subsystems/resources/hashtable.cpp
 	src/subsystems/resources/material.cpp
+	src/subsystems/resources/mesh.cpp
 	src/subsystems/resources/resources.cpp
 	src/subsystems/resources/shader.cpp
 	src/subsystems/resources/texture.cpp
@@ -191,6 +210,7 @@ add_executable(MagusEngine
 	${SubSystem_External_SourceFiles}
 	${SubSystem_Graphics_SourceFiles}
 	${SubSystem_Graphics_Primitives_SourceFiles}
+	${SubSystem_Graphics_Renderer_SourceFiles}
 	${SubSystem_Graphics_Renderer_Software_SourceFiles}
 	${FinalPlatformRenderer_SourceFiles}
 	${SubSystem_Input_SourceFiles}
@@ -216,7 +236,7 @@ source_group("subsystems\\graphics" FILES
 	${SubSystem_Graphics_SourceFiles}
 )
 
-source_group("subsystems\\primitives" FILES
+source_group("subsystems\\graphics\\primitives" FILES
 	${SubSystem_Graphics_Primitives_SourceFiles}
 )
 

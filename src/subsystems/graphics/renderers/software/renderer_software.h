@@ -42,6 +42,7 @@ namespace MagusEngine
 
 		unsigned int DrawBuffers(VBO_Structure* bufferData);
 		void SetCurrentModelMatrix(Matrix4f* matrix);
+		void SetCurrentProjectionMatrix(Matrix4f* matrix);
 		void SetMaterial(Material* material);
 		void SetTexture(Texture* texture);
 
@@ -73,6 +74,7 @@ namespace MagusEngine
 		SR_Bitmap _debugBitmap;
 
 		Matrix4f* _modelMatrix;
+		Matrix4f* _projectionMatix;
 
 		unsigned int _vboMemoryLimit;
 		Vertex* _vboMemory;
