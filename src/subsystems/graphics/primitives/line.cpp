@@ -30,25 +30,25 @@ namespace MagusEngine
 		
 		/* Build vertex buffer */
 		/* point 1 */
-		normal = Vector2f(-delta.GetY(), delta.GetX());
+		normal = Vector2f(-delta.y, delta.x);
 		normal.Normalise();
-		vbuffer[0].SetX(_x1 + (normal.GetX() * _width));
-		vbuffer[0].SetY(_y1 + (normal.GetY() * _width));
+		vbuffer[0].SetX(_x1 + (normal.x * _width));
+		vbuffer[0].SetY(_y1 + (normal.y * _width));
 
-		normal = Vector2f(delta.GetY(), -delta.GetX());
+		normal = Vector2f(delta.y, -delta.x);
 		normal.Normalise();
-		vbuffer[1].SetX(_x1 + (normal.GetX() * _width));
-		vbuffer[1].SetY(_y1 + (normal.GetY() * _width));
+		vbuffer[1].SetX(_x1 + (normal.x * _width));
+		vbuffer[1].SetY(_y1 + (normal.y * _width));
 
-		normal = Vector2f(-delta.GetY(), delta.GetX());
+		normal = Vector2f(-delta.y, delta.x);
 		normal.Normalise();
-		vbuffer[2].SetX(_x2 + (normal.GetX() * _width));
-		vbuffer[2].SetY(_y2 + (normal.GetY() * _width));
+		vbuffer[2].SetX(_x2 + (normal.x * _width));
+		vbuffer[2].SetY(_y2 + (normal.y * _width));
 
-		normal = Vector2f(delta.GetY(), -delta.GetX());
+		normal = Vector2f(delta.y, -delta.x);
 		normal.Normalise();
-		vbuffer[3].SetX(_x2 + (normal.GetX() * _width));
-		vbuffer[3].SetY(_y2 + (normal.GetY() * _width));
+		vbuffer[3].SetX(_x2 + (normal.x * _width));
+		vbuffer[3].SetY(_y2 + (normal.x * _width));
 
 
 		/* Build indicies buffer */

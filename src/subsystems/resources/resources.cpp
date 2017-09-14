@@ -16,6 +16,16 @@ namespace MagusEngine
 		_materialsHashTable.Initialise(materialMax);
 		_fontsHashTable.Initialise(fontMax);
 
+		/* Create dummy 1x1 image with full alpha as default bound texture */
+		Texture* newTexture = new Texture("_defaultBound", 1, 1);
+		newTexture->Initialise(1);
+		newTexture->GetData()[0] = 0x00;
+		newTexture->GetData()[1] = 0x00;
+		newTexture->GetData()[2] = 0x00;
+		newTexture->GetData()[3] = 0xFF;
+
+		AddTexture("_defaultBound", newTexture);
+
 		return true;
 	}
 

@@ -28,6 +28,12 @@ namespace MagusEngine
 		vbuffer[0].SetY(_y);
 		vbuffer[0].SetZ(0.0f);
 		vbuffer[0].SetW(1.0f); 
+
+		vbuffer[0].SetR(1.0f);
+		vbuffer[0].SetG(0.0f);
+		vbuffer[0].SetB(0.0f);
+		vbuffer[0].SetA(1.0f);
+
 		vbuffer[0].SetU(0.0f);
 		vbuffer[0].SetV(1.0f);
 
@@ -35,6 +41,12 @@ namespace MagusEngine
 		vbuffer[1].SetY(_y +  _height);
 		vbuffer[1].SetZ(0.0f);
 		vbuffer[1].SetW(1.0f);
+
+		vbuffer[1].SetR(0.0f);
+		vbuffer[1].SetG(1.0f);
+		vbuffer[1].SetB(0.0f);
+		vbuffer[1].SetA(1.0f);
+
 		vbuffer[1].SetU(0.0f);
 		vbuffer[1].SetV(0.0f);
 
@@ -42,6 +54,12 @@ namespace MagusEngine
 		vbuffer[2].SetY(_y);
 		vbuffer[2].SetZ(0.0f);
 		vbuffer[2].SetW(1.0f);
+
+		vbuffer[2].SetR(0.0f);
+		vbuffer[2].SetG(0.0f);
+		vbuffer[2].SetB(1.0f);
+		vbuffer[2].SetA(1.0f);
+
 		vbuffer[2].SetU(1.0f);
 		vbuffer[2].SetV(1.0f);
 
@@ -49,6 +67,12 @@ namespace MagusEngine
 		vbuffer[3].SetY(_y + _height);
 		vbuffer[3].SetZ(0.0f);
 		vbuffer[3].SetW(1.0f);
+		
+		vbuffer[3].SetR(1.0f);
+		vbuffer[3].SetG(0.0f);
+		vbuffer[3].SetB(1.0f);
+		vbuffer[3].SetA(1.0f);
+
 		vbuffer[3].SetU(1.0f);
 		vbuffer[3].SetV(0.0f);
 

@@ -1,9 +1,14 @@
 #ifndef _SR_SCANBUFFER_H_
 #define _SR_SCANBUFFER_H_
 
+/* System Includes */
+#include <math.h>
+
 /* Project Includes */
 #include "sr_framebuffer.h"
+#include "sr_edge.h"
 
+#include "../../../resources/texture.h"
 #include "../../../math/vertex.h"
 
 typedef char Byte;
@@ -17,21 +22,17 @@ namespace MagusEngine
 
 		void Initialise(SR_Framebuffer* frame);
 
-		void Draw(int y, int min, int max);
+		void FillTriangle(Vertex v1, Vertex v2, Vertex v3, Texture* texture);
 
-		void FillShape(int yMin, int yMax);
+		void ScanTriangle(Vertex minYVert, Vertex midYVert, Vertex maxYVert, bool side);
 
-		void FillTriangle(Vertex v1, Vertex v2, Vertex v3);
+		void ScanEdge(SR_Varier* colorVarier, SR_Edge* e1, SR_Edge* e2, bool side);
 
-		void ScanConvertLine(Vertex minYVert, Vertex maxYVert, int side);
-
-		void ScanConvertTriangle(Vertex minYVert, Vertex midYVert, Vertex maxYVert, int side);
-
-
+		void DrawScanLine(SR_Varier* colorVarier, SR_Edge* left, SR_Edge* right, int j);
 	private:
 		SR_Framebuffer* _frame;
 
-		unsigned int* _buffer;
+		Texture* _currentTexture;
 	};
 }
 

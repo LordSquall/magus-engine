@@ -12,32 +12,13 @@ namespace MagusEngine
 	{
 		_frame = frame;
 
-		_buffer = new unsigned int[_frame->GetHeight() * 2];
 	}
 
-	void SR_Scanbuffer::Draw(int y, int min, int max)
+	void SR_Scanbuffer::FillTriangle(Vertex v1, Vertex v2, Vertex v3, Texture* texture)
 	{
-		_buffer[y * 2] = min;
-		_buffer[y * 2 + 1] = max;
-	}
+		_currentTexture = texture;
 
-	void SR_Scanbuffer::FillShape(int yMin, int yMax)
-	{
-		for (int j = yMin; j < yMax; j++)
-		{
-			int xMin = _buffer[j * 2];
-			int xMax = _buffer[j * 2 + 1];
-
-			for (int i = xMin; i < xMax; i++)
-			{
-				_frame->DrawPixel(i, j, 0.0f, 1.0f, 0.0f, 1.0f);
-			}
-		}
-	}
-
-
-	void SR_Scanbuffer::FillTriangle(Vertex v1, Vertex v2, Vertex v3)
-	{
+		/* Convert vertices to screen space */
 		Matrix4f screenSpace;
 		screenSpace.BuildScreenSpaceTransform(400.0f, 300.0f);
 		Vertex minY = v1.Transform(screenSpace).PrespectiveDivide();
@@ -65,41 +46,66 @@ namespace MagusEngine
 			midY = temp;
 		}
 
-		float area = minY.TriangleAreaTimesTwo(maxY, midY);
-		int dir = area >= 0 ? 1 : 0;
+		ScanTriangle(minY, midY, maxY, minY.TriangleAreaTimesTwo(maxY, midY) >= 0.0f);
 
-		ScanConvertTriangle(minY, midY, maxY, dir);
-		FillShape((int)minY.GetY(), (int)maxY.GetY());
+	}
+
+	void SR_Scanbuffer::ScanTriangle(Vertex minYVert, Vertex midYVert, Vertex maxYVert, bool side)
+	{
+		SR_Varier colorVarier = SR_Varier(&minYVert, &midYVert, &maxYVert);
+
+		SR_Edge topToBottom =		SR_Edge(colorVarier, &minYVert, &maxYVert, 0);
+		SR_Edge topToMiddle =		SR_Edge(colorVarier, &minYVert, &midYVert, 0);
+		SR_Edge middleToBottom =	SR_Edge(colorVarier, &midYVert, &maxYVert, 1);
+
+
+		ScanEdge(&colorVarier, &topToBottom, &topToMiddle, side);
+		ScanEdge(&colorVarier, &topToBottom, &middleToBottom, side);
 	}
 
 
-	void SR_Scanbuffer::ScanConvertTriangle(Vertex minYVert, Vertex midYVert, Vertex maxYVert, int side)
+	void SR_Scanbuffer::ScanEdge(SR_Varier* colorVarier, SR_Edge* e1, SR_Edge* e2, bool side)
 	{
-		ScanConvertLine(minYVert, maxYVert, 0 + side);
-		ScanConvertLine(minYVert, midYVert, 1 - side);
-		ScanConvertLine(midYVert, maxYVert, 1 - side);
-	}
+		SR_Edge* left = e1;
+		SR_Edge* right = e2;
 
-	void SR_Scanbuffer::ScanConvertLine(Vertex minYVert, Vertex maxYVert, int side)
-	{
-		int yS = (int)minYVert.GetY();
-		int yE = (int)maxYVert.GetY();
-		int xS = (int)minYVert.GetX();
-		int xE = (int)maxYVert.GetX();
-
-		int yD = yE - yS;
-		int xD = xE - xS;
-
-		if (yD <= 0)
-			return;
-
-		float xStep = (float)xD / (float)yD;
-		float cursorX = (float)xS;
-
-		for (int i = yS; i < yE; i++)
+		if (side)
 		{
-			_buffer[i * 2 + side] = (int)cursorX;
-			cursorX += xStep;
+			SR_Edge* temp = left;
+			left = right;
+			right = temp;
+		}
+
+		int yStart = (int)e2->GetYStart();
+		int yEnd = (int)e2->GetYEnd();
+		for (int x = yStart; x < yEnd; x++)
+		{
+			DrawScanLine(colorVarier, left, right, x);
+			left->Step();
+			right->Step();
+		}
+	}
+
+	void SR_Scanbuffer::DrawScanLine(SR_Varier* colorVarier, SR_Edge* left, SR_Edge* right, int j)
+	{
+		int xMin = (int)ceil(left->GetX());
+		int xMax = (int)ceil(right->GetX());
+		float xPrestep = xMin - left->GetX();
+
+		Vector2f uv = left->GetUV() + ((*colorVarier->GetUVXStep()) * xPrestep);
+
+		Vector4f color = left->GetColor() + ((*colorVarier->GetColorXStep()) * xPrestep);
+
+		for (int i = xMin; i < xMax; i++)
+		{
+			//_frame->DrawPixel(i, j, color.x, color.y, color.z, 1.0f);
+			int srcX = (int)(uv.x * (_currentTexture->GetWidth() - 1) + 0.5f);
+			int srcY = (int)(uv.y * (_currentTexture->GetHeight() - 1) + 0.5f);
+
+			_frame->CopyPixel(i, j, srcX, srcY, _currentTexture);
+
+			//color = color + (*colorVarier->GetColorXStep());
+			uv = uv + (*colorVarier->GetUVXStep());
 		}
 	}
 }

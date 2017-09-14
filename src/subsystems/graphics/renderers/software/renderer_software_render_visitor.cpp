@@ -55,7 +55,10 @@ namespace MagusEngine
 
 	void Renderer_Software_Render_Visitor::Visit(SceneNode* sceneNode)
 	{
-		printf("[Windows Render Visitor]\tVisit Scene Node\n");
+		if (strcmp(sceneNode->GetName(), "testnode") == 0)
+		{
+			sceneNode->SetRotation(0.0f, 0.0f, sceneNode->GetRotation()->z + 1.0f);
+		}
 	}
 	void Renderer_Software_Render_Visitor::PostVisit(SceneNode* sceneNode)
 	{
@@ -66,10 +69,7 @@ namespace MagusEngine
 	}
 
 	void Renderer_Software_Render_Visitor::PreVisit(Component* component) {}
-	void Renderer_Software_Render_Visitor::Visit(Component* component)
-	{
-		printf("[Windows Render Visitor]\tVisit Component\n");
-	}
+	void Renderer_Software_Render_Visitor::Visit(Component* component) { }
 	void Renderer_Software_Render_Visitor::PostVisit(Component* component) {}
 
 	void Renderer_Software_Render_Visitor::PreVisit(Graphic2D* graphic2D)

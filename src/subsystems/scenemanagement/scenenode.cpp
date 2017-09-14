@@ -6,17 +6,9 @@ namespace MagusEngine
 {
 	Transform::Transform()
 	{
-		position.SetX(0.0f);
-		position.SetY(0.0f);
-		position.SetZ(0.0f);
-
-		rotation.SetX(0.0f);
-		rotation.SetY(0.0f);
-		rotation.SetZ(0.0f);
-				
-		scale.SetX(1.0f);
-		scale.SetY(1.0f);
-		scale.SetZ(1.0f);
+		position = Vector3f();
+		rotation = Vector3f();
+		scale = Vector3f(1.0f, 1.0f, 1.0f);
 	}
 
 	SceneNode::SceneNode()
@@ -100,21 +92,21 @@ namespace MagusEngine
 	void SceneNode::SetScale(Vector3f scale)		{ _tranform.scale = scale; }
 
 	void SceneNode::SetPosition(float x, float y, float z) { 
-		_tranform.position.SetX(x);
-		_tranform.position.SetY(y); 
-		_tranform.position.SetZ(z); 
+		_tranform.position.x = x;
+		_tranform.position.y = y; 
+		_tranform.position.z = z; 
 	}
 
 	void SceneNode::SetRotation(float x, float y, float z) { 
-		_tranform.rotation.SetX(x);
-		_tranform.rotation.SetY(y); 
-		_tranform.rotation.SetZ(z); 
+		_tranform.rotation.x = x;
+		_tranform.rotation.y = y; 
+		_tranform.rotation.z = z; 
 	}
 
 	void SceneNode::SetScale(float x, float y, float z) { 
-		_tranform.scale.SetX(x);
-		_tranform.scale.SetY(y); 
-		_tranform.scale.SetZ(z); 
+		_tranform.scale.x = x;
+		_tranform.scale.y = y; 
+		_tranform.scale.z = z; 
 	}
 
 	Vector3f* SceneNode::GetPosition() { return &_tranform.position; }

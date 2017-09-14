@@ -4,57 +4,94 @@ namespace MagusEngine
 {
 	Vector2f::Vector2f()
 	{
-		_x = 0.0f;
-		_y = 0.0f;
+		x = 0.0f;
+		y = 0.0f;
 	}
 
 	Vector2f::Vector2f(float x, float y)
 	{
-		_x = x;
-		_y = y;
+		this->x = x;
+		this->y = y;
 	}
 
-	float Vector2f::GetX() { return _x; }
-	float Vector2f::GetY() {	return _y; }
+	Vector2f Vector2f::operator+(const Vector2f& b) {
+		return Vector2f(x + b.x, y + b.y);
+	}	
+	Vector2f Vector2f::operator-(const Vector2f& b) {
+		return Vector2f(x - b.x, y - b.y);
+	}	
+	Vector2f Vector2f::operator*(const Vector2f& b) {
+		return Vector2f(x * b.x, y * b.y);
+	}
+	Vector2f Vector2f::operator/(const Vector2f& b){
+		return Vector2f(x / b.x, y / b.y);
+	}
 
-	void Vector2f::SetX(float x) { _x = x; }
-	void Vector2f::SetY(float y) { _y = y; }
+	Vector2f Vector2f::operator+(const float& b) {
+		return Vector2f(x + b, y + b);
+	}
+	Vector2f Vector2f::operator-(const float& b) {
+		return Vector2f(x - b, y - b);
+	}
+	Vector2f Vector2f::operator*(const float& b) {
+		return Vector2f(x * b, y * b);
+	}
+	Vector2f Vector2f::operator/(const float& b) {
+		return Vector2f(x / b, y / b);
+	}
 
 	float Vector2f::Length()
 	{
-		return sqrt((_x * _x) + (_y * _y));
+		return sqrt((x * x) + (y * y));
 	}
 
 	void Vector2f::Normalise()
 	{
 		float length = Length();
 
-		_x = _x / length;
-		_y = _y / length;
+		x = x / length;
+		y = y / length;
 	}
 
 	Vector3f::Vector3f()
 	{
-		_x = 0.0f;
-		_y = 0.0f;
-		_z = 0.0f;
+		x = 0.0f;
+		y = 0.0f;
+		z = 0.0f;
 	}
 
 	Vector3f::Vector3f(float x, float y, float z)
 	{
-		_x = x;
-		_y = y;
-		_z = z;
+		this->x = x;
+		this->y = y;
+		this->z = z;
 	}
 
-	float Vector3f::GetX() { return _x; }
-	float Vector3f::GetY() { return _y; }
-	float Vector3f::GetZ() { return _z; }
+	Vector3f Vector3f::operator+(const Vector3f& b) {
+		return Vector3f(x + b.x, y + b.y, z + b.z);
+	}
+	Vector3f Vector3f::operator-(const Vector3f& b) {
+		return Vector3f(x - b.x, y - b.y, z - b.z);
+	}
+	Vector3f Vector3f::operator*(const Vector3f& b) {
+		return Vector3f(x * b.x, y * b.y, z * b.z);
+	}
+	Vector3f Vector3f::operator/(const Vector3f& b) {
+		return Vector3f(x / b.x, y / b.y, z / b.z);
+	}
 
-	void Vector3f::SetX(float x) { _x = x; }
-	void Vector3f::SetY(float y) { _y = y; }
-	void Vector3f::SetZ(float z) { _z = z; }
-
+	Vector3f Vector3f::operator+(const float& b) {
+		return Vector3f(x + b, y + b, z + b);
+	}
+	Vector3f Vector3f::operator-(const float& b) {
+		return Vector3f(x - b, y - b, z - b);
+	}
+	Vector3f Vector3f::operator*(const float& b) {
+		return Vector3f(x * b, y * b, z * b);
+	}
+	Vector3f Vector3f::operator/(const float& b) {
+		return Vector3f(x / b, y / b, z / b);
+	}
 
 	Vector4f::Vector4f()
 	{
@@ -71,4 +108,37 @@ namespace MagusEngine
 		this->z = z;
 		this->w = w;
 	}
+
+
+	Vector4f Vector4f::Lerp(Vector4f dest, float factor)
+	{
+		return dest - (*this) * factor + (*this);
+	}
+
+	Vector4f Vector4f::operator+(const Vector4f& b) {
+		return Vector4f(x + b.x, y + b.y, z + b.z, w + b.w);
+	}
+	Vector4f Vector4f::operator-(const Vector4f& b) {
+		return Vector4f(x - b.x, y - b.y, z - b.z, w - b.w);
+	}
+	Vector4f Vector4f::operator*(const Vector4f& b) {
+		return Vector4f(x * b.x, y * b.y, z * b.z, w * b.w);
+	}
+	Vector4f Vector4f::operator/(const Vector4f& b) {
+		return Vector4f(x / b.x, y / b.y, z / b.z, w / b.w);
+	}
+
+	Vector4f Vector4f::operator+(const float& b) {
+		return Vector4f(x + b, y + b, z + b, w + b);
+	}
+	Vector4f Vector4f::operator-(const float& b) {
+		return Vector4f(x - b, y - b, z - b, w - b);
+	}
+	Vector4f Vector4f::operator*(const float& b) {
+		return Vector4f(x * b, y * b, z * b, w * b);
+	}
+	Vector4f Vector4f::operator/(const float& b) {
+		return Vector4f(x / b, y / b, z / b, w / b);
+	}
+
 }

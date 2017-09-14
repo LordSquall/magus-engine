@@ -22,16 +22,16 @@ namespace MagusEngine
 
 		/* Build VBO */
 		Vertex vertices[4];
-		vertices[0] = Vertex(0.0f, 0.0f, 0.0);
+		vertices[0] = Vertex(0.0f, 0.0f, 0.0, 0.0f, 0.0f, 0.0f, 1.0f);
 		vertices[0].SetU(0.0f);
 		vertices[0].SetV(1.0f);
-		vertices[1] = Vertex(0.0f, 600.0f, 0.0);
+		vertices[1] = Vertex(0.0f, 600.0f, 0.0, 0.0f, 0.0f, 0.0f, 1.0f);
 		vertices[1].SetU(0.0f);
 		vertices[1].SetV(0.0f);
-		vertices[2] = Vertex(800.0f, 0.0f, 0.0);
+		vertices[2] = Vertex(800.0f, 0.0f, 0.0, 0.0f, 0.0f, 0.0f, 1.0f);
 		vertices[2].SetU(1.0f);
 		vertices[2].SetV(1.0f);
-		vertices[3] = Vertex(800.0f, 600.0f, 0.0);
+		vertices[3] = Vertex(800.0f, 600.0f, 0.0, 0.0f, 0.0f, 0.0f, 1.0f);
 		vertices[3].SetU(1.0f);
 		vertices[3].SetV(0.0f);
 
@@ -57,8 +57,7 @@ namespace MagusEngine
 		_texture.SetData(_softwareRenderer->GetFramebufferData());
 
 		_hardwareRenderer->CheckError();
-		glBindTexture(GL_TEXTURE_2D, _texture.GetRenderDataHandle());
-
+		_hardwareRenderer->SetTexture(&_texture);
 		_hardwareRenderer->CheckError();
 		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, _texture.GetWidth(), _texture.GetHeight(), GL_BGRA, GL_UNSIGNED_BYTE, _texture.GetData());
 

@@ -57,7 +57,7 @@ namespace MagusEngine
 
 	void Matrix4f::BuildTranslation(Vector3f* vec)
 	{
-		BuildTranslation(vec->GetX(), vec->GetY(), vec->GetZ());
+		BuildTranslation(vec->x, vec->y, vec->z);
 	}
 
 	void Matrix4f::BuildRotation(float x, float y, float z)
@@ -81,7 +81,7 @@ namespace MagusEngine
 
 	void Matrix4f::BuildRotation(Vector3f* vec)
 	{
-		BuildRotation(vec->GetX(), vec->GetY(), vec->GetZ());
+		BuildRotation(vec->x, vec->y, vec->z);
 	}
 
 	void Matrix4f::BuildScale(float x, float y, float z)
@@ -94,7 +94,7 @@ namespace MagusEngine
 
 	void Matrix4f::BuildScale(Vector3f* vec)
 	{
-		BuildScale(vec->GetX(), vec->GetY(), vec->GetZ());
+		BuildScale(vec->x, vec->y, vec->z);
 	}
 
 	void Matrix4f::BuildOrthographic(float left, float right, float top, float bottom, float znear, float zfar)

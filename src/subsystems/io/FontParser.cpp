@@ -99,17 +99,17 @@ namespace MagusEngine
 		/* Calcualte UV for bottom right of glyph */
 		Vector2f bl, tl, br, tr;
 
-		bl.SetX(((float)g->GetX() / (float)font->GetScaleW()));
-		bl.SetY(((float)g->GetY() + (float)g->GetHeight()) / (float)font->GetScaleH());
+		bl.x = (((float)g->GetX() / (float)font->GetScaleW()));
+		bl.y = (((float)g->GetY() + (float)g->GetHeight()) / (float)font->GetScaleH());
 
-		tl.SetX((float)g->GetX() / (float)font->GetScaleW());
-		tl.SetY((float)g->GetY() / (float)font->GetScaleH());
+		tl.x = ((float)g->GetX() / (float)font->GetScaleW());
+		tl.y = ((float)g->GetY() / (float)font->GetScaleH());
 
-		br.SetX(((float)g->GetX() + (float)g->GetWidth()) / (float)font->GetScaleW());
-		br.SetY(((float)g->GetY() + (float)g->GetHeight()) / (float)font->GetScaleH());
+		br.x = (((float)g->GetX() + (float)g->GetWidth()) / (float)font->GetScaleW());
+		br.y = (((float)g->GetY() + (float)g->GetHeight()) / (float)font->GetScaleH());
 
-		tr.SetX(((float)g->GetX() + (float)g->GetWidth()) / (float)font->GetScaleW());
-		tr.SetY((float)g->GetY() / (float)font->GetScaleH());
+		tr.x = (((float)g->GetX() + (float)g->GetWidth()) / (float)font->GetScaleW());
+		tr.y = ((float)g->GetY() / (float)font->GetScaleH());
 
 		g->SetUVBL(bl);
 		g->SetUVTL(tl);

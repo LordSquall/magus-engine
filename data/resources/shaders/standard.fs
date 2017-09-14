@@ -1,6 +1,7 @@
 #version 330 core
 
 /* In */
+in vec4 v_Color;
 in vec2 v_UV;
 
 /* Out */
@@ -9,12 +10,22 @@ out vec4 FragColor;
 /* Uniforms */
 uniform vec4 color;
 uniform sampler2D uni_texture;
+uniform int uni_textureEnabled;
 
 
 void main()
-{
-	/* sample current texture */
-	vec4 texture = texture2D(uni_texture,v_UV);
+{	
+	vec4 finalColor;
 	
-	FragColor = mix(texture, color, texture.a);
+	if(uni_textureEnabled == 1)
+	{
+		/* sample current texture */
+		finalColor = texture2D(uni_texture,v_UV);
+	}
+	else
+	{
+		finalColor = color;
+	}
+	
+	FragColor = finalColor;
 }

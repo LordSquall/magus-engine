@@ -140,16 +140,22 @@ namespace MagusEngine
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferData->indexhandle);
 
 		CheckError();
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 
 		CheckError();
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(4 * sizeof(float)));
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(4 * sizeof(float)));
+
+		CheckError();
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(8 * sizeof(float)));
 
 		CheckError();
 		glEnableVertexAttribArray(0);	
 
 		CheckError(); 
 		glEnableVertexAttribArray(1);
+
+		CheckError();
+		glEnableVertexAttribArray(2);
 
 		CheckError();
 		glDrawElements(GL_TRIANGLES, bufferData->indexlength, GL_UNSIGNED_INT, 0);
@@ -206,10 +212,15 @@ namespace MagusEngine
 			/* Bind the texture */
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, texture->GetRenderDataHandle());
+
+			int location = glGetUniformLocation(_CurrentShader->GetProgramHandle(), "uni_textureEnabled");
+			glUniform1i(location, 1);
 		}
 		else
 		{
-			glBindTexture(GL_TEXTURE_2D, 0);
+			glBindTexture(GL_TEXTURE_2D, 1);
+			int location = glGetUniformLocation(_CurrentShader->GetProgramHandle(), "uni_textureEnabled");
+			glUniform1i(location, 0);
 		}
 
 	}

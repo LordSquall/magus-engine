@@ -16,7 +16,7 @@
 		<material name="mat_red" 		color="red" />
 		<material name="mat_green" 		color="green" />
 		<material name="mat_blue" 		color="blue" />
-		<material name="mat_sky" 		color="sky" />
+		<material name="mat_sky" 		color="sky" texture="default"/>
 		<material name="mat_earth" 		color="earth" />
 		<material name="mat_test_tex" 	texture="arial_32" />
 	</styles>
@@ -68,7 +68,7 @@
 					</components>
 				</node>
 
-				<node name="testnode" critical="1" children="0" material="sky">
+				<node name="testnode" critical="1" children="0" material="mat_sky">
 					<transform>
 						<position x="0.0" y="0.0" z="0.0" />
 						<rotation x="0.0" y="0.0" z="0.0" />

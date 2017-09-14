@@ -140,24 +140,18 @@ namespace MagusEngine
 		/* Get vbo structure */
 		MemoryBuffer* vboMemoryBuffer = &_vboMemoryBufferTable[bufferData->vertexhandle];
 
+
 		Vertex* vertices = (Vertex*)vboMemoryBuffer->start;
 
+		/* Sample Verts */
+		//Vertex minYVert = Vertex(-1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f);
+		//Vertex midYVert = Vertex(0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f);
+		//Vertex maxYVert = Vertex(1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
 
-		Vertex minYVert = Vertex(-100.0f, -100.0f, 0.0f).Transform(mvp);
-		Vertex midYVert = Vertex(-100.0f, 100.0f, 0.0f).Transform(mvp);
-		Vertex maxYVert = Vertex(100.0f, -100.0f, 0.0f).Transform(mvp);
+		//_scanbuffer.FillTriangle(maxYVert, midYVert, minYVert);
 
-		Vertex genMinYVert = vertices[0].Transform(mvp);
-		Vertex genMidnYVert = vertices[1].Transform(mvp);
-		Vertex genMaxYVert = vertices[2].Transform(mvp);
-
-		//_scanbuffer.FillTriangle(minYVert, midYVert, maxYVert);
-		_scanbuffer.FillTriangle(vertices[0].Transform(mvp), vertices[1].Transform(mvp), vertices[2].Transform(mvp));
-		_scanbuffer.FillTriangle(vertices[1].Transform(mvp), vertices[2].Transform(mvp), vertices[3].Transform(mvp));
-
-
-		//_scanbuffer.FillShape(100, 300);
+		_scanbuffer.FillTriangle(vertices[0].Transform(mvp), vertices[1].Transform(mvp), vertices[2].Transform(mvp), _CurrentTexture);
 
 		return 0;
 	}
@@ -170,11 +164,21 @@ namespace MagusEngine
 
 	void Renderer_Software::SetMaterial(Material* material)
 	{
+		/* Set the Current Material */
+		_CurrentMaterial = material;
+
+		/* TODO Color Map */
+
+		/* Set the texture */
+		SetTexture(material->GetTexture());
+
 		return;
 	}
 
 	void Renderer_Software::SetTexture(Texture* texture)
 	{
+		/* Set the Current Texture */
+		_CurrentTexture = texture;
 		return;
 	}
 

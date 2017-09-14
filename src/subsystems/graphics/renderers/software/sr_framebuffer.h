@@ -1,6 +1,9 @@
 #ifndef _SR_FRAMEBUFFER_H_
 #define _SR_FRAMEBUFFER_H_
 
+/* Local Project Includes */
+#include "../../../resources/texture.h"
+
 typedef char Byte;
 
 namespace MagusEngine
@@ -16,6 +19,8 @@ namespace MagusEngine
 		void Clear(float red, float green, float blue, float alpha);
 
 		void DrawPixel(int x, int y, float red, float green, float blue, float alpha);
+
+		void CopyPixel(int destx, int desty, float srcx, float srcy, Texture* texture);
 
 		int GetWidth();
 		int GetHeight();
