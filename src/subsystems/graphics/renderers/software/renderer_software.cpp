@@ -133,25 +133,26 @@ namespace MagusEngine
 
 		/* Apply Vertex Functions */
 		Matrix4f tempProjection = Matrix4f();
-		tempProjection.BuildOrthographic(0.0f, 800.0f, 600.0f, 0.0f, 1.0f, -1.0f);
+		tempProjection.BuildOrthographic(0.0f, 1920.0f, 1080.0f, 0.0f, 1.0f, -1.0f);
 
 		Matrix4f mvp = tempProjection * (*_modelMatrix);
 
 		/* Get vbo structure */
 		MemoryBuffer* vboMemoryBuffer = &_vboMemoryBufferTable[bufferData->vertexhandle];
-
-
 		Vertex* vertices = (Vertex*)vboMemoryBuffer->start;
 
-		/* Sample Verts */
-		//Vertex minYVert = Vertex(-1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f);
-		//Vertex midYVert = Vertex(0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f);
-		//Vertex maxYVert = Vertex(1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+		/* Get ibo structure */
+		MemoryBuffer* iboMemoryBuffer = &_iboMemoryBufferTable[bufferData->indexhandle];
+		unsigned int* indicies = (unsigned int*)iboMemoryBuffer->start;
 
-
-		//_scanbuffer.FillTriangle(maxYVert, midYVert, minYVert);
-
-		_scanbuffer.FillTriangle(vertices[0].Transform(mvp), vertices[1].Transform(mvp), vertices[2].Transform(mvp), _CurrentTexture);
+		/* Render each triangle */
+		for (int i = 0; i < bufferData->indexlength; i+=3)
+		{
+			unsigned int indexa = (*(indicies + i));
+			unsigned int indexb = (*(indicies + i + 1));
+			unsigned int indexc = (*(indicies + i + 2));
+			_scanbuffer.FillTriangle(vertices[indexa].Transform(mvp), vertices[indexb].Transform(mvp), vertices[indexc].Transform(mvp), _CurrentMaterial);
+		}
 
 		return 0;
 	}
@@ -195,6 +196,18 @@ namespace MagusEngine
 
 	/* Texture API */
 	void Renderer_Software::CreateTexture(Texture* texture)
+	{
+
+	}
+
+
+	/* Filter API */
+	void Renderer_Software::ActivateFilter(VBO_Structure* bufferData)
+	{
+
+	}
+
+	void Renderer_Software::DeactivateFilter(VBO_Structure* bufferData)
 	{
 
 	}

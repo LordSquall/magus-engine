@@ -77,6 +77,14 @@ namespace MagusEngine
 	void Renderer_Windows_Initialise_Visitor::Visit(Text* text) {}
 	void Renderer_Windows_Initialise_Visitor::PostVisit(Text* text) {}
 
+	void Renderer_Windows_Initialise_Visitor::PreVisit(Ellipse* ellipse) {}
+	void Renderer_Windows_Initialise_Visitor::Visit(Ellipse* ellipse) {}
+	void Renderer_Windows_Initialise_Visitor::PostVisit(Ellipse* ellipse) {}
+
+	void Renderer_Windows_Initialise_Visitor::PreVisit(Path* path) {}
+	void Renderer_Windows_Initialise_Visitor::Visit(Path* path) {}
+	void Renderer_Windows_Initialise_Visitor::PostVisit(Path* path) {}
+
 	/* Getters */
 	Renderer_Interface* Renderer_Windows_Initialise_Visitor::GetLowLevelRenderer()
 	{

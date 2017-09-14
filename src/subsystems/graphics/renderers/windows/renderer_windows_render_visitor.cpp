@@ -45,24 +45,39 @@ namespace MagusEngine
 		_matrixStack[_matrixStackHead] = model;
 		_matrixStackHead++;
 
+		_lowLevelRenderer->SetCurrentModelMatrix(&_matrixStack[_matrixStackHead - 1]);
+
 		/* Set the current material settings in the low level renderer */
 		if(sceneNode->GetMaterial() != NULL)
 			_lowLevelRenderer->SetMaterial(sceneNode->GetMaterial());
 
 		_renderCritical = sceneNode->IsCritical();
 
+		if (sceneNode->IsFilter())
+		{
+			Graphic2D* filterData = (Graphic2D*)sceneNode->GetComponent(0);
+
+			_lowLevelRenderer->ActivateFilter(filterData->GetHWRenderDataHandle());
+		}
 	}
 
 	void Renderer_Windows_Render_Visitor::Visit(SceneNode* sceneNode)
 	{
-		if(strcmp(sceneNode->GetName(), "testnode") == 0)
+		if(strcmp(sceneNode->GetName(), "rosering_bg") == 0)
 		{
-			//sceneNode->SetRotation(0.0f, 0.0f, sceneNode->GetRotation()->GetZ() + 1.0f);
+			sceneNode->SetRotation(0.0f, 0.0f, sceneNode->GetRotation()->z + 1.0f);
 		}
 	}
 	
 	void Renderer_Windows_Render_Visitor::PostVisit(SceneNode* sceneNode) 
 	{
+		if (sceneNode->IsFilter())
+		{
+			Graphic2D* filterData = (Graphic2D*)sceneNode->GetComponent(0);
+
+			_lowLevelRenderer->DeactivateFilter(filterData->GetHWRenderDataHandle());
+		}
+
 		if (sceneNode->GetMaterial() != NULL)
 			_lowLevelRenderer->SetMaterial(sceneNode->GetMaterial());
 
@@ -73,17 +88,16 @@ namespace MagusEngine
 	void Renderer_Windows_Render_Visitor::Visit(Component* component) {}
 	void Renderer_Windows_Render_Visitor::PostVisit(Component* component) {}
 
-	void Renderer_Windows_Render_Visitor::PreVisit(Graphic2D* graphic2D) 
-	{
-		_lowLevelRenderer->SetCurrentModelMatrix(&_matrixStack[_matrixStackHead-1]);
-	}
+	void Renderer_Windows_Render_Visitor::PreVisit(Graphic2D* graphic2D) {}
 
 	void Renderer_Windows_Render_Visitor::Visit(Graphic2D* graphic2D)
 	{
 		if(_renderCritical == false)
 			_lowLevelRenderer->DrawBuffers(graphic2D->GetHWRenderDataHandle());
 	}
-	void Renderer_Windows_Render_Visitor::PostVisit(Graphic2D* graphic2D) {}
+	void Renderer_Windows_Render_Visitor::PostVisit(Graphic2D* graphic2D) 
+	{
+	}
 
 	void Renderer_Windows_Render_Visitor::PreVisit(Rectangle* rectangle) {}
 	void Renderer_Windows_Render_Visitor::Visit(Rectangle* rectangle) {}
@@ -101,13 +115,20 @@ namespace MagusEngine
 		/* set the texture to the font texture */
 		_lowLevelRenderer->SetTexture(text->GetFont()->GetTexture());
 	}
-
 	void Renderer_Windows_Render_Visitor::Visit(Text* text) {}
 	void Renderer_Windows_Render_Visitor::PostVisit(Text* text)
 	{
 		/* set the renderer back to the cached texture */
 		_lowLevelRenderer->SetTexture(_cachedTexture);
 	}
+
+	void Renderer_Windows_Render_Visitor::PreVisit(Ellipse* ellipse) {}
+	void Renderer_Windows_Render_Visitor::Visit(Ellipse* ellipse) {}
+	void Renderer_Windows_Render_Visitor::PostVisit(Ellipse* ellipse) {}
+
+	void Renderer_Windows_Render_Visitor::PreVisit(Path* path) {}
+	void Renderer_Windows_Render_Visitor::Visit(Path* path) {}
+	void Renderer_Windows_Render_Visitor::PostVisit(Path* path) {}
 
 	/* Getters */
 	Renderer_Interface* Renderer_Windows_Render_Visitor::GetLowLevelRenderer()

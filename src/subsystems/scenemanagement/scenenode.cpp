@@ -15,6 +15,8 @@ namespace MagusEngine
 	{
 		_tranform = Transform();
 
+		_isFilter = false;
+
 		_material = NULL;
 	}
 	
@@ -60,6 +62,11 @@ namespace MagusEngine
 	{
 		_components[_componentCount] = component;
 		_componentCount++;
+	}
+
+	Component* SceneNode::GetComponent(int index)
+	{
+		return _components[index];
 	}
 
 	void SceneNode::Accept(Visitor* visitor)
@@ -112,6 +119,9 @@ namespace MagusEngine
 	Vector3f* SceneNode::GetPosition() { return &_tranform.position; }
 	Vector3f* SceneNode::GetRotation() { return &_tranform.rotation; }
 	Vector3f* SceneNode::GetScale() { return &_tranform.scale; }
+
+	void SceneNode::SetIsFilter(bool isfilter) { _isFilter = isfilter; }
+	bool SceneNode::IsFilter() { return _isFilter; }
 
 	void SceneNode::SetCriticality(bool critical) { _isCritical = critical; }
 	bool SceneNode::IsCritical() { return _isCritical; }

@@ -43,6 +43,10 @@ namespace MagusEngine
 		/* Texture API */
 		virtual void CreateTexture(Texture* texture) = 0;
 
+		/* Filter API*/
+		virtual void ActivateFilter(VBO_Structure* bufferData) = 0;
+		virtual void DeactivateFilter(VBO_Structure* bufferData) = 0;
+
 		/* Common Getters */
 		Shader* GetShader();
 		Material* GetMaterial();

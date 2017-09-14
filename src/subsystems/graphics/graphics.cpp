@@ -47,7 +47,7 @@ namespace MagusEngine
 		_lowLevelHardwareRenderer->Initialise(this, _config->width, _config->height, 1000.0f, -1.0f, false);
 
 		_lowLevelSoftwareRenderer = new Renderer_Software(_config);
-		_lowLevelSoftwareRenderer->Initialise(os, 800, 600, 0, 10000, false);
+		_lowLevelSoftwareRenderer->Initialise(os, 1920, 1080, 0, 10000, false);
 
 		
 		return true;

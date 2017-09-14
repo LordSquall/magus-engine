@@ -194,7 +194,8 @@ namespace MagusEngine
 					resourcesElement->IntAttribute("shadermax"),
 					resourcesElement->IntAttribute("colormax"),
 					resourcesElement->IntAttribute("materialmax"),
-					resourcesElement->IntAttribute("fontmax"));
+					resourcesElement->IntAttribute("fontmax"),
+					resourcesElement->IntAttribute("meshmax"));
 
 				/* Process each of the texture tags in turn */
 				for (tinyxml2::XMLElement* e = resourcesElement->FirstChildElement("texture"); e != NULL; e = e->NextSiblingElement("texture"))
@@ -236,6 +237,15 @@ namespace MagusEngine
 					material->SetColor(_resources.GetColor(e->Attribute("color")));
 					material->SetTexture(_resources.GetTexture(e->Attribute("texture")));
 					_resources.AddMaterial(e->Attribute("name"), material);
+				}
+
+				/* Process each of the mesh tags in turn */
+				for (tinyxml2::XMLElement* e = resourcesElement->FirstChildElement("mesh"); e != NULL; e = e->NextSiblingElement("mesh"))
+				{
+					if (_resources.AddMeshFromFile(e->Attribute("name"), e->Attribute("path")))
+					{
+						printf("[Resources] Loaded Mesh: %s\n", e->Attribute("name"));
+					}
 				}
 			}
 			else

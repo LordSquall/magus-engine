@@ -52,6 +52,10 @@ namespace MagusEngine
 		/* Texture API */
 		void CreateTexture(Texture* texture);
 		
+		/* Filter API */
+		void ActivateFilter(VBO_Structure* bufferData);
+		void DeactivateFilter(VBO_Structure* bufferData);
+
 		/* Debug functions */
 		void SaveBitmap();
 

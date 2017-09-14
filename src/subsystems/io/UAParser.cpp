@@ -101,6 +101,9 @@ namespace MagusEngine
 			_materialStackHead++;
 		}
 
+		/* Get filter info */
+		newNode->SetIsFilter(element->BoolAttribute("filter"));
+
 		if (childrenCount > 0)
 		{
 			for (tinyxml2::XMLElement* e = element->FirstChildElement("node"); e != NULL; e = e->NextSiblingElement("node"))
@@ -206,6 +209,16 @@ namespace MagusEngine
 				Text* newDrawable = new Text(e->FloatAttribute("x", 0.0f), e->FloatAttribute("y", 0.0f), "UNKNOWN");
 				newDrawable->SetContent(e->Attribute("content"));
 				newDrawable->SetFont(_resources->GetFont(e->IntAttribute("font")));
+				newGraphics2DComponent->SetDrawable(newDrawable);
+
+			}if (strcmp(e->Name(), "ellipse") == 0)
+			{
+				Ellipse* newDrawable = new Ellipse(e->FloatAttribute("x"), e->FloatAttribute("y"), e->FloatAttribute("rx"), e->FloatAttribute("ry"));
+				newGraphics2DComponent->SetDrawable(newDrawable);
+			}
+			if (strcmp(e->Name(), "path") == 0)
+			{
+				Path* newDrawable = new Path(e->Attribute("pts"));
 				newGraphics2DComponent->SetDrawable(newDrawable);
 			}
 		}

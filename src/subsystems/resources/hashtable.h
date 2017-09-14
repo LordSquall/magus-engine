@@ -6,6 +6,7 @@
 #include "shader.h"
 #include "material.h"
 #include "font.h"
+#include "mesh.h"
 
 namespace MagusEngine
 {
@@ -45,6 +46,11 @@ namespace MagusEngine
 		Font* data;
 	};
 
+	class MeshDataItem : public HashDataItem
+	{
+	public:
+		Mesh* data;
+	};
 
 	class HashTable
 	{

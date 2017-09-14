@@ -16,6 +16,8 @@ namespace MagusEngine
 	class Rectangle;
 	class Line;
 	class Text;
+	class Ellipse;
+	class Path;
 	
 	class Visitor
 	{
@@ -45,6 +47,14 @@ namespace MagusEngine
 		virtual void PreVisit(Text* text) = 0;
 		virtual void Visit(Text* text) = 0;
 		virtual void PostVisit(Text* text) = 0;
+
+		virtual void PreVisit(Ellipse* ellipse) = 0;
+		virtual void Visit(Ellipse* ellipse) = 0;
+		virtual void PostVisit(Ellipse* ellipse) = 0;
+
+		virtual void PreVisit(Path* path) = 0;
+		virtual void Visit(Path* path) = 0;
+		virtual void PostVisit(Path* path) = 0;
 	};
 }
 

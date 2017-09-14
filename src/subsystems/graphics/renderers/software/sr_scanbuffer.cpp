@@ -14,13 +14,13 @@ namespace MagusEngine
 
 	}
 
-	void SR_Scanbuffer::FillTriangle(Vertex v1, Vertex v2, Vertex v3, Texture* texture)
+	void SR_Scanbuffer::FillTriangle(Vertex v1, Vertex v2, Vertex v3, Material* material)
 	{
-		_currentTexture = texture;
+		_currentMaterial = material;
 
 		/* Convert vertices to screen space */
 		Matrix4f screenSpace;
-		screenSpace.BuildScreenSpaceTransform(400.0f, 300.0f);
+		screenSpace.BuildScreenSpaceTransform(1920.0f / 2.0f, 1080.0f / 2.0f);
 		Vertex minY = v1.Transform(screenSpace).PrespectiveDivide();
 		Vertex midY = v2.Transform(screenSpace).PrespectiveDivide();
 		Vertex maxY = v3.Transform(screenSpace).PrespectiveDivide();
@@ -92,20 +92,35 @@ namespace MagusEngine
 		int xMax = (int)ceil(right->GetX());
 		float xPrestep = xMin - left->GetX();
 
-		Vector2f uv = left->GetUV() + ((*colorVarier->GetUVXStep()) * xPrestep);
-
-		Vector4f color = left->GetColor() + ((*colorVarier->GetColorXStep()) * xPrestep);
-
 		for (int i = xMin; i < xMax; i++)
 		{
-			//_frame->DrawPixel(i, j, color.x, color.y, color.z, 1.0f);
-			int srcX = (int)(uv.x * (_currentTexture->GetWidth() - 1) + 0.5f);
-			int srcY = (int)(uv.y * (_currentTexture->GetHeight() - 1) + 0.5f);
+			if (_currentMaterial->GetTexture() != NULL)
+			{
+				Vector2f uv = left->GetUV() + ((*colorVarier->GetUVXStep()) * xPrestep);
 
-			_frame->CopyPixel(i, j, srcX, srcY, _currentTexture);
+				Texture* texture = _currentMaterial->GetTexture();
 
-			//color = color + (*colorVarier->GetColorXStep());
-			uv = uv + (*colorVarier->GetUVXStep());
+				int srcX = (int)(uv.x * (texture->GetWidth() - 1) + 0.5f);
+				int srcY = (int)(uv.y * (texture->GetHeight() - 1) + 0.5f);
+
+				_frame->CopyPixel(i, j, srcX, srcY, texture);
+				uv = uv + (*colorVarier->GetUVXStep());
+			} 
+			else if (_currentMaterial->GetColor() != NULL)
+			{
+
+				Color* color = _currentMaterial->GetColor();
+
+				_frame->DrawPixel(i, j, color->GetR(), color->GetG(), color->GetB(), color->GetA());
+			}
+			else
+			{
+				Vector4f color = left->GetColor() + ((*colorVarier->GetColorXStep()) * xPrestep);
+
+				_frame->DrawPixel(i, j, color.x, color.y, color.z, 1.0f);
+				color = color + (*colorVarier->GetColorXStep());
+			}
+		
 		}
 	}
 }

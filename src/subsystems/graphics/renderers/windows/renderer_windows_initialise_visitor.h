@@ -50,6 +50,14 @@ namespace MagusEngine
 		void Visit(Text* text);
 		void PostVisit(Text* text);
 
+		void PreVisit(Ellipse* ellipse);
+		void Visit(Ellipse* ellipse);
+		void PostVisit(Ellipse* ellipse);
+
+		void PreVisit(Path* path);
+		void Visit(Path* path);
+		void PostVisit(Path* path);
+
 		/* Getters */
 		Renderer_Interface* GetLowLevelRenderer();
 

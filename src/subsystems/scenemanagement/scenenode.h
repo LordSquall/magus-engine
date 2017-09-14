@@ -34,6 +34,8 @@ namespace MagusEngine
 
 		void AddComponent(Component* component);
 
+		Component* GetComponent(int index);
+
 		char* GetName();
 
 		void SetPosition(Vector3f position);
@@ -48,8 +50,13 @@ namespace MagusEngine
 		Vector3f* GetRotation();
 		Vector3f* GetScale();
 
+
 		void SetCriticality(bool critical);
 		bool IsCritical();
+
+
+		void SetIsFilter(bool isFilter);
+		bool IsFilter();
 
 		void SetMaterial(Material* material);
 		Material* GetMaterial();
@@ -60,6 +67,7 @@ namespace MagusEngine
 		char _name[25];
 
 		bool	_isCritical;
+		bool	_isFilter;
 
 		Transform _tranform;
 		SceneNode** _children;

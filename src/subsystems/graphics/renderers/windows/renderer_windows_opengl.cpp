@@ -15,7 +15,7 @@ namespace MagusEngine
 		// ---------------------------------------
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{
-			printf("Failed to initialize GLAD\n");
+			printf("nitialize GLAD\n");
 			return false;
 		}
 
@@ -123,7 +123,7 @@ namespace MagusEngine
 		tempMat.BuildIdentity();
 
 		Matrix4f tempProjection = Matrix4f();
-		tempProjection.BuildOrthographic(0.0f, 800.0f, 600.0f, 0.0f,  1.0f, -1.0f);
+		tempProjection.BuildOrthographic(0.0f, 1920.0f, 1080.0f, 0.0f,  1.0f, -1.0f);
 
 		CheckError();
 		glUseProgram(_CurrentShader->GetProgramHandle());
@@ -312,6 +312,53 @@ namespace MagusEngine
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->GetWidth(), texture->GetHeight(), 0,  GL_RGBA, GL_UNSIGNED_BYTE, texture->GetData());
 
 		texture->SetRenderDataHandle(TB);
+	}
+
+	/* Filter API */
+	void Renderer_Windows_OpenGL::ActivateFilter(VBO_Structure* bufferData)
+	{
+		/* Turn of the color buffers */
+		glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+		glDepthMask(GL_FALSE);
+
+		/* Enable stencil testing */
+		glEnable(GL_STENCIL_TEST);
+
+		glStencilFunc(GL_ALWAYS, 1, 0xFF);
+		glStencilOp(GL_INCR, GL_INCR, GL_INCR);
+		glStencilMask(0xFF);
+
+		DrawBuffers(bufferData);
+
+		glStencilFunc(GL_EQUAL, 1, 0xFF);
+		glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+		glStencilMask(0x00);
+
+		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+	}
+
+	void Renderer_Windows_OpenGL::DeactivateFilter(VBO_Structure* bufferData)
+	{
+		/* Turn of the color buffers */
+		glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+		glDepthMask(GL_FALSE);
+
+		/* Enable stencil testing */
+		glEnable(GL_STENCIL_TEST);
+
+		glStencilFunc(GL_ALWAYS, 1, 0xFF);
+		glStencilOp(GL_DECR, GL_DECR, GL_DECR);
+		glStencilMask(0xFF);
+
+		DrawBuffers(bufferData);
+
+		glStencilFunc(GL_ALWAYS, 1, 0xFF);
+		glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+		glStencilMask(0xFF);
+
+		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+
+		glDisable(GL_STENCIL_TEST);
 	}
 
 	void Renderer_Windows_OpenGL::CheckOpenGLError()

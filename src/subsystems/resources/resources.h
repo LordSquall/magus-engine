@@ -6,11 +6,13 @@
 
 /* Local Project Include */
 #include "../io/FontParser.h"
+#include "../io/OBJParser.h"
 #include "hashtable.h"
 #include "texture.h"
 #include "shader.h"
 #include "color.h"
 #include "material.h"
+#include "mesh.h"
 #include "font.h"
 #include "../external/tinydir/tinydir.h"
 #include "../external/lodepng/lodepng.h"
@@ -23,7 +25,7 @@ namespace MagusEngine
 	public:
 		Resources();
 
-		bool Initialise(unsigned int textureMax, unsigned int shaderMax, unsigned int colorMax, unsigned int materialMax, unsigned int fontMax);
+		bool Initialise(unsigned int textureMax, unsigned int shaderMax, unsigned int colorMax, unsigned int materialMax, unsigned int fontMax, unsigned int meshMax);
 
 		bool AddTextureFromFile(const char* name, const char* path);
 
@@ -31,6 +33,8 @@ namespace MagusEngine
 
 		bool AddFontFromFile(const char* name, const char* path);
 
+		bool AddMeshFromFile(const char* name, const char* path);
+		
 		/* Shader Functions */
 		void			AddShader(const char* name, Shader* shader);
 		unsigned int	GetShaderCount();
@@ -60,6 +64,12 @@ namespace MagusEngine
 		unsigned int	GetFontCount();
 		Font*			GetFont(unsigned int index);
 		Font*			GetFont(const char* name);
+		
+		/* Mesh Functions */
+		void			AddMesh(const char* name, Mesh* font);
+		unsigned int	GetMeshCount();
+		Mesh*			GetMesh(unsigned int index);
+		Mesh*			GetMesh(const char* name);
 
 		/* Setters */
 		void SetRootPath(const char* path);
@@ -75,6 +85,7 @@ namespace MagusEngine
 		HashTable _materialsHashTable;
 		HashTable _shadersHashTable;
 		HashTable _fontsHashTable;
+		HashTable _meshHashTable;
 	
 	private:
 		Texture* LoadBmp(const char* name, const char* path);

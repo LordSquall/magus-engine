@@ -67,21 +67,8 @@
 						</graphics2d>
 					</components>
 				</node>
-
-				<node name="testnode" critical="1" children="0" material="mat_sky">
-					<transform>
-						<position x="0.0" y="0.0" z="0.0" />
-						<rotation x="0.0" y="0.0" z="0.0" />
-						<scale x="1.0" y="1.0" z="1.0" />
-					</transform>
-					<components count="1">
-						<graphics2d>
-							<rectangle x="-100.0" y="-100.0" width="200.0" height="200" />
-						</graphics2d>
-					</components>
-				</node>
 				
-				<node name="textnode" children="0">
+				<node name="textnode" critical="1" children="0">
 					<transform>
 						<position x="0.0" y="0.0" z="0.0" />
 						<rotation x="0.0" y="0.0" z="0.0" />

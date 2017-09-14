@@ -34,22 +34,22 @@ namespace MagusEngine
 			Glyph* g = _font->GetGlyph(_content[i]);
 
 			/* Build vertex buffer */
-			vbuffer[(i * 4) + 0].SetX(xcursor);
+			vbuffer[(i * 4) + 0].SetX(_x + xcursor);
 			vbuffer[(i * 4) + 0].SetY(_y);
 			vbuffer[(i * 4) + 0].SetU(g->GetUVBL().x);
 			vbuffer[(i * 4) + 0].SetV(g->GetUVBL().y);
 
-			vbuffer[(i * 4) + 1].SetX(xcursor);
+			vbuffer[(i * 4) + 1].SetX(_x + xcursor);
 			vbuffer[(i * 4) + 1].SetY(_y + g->GetHeight());
 			vbuffer[(i * 4) + 1].SetU(g->GetUVTL().x);
 			vbuffer[(i * 4) + 1].SetV(g->GetUVTL().y);
 
-			vbuffer[(i * 4) + 2].SetX(xcursor + (g->GetWidth()));
+			vbuffer[(i * 4) + 2].SetX(_x + xcursor + (g->GetWidth()));
 			vbuffer[(i * 4) + 2].SetY(_y);
 			vbuffer[(i * 4) + 2].SetU(g->GetUVBR().x);
 			vbuffer[(i * 4) + 2].SetV(g->GetUVBR().y);
 
-			vbuffer[(i * 4) + 3].SetX(xcursor + (g->GetWidth()));
+			vbuffer[(i * 4) + 3].SetX(_x + xcursor + (g->GetWidth()));
 			vbuffer[(i * 4) + 3].SetY(_y + g->GetHeight());
 			vbuffer[(i * 4) + 3].SetU(g->GetUVTR().x);
 			vbuffer[(i * 4) + 3].SetV(g->GetUVTR().y);

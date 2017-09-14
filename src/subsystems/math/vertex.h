@@ -33,6 +33,10 @@ namespace MagusEngine
 		float GetU();
 		float GetV();
 
+		void SetPosition(float x, float y, float z, float w);
+		void SetColor(float r, float g, float b, float a);
+		void SetUV(float u, float v);
+
 		void SetX(float x);
 		void SetY(float y);
 		void SetZ(float x);
@@ -50,6 +54,10 @@ namespace MagusEngine
 
 		Vertex Transform(Matrix4f matrix);
 		Vertex PrespectiveDivide();
+
+		Vertex Lerp(Vertex other, float lerpAmt);
+
+		float GetIndex(int index);
 
 	private:
 		Vector4f _position;

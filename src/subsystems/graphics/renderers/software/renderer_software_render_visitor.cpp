@@ -57,7 +57,7 @@ namespace MagusEngine
 	{
 		if (strcmp(sceneNode->GetName(), "testnode") == 0)
 		{
-			sceneNode->SetRotation(0.0f, 0.0f, sceneNode->GetRotation()->z + 1.0f);
+			sceneNode->SetRotation(sceneNode->GetRotation()->x + 1.0f, 0.0f, 0.0f);
 		}
 	}
 	void Renderer_Software_Render_Visitor::PostVisit(SceneNode* sceneNode)
@@ -108,6 +108,14 @@ namespace MagusEngine
 		/* set the renderer back to the cached texture */
 		_lowLevelRenderer->SetTexture(_cachedTexture);
 	}
+
+	void Renderer_Software_Render_Visitor::PreVisit(Ellipse* ellipse) {}
+	void Renderer_Software_Render_Visitor::Visit(Ellipse* ellipse) {}
+	void Renderer_Software_Render_Visitor::PostVisit(Ellipse* ellipse) {}
+
+	void Renderer_Software_Render_Visitor::PreVisit(Path* path) {}
+	void Renderer_Software_Render_Visitor::Visit(Path* path) {}
+	void Renderer_Software_Render_Visitor::PostVisit(Path* path) {}
 
 	/* Getters */
 	Renderer_Interface* Renderer_Software_Render_Visitor::GetLowLevelRenderer()

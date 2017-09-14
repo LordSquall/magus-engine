@@ -41,6 +41,28 @@ namespace MagusEngine
 	float Vertex::GetU() { return _uv.x; }
 	float Vertex::GetV() { return _uv.y; }
 
+	void Vertex::SetPosition(float x, float y, float z, float w)
+	{ 
+		_position.x = x;
+		_position.y = y;
+		_position.z = z;
+		_position.w = w;
+	}
+
+	void Vertex::SetColor(float r, float g, float b, float a)
+	{
+		_color.x = r;
+		_color.y = g;
+		_color.z = b;
+		_color.w = a;
+	}
+
+	void Vertex::SetUV(float u, float v)
+	{
+		_uv.x = u;
+		_uv.y = v;
+	}
+
 	void Vertex::SetX(float x) { _position.x = x; }
 	void Vertex::SetY(float y) { _position.y = y; }
 	void Vertex::SetZ(float z) { _position.z = z; }
@@ -76,5 +98,24 @@ namespace MagusEngine
 		float y2 = c.GetY() - _position.y;
 
 		return (x1 * y2 - x2 * y1);
+	}
+
+
+	Vertex Vertex::Lerp(Vertex other, float lerpAmt)
+	{
+		return Vertex();
+
+	}
+
+
+	float Vertex::GetIndex(int index)
+	{
+		switch (index)
+		{
+		case 0: return GetX();
+		case 1: return GetY();
+		case 2: return  GetZ();
+		case 3: return GetW();
+		}
 	}
 }

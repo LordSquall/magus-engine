@@ -36,6 +36,7 @@ namespace MagusEngine
 	private:
 		Drawable* _drawable;
 
+
 		VBO_Structure _hwRenderDataHandle;
 		VBO_Structure _swRenderDataHandle;
 

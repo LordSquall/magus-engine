@@ -7,7 +7,7 @@ namespace MagusEngine
 		
 	}
 
-	bool Resources::Initialise(unsigned int textureMax, unsigned int shaderMax, unsigned int colorMax, unsigned int materialMax, unsigned int fontMax)
+	bool Resources::Initialise(unsigned int textureMax, unsigned int shaderMax, unsigned int colorMax, unsigned int materialMax, unsigned int fontMax, unsigned int meshMax)
 	{
 		/* Initialse memory for research hashtables */
 		_textureHashTable.Initialise(textureMax);
@@ -15,6 +15,7 @@ namespace MagusEngine
 		_colorHashTable.Initialise(colorMax);
 		_materialsHashTable.Initialise(materialMax);
 		_fontsHashTable.Initialise(fontMax);
+		_meshHashTable.Initialise(meshMax);
 
 		/* Create dummy 1x1 image with full alpha as default bound texture */
 		Texture* newTexture = new Texture("_defaultBound", 1, 1);
@@ -132,6 +133,20 @@ namespace MagusEngine
 		/* Add the resources object */
 		AddFont(name, newFont);
 		
+		return true;
+	}
+
+	bool Resources::AddMeshFromFile(const char* name, const char* path)
+	{
+		/* Full path buffer */
+		char fullPathBuffer[255];
+		sprintf_s(fullPathBuffer, "%s%s", _rootPath, path);
+
+		Mesh* newMesh = OBJParser::ParseOBJFile(fullPathBuffer, name, this);
+
+		/* Add the resources object */
+		AddMesh(name, newMesh);
+
 		return true;
 	}
 
@@ -396,6 +411,39 @@ namespace MagusEngine
 		if (name != NULL)
 		{
 			FontDataItem* dataItem = (FontDataItem*)_fontsHashTable.Search(name);
+			if (dataItem != NULL)
+			{
+				return dataItem->data;
+			}
+		}
+		return NULL;
+	}
+
+	/* Mesh Functions */
+	void Resources::AddMesh(const char* name, Mesh* font)
+	{
+		MeshDataItem* dataItem = new MeshDataItem();
+		strcpy_s(dataItem->id, name);
+		dataItem->data = font;
+
+		_meshHashTable.Insert(dataItem);
+	}
+
+	unsigned int Resources::GetMeshCount()
+	{
+		return _meshHashTable.GetCount();
+	}
+
+	Mesh* Resources::GetMesh(unsigned int index)
+	{
+		return ((MeshDataItem*)_meshHashTable.Get(index))->data;
+	}
+
+	Mesh* Resources::GetMesh(const char* name)
+	{
+		if (name != NULL)
+		{
+			MeshDataItem* dataItem = (MeshDataItem*)_meshHashTable.Search(name);
 			if (dataItem != NULL)
 			{
 				return dataItem->data;
