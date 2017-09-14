@@ -12,11 +12,10 @@ namespace MagusEngine
 	class Color
 	{
 	public:
-		Color(int id, const char* name, float r, float g, float b, float a);
+		Color(const char* name, float r, float g, float b, float a);
 
 		/* Getters */
 		char* GetName();
-		int   GetId();
 		float GetR();
 		float GetG();
 		float GetB();
@@ -34,7 +33,6 @@ namespace MagusEngine
 		float _b;
 		float _a;
 
-		int	 _id;
 		char _name[25];
 	};
 }

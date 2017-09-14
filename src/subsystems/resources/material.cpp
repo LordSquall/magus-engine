@@ -2,22 +2,17 @@
 
 namespace MagusEngine
 {
-	Material::Material(int id, const char* name, int colorid, int textureid)
+	Material::Material(const char* name)
 	{
-		_id = id;
-
 		strcpy_s(_name, name);
 
-		_colorid = colorid;
-		_textureid = textureid;
+		_color = 0;
+		_texture = 0;
 	}
 
 	/* Getters */
 	char*		Material::GetName() { return _name; }
-	int			Material::GetId() { return _id; }
-	int			Material::GetColorId() { return _colorid; }
 	Color*		Material::GetColor() { return _color; }
-	int			Material::GetTextureId() { return _textureid; }
 	Texture*	Material::GetTexture() { return _texture; }
 		
 	/* Setters */

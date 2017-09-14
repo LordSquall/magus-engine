@@ -6,17 +6,16 @@
 #include <GLFW\glfw3.h>
 
 /* Local Project Includes */
-#include "..\os\os_interface.h"
-#include "renderers\renderer_interface.h"
-#include "renderers\software\renderer_software.h"
-#include "renderers\software\renderer_software_initialise_visitor.h"
-#include "renderers\software\renderer_software_render_visitor.h"
-#include "..\scenemanagement\scenenode.h"
 #include "graphics_visitor.h"
+#include "renderers\renderer_interface.h"
+#include "..\os\os_interface.h"
+#include "..\scenemanagement\scenenode.h"
 #include "..\resources\resources.h"
 
 namespace MagusEngine
 {
+	class Graphics_Blender;
+
 	class Graphics
 	{
 	public:
@@ -43,7 +42,7 @@ namespace MagusEngine
 
 		Renderer_Interface* _lowLevelHardwareRenderer;
 		Renderer_Interface*	_lowLevelSoftwareRenderer;
-	
+		
 		Visitor*			_hardwareInitialiseVisitor;
 		Visitor*			_softwareInitialiseVisitor;
 
@@ -54,6 +53,8 @@ namespace MagusEngine
 
 		std::thread			_hardwareRendererThread;
 		std::thread			_softwareRendererThread;
+
+		Graphics_Blender*	_graphicsBlender;
 	};
 }
 

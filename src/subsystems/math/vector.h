@@ -56,21 +56,10 @@ namespace MagusEngine
 		Vector4f();
 		Vector4f(float x, float y, float z, float w);
 
-		float GetX();
-		float GetY();
-		float GetZ();
-		float GetW();
-
-		void SetX(float x);
-		void SetY(float y);
-		void SetZ(float z);
-		void SetW(float w);
-
-	private:
-		float _x;
-		float _y;
-		float _z;
-		float _w;
+		float x;
+		float y;
+		float z;
+		float w;
 	};
 
 }

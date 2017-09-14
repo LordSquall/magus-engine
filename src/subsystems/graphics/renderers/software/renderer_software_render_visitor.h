@@ -5,6 +5,7 @@
 
 /* Local Project Includes */
 #include "../../../scenemanagement/visitor.h"
+#include "../../../math/matrix.h"
 
 namespace MagusEngine
 {
@@ -36,12 +37,31 @@ namespace MagusEngine
 		void Visit(Graphic2D* graphic2D);
 		void PostVisit(Graphic2D* graphic2D);
 
+		void PreVisit(Rectangle* rectangle);
+		void Visit(Rectangle* rectangle);
+		void PostVisit(Rectangle* rectangle);
+
+		void PreVisit(Line* line);
+		void Visit(Line* line);
+		void PostVisit(Line* line);
+
+		void PreVisit(Text* text);
+		void Visit(Text* text);
+		void PostVisit(Text* text);
+
 		/* Getters */
 		Renderer_Interface* GetLowLevelRenderer();
 
 	private:
 		Renderer_Interface* _lowLevelRenderer;
 		Resources*			_resources;
+
+		Matrix4f			_matrixStack[64];
+		unsigned int		_matrixStackHead;
+
+		bool				_renderCritical;
+
+		Texture*			_cachedTexture;
 	};
 }
 

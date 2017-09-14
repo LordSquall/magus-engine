@@ -39,6 +39,7 @@ namespace MagusEngine
 		unsigned int DrawBuffers(VBO_Structure* bufferData);
 		void SetCurrentModelMatrix(Matrix4f* matrix);
 		void SetMaterial(Material* material);
+		void SetTexture(Texture* texture);
 
 		/* Shader API */
 		void CompileShaderObject(Shader* shader);
@@ -52,8 +53,6 @@ namespace MagusEngine
 	private:
 		HDC		_deviceContext;
 		HGLRC	_renderingContext;
-
-		Shader* _currentShader;
 
 		unsigned int _vao;
 

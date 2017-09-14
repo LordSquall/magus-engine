@@ -19,13 +19,20 @@ namespace MagusEngine
 	class UAParser
 	{
 	public:
-		static UA* ParserUAFile(const char* filename, Resources* resources);
+		UAParser(Resources* resources);
 
-		static SceneNode* ProcessSceneNode(tinyxml2::XMLElement* element, Resources* resources);
-		
-		static Component* ProcessSceneNodeComponent(tinyxml2::XMLElement* element, Resources* resources);
+		UA* Parse(const char* filename);
 
-		static Graphic2D* ProcessSceneNodeComponentGraphics2D(tinyxml2::XMLElement* element, Resources* resources);
+	private:
+
+		SceneNode* ProcessSceneNode(tinyxml2::XMLElement* element);
+		Component* ProcessSceneNodeComponent(tinyxml2::XMLElement* element);
+		Graphic2D* ProcessSceneNodeComponentGraphics2D(tinyxml2::XMLElement* element);
+
+	private:
+		Resources*			_resources;
+		Material*			_materialStack[64];
+		unsigned int		_materialStackHead;
 	};
 }
 

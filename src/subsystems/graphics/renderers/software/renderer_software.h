@@ -4,6 +4,7 @@
 #include "../renderer_interface.h"
 #include "../../../resources/shader.h"
 #include "../../../resources/texture.h"
+#include "../../../../frameworkconfig.h"
 #include "sr_bitmap.h"
 #include "sr_framebuffer.h"
 #include "sr_scanbuffer.h"
@@ -12,10 +13,16 @@ typedef char Byte;
 
 namespace MagusEngine
 {
+	struct MemoryBuffer
+	{
+		void* start;
+		void* end;
+	};
+
 	class Renderer_Software : public Renderer_Interface
 	{
 	public:
-		Renderer_Software();
+		Renderer_Software(FrameworkConfig* config);
 
 		bool Initialise(void*, int, int, float, float, bool);
 		bool InitialiseExtensions();
@@ -36,6 +43,7 @@ namespace MagusEngine
 		unsigned int DrawBuffers(VBO_Structure* bufferData);
 		void SetCurrentModelMatrix(Matrix4f* matrix);
 		void SetMaterial(Material* material);
+		void SetTexture(Texture* texture);
 
 		/* Shader API */		
 		void CompileShaderObject(Shader* shader);
@@ -46,6 +54,8 @@ namespace MagusEngine
 		
 		/* Debug functions */
 		void SaveBitmap();
+
+		Byte* GetFramebufferData();
 		
 	private:
 		SR_Framebuffer _framebuffer;
@@ -57,6 +67,24 @@ namespace MagusEngine
 		float _screenPixelDepth;
 
 		SR_Bitmap _debugBitmap;
+
+		Matrix4f* _modelMatrix;
+
+		unsigned int _vboMemoryLimit;
+		Vertex* _vboMemory;
+		Vertex* _vboMemoryHead;
+
+		unsigned int _iboMemoryLimit;
+		unsigned int* _iboMemory;
+		unsigned int* _iboMemoryHead;
+
+		unsigned int _vboMemoryBufferTableLimit;
+		MemoryBuffer* _vboMemoryBufferTable;
+		unsigned int _vboMemoryBufferCount;
+
+		unsigned int _iboMemoryBufferTableLimit;
+		MemoryBuffer* _iboMemoryBufferTable;
+		unsigned int _iboMemoryBufferCount;
 
 	};
 }

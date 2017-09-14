@@ -5,6 +5,8 @@
 #include <Windows.h>
 
 /* Local Project Include */
+#include "../io/FontParser.h"
+#include "hashtable.h"
 #include "texture.h"
 #include "shader.h"
 #include "color.h"
@@ -29,29 +31,35 @@ namespace MagusEngine
 
 		bool AddFontFromFile(const char* name, const char* path);
 
-		bool AddColor(int id, const char* name, float r, float g, float b, float a);
-
-		bool AddMaterial(Material* material);
-
 		/* Shader Functions */
-		unsigned int GetShaderCount();
-		Shader* GetShader(unsigned int index);
+		void			AddShader(const char* name, Shader* shader);
+		unsigned int	GetShaderCount();
+		Shader*			GetShader(unsigned int index);
+		Shader*			GetShader(const char* name);
 
 		/* Texture Functions */
-		unsigned int GetTextureCount();
-		Texture* GetTexture(unsigned int index);
+		void			AddTexture(const char* name, Texture* texture);
+		unsigned int	GetTextureCount();
+		Texture*		GetTexture(unsigned int index);
+		Texture*		GetTexture(const char* name);
 
 		/* Color Functions */
-		unsigned int GetColorCount();
-		Color* GetColor(unsigned int index);
+		void			AddColor(const char* name, Color* color);
+		unsigned int	GetColorCount();
+		Color*			GetColor(unsigned int index);
+		Color*			GetColor(const char* name);
 
 		/* Material Functions */
-		unsigned int GetMaterialCount();
-		Material* GetMaterial(unsigned int index);
+		void			AddMaterial(const char* name, Material* material);
+		unsigned int	GetMaterialCount();
+		Material*		GetMaterial(unsigned int index);
+		Material*		GetMaterial(const char* name);
 
 		/* Font Functions */
-		unsigned int GetFontCount();
-		Font* GetFont(unsigned int index);
+		void			AddFont(const char* name, Font* font);
+		unsigned int	GetFontCount();
+		Font*			GetFont(unsigned int index);
+		Font*			GetFont(const char* name);
 
 		/* Setters */
 		void SetRootPath(const char* path);
@@ -62,26 +70,12 @@ namespace MagusEngine
 	private:
 		char _rootPath[255];
 
-		Texture** _textures;
-		unsigned int _textureMaxCount;
-		unsigned int _textureCount;
-
-		Color** _colors;
-		unsigned int _colorMaxCount;
-		unsigned int _colorCount;
-
-		Material** _materials;
-		unsigned int _materialMaxCount;
-		unsigned int _materialCount;
-
-		Shader** _shaders;
-		unsigned int _shaderMaxCount;
-		unsigned int _shaderCount;
-
-		Font** _fonts;
-		unsigned int _fontMaxCount;
-		unsigned int _fontCount;
-
+		HashTable _textureHashTable;
+		HashTable _colorHashTable;
+		HashTable _materialsHashTable;
+		HashTable _shadersHashTable;
+		HashTable _fontsHashTable;
+	
 	private:
 		Texture* LoadBmp(const char* name, const char* path);
 		Texture* LoadPng(const char* name, const char* path);

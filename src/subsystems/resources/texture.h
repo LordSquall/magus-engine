@@ -14,6 +14,8 @@ namespace MagusEngine
 	class Texture
 	{
 	public:
+		Texture();
+
 		Texture(const char* name, int width, int height);
 
 		bool Initialise(unsigned int pixelSize);
@@ -24,18 +26,20 @@ namespace MagusEngine
 
 		/* Getters */
 		char* GetName();
-		int GetId();
 		int GetWidth();
 		int GetHeight();
 		Byte* GetData();
 		unsigned int GetRenderDataHandle();
 
 		/* Setters */
+		void SetName(const char* name);
+		void SetWidth(int width);
+		void SetHeight(int height);
+		void SetData(Byte* data);
 		void SetRenderDataHandle(unsigned int handle);
 
 	private:
 		char _name[25];
-		int	_id;
 
 		int	_width;
 		int _height;

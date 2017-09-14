@@ -76,6 +76,9 @@ namespace MagusEngine
 	{
 		int uaCount = 0;
 
+		/* create a UA Parser */
+		UAParser uaparser(&_resources);
+
 		/* look for engine config file in directory */
 		tinydir_dir dir;
 		tinydir_open(&dir, uadir);
@@ -92,7 +95,7 @@ namespace MagusEngine
 			{
 				if(strcmp(dirFile.extension, "uadf") == 0)
 				{
-					_uas[_uaCount] = UAParser::ParserUAFile(dirFile.path, &_resources);
+					_uas[_uaCount] = uaparser.Parse(dirFile.path);
 					_uaCount++;
 				}
 			}
@@ -142,6 +145,30 @@ namespace MagusEngine
 				return false;
 			}
 
+			/* Set software renderer element */
+			tinyxml2::XMLElement* swrendererElement = engineElement->FirstChildElement("softwarerenderer");
+
+			/* Check to make sure the software renderer element is present */
+			if (swrendererElement != NULL)
+			{
+				/* vbo memory limit */
+				_config.sr_vbo_memorylimit = swrendererElement->IntAttribute("vbomemory");
+
+				/* ibo memory limit */
+				_config.sr_ibo_memorylimit = swrendererElement->IntAttribute("ibomemory");
+
+				/* vbo count */
+				_config.sr_vbo_limit = swrendererElement->IntAttribute("vbolimit");
+
+				/* ibo count */
+				_config.sr_ibo_limit = swrendererElement->IntAttribute("ibolimit");
+
+			}
+			else
+			{
+				return false;
+			}
+
 
 			/* Set resources element */
 			tinyxml2::XMLElement* resourcesElement = engineElement->FirstChildElement("resources");
@@ -172,21 +199,44 @@ namespace MagusEngine
 				/* Process each of the texture tags in turn */
 				for (tinyxml2::XMLElement* e = resourcesElement->FirstChildElement("texture"); e != NULL; e = e->NextSiblingElement("texture"))
 				{
-					_resources.AddTextureFromFile(e->Attribute("name"), e->Attribute("path"));
+					if (_resources.AddTextureFromFile(e->Attribute("name"), e->Attribute("path")))
+					{
+						printf("[Resources] Loaded Texture: %s\n", e->Attribute("name"));
+					}
 				}
 
 				/* Process each of the shader tags in turn */
 				for (tinyxml2::XMLElement* e = resourcesElement->FirstChildElement("shader"); e != NULL; e = e->NextSiblingElement("shader"))
 				{
-					_resources.AddShaderFromFile(e->Attribute("name"), e->Attribute("vertexpath"), e->Attribute("fragmentpath"));
+					if(_resources.AddShaderFromFile(e->Attribute("name"), e->Attribute("vertexpath"), e->Attribute("fragmentpath")))
+					{
+						printf("[Resources] Loaded Shader: %s\n", e->Attribute("name"));
+					}
 				}
 
-				/* Process each of the shader tags in turn */
+				/* Process each of the font tags in turn */
 				for (tinyxml2::XMLElement* e = resourcesElement->FirstChildElement("font"); e != NULL; e = e->NextSiblingElement("font"))
 				{
-					_resources.AddFontFromFile(e->Attribute("name"), e->Attribute("path"));
+					if(_resources.AddFontFromFile(e->Attribute("name"), e->Attribute("path")))
+					{
+						printf("[Resources] Loaded Font: %s\n", e->Attribute("name"));
+					}
 				}
 
+				/* Process each of the color tags in turn */
+				for (tinyxml2::XMLElement* e = resourcesElement->FirstChildElement("color"); e != NULL; e = e->NextSiblingElement("color"))
+				{
+					_resources.AddColor(e->Attribute("name"), new Color(e->Attribute("name"), e->FloatAttribute("r"), e->FloatAttribute("g"), e->FloatAttribute("b"), e->FloatAttribute("a")));
+				}
+
+				/* Process each of the mateials tags in turn */
+				for (tinyxml2::XMLElement* e = resourcesElement->FirstChildElement("material"); e != NULL; e = e->NextSiblingElement("material"))
+				{
+					Material* material = new Material(e->Attribute("name"));
+					material->SetColor(_resources.GetColor(e->Attribute("color")));
+					material->SetTexture(_resources.GetTexture(e->Attribute("texture")));
+					_resources.AddMaterial(e->Attribute("name"), material);
+				}
 			}
 			else
 			{

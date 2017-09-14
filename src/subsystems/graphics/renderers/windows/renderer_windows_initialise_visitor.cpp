@@ -1,5 +1,6 @@
 #include "renderer_windows_initialise_visitor.h"
 
+#include "../../../scenemanagement/scenenode.h"
 #include "../../graphic2d.h"
 
 
@@ -8,6 +9,8 @@ namespace MagusEngine
 	Renderer_Windows_Initialise_Visitor::Renderer_Windows_Initialise_Visitor()
 	{
 		_lowLevelRenderer = 0;
+
+		_buildCritical = false;
 	}
 
 	/* Visitor Functions */
@@ -30,18 +33,16 @@ namespace MagusEngine
 		return true;
 	}
 
-	void Renderer_Windows_Initialise_Visitor::PreVisit(SceneNode* sceneNode) {}
-	void Renderer_Windows_Initialise_Visitor::Visit(SceneNode* sceneNode)
+	void Renderer_Windows_Initialise_Visitor::PreVisit(SceneNode* sceneNode) 
 	{
-		printf("[Windows Init Visitor]\tVisit Scene Node\n");
+		_buildCritical = sceneNode->IsCritical();
 	}
+
+	void Renderer_Windows_Initialise_Visitor::Visit(SceneNode* sceneNode){}
 	void Renderer_Windows_Initialise_Visitor::PostVisit(SceneNode* sceneNode) {}
 
 	void Renderer_Windows_Initialise_Visitor::PreVisit(Component* component) {}
-	void Renderer_Windows_Initialise_Visitor::Visit(Component* component)
-	{
-		printf("[Windows Init Visitor]\tVisit Component\n");
-	}
+	void Renderer_Windows_Initialise_Visitor::Visit(Component* component){}
 	void Renderer_Windows_Initialise_Visitor::PostVisit(Component* component) {}
 
 	void Renderer_Windows_Initialise_Visitor::PreVisit(Graphic2D* graphic2D) {}
@@ -50,18 +51,32 @@ namespace MagusEngine
 		int vertexBufferLength; 
 		int indicesBufferLength;
 
-		Drawable* d = graphic2D->GetDrawable();
-		d->Build(&_vertexBuildBuffer[0], &vertexBufferLength, &_indicesBuildBuffer[0], &indicesBufferLength);
+		if (_buildCritical == false)
+		{
+			Drawable* d = graphic2D->GetDrawable();
+			d->Build(&_vertexBuildBuffer[0], &vertexBufferLength, &_indicesBuildBuffer[0], &indicesBufferLength);
 
-		graphic2D->GetRenderDataHandle()->vertexlength = vertexBufferLength;
-		graphic2D->GetRenderDataHandle()->vertexhandle = _lowLevelRenderer->GenerateVertexBuffer(&_vertexBuildBuffer[0], vertexBufferLength);
+			graphic2D->GetHWRenderDataHandle()->vertexlength = vertexBufferLength;
+			graphic2D->GetHWRenderDataHandle()->vertexhandle = _lowLevelRenderer->GenerateVertexBuffer(&_vertexBuildBuffer[0], vertexBufferLength);
 
-		graphic2D->GetRenderDataHandle()->indexlength = indicesBufferLength;
-		graphic2D->GetRenderDataHandle()->indexhandle = _lowLevelRenderer->GenerateIndicesBuffer(&_indicesBuildBuffer[0], indicesBufferLength);
+			graphic2D->GetHWRenderDataHandle()->indexlength = indicesBufferLength;
+			graphic2D->GetHWRenderDataHandle()->indexhandle = _lowLevelRenderer->GenerateIndicesBuffer(&_indicesBuildBuffer[0], indicesBufferLength);
+		}
 	}
-
 	void Renderer_Windows_Initialise_Visitor::PostVisit(Graphic2D* graphic2D) {}
 	
+	void Renderer_Windows_Initialise_Visitor::PreVisit(Rectangle* rectangle) {}
+	void Renderer_Windows_Initialise_Visitor::Visit(Rectangle* rectangle) {}
+	void Renderer_Windows_Initialise_Visitor::PostVisit(Rectangle* rectangle) {}
+
+	void Renderer_Windows_Initialise_Visitor::PreVisit(Line* line) {}
+	void Renderer_Windows_Initialise_Visitor::Visit(Line* line) {}
+	void Renderer_Windows_Initialise_Visitor::PostVisit(Line* line) {}
+
+	void Renderer_Windows_Initialise_Visitor::PreVisit(Text* text) {}
+	void Renderer_Windows_Initialise_Visitor::Visit(Text* text) {}
+	void Renderer_Windows_Initialise_Visitor::PostVisit(Text* text) {}
+
 	/* Getters */
 	Renderer_Interface* Renderer_Windows_Initialise_Visitor::GetLowLevelRenderer()
 	{

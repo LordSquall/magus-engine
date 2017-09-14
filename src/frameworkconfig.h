@@ -8,6 +8,11 @@ namespace MagusEngine
 		char title[25];
 		int width;
 		int height;
+
+		unsigned int sr_vbo_memorylimit;
+		unsigned int sr_ibo_memorylimit;
+		unsigned int sr_vbo_limit;
+		unsigned int sr_ibo_limit;
 	}FrameworkConfig;
 }
 

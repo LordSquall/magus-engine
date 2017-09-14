@@ -58,27 +58,17 @@ namespace MagusEngine
 
 	Vector4f::Vector4f()
 	{
-		_x = 0.0f;
-		_y = 0.0f;
-		_z = 0.0f;
-		_w = 0.0f;
+		x = 0.0f;
+		y = 0.0f;
+		z = 0.0f;
+		w = 0.0f;
 	}
 
 	Vector4f::Vector4f(float x, float y, float z, float w)
 	{
-		_x = x;
-		_y = y;
-		_z = z;
-		_w = w;
+		this->x = x;
+		this->y = y;
+		this->z = z;
+		this->w = w;
 	}
-
-	float Vector4f::GetX() { return _x; }
-	float Vector4f::GetY() { return _y; }
-	float Vector4f::GetZ() { return _z; }
-	float Vector4f::GetW() { return _w; }
-
-	void Vector4f::SetX(float x) { _x = x; }
-	void Vector4f::SetY(float y) { _y = y; }
-	void Vector4f::SetZ(float z) { _z = z; }
-	void Vector4f::SetW(float w) { _w = w; }
 }

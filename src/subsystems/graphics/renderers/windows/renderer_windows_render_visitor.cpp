@@ -2,6 +2,7 @@
 
 #include "../../../scenemanagement/scenenode.h"
 #include "../../graphic2d.h"
+#include "../../primitives/text.h"
 
 namespace MagusEngine
 {
@@ -9,6 +10,10 @@ namespace MagusEngine
 	{
 		_lowLevelRenderer = 0;
 		_matrixStackHead = 0;
+
+		_renderCritical = false;
+
+		_cachedTexture = 0;
 	}
 
 	/* Visitor Functions */
@@ -39,6 +44,13 @@ namespace MagusEngine
 		model = _matrixStack[_matrixStackHead-1] * (scale * translation * rotation);
 		_matrixStack[_matrixStackHead] = model;
 		_matrixStackHead++;
+
+		/* Set the current material settings in the low level renderer */
+		if(sceneNode->GetMaterial() != NULL)
+			_lowLevelRenderer->SetMaterial(sceneNode->GetMaterial());
+
+		_renderCritical = sceneNode->IsCritical();
+
 	}
 
 	void Renderer_Windows_Render_Visitor::Visit(SceneNode* sceneNode)
@@ -51,26 +63,51 @@ namespace MagusEngine
 	
 	void Renderer_Windows_Render_Visitor::PostVisit(SceneNode* sceneNode) 
 	{
+		if (sceneNode->GetMaterial() != NULL)
+			_lowLevelRenderer->SetMaterial(sceneNode->GetMaterial());
+
 		_matrixStackHead--;
 	}
 	
 	void Renderer_Windows_Render_Visitor::PreVisit(Component* component) {}
-	void Renderer_Windows_Render_Visitor::Visit(Component* component)
-	{
-	}
+	void Renderer_Windows_Render_Visitor::Visit(Component* component) {}
 	void Renderer_Windows_Render_Visitor::PostVisit(Component* component) {}
 
 	void Renderer_Windows_Render_Visitor::PreVisit(Graphic2D* graphic2D) 
 	{
 		_lowLevelRenderer->SetCurrentModelMatrix(&_matrixStack[_matrixStackHead-1]);
 	}
+
 	void Renderer_Windows_Render_Visitor::Visit(Graphic2D* graphic2D)
 	{
-		_lowLevelRenderer->SetMaterial(graphic2D->GetMaterial());
-
-		_lowLevelRenderer->DrawBuffers(graphic2D->GetRenderDataHandle());
+		if(_renderCritical == false)
+			_lowLevelRenderer->DrawBuffers(graphic2D->GetHWRenderDataHandle());
 	}
 	void Renderer_Windows_Render_Visitor::PostVisit(Graphic2D* graphic2D) {}
+
+	void Renderer_Windows_Render_Visitor::PreVisit(Rectangle* rectangle) {}
+	void Renderer_Windows_Render_Visitor::Visit(Rectangle* rectangle) {}
+	void Renderer_Windows_Render_Visitor::PostVisit(Rectangle* rectangle) {}
+
+	void Renderer_Windows_Render_Visitor::PreVisit(Line* line) {}
+	void Renderer_Windows_Render_Visitor::Visit(Line* line) {}
+	void Renderer_Windows_Render_Visitor::PostVisit(Line* line) {}
+
+	void Renderer_Windows_Render_Visitor::PreVisit(Text* text) 
+	{
+		/* cache the current texture */
+		_cachedTexture = _lowLevelRenderer->GetTexture();
+
+		/* set the texture to the font texture */
+		_lowLevelRenderer->SetTexture(text->GetFont()->GetTexture());
+	}
+
+	void Renderer_Windows_Render_Visitor::Visit(Text* text) {}
+	void Renderer_Windows_Render_Visitor::PostVisit(Text* text)
+	{
+		/* set the renderer back to the cached texture */
+		_lowLevelRenderer->SetTexture(_cachedTexture);
+	}
 
 	/* Getters */
 	Renderer_Interface* Renderer_Windows_Render_Visitor::GetLowLevelRenderer()

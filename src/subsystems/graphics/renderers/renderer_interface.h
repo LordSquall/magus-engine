@@ -34,6 +34,7 @@ namespace MagusEngine
 		virtual unsigned int DrawBuffers(VBO_Structure* bufferData) = 0;
 		virtual void SetCurrentModelMatrix(Matrix4f* matrix) = 0;
 		virtual void SetMaterial(Material* material) = 0;
+		virtual void SetTexture(Texture* texture) = 0;
 
 		/* Shader API */
 		virtual void CompileShaderObject(Shader* shader) = 0;
@@ -42,9 +43,18 @@ namespace MagusEngine
 		/* Texture API */
 		virtual void CreateTexture(Texture* texture) = 0;
 
+		/* Common Getters */
+		Shader* GetShader();
+		Material* GetMaterial();
+		Texture* GetTexture();
 
 	public:
 		void* _windowSystemHandle;
+
+	protected:
+		Shader* _CurrentShader;
+		Material* _CurrentMaterial;
+		Texture * _CurrentTexture;
 	};
 }
 

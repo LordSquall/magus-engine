@@ -48,10 +48,18 @@ namespace MagusEngine
 		Vector3f* GetRotation();
 		Vector3f* GetScale();
 
+		void SetCriticality(bool critical);
+		bool IsCritical();
+
+		void SetMaterial(Material* material);
+		Material* GetMaterial();
+
 		void Accept(Visitor* visitor);
 
 	public:
 		char _name[25];
+
+		bool	_isCritical;
 
 		Transform _tranform;
 		SceneNode** _children;
@@ -61,6 +69,8 @@ namespace MagusEngine
 		Component** _components;
 		unsigned int _maxComponentCount;
 		unsigned int _componentCount;
+
+		Material* _material;
 	};
 }
 

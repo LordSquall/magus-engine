@@ -9,30 +9,12 @@ namespace MagusEngine
 
 	bool Resources::Initialise(unsigned int textureMax, unsigned int shaderMax, unsigned int colorMax, unsigned int materialMax, unsigned int fontMax)
 	{
-		/* Initialse memory for texture pointers */
-		_textures = (Texture**)malloc(sizeof(Texture**) * textureMax);
-		_textureMaxCount = textureMax;
-		_textureCount = 0;
-
-		/* Initialse memory for shader pointers */
-		_shaders = (Shader**)malloc(sizeof(Shader**) * shaderMax);
-		_shaderMaxCount = shaderMax;
-		_shaderCount = 0;
-
-		/* Initialse memory for color pointers */
-		_colors = (Color**)malloc(sizeof(Color**) * colorMax);
-		_colorMaxCount = colorMax;
-		_colorCount = 0;
-
-		/* Initialse memory for material pointers */
-		_materials = (Material**)malloc(sizeof(Material**) * colorMax);
-		_materialMaxCount = colorMax;
-		_materialCount = 0;
-
-		/* Initialse memory for font pointers */
-		_fonts = (Font**)malloc(sizeof(Font**) * fontMax);
-		_fontMaxCount = fontMax;
-		_fontCount = 0;
+		/* Initialse memory for research hashtables */
+		_textureHashTable.Initialise(textureMax);
+		_shadersHashTable.Initialise(shaderMax);
+		_colorHashTable.Initialise(colorMax);
+		_materialsHashTable.Initialise(materialMax);
+		_fontsHashTable.Initialise(fontMax);
 
 		return true;
 	}
@@ -52,9 +34,8 @@ namespace MagusEngine
 		}
 
 		/* Add the resources object */
-		_textures[_textureCount] = newTexture;
-		_textureCount++;
-
+		AddTexture(name, newTexture);
+		
 		return true;
 	}
 
@@ -125,9 +106,8 @@ namespace MagusEngine
 		newShader->GetFragmentSrc()[filesize] = '\0';
 
 		/* Add the resources object */
-		_shaders[_shaderCount] = newShader;
-		_shaderCount++;
-
+		AddShader(name, newShader);
+		
 		return true;
 	}
 
@@ -136,87 +116,12 @@ namespace MagusEngine
 		/* Full path buffer */
 		char fullPathBuffer[255];
 		sprintf_s(fullPathBuffer, "%s%s", _rootPath, path);
-
-		char* tokstate = 0;		
-		char* tokpairstate = 0;
-
-		
-		Font* newFont = new Font(0, name);
-
-		//FILE* fp;
-		//char buffer[255];
-
-		//fp = fopen(fullPathBuffer, "r");
-
-		///* Read and parse the first 4 lines */
-		///* info information */
-		//fgets(buffer, 255, (FILE*)fp);
-		//printf("%s\n", buffer);
-		//char *p = strtok_s(buffer, " ", &tokstate);
-		//
-		///* ignore the first token as it's a label */
-		//p = strtok_s(buffer, " ", &tokstate);
-		//while(p != NULL) {
-		//	printf("%s\n", p);
-
-		//	char* pair = strtok_s(p, "=", &tokpairstate);
-		//	while(pair != NULL) {
-		//		printf("%s\n", pair);
-		//		pair = strtok_s(NULL, "=", &tokpairstate);
-		//	}
-
-
-		//	/* Get value pair */
-		//	p = strtok_s(NULL, " ", &tokstate);
-		//}
-		//
-		///* common information */
-		//fgets(buffer, 255, (FILE*)fp);
-		//printf("%s\n", buffer);
-
-		//
-		///* page information */
-		//fgets(buffer, 255, (FILE*)fp);
-		//printf("%s\n", buffer);
-
-		//
-		///* char count information */
-		//fgets(buffer, 255, (FILE*)fp);
-		//printf("%s\n", buffer);
-
-		//
-
-		///* chars information */
-		//printf("%s\n", buffer);
-
-		//fclose(fp);
-
+	
+		Font* newFont = FontParser::ParseFontFile(fullPathBuffer, name, this);
 
 		/* Add the resources object */
-		_fonts[_fontCount] = newFont;
-		_fontCount++;
-
-		return true;
-	}
-
-	bool Resources::AddColor(int id, const char* name, float r, float g, float b, float a)
-	{
-		_colors[_colorCount] = new Color(id, name, r, g, b, a);
-		_colorCount++;
-		return true;
-	}
-
-	bool Resources::AddMaterial(Material* material)
-	{
-		_materials[_materialCount] = material;
-		_materialCount++;
-
-		/* resolve color */
-		material->SetColor(GetColor(material->GetColorId()));
+		AddFont(name, newFont);
 		
-		/* resolve texture */
-		material->SetTexture(GetTexture(material->GetTextureId()));
-
 		return true;
 	}
 
@@ -231,7 +136,7 @@ namespace MagusEngine
 		if (!file)
 		{
 			printf("Failure to open bitmap file.\n");
-			return false;
+			return NULL;
 		}
 
 		BITMAPFILEHEADER* bmpHeader = nullptr; // Header
@@ -256,7 +161,7 @@ namespace MagusEngine
 		if (bmpHeader->bfType != 0x4D42)
 		{
 			printf("File %s isn't a bitmap file\n", fullPathBuffer);
-			return false;
+			return NULL;
 		}
 
 		// Calculate image size
@@ -324,59 +229,169 @@ namespace MagusEngine
 	}
 
 	/* Shader Functions */
+	void Resources::AddShader(const char* name, Shader* shader)
+	{
+		ShaderDataItem* dataItem = new ShaderDataItem();
+		strcpy_s(dataItem->id, name);
+		dataItem->data = shader;
+
+		_shadersHashTable.Insert(dataItem);
+	}
+
 	unsigned int Resources::GetShaderCount()
 	{
-		return _shaderCount;
+		return _shadersHashTable.GetCount();
 	}
 
 	Shader* Resources::GetShader(unsigned int index)
 	{
-		return _shaders[index];
+		return ((ShaderDataItem*)_shadersHashTable.Get(index))->data;
+	}
+
+	Shader* Resources::GetShader(const char* name)
+	{
+		if (name != NULL)
+		{
+			ShaderDataItem* dataItem = (ShaderDataItem*)_shadersHashTable.Search(name);
+			if (dataItem != NULL)
+			{
+				return dataItem->data;
+			}
+		}
+		return NULL;
 	}
 
 	/* Texture Functions */
+	void Resources::AddTexture(const char* name, Texture* texture)
+	{
+		TextureDataItem* dataItem = new TextureDataItem();
+		strcpy_s(dataItem->id, name);
+		dataItem->data = texture;
+
+		_textureHashTable.Insert(dataItem);
+	}
+
 	unsigned int Resources::GetTextureCount()
 	{
-		return _textureCount;
+		return _textureHashTable.GetCount();
 	}
 
 	Texture* Resources::GetTexture(unsigned int index)
 	{
-		return _textures[index];
+		return ((TextureDataItem*)_textureHashTable.Get(index))->data;
+	}
+
+	Texture* Resources::GetTexture(const char* name)
+	{
+		if (name != NULL)
+		{
+			TextureDataItem* dataItem = (TextureDataItem*)_textureHashTable.Search(name);
+			if (dataItem != NULL)
+			{
+				return dataItem->data;
+			}
+		}
+		return NULL;
 	}
 
 	/* Color Functions */
+	void Resources::AddColor(const char* name, Color* color)
+	{
+		ColorDataItem* dataItem = new ColorDataItem();
+		strcpy_s(dataItem->id, name);
+		dataItem->data = color;
+
+		_colorHashTable.Insert(dataItem);
+	}
+	
 	unsigned int Resources::GetColorCount()
 	{
-		return _colorCount;
+		return _colorHashTable.GetCount();
 	}
 
 	Color* Resources::GetColor(unsigned int index)
 	{
-		return _colors[index];
+		return ((ColorDataItem*)_colorHashTable.Get(index))->data;
+	}
+
+	Color* Resources::GetColor(const char* name)
+	{
+		if (name != NULL)
+		{
+			ColorDataItem* dataItem = (ColorDataItem*)_colorHashTable.Search(name);
+			if (dataItem != NULL)
+			{
+				return dataItem->data;
+			}
+		}
+		return NULL;
 	}
 
 
 	/* Material Functions */
+	void Resources::AddMaterial(const char* name, Material* material)
+	{
+		MaterialDataItem* dataItem = new MaterialDataItem();
+		strcpy_s(dataItem->id, name);
+		dataItem->data = material;
+
+		_materialsHashTable.Insert(dataItem);
+	}
+
 	unsigned int Resources::GetMaterialCount()
 	{
-		return _materialCount;
+		return _materialsHashTable.GetCount();
 	}
 
 	Material* Resources::GetMaterial(unsigned int index)
 	{
-		return _materials[index];
+		return ((MaterialDataItem*)_materialsHashTable.Get(index))->data;
+	}
+
+	Material* Resources::GetMaterial(const char* name)
+	{
+		if (name != NULL)
+		{
+			MaterialDataItem* dataItem = (MaterialDataItem*)_materialsHashTable.Search(name);
+			if (dataItem != NULL)
+			{
+				return dataItem->data;
+			}
+		}
+		return NULL;
 	}
 
 	/* Font Functions */
+	void Resources::AddFont(const char* name, Font* font)
+	{
+		FontDataItem* dataItem = new FontDataItem();
+		strcpy_s(dataItem->id, name);
+		dataItem->data = font;
+
+		_fontsHashTable.Insert(dataItem);
+	}
+
 	unsigned int Resources::GetFontCount()
 	{
-		return _fontCount;
+		return _fontsHashTable.GetCount();
 	}
 
 	Font* Resources::GetFont(unsigned int index)
 	{
-		return _fonts[index];
+		return ((FontDataItem*)_fontsHashTable.Get(index))->data;
+	}
+
+	Font* Resources::GetFont(const char* name)
+	{
+		if (name != NULL)
+		{
+			FontDataItem* dataItem = (FontDataItem*)_fontsHashTable.Search(name);
+			if (dataItem != NULL)
+			{
+				return dataItem->data;
+			}
+		}
+		return NULL;
 	}
 
 	/* Setters */

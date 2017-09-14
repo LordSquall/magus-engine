@@ -38,14 +38,28 @@ namespace MagusEngine
 		void Visit(Graphic2D* graphic2D);
 		void PostVisit(Graphic2D* graphic2D);
 
+		void PreVisit(Rectangle* rectangle);
+		void Visit(Rectangle* rectangle);
+		void PostVisit(Rectangle* rectangle);
+
+		void PreVisit(Line* line);
+		void Visit(Line* line);
+		void PostVisit(Line* line);
+
+		void PreVisit(Text* text);
+		void Visit(Text* text);
+		void PostVisit(Text* text);
+
 		/* Getters */
 		Renderer_Interface* GetLowLevelRenderer();
 
 	private:
 		Renderer_Interface* _lowLevelRenderer;
 		Resources*			_resources;
-		Vertex _vertexBuildBuffer[200];
-		unsigned int _indicesBuildBuffer[400];
+		Vertex _vertexBuildBuffer[1000];
+		unsigned int _indicesBuildBuffer[4000];
+
+		bool		_buildCritical;
 	};
 }
 

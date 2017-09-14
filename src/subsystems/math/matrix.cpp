@@ -86,11 +86,15 @@ namespace MagusEngine
 
 	void Matrix4f::BuildScale(float x, float y, float z)
 	{
-
+		m[0][0] = x;	m[0][1] = 0.0f;	m[0][2] = 0.0f;	m[0][3] = 0.0f;
+		m[1][0] = 0.0f;	m[1][1] = y;	m[1][2] = 0.0f;	m[1][3] = 0.0f;
+		m[2][0] = 0.0f;	m[2][1] = 0.0f;	m[2][2] = z;	m[2][3] = 0.0f;
+		m[3][0] = 0.0f;	m[3][1] = 0.0f;	m[3][2] = 0.0f;	m[3][3] = 1.0f;
 	}
 
 	void Matrix4f::BuildScale(Vector3f* vec)
 	{
+		BuildScale(vec->GetX(), vec->GetY(), vec->GetZ());
 	}
 
 	void Matrix4f::BuildOrthographic(float left, float right, float top, float bottom, float znear, float zfar)
@@ -116,6 +120,15 @@ namespace MagusEngine
 		m[3][0] = 0.0f;				m[3][1] = 0.0f;		m[3][2] = 0.0f;					m[3][3] = 1.0f;
 	}
 
+
+	void Matrix4f::BuildScreenSpaceTransform(float halfwidth, float halfheight)
+	{
+		m[0][0] = halfwidth;	m[0][1] = 0.0f;			m[0][2] = 0.0f;		m[0][3] = halfwidth;
+		m[1][0] = 0.0f;			m[1][1] = -halfheight;	m[1][2] = 0.0f;		m[1][3] = halfheight;
+		m[2][0] = 0.0f;			m[2][1] = 0.0f;			m[2][2] = 1.0f;		m[2][3] = 0.0f;
+		m[3][0] = 0.0f;			m[3][1] = 0.0f;			m[3][2] = 0.0f;		m[3][3] = 1.0f;
+	}
+
 	Matrix4f Matrix4f::operator*(const Matrix4f& b)
 	{
 		Matrix4f t = Matrix4f();
@@ -132,5 +145,16 @@ namespace MagusEngine
 		}
 
 		return t;
+	}
+
+	Vector4f Matrix4f::operator*(const Vector4f& b)
+	{
+		
+		return Vector4f(
+			(m[0][0] * b.x) + (m[0][1] * b.y) + (m[0][2] * b.z) + (m[0][3] * b.w),
+			(m[1][0] * b.x) + (m[1][1] * b.y) + (m[1][2] * b.z) + (m[1][3] * b.w),
+			(m[2][0] * b.x) + (m[2][1] * b.y) + (m[2][2] * b.z) + (m[2][3] * b.w),
+			(m[3][0] * b.x) + (m[3][1] * b.y) + (m[3][2] * b.z) + (m[3][3] * b.w)		
+		);
 	}
 }

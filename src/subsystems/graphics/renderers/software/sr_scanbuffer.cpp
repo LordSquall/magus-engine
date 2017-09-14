@@ -38,9 +38,11 @@ namespace MagusEngine
 
 	void SR_Scanbuffer::FillTriangle(Vertex v1, Vertex v2, Vertex v3)
 	{
-		Vertex minY = v1;
-		Vertex midY = v2;
-		Vertex maxY = v3;
+		Matrix4f screenSpace;
+		screenSpace.BuildScreenSpaceTransform(400.0f, 300.0f);
+		Vertex minY = v1.Transform(screenSpace).PrespectiveDivide();
+		Vertex midY = v2.Transform(screenSpace).PrespectiveDivide();
+		Vertex maxY = v3.Transform(screenSpace).PrespectiveDivide();
 
 		if (maxY.GetY() < midY.GetY())
 		{
@@ -63,7 +65,7 @@ namespace MagusEngine
 			midY = temp;
 		}
 
-		float area = minY.TriangleArea(maxY, midY);
+		float area = minY.TriangleAreaTimesTwo(maxY, midY);
 		int dir = area >= 0 ? 1 : 0;
 
 		ScanConvertTriangle(minY, midY, maxY, dir);

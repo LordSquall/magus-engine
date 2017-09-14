@@ -13,6 +13,9 @@ namespace MagusEngine
 	class SceneNode;
 	class Component;
 	class Graphic2D;
+	class Rectangle;
+	class Line;
+	class Text;
 	
 	class Visitor
 	{
@@ -31,6 +34,17 @@ namespace MagusEngine
 		virtual void Visit(Graphic2D* graphic2d) = 0;
 		virtual void PostVisit(Graphic2D* graphic2d) = 0;
 
+		virtual void PreVisit(Rectangle* rectangle) = 0;
+		virtual void Visit(Rectangle* rectangle) = 0;
+		virtual void PostVisit(Rectangle* rectangle) = 0;
+
+		virtual void PreVisit(Line* line) = 0;
+		virtual void Visit(Line* line) = 0;
+		virtual void PostVisit(Line* line) = 0;
+
+		virtual void PreVisit(Text* text) = 0;
+		virtual void Visit(Text* text) = 0;
+		virtual void PostVisit(Text* text) = 0;
 	};
 }
 

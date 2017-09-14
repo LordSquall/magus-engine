@@ -1,5 +1,7 @@
 #include "rectangle.h"
 
+#include "../../scenemanagement/visitor.h"
+
 namespace MagusEngine
 {
 	Rectangle::Rectangle()
@@ -24,21 +26,29 @@ namespace MagusEngine
 		/* Build vertex buffer */
 		vbuffer[0].SetX(_x);
 		vbuffer[0].SetY(_y);
+		vbuffer[0].SetZ(0.0f);
+		vbuffer[0].SetW(1.0f); 
 		vbuffer[0].SetU(0.0f);
 		vbuffer[0].SetV(1.0f);
 
 		vbuffer[1].SetX(_x);
 		vbuffer[1].SetY(_y +  _height);
+		vbuffer[1].SetZ(0.0f);
+		vbuffer[1].SetW(1.0f);
 		vbuffer[1].SetU(0.0f);
 		vbuffer[1].SetV(0.0f);
 
 		vbuffer[2].SetX(_x + _width);
 		vbuffer[2].SetY(_y);
+		vbuffer[2].SetZ(0.0f);
+		vbuffer[2].SetW(1.0f);
 		vbuffer[2].SetU(1.0f);
 		vbuffer[2].SetV(1.0f);
 
 		vbuffer[3].SetX(_x + _width);
 		vbuffer[3].SetY(_y + _height);
+		vbuffer[3].SetZ(0.0f);
+		vbuffer[3].SetW(1.0f);
 		vbuffer[3].SetU(1.0f);
 		vbuffer[3].SetV(0.0f);
 
@@ -53,6 +63,22 @@ namespace MagusEngine
 		/* Set buffer lengths */
 		*vbufferLength = 4;
 		*ibufferLength = 6;
+	}
+	
+	void Rectangle::PreDraw(Visitor* visitor)
+	{
+		visitor->PreVisit(this);
+	}
+
+	void Rectangle::PostDraw(Visitor* visitor)
+	{
+		visitor->PostVisit(this);
+	}
+
+	/* Visitable Functions */
+	void Rectangle::Accept(Visitor* visitor)
+	{
+		visitor->Visit(this);
 	}
 
 	/* Getters */

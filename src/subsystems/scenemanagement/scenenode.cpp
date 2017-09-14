@@ -22,6 +22,8 @@ namespace MagusEngine
 	SceneNode::SceneNode()
 	{
 		_tranform = Transform();
+
+		_material = NULL;
 	}
 	
 	bool SceneNode::Initialise(const char* name, int maxChildren)
@@ -119,4 +121,9 @@ namespace MagusEngine
 	Vector3f* SceneNode::GetRotation() { return &_tranform.rotation; }
 	Vector3f* SceneNode::GetScale() { return &_tranform.scale; }
 
+	void SceneNode::SetCriticality(bool critical) { _isCritical = critical; }
+	bool SceneNode::IsCritical() { return _isCritical; }
+
+	void SceneNode::SetMaterial(Material* material) { _material = material; }
+	Material* SceneNode::GetMaterial() { return _material; }
 }

@@ -1,5 +1,7 @@
 #include "line.h"
 
+#include "../../scenemanagement/visitor.h"
+
 namespace MagusEngine
 {
 	Line::Line()
@@ -60,6 +62,22 @@ namespace MagusEngine
 		/* Set buffer lengths */
 		*vbufferLength = 4;
 		*ibufferLength = 6;
+	}
+
+	void Line::PreDraw(Visitor* visitor)
+	{
+		visitor->PreVisit(this);
+	}
+
+	void Line::PostDraw(Visitor* visitor)
+	{
+		visitor->PostVisit(this);
+	}
+
+	/* Visitable Functions */
+	void Line::Accept(Visitor* visitor)
+	{
+		visitor->Visit(this);
 	}
 
 	/* Getters */

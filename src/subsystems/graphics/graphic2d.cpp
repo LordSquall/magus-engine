@@ -5,8 +5,8 @@ namespace MagusEngine
 	Graphic2D::Graphic2D()
 	{
 		_drawable = 0;
-		_material = 0;
-		_renderDataHandle = VBO_Structure();
+		_hwRenderDataHandle = VBO_Structure();
+		_swRenderDataHandle = VBO_Structure();
 	}
 
 	/* Visitable Functions*/
@@ -14,9 +14,15 @@ namespace MagusEngine
 	{
 		visitor->PreVisit(this);
 
+		_drawable->PreDraw(visitor);
+
 		visitor->Visit(this);
-	
+
+		_drawable->Accept(visitor);
+
 		visitor->PostVisit(this);
+
+		_drawable->PostDraw(visitor);
 	}
 
 	/* Component Functions */
@@ -28,10 +34,9 @@ namespace MagusEngine
 
 	/* Getters */
 	Drawable* Graphic2D::GetDrawable() { return _drawable; }
-	Material* Graphic2D::GetMaterial() { return _material; }
-	VBO_Structure* Graphic2D::GetRenderDataHandle() { return &_renderDataHandle; }
+	VBO_Structure* Graphic2D::GetHWRenderDataHandle() { return &_hwRenderDataHandle; }
+	VBO_Structure* Graphic2D::GetSWRenderDataHandle() { return &_swRenderDataHandle; }
 
 	/* Setters */
 	void Graphic2D::SetDrawable(Drawable* drawable) { _drawable = drawable; }
-	void Graphic2D::SetMaterial(Material* material) { _material = material; }
 }

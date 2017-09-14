@@ -26,6 +26,11 @@ namespace MagusEngine
 
 		/* Drawable Functions */
 		void Build(Vertex* vbuffer, int* vbufferLength, unsigned int* ibuffer, int* ibufferLength);
+		void PreDraw(Visitor* visitor);
+		void PostDraw(Visitor* visitor);
+
+		/* Visitable Functions */
+		void Accept(Visitor* visitor);
 
 		/* Getters */
 		float GetX1();

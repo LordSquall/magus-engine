@@ -1,5 +1,11 @@
 #include "graphics.h"
 
+#include "graphics_blender.h"
+#include "renderers\software\renderer_software_initialise_visitor.h"
+#include "renderers\software\renderer_software_render_visitor.h"
+#include "renderers\software\renderer_software.h"
+#include "renderers\windows\renderer_windows_opengl.h"
+
 namespace MagusEngine
 {
 	Graphics::Graphics()
@@ -40,7 +46,7 @@ namespace MagusEngine
 		/* Once windows is ready we can initilase the low level renderer */
 		_lowLevelHardwareRenderer->Initialise(this, _config->width, _config->height, 1000.0f, -1.0f, false);
 
-		_lowLevelSoftwareRenderer = new Renderer_Software();
+		_lowLevelSoftwareRenderer = new Renderer_Software(_config);
 		_lowLevelSoftwareRenderer->Initialise(os, 800, 600, 0, 10000, false);
 
 		
@@ -77,7 +83,12 @@ namespace MagusEngine
 		_softwareRenderVisitor = new Renderer_Software_Render_Visitor();
 		_softwareRenderVisitor->Initialise(_lowLevelSoftwareRenderer, _resources);
 
+		_graphicsBlender = new Graphics_Blender();
+		_graphicsBlender->Initialise(_lowLevelHardwareRenderer, _lowLevelSoftwareRenderer);
+		
 		_rootScene.Accept(_hardwareInitialiseVisitor);
+
+		_rootScene.Accept(_softwareInitialiseVisitor);
 
 		return true;
 	}
@@ -111,6 +122,14 @@ namespace MagusEngine
 
 		/* End the Hardware Renderer scene */
 		_lowLevelHardwareRenderer->EndScene();
+
+		_lowLevelSoftwareRenderer->BeginScene(0.0f, 0.0f, 0.0f, 0.0f);
+
+		_rootScene.Accept(_softwareRenderVisitor);
+
+		_lowLevelSoftwareRenderer->EndScene();
+
+		_graphicsBlender->Render();
 
 		return true;
 	}

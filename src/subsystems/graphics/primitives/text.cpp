@@ -1,5 +1,7 @@
 #include "text.h"
 
+#include "../../scenemanagement/visitor.h"
+
 namespace MagusEngine
 {
 	Text::Text()
@@ -25,55 +27,77 @@ namespace MagusEngine
 		int vertCount = 0;
 		int indicesCount = 0;
 
+		float xcursor = 0.0f;
+
 		for (int i = 0; i < length; i++)
 		{
+			Glyph* g = _font->GetGlyph(_content[i]);
+
 			/* Build vertex buffer */
-			vbuffer[(i * 4)].SetX(_x + (i * 20.0f));
-			vbuffer[(i * 4)].SetY(_y);
-			vbuffer[(i * 4)].SetU(0.0f);
-			vbuffer[(i * 4)].SetV(1.0f);
+			vbuffer[(i * 4) + 0].SetX(xcursor);
+			vbuffer[(i * 4) + 0].SetY(_y);
+			vbuffer[(i * 4) + 0].SetU(g->GetUVBL().GetX());
+			vbuffer[(i * 4) + 0].SetV(g->GetUVBL().GetY());
 
-			vbuffer[(i * 4) + 1].SetX(_x + (i * 20.0f));
-			vbuffer[(i * 4) + 1].SetY(_y + 50.0f);
-			vbuffer[(i * 4) + 1].SetU(0.0f);
-			vbuffer[(i * 4) + 1].SetV(0.0f);
+			vbuffer[(i * 4) + 1].SetX(xcursor);
+			vbuffer[(i * 4) + 1].SetY(_y + g->GetHeight());
+			vbuffer[(i * 4) + 1].SetU(g->GetUVTL().GetX());
+			vbuffer[(i * 4) + 1].SetV(g->GetUVTL().GetY());
 
-			vbuffer[(i * 4) + 2].SetX(_x + (i * 20.0f) + 10.0f);
+			vbuffer[(i * 4) + 2].SetX(xcursor + (g->GetWidth()));
 			vbuffer[(i * 4) + 2].SetY(_y);
-			vbuffer[(i * 4) + 2].SetU(1.0f);
-			vbuffer[(i * 4) + 2].SetV(1.0f);
+			vbuffer[(i * 4) + 2].SetU(g->GetUVBR().GetX());
+			vbuffer[(i * 4) + 2].SetV(g->GetUVBR().GetY());
 
-			vbuffer[(i * 4) + 3].SetX(_x + (i * 20.0f) + 10.0f);
-			vbuffer[(i * 4) + 3].SetY(_y + 50.0f);
-			vbuffer[(i * 4) + 3].SetU(1.0f);
-			vbuffer[(i * 4) + 3].SetV(0.0f);
+			vbuffer[(i * 4) + 3].SetX(xcursor + (g->GetWidth()));
+			vbuffer[(i * 4) + 3].SetY(_y + g->GetHeight());
+			vbuffer[(i * 4) + 3].SetU(g->GetUVTR().GetX());
+			vbuffer[(i * 4) + 3].SetV(g->GetUVTR().GetY());
 
 			/* Build indicies buffer */
-			ibuffer[(i * 6) + 0] = (i * 6) + 0;
-			ibuffer[(i * 6) + 1] = (i * 6) + 1;
-			ibuffer[(i * 6) + 2] = (i * 6) + 2;
-			ibuffer[(i * 6) + 3] = (i * 6) + 1;
-			ibuffer[(i * 6) + 4] = (i * 6) + 2;
-			ibuffer[(i * 6) + 5] = (i * 6) + 3;
+			ibuffer[indicesCount + 0] = vertCount + 0;
+			ibuffer[indicesCount + 1] = vertCount + 1;
+			ibuffer[indicesCount + 2] = vertCount + 2;
+			ibuffer[indicesCount + 3] = vertCount + 1;
+			ibuffer[indicesCount + 4] = vertCount + 2;
+			ibuffer[indicesCount + 5] = vertCount + 3;
 
 			vertCount += 4;
 			indicesCount += 6;
+
+			xcursor += g->GetXAdvance();
 		}
 
 		/* Set buffer lengths */
 		*vbufferLength = vertCount;
 		*ibufferLength = indicesCount;
 	}
+	
+	void Text::PreDraw(Visitor* visitor)
+	{
+		visitor->PreVisit(this);
+	}
+	
+	void Text::PostDraw(Visitor* visitor)
+	{
+		visitor->PostVisit(this);
+	}
+
+	/* Visitable Functions */
+	void Text::Accept(Visitor* visitor)
+	{
+		visitor->Visit(this);
+	}
 
 	/* Getters */
 	float Text::GetX() { return _x; }
 	float Text::GetY() { return _y; }
 	const char* Text::GetContent() { return _content; }
+	Font* Text::GetFont() { return _font; }
 
 	/* Setters */
 	void Text::SetX(float x) { _x = x; }
 	void Text::SetY(float y) { _y = y; }
-	void Text::SetContent(const char* content) {
-		strcpy_s(_content, content);
-	}
+	void Text::SetContent(const char* content) { strcpy_s(_content, content); }
+	void Text::SetFont(Font* font) { _font = font; }
 }
