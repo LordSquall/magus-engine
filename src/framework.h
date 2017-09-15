@@ -9,6 +9,7 @@
 #include <WS2tcpip.h>
 
 /* Local project includes */
+#include "subsystems/logging/logger.h"
 #include "subsystems/external/tinydir/tinydir.h"
 #include "subsystems/external/tinyxml2/tinyxml2.h"
 #include "frameworkconfig.h"

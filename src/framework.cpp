@@ -15,6 +15,10 @@ namespace MagusEngine
 		_uaCount = 0;
 		_maxUACount = 2;
 
+		Logger::LogWarning("Warning Message: Func: %s Line %d", __FUNCTION__, __LINE__);
+
+		
+		Logger::LogError("Error Message: Func: %s Line %d", __FUNCTION__, __LINE__);
 
 		/* Allocate memory for uaScenes */
 		_uas = (UA**)malloc(sizeof(UA**) * _maxUACount);
