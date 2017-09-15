@@ -5,6 +5,7 @@
 #include <string>
 
 /* Local Project Include */
+#include "../logging/logger.h"
 #include "texture.h"
 
 typedef char Byte;

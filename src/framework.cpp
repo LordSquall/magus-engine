@@ -14,20 +14,24 @@ namespace MagusEngine
 		/* Initialise Variables */
 		_uaCount = 0;
 		_maxUACount = 2;
-
-		Logger::LogWarning("Warning Message: Func: %s Line %d", __FUNCTION__, __LINE__);
-
 		
-		Logger::LogError("Error Message: Func: %s Line %d", __FUNCTION__, __LINE__);
-
 		/* Allocate memory for uaScenes */
 		_uas = (UA**)malloc(sizeof(UA**) * _maxUACount);
+		if (_uas == NULL)
+		{
+			LOGERROR("Unable create UA list with %d Bytes", sizeof(UA**) * _maxUACount);
+			return false;
+		}
+		LOGINFO("UA list Created!");
+		
 
 		/* Process the configuration file */
 		if (!ProcessEngineConfig(configfilePath))
 		{
+			LOGERROR("Unable to process configuration file: %s", configfilePath);
 			return false;
 		}
+		LOGINFO("Configuration Processed Successfully!");
 
 		/* Process the UA files */
 		ProcessUADataDirectory(_resources.GetRootPath());
@@ -121,7 +125,18 @@ namespace MagusEngine
 	bool Framework::ProcessEngineConfig(const char* filename)
 	{
 		tinyxml2::XMLDocument doc;
-		doc.LoadFile(filename);
+		tinyxml2::XMLError error = doc.LoadFile(filename);
+
+		/* Check for xml errors */
+		if (error != tinyxml2::XMLError::XML_SUCCESS)
+		{
+			LOGERROR("Failure to Read XML file @%s [%s]", filename, tinyxml2::XMLDocument::ErrorIDToName(error));
+			return false;
+		}
+		else
+		{
+			LOGINFO("Configuration File Loaded @%s", filename);
+		}
 
 		/* Get engine element */
 		tinyxml2::XMLElement* engineElement = doc.FirstChildElement("engine");
@@ -130,22 +145,42 @@ namespace MagusEngine
 		if (engineElement != NULL)
 		{
 			/* title */
-			strcpy_s(_config.title, engineElement->Attribute("title"));
+			const char* title = engineElement->Attribute("title");
 
-			/* Set resolution element */
+			if (title == NULL){
+				LOGERROR("Engine tag missing 'title' attribute @ line %d", engineElement->GetLineNum());
+				return false;
+			}
+			strcpy_s(_config.title, title);
+
+
+			/* resolution element */
 			tinyxml2::XMLElement* resolutionElement = engineElement->FirstChildElement("resolution");
 
 			/* Check to make sure the resolution element is present */
 			if(resolutionElement != NULL)
 			{
 				/* width */
-				_config.width = resolutionElement->IntAttribute("width");
-						
+				int width = resolutionElement->IntAttribute("width");
+				if (width == 0)
+				{
+					LOGERROR("Resolution tag either missing 'width' attribute or attribute cannot be '0' @ line %d", resolutionElement->GetLineNum());
+					return false;
+				}
+				_config.width = width;
+
 				/* height */
-				_config.height = resolutionElement->IntAttribute("height");
+				int height = resolutionElement->IntAttribute("height");
+				if (width == 0)
+				{
+					LOGERROR("Resolution tag either missing 'width' attribute or attribute cannot be '0' @ line %d", resolutionElement->GetLineNum());
+					return false;
+				}
+				_config.height = height;
 			}
 			else
 			{
+				LOGERROR("Missing required 'resolution' element from configuration file");
 				return false;
 			}
 
@@ -156,20 +191,44 @@ namespace MagusEngine
 			if (swrendererElement != NULL)
 			{
 				/* vbo memory limit */
-				_config.sr_vbo_memorylimit = swrendererElement->IntAttribute("vbomemory");
+				unsigned int vbo_mem_limit = swrendererElement->IntAttribute("vbomemory");
+				if (vbo_mem_limit == 0)
+				{
+					LOGWARN("SWRenderer tag either missing 'vbomemory' attribute or attribute is set to '0' @ line %d", swrendererElement->GetLineNum());
+					return false;
+				}
+				_config.sr_vbo_memorylimit = vbo_mem_limit;
 
 				/* ibo memory limit */
-				_config.sr_ibo_memorylimit = swrendererElement->IntAttribute("ibomemory");
+				unsigned int ibo_mem_limit = swrendererElement->IntAttribute("ibomemory");
+				if (ibo_mem_limit == 0)
+				{
+					LOGWARN("SWRenderer tag either missing 'ibomemory' attribute or attribute is set to '0' @ line %d", swrendererElement->GetLineNum());
+					return false;
+				}
+				_config.sr_ibo_memorylimit = ibo_mem_limit;
 
 				/* vbo count */
-				_config.sr_vbo_limit = swrendererElement->IntAttribute("vbolimit");
+				unsigned int vbo_count = swrendererElement->IntAttribute("vbolimit");
+				if (vbo_count == 0)
+				{
+					LOGWARN("SWRenderer tag either missing 'vbolimit' attribute or attribute is set to '0' @ line %d", swrendererElement->GetLineNum());
+					return false;
+				}
+				_config.sr_vbo_limit = vbo_count;
 
 				/* ibo count */
-				_config.sr_ibo_limit = swrendererElement->IntAttribute("ibolimit");
-
+				unsigned int ibo_count = swrendererElement->IntAttribute("ibolimit");
+				if (ibo_count == 0)
+				{
+					LOGWARN("SWRenderer tag either missing 'ibolimit' attribute or attribute is set to '0' @ line %d", swrendererElement->GetLineNum());
+					return false;
+				}
+				_config.sr_ibo_limit = ibo_count;
 			}
 			else
 			{
+				LOGERROR("Missing required 'softwarerenderer' element from configuration file");
 				return false;
 			}
 
@@ -181,7 +240,16 @@ namespace MagusEngine
 			if (resourcesElement != NULL)
 			{
 				/* Root path */
-				_resources.SetRootPath(resourcesElement->Attribute("root"));
+				const char* rootPath = resourcesElement->Attribute("root");
+				if (rootPath != NULL)
+				{
+					_resources.SetRootPath(rootPath);
+				}
+				else
+				{
+					LOGERROR("Missing 'root' attribute in 'resource' tag @ line %d", resourcesElement->GetLineNum());
+					return false;
+				}
 
 				/* Check to ensure resource path is available */
 				tinydir_dir dir;
@@ -189,21 +257,39 @@ namespace MagusEngine
 
 				if (strcmp(dir.path, "") == 0)
 				{
-					printf("Unable to find resource path: %s\n", _resources.GetRootPath());
+					LOGERROR("Unable to find resource path: %s\n", _resources.GetRootPath());
 					return false;
 				}
 
+				int texturemax = resourcesElement->IntAttribute("texturemax");
+				int shadermax = resourcesElement->IntAttribute("shadermax");
+				int colormax = resourcesElement->IntAttribute("colormax");
+				int materialmax = resourcesElement->IntAttribute("materialmax");
+				int fontmax = resourcesElement->IntAttribute("fontmax");
+				int meshmax = resourcesElement->IntAttribute("meshmax");
+
+				/* Check to ensure resource values are available */
+				if (texturemax == 0) LOGWARN("Texture max value 'texturemax' is either missing or set to '0' @ line %d", resourcesElement->GetLineNum());
+				if (shadermax == 0) LOGWARN("Shader max value 'shadermax' is either missing or set to '0' @ line %d", resourcesElement->GetLineNum());
+				if (colormax == 0) LOGWARN("Color max value 'colormax' is either missing or set to '0' @ line %d", resourcesElement->GetLineNum());
+				if (materialmax == 0) LOGWARN("Material max value 'materialmax' is either missing or set to '0' @ line %d", resourcesElement->GetLineNum());
+				if (fontmax == 0) LOGWARN("Font max value 'fontmax' is either missing or set to '0' @ line %d", resourcesElement->GetLineNum());
+				if (meshmax == 0) LOGWARN("Mesh max value 'meshmax' is either missing or set to '0' @ line %d", resourcesElement->GetLineNum());
+
 				/* Initialise resources object */
-				_resources.Initialise(resourcesElement->IntAttribute("texturemax"),
-					resourcesElement->IntAttribute("shadermax"),
-					resourcesElement->IntAttribute("colormax"),
-					resourcesElement->IntAttribute("materialmax"),
-					resourcesElement->IntAttribute("fontmax"),
-					resourcesElement->IntAttribute("meshmax"));
+				if (_resources.Initialise(texturemax, shadermax, colormax, materialmax, fontmax, meshmax) == false)
+				{
+					LOGERROR("Unable to Initialise Resources SubSystem");
+				}
+
+				LOGHEADER("Adding Engine Resources");
+
+				// TODO CURRENT PROGRESS
 
 				/* Process each of the texture tags in turn */
 				for (tinyxml2::XMLElement* e = resourcesElement->FirstChildElement("texture"); e != NULL; e = e->NextSiblingElement("texture"))
 				{
+
 					if (_resources.AddTextureFromFile(e->Attribute("name"), e->Attribute("path")))
 					{
 						printf("[Resources] Loaded Texture: %s\n", e->Attribute("name"));
@@ -254,11 +340,13 @@ namespace MagusEngine
 			}
 			else
 			{
+				LOGERROR("Missing 'resources' element from configuration file");
 				return false;
 			}
 		}
 		else
 		{
+			LOGERROR("Missing 'engine' element from configuration file");
 			return false;
 		}
 

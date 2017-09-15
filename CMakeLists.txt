@@ -129,6 +129,12 @@ set(SubSystem_IO_SourceFiles
 	src/subsystems/io/OBJParser.cpp
 )
 
+# subsystem - logging
+set(SubSystem_Logging_SourceFiles
+	src/subsystems/logging/logger.cpp
+)
+
+
 # subsystem - math
 set(SubSystem_Math_SourceFiles
 	src/subsystems/math/vector.cpp
@@ -215,6 +221,7 @@ add_executable(MagusEngine
 	${FinalPlatformRenderer_SourceFiles}
 	${SubSystem_Input_SourceFiles}
 	${SubSystem_IO_SourceFiles}
+	${SubSystem_Logging_SourceFiles}
 	${SubSystem_Math_SourceFiles}
 	${SubSystem_OS_SourceFiles}
 	${SubSystem_Resources_SourceFiles}
@@ -264,6 +271,10 @@ source_group("subsystems\\input" FILES
 
 source_group("subsystems\\io" FILES
 	${SubSystem_IO_SourceFiles}
+)
+
+source_group("subsystems\\logging" FILES
+	${SubSystem_Logging_SourceFiles}
 )
 
 source_group("subsystems\\math" FILES

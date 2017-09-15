@@ -1,6 +1,8 @@
 #ifndef _HASHTABLE_H_
 #define _HASHTABLE_H_
 
+/* Local Projection Includes */
+#include "../logging/logger.h"
 #include "texture.h"
 #include "color.h"
 #include "shader.h"
@@ -57,9 +59,9 @@ namespace MagusEngine
 	public:
 		HashTable();
 
-		void Initialise(int maxsize);
+		bool Initialise(int maxsize);
 
-		void Insert(HashDataItem* item);
+		bool Insert(HashDataItem* item);
 
 		HashDataItem* Get(int index);
 

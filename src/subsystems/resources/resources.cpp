@@ -10,14 +10,68 @@ namespace MagusEngine
 	bool Resources::Initialise(unsigned int textureMax, unsigned int shaderMax, unsigned int colorMax, unsigned int materialMax, unsigned int fontMax, unsigned int meshMax)
 	{
 		/* Initialse memory for research hashtables */
-		_textureHashTable.Initialise(textureMax);
-		_shadersHashTable.Initialise(shaderMax);
-		_colorHashTable.Initialise(colorMax);
-		_materialsHashTable.Initialise(materialMax);
-		_fontsHashTable.Initialise(fontMax);
-		_meshHashTable.Initialise(meshMax);
+		if (_textureHashTable.Initialise(textureMax) == false)
+		{
+			LOGERROR("Unable to Initialise Texture ResourcesStorage");
+			return false;
+		}
+		else
+		{
+			LOGINFO("Initialised Texture Resources Storage [MAX %d]", textureMax);
+		}
+
+		if (_shadersHashTable.Initialise(shaderMax) == false)
+		{
+			LOGERROR("Unable to Initialise Shader Resources");
+			return false;
+		}
+		else
+		{
+			LOGINFO("Initialised Shader Resources Storage [MAX %d]", shaderMax);
+		}
+
+		if (_colorHashTable.Initialise(colorMax) == false)
+		{
+			LOGERROR("Unable to Initialise Color Resources");
+			return false;
+		}
+		else
+		{
+			LOGINFO("Initialised Color Resources Storage [MAX %d]", colorMax);
+		}
+
+		if (_materialsHashTable.Initialise(materialMax) == false)
+		{
+			LOGERROR("Unable to Initialise Material Resources");
+			return false;
+		}
+		else
+		{
+			LOGINFO("Initialised Material Resources Storage [MAX %d]", materialMax);
+		}
+
+		if (_fontsHashTable.Initialise(fontMax) == false)
+		{
+			LOGERROR("Unable to Initialise Font Resources");
+			return false;
+		}
+		else
+		{
+			LOGINFO("Initialised Font Resources Storage [MAX %d]", fontMax);
+		}
+
+		if (_meshHashTable.Initialise(meshMax) == false)
+		{
+			LOGERROR("Unable to Initialise Mesh Resources");
+			return false;
+		}
+		else
+		{
+			LOGINFO("Initialised Mesh Resources Storage [MAX %d]", meshMax);
+		}
 
 		/* Create dummy 1x1 image with full alpha as default bound texture */
+		LOGINFO("Creating Default Texture Resource [_defaultBound]");
 		Texture* newTexture = new Texture("_defaultBound", 1, 1);
 		newTexture->Initialise(1);
 		newTexture->GetData()[0] = 0x00;
@@ -25,7 +79,12 @@ namespace MagusEngine
 		newTexture->GetData()[2] = 0x00;
 		newTexture->GetData()[3] = 0xFF;
 
-		AddTexture("_defaultBound", newTexture);
+		if (AddTexture("_defaultBound", newTexture) == false)
+		{
+			LOGERROR("Unable to Initialise Default Texture");
+			return false;
+		}
+
 
 		return true;
 	}
@@ -254,13 +313,15 @@ namespace MagusEngine
 	}
 
 	/* Shader Functions */
-	void Resources::AddShader(const char* name, Shader* shader)
+	bool Resources::AddShader(const char* name, Shader* shader)
 	{
 		ShaderDataItem* dataItem = new ShaderDataItem();
 		strcpy_s(dataItem->id, name);
 		dataItem->data = shader;
 
 		_shadersHashTable.Insert(dataItem);
+
+		return true;
 	}
 
 	unsigned int Resources::GetShaderCount()
@@ -287,13 +348,34 @@ namespace MagusEngine
 	}
 
 	/* Texture Functions */
-	void Resources::AddTexture(const char* name, Texture* texture)
+	bool Resources::AddTexture(const char* name, Texture* texture)
 	{
 		TextureDataItem* dataItem = new TextureDataItem();
-		strcpy_s(dataItem->id, name);
+
+		if (dataItem == NULL)
+		{
+			LOGERROR("Failed 'new' on Texture Data Item");
+			return false;
+		}
+
+		if (strcpy_s(dataItem->id, name) != 0)
+		{
+			LOGERROR("strcpy_s failed");
+			return false;
+		}
 		dataItem->data = texture;
 
-		_textureHashTable.Insert(dataItem);
+		if (_textureHashTable.Insert(dataItem) == false)
+		{
+			LOGERROR("Unable to add Texture [%s] to hashtable", texture->GetName());
+			return false;
+		}
+		else
+		{
+			LOGINFO("Texture [%s] Added to Resources", texture->GetName());
+		}
+
+		return true;
 	}
 
 	unsigned int Resources::GetTextureCount()
@@ -320,13 +402,15 @@ namespace MagusEngine
 	}
 
 	/* Color Functions */
-	void Resources::AddColor(const char* name, Color* color)
+	bool Resources::AddColor(const char* name, Color* color)
 	{
 		ColorDataItem* dataItem = new ColorDataItem();
 		strcpy_s(dataItem->id, name);
 		dataItem->data = color;
 
 		_colorHashTable.Insert(dataItem);
+
+		return true;
 	}
 	
 	unsigned int Resources::GetColorCount()
@@ -354,13 +438,15 @@ namespace MagusEngine
 
 
 	/* Material Functions */
-	void Resources::AddMaterial(const char* name, Material* material)
+	bool Resources::AddMaterial(const char* name, Material* material)
 	{
 		MaterialDataItem* dataItem = new MaterialDataItem();
 		strcpy_s(dataItem->id, name);
 		dataItem->data = material;
 
 		_materialsHashTable.Insert(dataItem);
+
+		return true;
 	}
 
 	unsigned int Resources::GetMaterialCount()
@@ -387,13 +473,15 @@ namespace MagusEngine
 	}
 
 	/* Font Functions */
-	void Resources::AddFont(const char* name, Font* font)
+	bool Resources::AddFont(const char* name, Font* font)
 	{
 		FontDataItem* dataItem = new FontDataItem();
 		strcpy_s(dataItem->id, name);
 		dataItem->data = font;
 
 		_fontsHashTable.Insert(dataItem);
+
+		return true;
 	}
 
 	unsigned int Resources::GetFontCount()
@@ -420,13 +508,15 @@ namespace MagusEngine
 	}
 
 	/* Mesh Functions */
-	void Resources::AddMesh(const char* name, Mesh* font)
+	bool Resources::AddMesh(const char* name, Mesh* font)
 	{
 		MeshDataItem* dataItem = new MeshDataItem();
 		strcpy_s(dataItem->id, name);
 		dataItem->data = font;
 
 		_meshHashTable.Insert(dataItem);
+
+		return true;
 	}
 
 	unsigned int Resources::GetMeshCount()

@@ -9,17 +9,31 @@ namespace MagusEngine
 		_dataCount = 0;
 	}
 
-	void HashTable::Initialise(int size)
+	bool HashTable::Initialise(int size)
 	{
 		/* Allocate memory for the hash table */
 		_data = (HashDataItem**)malloc(sizeof(HashDataItem*) * size);
 		_maxsize = size;
+
+		if (_data != NULL)
+		{
+			LOGDINFO("Hashtable Created with %d Bytes", sizeof(HashDataItem*) * size);
+			return true;
+		}
+
+		LOGERROR("Unable to Initialise Hashtable with %d Bytes", sizeof(HashDataItem*) * size);
+		return false;
 	}
 
-	void HashTable::Insert(HashDataItem* item)
+	bool HashTable::Insert(HashDataItem* item)
 	{
+		if (_dataCount == _maxsize)
+			return false;
+		
 		_data[_dataCount] = item;
 		_dataCount++;
+
+		return true;
 	}
 
 	HashDataItem* HashTable::Get(int index)

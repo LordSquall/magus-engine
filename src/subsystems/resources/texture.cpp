@@ -23,7 +23,14 @@ namespace MagusEngine
 		/* allocate texture memory */
 		_data = (Byte*)malloc(sizeof(Byte) * pixelSize);
 
-		return true;
+		if (_data != NULL)
+		{
+			LOGDINFO("Texture Created [%s] with %d Bytes", _name, sizeof(Byte*) * pixelSize);
+			return true;
+		}
+
+		LOGERROR("Unable to Initialise Texture [%s] with %d Bytes", _name, sizeof(Byte*) * pixelSize);
+		return false;
 	}
 	
 	bool Texture::LoadPixelData(Byte* data, unsigned int pixelSize)
