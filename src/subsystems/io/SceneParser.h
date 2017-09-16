@@ -1,10 +1,10 @@
-#ifndef _UA_PARSER_H_
-#define _UA_PARSER_H_
+#ifndef _SCENE_PARSER_H_
+#define _SCENE_PARSER_H_
 
 /* System Includes */
 
 /* Local Project Includes */
-#include "UA.h"
+#include "../scenemanagement/scene.h"
 #include "../scenemanagement/scenenode.h"
 #include "../scenemanagement/component.h"
 #include "../graphics/graphic2d.h"
@@ -18,12 +18,12 @@
 
 namespace MagusEngine
 {
-	class UAParser
+	class SceneParser
 	{
 	public:
-		UAParser(Resources* resources);
+		SceneParser(Resources* resources);
 
-		UA* Parse(const char* filename);
+		Scene* Parse(const char* filename);
 
 	private:
 

@@ -25,6 +25,13 @@ namespace MagusEngine
 		return false;
 	}
 
+	bool HashTable::Shutdown()
+	{
+		/* Pass over each item in the resource manage and shutdown each in turn */
+
+		return true;
+	}
+
 	bool HashTable::Insert(HashDataItem* item)
 	{
 		if (_dataCount == _maxsize)

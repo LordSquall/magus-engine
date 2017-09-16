@@ -22,7 +22,7 @@ namespace MagusEngine
 		Graphics();
 
 		bool Initialise(OS_Interface* os, Resources* resources, FrameworkConfig* _config, int maxSceneCount);
-		void Shutdown();
+		bool Shutdown();
 
 		bool InitialiseFrame();
 		bool Frame();

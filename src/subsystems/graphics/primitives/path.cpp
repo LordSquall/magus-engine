@@ -12,21 +12,25 @@ namespace MagusEngine
 
 		strcpy_s(input, pointString);
 
-		printf("Parsing the input string '%s'\n", input);
-		char *token = strtok(input, ",");
+		char * pch;
+		float x, y;
+		pch = strtok(input, ",");
+		while (pch != NULL)
+		{
 
-		char *xtok = 0;
-		char *ytok = token;
-		do{
-			xtok = strtok(NULL, ",");
-			ytok = strtok(NULL, ",");
+			pch = strtok(NULL, ",");
 
-			/* bit of a hack but shall do for now */
-			if (xtok == NULL)
+			if (strcmp(pch, "E") == 0)
 				break;
 
-			_points.push_back(new p2t::Point(atof(xtok), atof(ytok)));
-		} while (ytok);
+			x = atof(pch);
+
+			pch = strtok(NULL, ",");
+			y = atof(pch);
+
+			_points.push_back(new p2t::Point(x, y));
+		}
+
 	}
 
 	/* Drawable Functions */
@@ -44,8 +48,8 @@ namespace MagusEngine
 
 			for (int y = 0; y < 3; y++)
 			{
-				vbuffer[(x * 3) + y].SetX(tri->GetPoint(0)->x);
-				vbuffer[(x * 3) + y].SetY(tri->GetPoint(0)->y);
+				vbuffer[(x * 3) + y].SetX(tri->GetPoint(y)->x);
+				vbuffer[(x * 3) + y].SetY(tri->GetPoint(y)->y);
 				vbuffer[(x * 3) + y].SetZ(0.0f);
 				vbuffer[(x * 3) + y].SetW(1.0f);
 

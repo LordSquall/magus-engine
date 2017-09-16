@@ -61,6 +61,8 @@ namespace MagusEngine
 
 		bool Initialise(int maxsize);
 
+		bool Shutdown();
+
 		bool Insert(HashDataItem* item);
 
 		HashDataItem* Get(int index);

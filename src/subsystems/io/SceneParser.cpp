@@ -1,8 +1,8 @@
-#include "UAParser.h"
+#include "SceneParser.h"
 
 namespace MagusEngine
 {
-	UAParser::UAParser(Resources* resources)
+	SceneParser::SceneParser(Resources* resources)
 	{
 		_resources = resources;
 
@@ -13,24 +13,24 @@ namespace MagusEngine
 		_materialStackHead++;
 	}
 
-	UA* UAParser::Parse(const char* filename)
+	Scene* SceneParser::Parse(const char* filename)
 	{
-		UA* newUA = new UA();
+		Scene* newScene = new Scene();
 
 		tinyxml2::XMLDocument doc;
 		doc.LoadFile(filename);
 
 		/* Get engine element */
-		tinyxml2::XMLElement* uaElement = doc.FirstChildElement("UA");
+		tinyxml2::XMLElement* sceneRootElement = doc.FirstChildElement("scene");
 
-		/* Check to make sure the root tag is UA */
-		if (uaElement != NULL)
+		/* Check to make sure the root tag is scene */
+		if (sceneRootElement != NULL)
 		{
-			/* UA Title */
-			newUA->Initialise(uaElement->Attribute("title"));
+			/* Scene Title */
+			newScene->Initialise(sceneRootElement->Attribute("title"));
 
 			/* Set the styles element */
-			tinyxml2::XMLElement* stylesElement = uaElement->FirstChildElement("styles");
+			tinyxml2::XMLElement* stylesElement = sceneRootElement->FirstChildElement("styles");
 
 			/* Check to make sure the styles element is present */
 			if (stylesElement != NULL)
@@ -50,30 +50,31 @@ namespace MagusEngine
 				for (tinyxml2::XMLElement* e = stylesElement->FirstChildElement("material"); e != NULL; e = e->NextSiblingElement("material"))
 				{
 					Material* material = new Material(e->Attribute("name"));
-					material->SetColor(_resources->GetColor(e->Attribute("color")));
+					material->SetColor1(_resources->GetColor(e->Attribute("color1")));
+					material->SetColor2(_resources->GetColor(e->Attribute("color2")));
 					material->SetTexture(_resources->GetTexture(e->Attribute("texture")));
 					_resources->AddMaterial(e->Attribute("name"), material);
 				}
 			}
 
-			/* Set scene element */
-			tinyxml2::XMLElement* sceneElement = uaElement->FirstChildElement("scene");
+			/* Set graphical model element */
+			tinyxml2::XMLElement* graphicalModelElement = sceneRootElement->FirstChildElement("graphicalmodel");
 
-			/* Check to make sure the scene element is present */
-			if (sceneElement != NULL)
+			/* Check to make sure the graphical model element is present */
+			if (graphicalModelElement != NULL)
 			{
 				/* Set root element of the scene */
-				tinyxml2::XMLElement* rootElement = sceneElement->FirstChildElement("node");
+				tinyxml2::XMLElement* rootElement = graphicalModelElement->FirstChildElement("node");
 
-				newUA->SetRootNode(ProcessSceneNode(rootElement));
+				newScene->SetRootNode(ProcessSceneNode(rootElement));
 			}
 
 		}
 
-		return newUA;
+		return newScene;
 	}
 
-	SceneNode* UAParser::ProcessSceneNode(tinyxml2::XMLElement* element)
+	SceneNode* SceneParser::ProcessSceneNode(tinyxml2::XMLElement* element)
 	{
 		/* Create a new scene node */
 		SceneNode* newNode = new SceneNode();
@@ -148,6 +149,36 @@ namespace MagusEngine
 			}
 		}
 
+		/* Check for material information */
+		tinyxml2::XMLElement* materialElement = element->FirstChildElement("material");
+
+		if (materialElement != NULL)
+		{
+			/* color 1 */
+			Color* color1 = _resources->GetColor(materialElement->Attribute("color1"));
+			
+			if (color1 != NULL)
+			{
+				newNode->GetMaterial()->SetColor1(color1);
+			}
+
+			/* color 2 */
+			Color* color2 = _resources->GetColor(materialElement->Attribute("color2"));
+
+			if (color2 != NULL)
+			{
+				newNode->GetMaterial()->SetColor2(color2);
+			}
+
+			/* texture */
+			Texture* texture = _resources->GetTexture(materialElement->Attribute("texture"));
+
+			if (texture != NULL)
+			{
+				newNode->GetMaterial()->SetTexture(texture);
+			}
+		}
+
 		/* Check for component information */
 		tinyxml2::XMLElement* componentElement = element->FirstChildElement("components");
 
@@ -173,7 +204,7 @@ namespace MagusEngine
 	}
 
 
-	Component* UAParser::ProcessSceneNodeComponent(tinyxml2::XMLElement* element)
+	Component* SceneParser::ProcessSceneNodeComponent(tinyxml2::XMLElement* element)
 	{
 		/* Check to determine the type of the component */
 		if (strcmp(element->Name(), "graphics2d") == 0)
@@ -184,7 +215,7 @@ namespace MagusEngine
 		return NULL;
 	}
 
-	Graphic2D* UAParser::ProcessSceneNodeComponentGraphics2D(tinyxml2::XMLElement* element)
+	Graphic2D* SceneParser::ProcessSceneNodeComponentGraphics2D(tinyxml2::XMLElement* element)
 	{
 		/* Create component as a 2d graphic */
 		Graphic2D* newGraphics2DComponent = new Graphic2D();
@@ -218,7 +249,7 @@ namespace MagusEngine
 			}
 			if (strcmp(e->Name(), "path") == 0)
 			{
-				Path* newDrawable = new Path(e->Attribute("pts"));
+				Path* newDrawable = new Path(e->Attribute("points"));
 				newGraphics2DComponent->SetDrawable(newDrawable);
 			}
 		}

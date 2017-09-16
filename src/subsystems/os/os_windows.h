@@ -25,7 +25,7 @@ namespace MagusEngine
 		
 		/* OS_Interface - Functions */
 		bool Initialise(FrameworkConfig* config, Resources* resources);
-		void Shutdown();
+		bool Shutdown();
 		void Run();
 		Renderer_Interface* GetLowLevelRenderer();
 		Visitor* GetLowLevelRendererInitialisationVisitor();

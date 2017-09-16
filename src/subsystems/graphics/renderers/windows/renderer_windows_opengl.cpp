@@ -194,14 +194,14 @@ namespace MagusEngine
 		_CurrentMaterial = material;
 
 		/* Set current color */
-		if(material->GetColor() != NULL)
+		if(material->GetColor1() != NULL)
 		{
 			location = glGetUniformLocation(_CurrentShader->GetProgramHandle(), "color");
 			if(location == -1)
 			{
 				return;
 			}
-			glUniform4fv(location, 1, (float*)material->GetColor());
+			glUniform4fv(location, 1, (float*)material->GetColor1());
 		}
 		
 		/* Set texture */

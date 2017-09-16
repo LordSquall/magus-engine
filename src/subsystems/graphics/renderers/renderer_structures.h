@@ -16,6 +16,12 @@ namespace MagusEngine
 		unsigned int indexlength;
 	}VBO_Structure;
 
+	typedef struct DrawableData
+	{
+		VBO_Structure fill;
+		VBO_Structure stroke;
+	};
+
 }
 
 #endif

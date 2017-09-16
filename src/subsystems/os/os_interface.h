@@ -30,7 +30,7 @@ namespace MagusEngine
 		virtual bool Initialise(FrameworkConfig* config, Resources* resources) = 0;
 
 		/* Called by the engine - shutdown and clean up any memory allocated by the operating system and windowing */
-		virtual void Shutdown() = 0;
+		virtual bool Shutdown() = 0;
 
 		/* Return a valid low level renderer interface */
 		virtual Renderer_Interface* GetLowLevelRenderer() = 0;

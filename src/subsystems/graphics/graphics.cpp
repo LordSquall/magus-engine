@@ -55,13 +55,13 @@ namespace MagusEngine
 	}
 
 
-	void Graphics::Shutdown()
+	bool Graphics::Shutdown()
 	{
 		_os = 0;
 		_lowLevelHardwareRenderer = 0;
 		_lowLevelSoftwareRenderer = 0;
 
-		return;
+		return true;
 	}
 
 	void Graphics::AddScene(SceneNode* sceneNode)

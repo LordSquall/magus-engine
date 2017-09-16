@@ -42,7 +42,7 @@ namespace MagusEngine
 		return true;
 	}
 	
-	void OS::Shutdown()
+	bool OS::Shutdown()
 	{
 		
 		// Release the Low Level Renderer object.
@@ -56,7 +56,7 @@ namespace MagusEngine
 		// Shutdown the window.
 		ShutdownWindows();
 
-		return;
+		return true;
 	}
 	
 	void OS::Run()

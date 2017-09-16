@@ -4,27 +4,14 @@ namespace MagusEngine
 {
 	Framework::Framework()
 	{
-		_uas = 0;
-		_maxUACount = 0;
-		_uaCount = 0;
+		_sceneCount = 0;
 	}
 
 	bool Framework::Initialise(char* configfilePath)
 	{
 		/* Initialise Variables */
-		_uaCount = 0;
-		_maxUACount = 2;
+		_sceneCount = 0;
 		
-		/* Allocate memory for uaScenes */
-		_uas = (UA**)malloc(sizeof(UA**) * _maxUACount);
-		if (_uas == NULL)
-		{
-			LOGERROR("Unable create UA list with %d Bytes", sizeof(UA**) * _maxUACount);
-			return false;
-		}
-		LOGINFO("UA list Created!");
-		
-
 		/* Process the configuration file */
 		if (!ProcessEngineConfig(configfilePath))
 		{
@@ -33,8 +20,8 @@ namespace MagusEngine
 		}
 		LOGINFO("Configuration Processed Successfully!");
 
-		/* Process the UA files */
-		ProcessUADataDirectory(_resources.GetRootPath());
+		/* Process the Scene files */
+		//ProcessUADataDirectory(_resources.GetRootPath());
 
 		/* Create the os subsystem depending on current platform */
 		_os = new OS();
@@ -47,12 +34,12 @@ namespace MagusEngine
 		}
 
 		/* Initialise the graphics subsystem */
-		_graphics.Initialise(_os, &_resources, &_config, _uaCount - 1);
+		_graphics.Initialise(_os, &_resources, &_config, _sceneCount - 1);
 
 		/* Add each of the generated ua to the graphical root node */
-		for (int i = 0; i < _uaCount; i++)
+		for (int i = 0; i < _sceneCount; i++)
 		{
-			_graphics.AddScene(_uas[i]->GetRootNode());
+			_graphics.AddScene(_scenes[i]->GetRootNode());
 		}
 
 		/* Run the Initialise frame to allocate renderer specific memory and initialise visitors */
@@ -71,21 +58,41 @@ namespace MagusEngine
 		return true;
 	}
 
-	void Framework::Shutdown()
+	bool Framework::Shutdown()
 	{
-		if (_uas != 0)
+		/* Shutdown resources */
+		if (_resources.Shutdown() == false)
 		{
-			delete _uas;
-			_uas = 0;
+			LOGERROR("Unable to Shutdown Resources Subsystem");
+			return false;
 		}
+		
+		if (_graphics.Shutdown() == false)
+		{
+			LOGERROR("Unable to Shutdown Graphics Subsystem");
+			return false;
+		}
+
+		if (_os != NULL)
+		{
+			if (_os->Shutdown() == false)
+			{
+				LOGERROR("Unable to Shutdown OS Subsystem");
+				return false;
+			}
+			delete _os;
+			_os = NULL;
+		}
+		
+		return true;
 	}
 
 	bool Framework::ProcessUADataDirectory(const char* uadir)
 	{
 		int uaCount = 0;
 
-		/* create a UA Parser */
-		UAParser uaparser(&_resources);
+		/* create a Scene Parser */
+		SceneParser sceneparser(&_resources);
 
 		/* look for engine config file in directory */
 		tinydir_dir dir;
@@ -103,8 +110,8 @@ namespace MagusEngine
 			{
 				if(strcmp(dirFile.extension, "uadf") == 0)
 				{
-					_uas[_uaCount] = uaparser.Parse(dirFile.path);
-					_uaCount++;
+					_scenes[_sceneCount] = sceneparser.Parse(dirFile.path);
+					_sceneCount++;
 				}
 			}
 			else
@@ -284,8 +291,6 @@ namespace MagusEngine
 
 				LOGHEADER("Adding Engine Resources");
 
-				// TODO CURRENT PROGRESS
-
 				/* Process each of the texture tags in turn */
 				for (tinyxml2::XMLElement* e = resourcesElement->FirstChildElement("texture"); e != NULL; e = e->NextSiblingElement("texture"))
 				{
@@ -324,7 +329,8 @@ namespace MagusEngine
 				for (tinyxml2::XMLElement* e = resourcesElement->FirstChildElement("material"); e != NULL; e = e->NextSiblingElement("material"))
 				{
 					Material* material = new Material(e->Attribute("name"));
-					material->SetColor(_resources.GetColor(e->Attribute("color")));
+					material->SetColor1(_resources.GetColor(e->Attribute("color1")));
+					material->SetColor2(_resources.GetColor(e->Attribute("color2")));
 					material->SetTexture(_resources.GetTexture(e->Attribute("texture")));
 					_resources.AddMaterial(e->Attribute("name"), material);
 				}
@@ -341,6 +347,34 @@ namespace MagusEngine
 			else
 			{
 				LOGERROR("Missing 'resources' element from configuration file");
+				return false;
+			}
+
+			/* Get scenes element */
+			tinyxml2::XMLElement* scenesElement = engineElement->FirstChildElement("scenes");
+
+			/* Check to make sure the next tag is scenesElement */
+			if (scenesElement != NULL)
+			{
+				/* Process each of the scene tags in turn */
+				for (tinyxml2::XMLElement* e = scenesElement->FirstChildElement("scene"); e != NULL; e = e->NextSiblingElement("scene"))
+				{
+					/* Full path buffer */
+					char fullPathBuffer[255];
+
+					/* create a Scene Parser */
+					SceneParser sceneparser(&_resources);
+
+
+					sprintf_s(fullPathBuffer, "%s%s", _resources.GetRootPath(), e->Attribute("path"));
+
+					_scenes[_sceneCount] = sceneparser.Parse(fullPathBuffer);
+					_sceneCount++;
+				}
+			}
+			else
+			{
+				LOGERROR("Missing 'scenes' element from configuration file");
 				return false;
 			}
 		}

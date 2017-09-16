@@ -78,7 +78,7 @@ namespace MagusEngine
 		unsigned int _maxComponentCount;
 		unsigned int _componentCount;
 
-		Material* _material;
+		Material _material;
 	};
 }
 

@@ -13,16 +13,21 @@ namespace MagusEngine
 	class Material
 	{
 	public:
+
+		Material();
 		Material(const char* name);
+		Material(Material* other);
 
 		/* Getters */
 		char*		GetName();
-		Color*		GetColor();
+		Color*		GetColor1();
+		Color*		GetColor2();
 		Texture*	GetTexture();
 
 		
 		/* Setters */
-		void SetColor(Color* color);
+		void SetColor1(Color* color);
+		void SetColor2(Color* color);
 		void SetTexture(Texture* texture);
 
 	private:
@@ -30,7 +35,8 @@ namespace MagusEngine
 		int	_colorid;
 		int	_textureid;
 
-		Color* _color;
+		Color* _color1;
+		Color* _color2;
 		Texture* _texture;
 	};
 }

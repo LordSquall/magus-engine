@@ -1,5 +1,5 @@
-#ifndef _UA_H_
-#define _UA_H_
+#ifndef _SCENE_H_
+#define _SCENE_H_
 
 /* System Includes */
 
@@ -9,22 +9,22 @@
 namespace MagusEngine
 {
 	/*
-		Name: UA
+		Name: Scene
 		Type: Class
 		Purpose: Respresents the server side elements of the User Application
 	*/
-	class UA
+	class Scene
 	{
 	public:
 		/*
 		*	Default Constructor
 		*/
-		UA();
+		Scene();
 
 		/*
-		*	Initialise the UA with a human readable name
+		*	Initialise the Scene with a human readable name
 		*	args:
-		*		name - UA name
+		*		name - Scene name
 		*	returns:
 		*		initialisation success
 		*/
@@ -39,7 +39,7 @@ namespace MagusEngine
 		void		SetRootNode(SceneNode* node);
 
 	private:
-		/* Human readable UA name */
+		/* Human readable Scene name */
 		char _name[50];
 
 		/* Root node of the graphical scene */

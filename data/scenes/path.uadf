@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scene title="Path Test">
+	<styles>
+		<color name="white" 	r="1.0f" 	g="1.0f" 	b="1.0f" 	a="1.0f" />
+		<color name="red" 		r="1.0f" 	g="0.0f" 	b="0.0f" 	a="1.0f" />
+
+		<!-- material id="0" name="mat_white" 	colorid="0" textureid="0" fontid="0" -->
+		<material name="mat_white" 				color="white" />
+
+	</styles>
+	<graphicalmodel>
+		<node name="root" children="1">
+			<node name="path" children="9">
+				<transform>
+					<position x="960.0" y="540.0" z="0.0" />
+					<rotation x="0.0" y="0.0" z="0.0" />
+					<scale x="1.0" y="1.0" z="1.0" />
+				</transform>
+
+				<!-- Basic path -->
+				<node name="rectangle_01" children="0">
+					<transform>
+						<position x="-760.0" y="400.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<path points="P,0.0,0.0,0.0,47.0,60.0,47.0,94.0,23.0,73.0,0.0,E" />
+						</graphics2d>
+					</components>
+				</node>
+				
+				<!-- Path with predefined material -->
+				<node name="rectangle_02" children="0" material="mat_white">
+					<transform>
+						<position x="-380.0" y="400.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+						<path points="P,0.0,0.0,0.0,47.0,60.0,47.0,94.0,23.0,73.0,0.0,E" />
+						</graphics2d>
+					</components>
+				</node>
+				
+				<!-- Path with instanced material - Color -->
+				<node name="rectangle_03" children="0">
+					<transform>
+						<position x="380.0" y="400.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<material color="red" />
+					<components count="1">
+						<graphics2d>
+							<path points="P,0.0,0.0,0.0,47.0,60.0,47.0,94.0,23.0,73.0,0.0,E" />
+						</graphics2d>
+					</components>
+				</node>
+				
+				<!-- Path with instanced material - Texture -->
+				<node name="rectangle_04" children="0">
+					<transform>
+						<position x="-760.0" y="400.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<material texture="default" />
+					<components count="1">
+						<graphics2d>
+							<path points="P,0.0,0.0,0.0,47.0,60.0,47.0,94.0,23.0,73.0,0.0,E" />
+						</graphics2d>
+					</components>
+				</node>
+				
+				<node name="rectangle_05" children="0">
+					<transform>
+						<position x="0.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<path points="P,0.0,0.0,0.0,47.0,60.0,47.0,94.0,23.0,73.0,0.0,E" />
+						</graphics2d>
+					</components>
+				</node>
+				
+				
+				<node name="rectangle_06" children="0">
+					<transform>
+						<position x="500.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<path points="P,0.0,0.0,0.0,47.0,60.0,47.0,94.0,23.0,73.0,0.0,E" />
+						</graphics2d>
+					</components>
+				</node>
+
+				<node name="rectangle_07" children="0">
+					<transform>
+						<position x="-500.0" y="-400.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-100.0" y="-100.0" width="200.0" height="200.0" />
+						</graphics2d>
+					</components>
+				</node>
+				
+				<node name="rectangle_08" children="0">
+					<transform>
+						<position x="0.0" y="-400.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-100.0" y="-100.0" width="200.0" height="200.0" />
+						</graphics2d>
+					</components>
+				</node>
+				
+				
+				<node name="rectangle_09" children="0">
+					<transform>
+						<position x="500.0" y="-400.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-100.0" y="-100.0" width="200.0" height="200.0" />
+						</graphics2d>
+					</components>
+				</node>
+			</node>
+		</node>
+	</graphicalmodel>
+</scene>

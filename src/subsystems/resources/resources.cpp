@@ -89,6 +89,14 @@ namespace MagusEngine
 		return true;
 	}
 
+	bool Resources::Shutdown()
+	{
+		/* Shutdown resource hashtables */
+		//_textureHashTable.Shutdown();
+
+		return true;
+	}
+
 	bool Resources::AddTextureFromFile(const char* name, const char* path)
 	{
 		Texture* newTexture = 0;

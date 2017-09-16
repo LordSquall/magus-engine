@@ -16,8 +16,6 @@ namespace MagusEngine
 		_tranform = Transform();
 
 		_isFilter = false;
-
-		_material = NULL;
 	}
 	
 	bool SceneNode::Initialise(const char* name, int maxChildren)
@@ -126,6 +124,9 @@ namespace MagusEngine
 	void SceneNode::SetCriticality(bool critical) { _isCritical = critical; }
 	bool SceneNode::IsCritical() { return _isCritical; }
 
-	void SceneNode::SetMaterial(Material* material) { _material = material; }
-	Material* SceneNode::GetMaterial() { return _material; }
+	void SceneNode::SetMaterial(Material* material) {
+		_material = Material(material);
+	};
+	
+	Material* SceneNode::GetMaterial() { return &_material; }
 }

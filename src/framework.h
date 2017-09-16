@@ -1,6 +1,9 @@
 #ifndef _FRAMEWORK_H_
 #define _FRAMEWORK_H_
 
+/* Framework Defines */
+#define MAX_SCENES 10
+
 /* System includes */
 #include <vector>
 #include <thread>
@@ -21,8 +24,7 @@
 #endif
 #include "subsystems/resources/resources.h"
 #include "subsystems/graphics/graphics.h"
-#include "subsystems/io/UA.h"
-#include "subsystems/io/UAParser.h"
+#include "subsystems/io/SceneParser.h"
 
 namespace MagusEngine
 {
@@ -33,7 +35,7 @@ namespace MagusEngine
 
 		bool Initialise(char* configfilePath);
 		bool Frame();
-		void Shutdown();
+		bool Shutdown();
 
 		bool ProcessUADataDirectory(const char* uadir);
 
@@ -43,9 +45,8 @@ namespace MagusEngine
 		Graphics		_graphics;
 		Resources		_resources;
 
-		UA**			_uas;
-		int				_maxUACount;
-		int				_uaCount;
+		Scene*			_scenes[MAX_SCENES];
+		int				_sceneCount;
 
 	private:
 		bool ProcessEngineConfig(const char* filename);

@@ -108,10 +108,10 @@ namespace MagusEngine
 				_frame->CopyPixel(i, j, srcX, srcY, texture);
 				uv = uv + (*colorVarier->GetUVXStep());
 			} 
-			else if (_currentMaterial->GetColor() != NULL)
+			else if (_currentMaterial->GetColor1() != NULL)
 			{
 
-				Color* color = _currentMaterial->GetColor();
+				Color* color = _currentMaterial->GetColor1();
 
 				_frame->DrawPixel(i, j, color->GetR(), color->GetG(), color->GetB(), color->GetA());
 			}

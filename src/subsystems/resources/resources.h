@@ -28,6 +28,8 @@ namespace MagusEngine
 
 		bool Initialise(unsigned int textureMax, unsigned int shaderMax, unsigned int colorMax, unsigned int materialMax, unsigned int fontMax, unsigned int meshMax);
 
+		bool Shutdown();
+
 		bool AddTextureFromFile(const char* name, const char* path);
 
 		bool AddShaderFromFile(const char* name, const char* vertexpath, const char* fragmentPath);
