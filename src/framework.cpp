@@ -42,8 +42,8 @@ namespace MagusEngine
 		/* Run the Initialise frame to allocate renderer specific memory and initialise visitors */
 		_graphics.InitialiseFrame();
 		
-		/* Intialise the Data Model to begin listening to external messages */
-		if (_dataModel.Initialise(9000) == false)
+		/* Intialise the Data Model */
+		if (_dataModel.Initialise() == false)
 		{
 			LOGERROR("Unable to Initialise Datamodel on port 9000");
 			return false;
@@ -52,6 +52,13 @@ namespace MagusEngine
 		/* Initailise the bahavioural visitor to control message between the dm and scene */
 		_behaviourVisitor = new BehaviourVisitor(&_dataModel);
 		
+		/* Intialise network communications */
+		_network = new Network();
+
+		_network->SetDataModel(&_dataModel);
+		_network->EstablishUDP(9000);
+		_network->StartRecieve();
+
 
 		return true;
 	}

@@ -178,6 +178,12 @@ set(SubSystem_Behaviour_SourceFiles
 	src/subsystems/behaviour/behaviour_visitor.cpp
 )
 
+# subsystem - network
+set(SubSystem_Network_SourceFiles
+	src/subsystems/network/network_interface.cpp
+)
+
+
 set(FinalPlatformRenderer_SourceFiles)
 
 #depending on OS add relevent source files
@@ -186,6 +192,11 @@ if(WIN32)
 	set(SubSystem_OS_SourceFiles
 		${SubSystem_OS_SourceFiles}
 		src/subsystems/os/os_windows.cpp
+	)
+	
+	set(SubSystem_Network_SourceFiles
+		${SubSystem_Network_SourceFiles}
+		src/subsystes/network/windows_network.cpp
 	)
 	
 	set(FinalPlatformRenderer_SourceFiles
@@ -197,6 +208,12 @@ else()
 		${SubSystem_OS_SourceFiles}
 		src/subsystems/os/os_linux.cpp
 	)
+	
+	set(SubSystem_Network_SourceFiles
+		${SubSystem_Network_SourceFiles}
+		src/subsystes/network/linux_network.cpp
+	)
+	
 	
 	set(FinalPlatformRenderer_SourceFiles
 		${SubSystem_Graphics_Renderer_Linux_SourceFiles}
@@ -241,6 +258,7 @@ add_executable(MagusEngine
 	${SubSystem_SceneManagement_SourceFiles}
 	${SubSystem_DataModel_SourceFiles}
 	${SubSystem_Behaviour_SourceFiles}
+	${SubSystem_Network_SourceFiles}
 )
 
  target_link_libraries(MagusEngine ${LIBS})
@@ -315,5 +333,10 @@ source_group("subsystems\\datamodel" FILES
 source_group("subsystems\\behaviour" FILES
 	${SubSystem_Behaviour_SourceFiles}
 )
+
+source_group("subsystems\\network" FILES
+	${SubSystem_Network_SourceFiles}
+)
+
 
 include_directories(${CMAKE_SOURCE_DIR}/external/includes)
