@@ -5,7 +5,6 @@
 #include "../../../resources/shader.h"
 #include "../../../resources/texture.h"
 #include "../../../../frameworkconfig.h"
-#include "sr_bitmap.h"
 #include "sr_framebuffer.h"
 #include "sr_scanbuffer.h"
 
@@ -71,9 +70,7 @@ namespace MagusEngine
 		int _screenSizeWidth;
 		int _screenSizeHeight;
 		float _screenPixelDepth;
-
-		SR_Bitmap _debugBitmap;
-
+		
 		Matrix4f* _modelMatrix;
 		Matrix4f* _projectionMatix;
 

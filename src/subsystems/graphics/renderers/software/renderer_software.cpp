@@ -76,9 +76,6 @@ namespace MagusEngine
 		/* Allocate data for front buffer */
 		_framebuffer.Initialise(screenWidth, screenHeight, screenDepth);
 
-		/* Initialise debug bitmap */
-		_debugBitmap.Initialise(screenWidth, screenHeight);
-
 		/* Initialise the scane buffer */
 		_scanbuffer.Initialise(screenWidth, screenHeight, &_framebuffer);
 
@@ -104,7 +101,7 @@ namespace MagusEngine
 	void Renderer_Software::EndScene()
 	{
 		
-		_debugBitmap.Save((BYTE*)_framebuffer.GetData(), 32, 24, "C:\\Temp\\image.bmp");
+		//_debugBitmap.Save((BYTE*)_framebuffer.GetData(), 32, 24, "C:\\Temp\\image.bmp");
 		return;
 	}
 	

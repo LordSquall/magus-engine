@@ -113,11 +113,15 @@ set(SubSystem_Graphics_Renderer_Windows_SourceFiles
 	src/subsystems/graphics/renderers/windows/renderer_windows_opengl.cpp
 	src/subsystems/graphics/renderers/windows/renderer_windows_initialise_visitor.cpp
 	src/subsystems/graphics/renderers/windows/renderer_windows_render_visitor.cpp
+	src/subsystems/graphics/renderers/windows/grahphics_blender.cpp
 )
 
 # subsystem - graphics - renderer - linux
 set(SubSystem_Graphics_Renderer_linux_SourceFiles
 	src/subsystems/graphics/renderers/linux/renderer_linux_opengl.cpp
+	src/subsystems/graphics/renderers/linux/renderer_linux_initialise_visitor.cpp
+	src/subsystems/graphics/renderers/linux/renderer_linux_render_visitor.cpp
+	src/subsystems/graphics/renderers/linux/grahphics_blender.cpp
 )
 
 # subsystem - input
