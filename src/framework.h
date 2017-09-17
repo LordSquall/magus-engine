@@ -17,16 +17,20 @@
 #include "subsystems/external/tinyxml2/tinyxml2.h"
 #include "frameworkconfig.h"
 #include "subsystems/os/os_interface.h"
-#ifdef _WIN32
-#include "subsystems/os/os_windows.h"
-#else
-#include "subsystems/os/os_linux.h"
-#endif
 #include "subsystems/resources/resources.h"
 #include "subsystems/graphics/graphics.h"
 #include "subsystems/io/SceneParser.h"
 #include "subsystems/datamodel/datamodel.h"
 #include "subsystems/behaviour/behaviour_visitor.h"
+#include "subsystems/network/network_interface.h"
+
+#ifdef _WIN32
+#include "subsystems/os/os_windows.h"
+#include "subsystems/network/windows_network.h"
+#else
+#include "subsystems/os/os_linux.h"
+#include "subsystems/network/linux_network.h"
+#endif
 
 namespace MagusEngine
 {
@@ -48,6 +52,7 @@ namespace MagusEngine
 		Resources			_resources;
 		BehaviourVisitor*	_behaviourVisitor;
 		DataModel			_dataModel;
+		Network_Interface*	_network;
 
 		Scene*			_scenes[MAX_SCENES];
 		int				_sceneCount;

@@ -22,22 +22,15 @@ namespace MagusEngine
 	class DataModel
 	{
 	public:
-		bool Initialise(int portNumber);
-
-		bool StartAsync();
+		bool Initialise();
 
 		float GetAltitude();
+
+		Altimeter_DataModel* GetAltitudeDM();
 
 	private:
 		/* Data Models */
 		Altimeter_DataModel _altimeter;
-
-		WSADATA _wsa;		
-	protected:
-		int _socket;
-		struct sockaddr_in _socketAddr;
-		struct sockaddr_in _socketOtherAddr;
-		Byte _buf[255];
 	};
 }
 #endif
