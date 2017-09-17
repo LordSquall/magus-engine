@@ -1,0 +1,1482 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scene title="Primary Flight Display">
+	<styles>
+		<color name="white" 	r="1.0f" 	g="1.0f" 	b="1.0f" 	a="1.0f" />
+		<color name="black" 	r="0.0f" 	g="0.0f" 	b="0.0f" 	a="1.0f" />
+		<color name="red" 	r="1.0f" 	g="0.0f" 	b="0.0f" 	a="1.0f" />
+		<color name="green" 	r="0.0f" 	g="1.0f" 	b="0.0f" 	a="1.0f" />
+		<color name="blue" 	r="0.0f" 	g="0.0f" 	b="1.0f" 	a="1.0f" />
+		<color name="sky"	r="0.141f" 	g="0.662f" 	b="1.0f" 	a="1.0f" />
+		<color name="earth"	r="1.0f" 	g="0.619f" 	b="0.117" 	a="1.0f" />
+		<color name="clear" 	r="0.0f" 	g="0.0f" 	b="0.0f" 	a="1.0f" />
+		<color name="tape_bg" 	r="0.1f" 	g="0.1f" 	b="0.1f" 	a="0.4f" />
+
+		<!-- material id="0" name="mat_white" 	colorid="0" textureid="0" fontid="0" -->
+		<material name="mat_white" 				color1="white" />
+		<material name="mat_black" 				color1="black" />
+		<material name="mat_red" 				color1="red" />
+		<material name="mat_green" 				color1="green" />
+		<material name="mat_blue" 				color1="blue" />
+		<material name="mat_sky" 				color1="sky"/>
+		<material name="mat_earth" 				color1="earth" />
+		<material name="mat_tapes" 				color1="tape_bg" />
+		<material name="mat_test_tex" 			texture="arial_32" />
+		<material name="mat_rose_ring_bg" 		texture="roseringbg" />
+		<material name="mat_rose_ring_ol" 		texture="roseringol" />
+		<material name="mat_direction_vector" 	texture="directionvector" />
+		<material name="mat_tape_custom_bug"	texture="tapecustombug" />
+		<material name="mat_tape_warning_bug" 	texture="tapewarningbug" />
+		<material name="mat_tape_danger_bug"	texture="tapedangerbug" />
+		<material name="mat_notif_bg"			texture="notificationbg" />
+
+	</styles>
+	<graphicalmodel>
+		<node name="root" children="5">
+			<node name="horizon" children="11">
+				<transform>
+					<position x="960.0" y="540.0" z="0.0" />
+					<rotation x="0.0" y="0.0" z="0.0" />
+					<scale x="1.0" y="1.0" z="1.0" />
+				</transform>
+
+				<node name="sky" children="0" material="mat_sky">
+					<transform>
+						<position x="0.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-1920.0" y="0.0" width="3840.0" height="2160.0" />
+						</graphics2d>
+					</components>
+				</node>
+
+				<node name="earth" children="0" material="mat_earth">
+					<transform>
+						<position x="0.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-1920.0" y="0.0" width="3840.0" height="-2060" />
+						</graphics2d>
+					</components>
+				</node>
+
+				<node name="centerline" children="0" material="mat_white">
+					<transform>
+						<position x="0.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<line x1="-1920.0" y1="0.0" x2="1920.0" y2="0.0" width="2.0" />
+						</graphics2d>
+					</components>
+				</node>
+				
+				<node name="positionvector" children="0" critical="1" material="mat_direction_vector">
+					<transform>
+						<position x="0.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-128.0" y="-128.0" width="256.0" height="256.0" />
+						</graphics2d>
+					</components>
+				</node>
+
+				<!-- Vertical Marker Lines -->
+				<node name="makerlines" children="20" material="mat_white">
+					<transform>
+						<position x="0.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<node name="makerline_-5" children="2">
+						<transform>
+							<position x="0.0" y="-100.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" width="1.0" />
+							</graphics2d>
+						</components>
+						<node name="makerline_-5_label_l" material="mat_test_tex" children="0">
+							<transform>
+								<position x="-120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="-30.0" y="-10.0" content="-5" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+						<node name="makerline_-5_label_r" children="0">
+							<transform>
+								<position x="120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="0.0" y="-10.0" content="-5" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+					</node>
+
+					<node name="makerline_-10" children="2">
+						<transform>
+							<position x="0.0" y="-200.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" width="1.0" />
+							</graphics2d>
+						</components>
+						<node name="makerline_-10_label_l" children="0">
+							<transform>
+								<position x="-120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="-50.0" y="-10.0" content="-10" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+						<node name="makerline_-10_label_r" children="0">
+							<transform>
+								<position x="120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="0.0" y="-10.0" content="-10" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+					</node>
+
+					<node name="makerline_-15" children="2">
+						<transform>
+							<position x="0.0" y="-300.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" width="1.0" />
+							</graphics2d>
+						</components>
+						<node name="makerline_-15_label_l" children="0">
+							<transform>
+								<position x="-120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="-50.0" y="-10.0" content="-15" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+						<node name="makerline_-15_label_r" children="0">
+							<transform>
+								<position x="120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="0.0" y="-10.0" content="-15" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+					</node>
+
+					<node name="makerline_-20" children="2">
+						<transform>
+							<position x="0.0" y="-400.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" width="1.0" />
+							</graphics2d>
+						</components>
+						<node name="makerline_-20_label_l" children="0">
+							<transform>
+								<position x="-120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="-50.0" y="-10.0" content="-20" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+						<node name="makerline_-20_label_r" children="0">
+							<transform>
+								<position x="120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="0.0" y="-10.0" content="-20" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+					</node>
+
+					<node name="makerline_-25" children="2">
+						<transform>
+							<position x="0.0" y="-500.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" width="1.0" />
+							</graphics2d>
+						</components>
+						<node name="makerline_-25_label_l" children="0">
+							<transform>
+								<position x="-120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="-50.0" y="-10.0" content="-25" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+						<node name="makerline_-25_label_r" children="0">
+							<transform>
+								<position x="120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="0.0" y="-10.0" content="-25" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+					</node>
+
+					<node name="makerline_-30" children="2">
+						<transform>
+							<position x="0.0" y="-600.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" width="1.0" />
+							</graphics2d>
+						</components>
+						<node name="makerline_-30_label_l" children="0">
+							<transform>
+								<position x="-120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="-50.0" y="-10.0" content="-30" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+						<node name="makerline_-30_label_r" children="0">
+							<transform>
+								<position x="120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="0.0" y="-10.0" content="-30" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+					</node>
+
+					<node name="makerline_-35" children="2">
+						<transform>
+							<position x="0.0" y="-700.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" width="1.0" />
+							</graphics2d>
+						</components>
+						<node name="makerline_-35_label_l" children="0">
+							<transform>
+								<position x="-120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="-50.0" y="-10.0" content="-35" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+						<node name="makerline_-35_label_r" children="0">
+							<transform>
+								<position x="120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="0.0" y="-10.0" content="-35" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+					</node>
+
+					<node name="makerline_-40" children="2">
+						<transform>
+							<position x="0.0" y="-800.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" width="1.0" />
+							</graphics2d>
+						</components>
+						<node name="makerline_-40_label_l" children="0">
+							<transform>
+								<position x="-120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="-50.0" y="-10.0" content="-40" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+						<node name="makerline_-40_label_r" children="0">
+							<transform>
+								<position x="120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="0.0" y="-10.0" content="-40" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+					</node>
+
+					<node name="makerline_-45" children="2">
+						<transform>
+							<position x="0.0" y="-900.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" width="1.0" />
+							</graphics2d>
+						</components>
+						<node name="makerline_-45_label_l" children="0">
+							<transform>
+								<position x="-120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="-50.0" y="-10.0" content="-45" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+						<node name="makerline_-45_label_r" children="0">
+							<transform>
+								<position x="120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="0.0" y="-10.0" content="-45" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+					</node>
+
+					<node name="makerline_5" children="2">
+						<transform>
+							<position x="0.0" y="100.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" width="1.0" />
+							</graphics2d>
+						</components>
+						<node name="makerline_5_label_l" children="0">
+							<transform>
+								<position x="-120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="-30.0" y="-10.0" content="5" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+						<node name="makerline_5_label_r" children="0">
+							<transform>
+								<position x="120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="0.0" y="-10.0" content="5" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+					</node>
+
+					<node name="makerline_10" children="2">
+						<transform>
+							<position x="0.0" y="200.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" width="1.0" />
+							</graphics2d>
+						</components>
+						<node name="makerline_10_label_l" children="0">
+							<transform>
+								<position x="-120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="-50.0" y="-10.0" content="10" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+						<node name="makerline_10_label_r" children="0">
+							<transform>
+								<position x="120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="0.0" y="-10.0" content="10" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+					</node>
+
+					<node name="makerline_15" children="2">
+						<transform>
+							<position x="0.0" y="300.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" width="1.0" />
+							</graphics2d>
+						</components>
+						<node name="makerline_15_label_l" children="0">
+							<transform>
+								<position x="-120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="-50.0" y="-10.0" content="15" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+						<node name="makerline_15_label_r" children="0">
+							<transform>
+								<position x="120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="0.0" y="-10.0" content="15" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+					</node>
+
+					<node name="makerline_20" children="2">
+						<transform>
+							<position x="0.0" y="400.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" width="1.0" />
+							</graphics2d>
+						</components>
+						<node name="makerline_20_label_l" children="0">
+							<transform>
+								<position x="-120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="-50.0" y="-10.0" content="20" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+						<node name="makerline_15_label_r" children="0">
+							<transform>
+								<position x="120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="0.0" y="-10.0" content="20" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+					</node>
+
+					<node name="makerline_25" children="2">
+						<transform>
+							<position x="0.0" y="500.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" width="1.0" />
+							</graphics2d>
+						</components>
+						<node name="makerline_25_label_l" children="0">
+							<transform>
+								<position x="-120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="-50.0" y="-10.0" content="25" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+						<node name="makerline_25_label_r" children="0">
+							<transform>
+								<position x="120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="0.0" y="-10.0" content="25" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+					</node>
+
+					<node name="makerline_30" children="2">
+						<transform>
+							<position x="0.0" y="600.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" width="1.0" />
+							</graphics2d>
+						</components>
+						<node name="makerline_30_label_l" children="0">
+							<transform>
+								<position x="-120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="-50.0" y="-10.0" content="30" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+						<node name="makerline_3_label_r" children="0">
+							<transform>
+								<position x="120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="0.0" y="-10.0" content="30" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+					</node>
+
+					<node name="makerline_35" children="2">
+						<transform>
+							<position x="0.0" y="700.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" width="1.0" />
+							</graphics2d>
+						</components>
+						<node name="makerline_35_label_l" children="0">
+							<transform>
+								<position x="-120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="-50.0" y="-10.0" content="35" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+						<node name="makerline_35_label_r" children="0">
+							<transform>
+								<position x="120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="0.0" y="-10.0" content="35" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+					</node>
+
+					<node name="makerline_40" children="2">
+						<transform>
+							<position x="0.0" y="800.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" width="1.0" />
+							</graphics2d>
+						</components>
+						<node name="makerline_40_label_l" children="0">
+							<transform>
+								<position x="-120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="-50.0" y="-10.0" content="40" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+						<node name="makerline_40_label_r" children="0">
+							<transform>
+								<position x="120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="0.0" y="-10.0" content="40" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+					</node>
+
+					<node name="makerline_45" children="2">
+						<transform>
+							<position x="0.0" y="900.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" width="1.0" />
+							</graphics2d>
+						</components>
+						<node name="makerline_45_label_l" children="0">
+							<transform>
+								<position x="-120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="-50.0" y="-10.0" content="45" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+						<node name="makerline_45_label_r" children="0">
+							<transform>
+								<position x="120.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<components count="1">
+								<graphics2d>
+									<text x="0.0" y="-10.0" content="45" font="0"/>
+								</graphics2d>
+							</components>
+						</node>
+					</node>
+				</node>
+
+			</node>
+
+			<!-- notification area -->
+			<node name="notification_area" children="2">
+				<transform>
+					<position x="960.0" y="1030.0" z="0.0" />
+					<rotation x="0.0" y="0.0" z="0.0" />
+					<scale x="1.0" y="1.0" z="1.0" />
+				</transform>
+			
+				<node name="notification_bg_left" children="0" material="mat_notif_bg">
+					<transform>
+						<position x="-150.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-150.0" y="-50.0" width="300.0" height="100.0" />
+						</graphics2d>
+					</components>
+				</node>
+				
+				<node name="notification_bg_right" children="0" material="mat_notif_bg">
+					<transform>
+						<position x="150.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-150.0" y="-50.0" width="300.0" height="100.0" />
+						</graphics2d>
+					</components>
+				</node>
+			</node>
+				
+			<!-- airspeed tape -->
+			<node name="airspeed_tape" children="4" material="mat_tapes">
+				<transform>
+					<position x="480.0" y="600.0" z="0.0" />
+					<rotation x="0.0" y="0.0" z="0.0" />
+					<scale x="1.0" y="1.0" z="1.0" />
+				</transform>
+				<components count="1">
+					<graphics2d>
+						<rectangle x="-75.0" y="-350.0" width="150.0" height="700.0" />
+					</graphics2d>
+				</components>
+
+				<node name="airspeed_tape_lb" children="0" material="mat_white">
+					<transform>
+						<position x="-30.0" y="315.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<text x="0.0" y="0.0" content="BUG" font="0"/>
+						</graphics2d>
+					</components>
+				</node>
+
+
+				<node name="airspeed_tape_window" children="2" material="mat_tapes">
+					<transform>
+						<position x="0.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-75.0" y="-350.0" width="150.0" height="650.0" />
+						</graphics2d>
+					</components>
+
+					<node name="airspeed_tape_line" children="15" material="mat_white">
+						<transform>
+							<position x="50.0" y="0.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<line x1="0.0" y1="-1000.0" x2="0.0" y2="1000.0" width="2.0"/>
+							</graphics2d>
+						</components>
+
+
+						<node name="airspeed_tape_0" children="2">
+							<transform>
+								<position x="-0.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<node name="airspeed_tape_0_mark" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<line x1="-10.0" y1="0.0" x2="0.0" y2="0.0" width="2.0"/>
+									</graphics2d>
+								</components>
+							</node>
+							<node name="airspeed_tape_0_lb" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<text x="-75.0" y="-12.0" content="???" font="0"/>
+									</graphics2d>
+								</components>
+							</node>
+						</node>
+
+						<node name="airspeed_tape_+1" children="2">
+							<transform>
+								<position x="-0.0" y="150.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<node name="airspeed_tape_+1_mark" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<line x1="-10.0" y1="0.0" x2="0.0" y2="0.0" width="2.0"/>
+									</graphics2d>
+								</components>
+							</node>
+							<node name="airspeed_tape_+1_lb" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<text x="-75.0" y="-12.0" content="???" font="0"/>
+									</graphics2d>
+								</components>
+							</node>
+						</node>
+						
+						<node name="airspeed_tape_+2" children="2">
+							<transform>
+								<position x="-0.0" y="300.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<node name="airspeed_tape_+2_mark" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<line x1="-10.0" y1="0.0" x2="0.0" y2="0.0" width="2.0"/>
+									</graphics2d>
+								</components>
+							</node>
+							<node name="airspeed_tape_+2_lb" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<text x="-75.0" y="-12.0" content="???" font="0"/>
+									</graphics2d>
+								</components>
+							</node>
+						</node>
+						
+						<node name="airspeed_tape_+3" children="2">
+							<transform>
+								<position x="-0.0" y="450.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<node name="airspeed_tape_+3_mark" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<line x1="-10.0" y1="0.0" x2="0.0" y2="0.0" width="2.0"/>
+									</graphics2d>
+								</components>
+							</node>
+							<node name="airspeed_tape_+3_lb" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<text x="-75.0" y="-12.0" content="???" font="0"/>
+									</graphics2d>
+								</components>
+							</node>
+						</node>
+						
+						<node name="airspeed_tape_-1" children="2">
+							<transform>
+								<position x="-0.0" y="-150.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<node name="airspeed_tape_-1_mark" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<line x1="-10.0" y1="0.0" x2="0.0" y2="0.0" width="2.0"/>
+									</graphics2d>
+								</components>
+							</node>
+							<node name="airspeed_tape_-1_lb" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<text x="-75.0" y="-12.0" content="???" font="0"/>
+									</graphics2d>
+								</components>
+							</node>
+						</node>
+						
+						<node name="airspeed_tape_-2" children="2">
+							<transform>
+								<position x="-0.0" y="-300.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<node name="airspeed_tape_-2_mark" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<line x1="-10.0" y1="0.0" x2="0.0" y2="0.0" width="2.0"/>
+									</graphics2d>
+								</components>
+							</node>
+							<node name="airspeed_tape_-2_lb" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<text x="-75.0" y="-12.0" content="???" font="0"/>
+									</graphics2d>
+								</components>
+							</node>
+						</node>
+						
+						<node name="airspeed_tape_-3" children="2">
+							<transform>
+								<position x="-0.0" y="-450.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<node name="airspeed_tape_-3_mark" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<line x1="-10.0" y1="0.0" x2="0.0" y2="0.0" width="2.0"/>
+									</graphics2d>
+								</components>
+							</node>
+							<node name="airspeed_tape_-3_lb" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<text x="-75.0" y="-12.0" content="???" font="0"/>
+									</graphics2d>
+								</components>
+							</node>
+						</node>
+						
+						
+						
+						
+
+					</node>
+				
+					<node name="airspeedcustombug" children="0" material="mat_tape_custom_bug">
+						<transform>
+							<position x="48.0" y="0.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<rectangle x="-16.0" y="-32.0" width="32.0" height="64.0" />
+							</graphics2d>
+						</components>
+					</node>
+					
+					<node name="airspeedwarningbug" children="0" material="mat_tape_warning_bug">
+						<transform>
+							<position x="48.0" y="100.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<rectangle x="-16.0" y="-32.0" width="32.0" height="64.0" />
+							</graphics2d>
+						</components>
+					</node>
+					
+					<node name="airspeeddangerbug" children="0" material="mat_tape_danger_bug">
+						<transform>
+							<position x="48.0" y="-100.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<rectangle x="-16.0" y="-32.0" width="32.0" height="64.0" />
+							</graphics2d>
+						</components>
+					</node>
+				
+				</node>
+
+			</node>
+
+			<!-- altitude tape -->			
+			<node name="altitude_tape" children="1" material="mat_tapes">
+				<transform>
+					<position x="1440.0" y="600.0" z="0.0" />
+					<rotation x="0.0" y="0.0" z="0.0" />
+					<scale x="1.0" y="1.0" z="1.0" />
+				</transform>
+				<components count="1">
+					<graphics2d>
+						<rectangle x="-75.0" y="-350.0" width="150.0" height="700.0" />
+					</graphics2d>
+				</components>
+
+				<node name="altitude_tape_lb" children="0" material="mat_white">
+					<transform>
+						<position x="-30.0" y="315.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<text x="0.0" y="0.0" content="BUG" font="0"/>
+						</graphics2d>
+					</components>
+				</node>
+
+
+				<node name="altitude_tape_window" children="2" material="mat_tapes">
+					<transform>
+						<position x="0.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-75.0" y="-350.0" width="150.0" height="650.0" />
+						</graphics2d>
+					</components>
+
+					<node name="altitude_tape_line" children="15" material="mat_white">
+						<transform>
+							<position x="-50.0" y="0.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<line x1="0.0" y1="-1000.0" x2="0.0" y2="1000.0" width="2.0"/>
+							</graphics2d>
+						</components>
+
+
+						<node name="altitude_tape_0" children="2">
+							<transform>
+								<position x="0.0" y="0.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<node name="altitude_tape_0_mark" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<line x1="10.0" y1="0.0" x2="0.0" y2="0.0" width="2.0"/>
+									</graphics2d>
+								</components>
+							</node>
+							<node name="altitude_tape_0_lb" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<text x="15.0" y="-12.0" content="???" font="0"/>
+									</graphics2d>
+								</components>
+							</node>
+						</node>
+
+						<node name="altitude_tape_+1" children="2">
+							<transform>
+								<position x="-0.0" y="150.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<node name="altitude_tape_+1_mark" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<line x1="10.0" y1="0.0" x2="0.0" y2="0.0" width="2.0"/>
+									</graphics2d>
+								</components>
+							</node>
+							<node name="altitude_tape_+1_lb" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<text x="15.0" y="-12.0" content="???" font="0"/>
+									</graphics2d>
+								</components>
+							</node>
+						</node>
+						
+						<node name="altitude_tape_+2" children="2">
+							<transform>
+								<position x="-0.0" y="300.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<node name="altitude_tape_+2_mark" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<line x1="10.0" y1="0.0" x2="0.0" y2="0.0" width="2.0"/>
+									</graphics2d>
+								</components>
+							</node>
+							<node name="altitude_tape_+2_lb" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<text x="15.0" y="-12.0" content="???" font="0"/>
+									</graphics2d>
+								</components>
+							</node>
+						</node>
+						
+						<node name="altitude_tape_+3" children="2">
+							<transform>
+								<position x="-0.0" y="450.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<node name="altitude_tape_+3_mark" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<line x1="10.0" y1="0.0" x2="0.0" y2="0.0" width="2.0"/>
+									</graphics2d>
+								</components>
+							</node>
+							<node name="airspeed_tape_+3_lb" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<text x="15.0" y="-12.0" content="???" font="0"/>
+									</graphics2d>
+								</components>
+							</node>
+						</node>
+						
+						<node name="altitude_tape_-1" children="2">
+							<transform>
+								<position x="-0.0" y="-150.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<node name="altitude_tape_-1_mark" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<line x1="10.0" y1="0.0" x2="0.0" y2="0.0" width="2.0"/>
+									</graphics2d>
+								</components>
+							</node>
+							<node name="altitude_tape_-1_lb" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<text x="15.0" y="-12.0" content="???" font="0"/>
+									</graphics2d>
+								</components>
+							</node>
+						</node>
+						
+						<node name="altitude_tape_-2" children="2">
+							<transform>
+								<position x="-0.0" y="-300.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<node name="altitude_tape_-2_mark" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<line x1="10.0" y1="0.0" x2="0.0" y2="0.0" width="2.0"/>
+									</graphics2d>
+								</components>
+							</node>
+							<node name="altitude_tape_-2_lb" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<text x="15.0" y="-12.0" content="???" font="0"/>
+									</graphics2d>
+								</components>
+							</node>
+						</node>
+						
+						<node name="altitude_tape_-3" children="2">
+							<transform>
+								<position x="-0.0" y="-450.0" z="0.0" />
+								<rotation x="0.0" y="0.0" z="0.0" />
+								<scale x="1.0" y="1.0" z="1.0" />
+							</transform>
+							<node name="altitude_tape_-3_mark" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<line x1="10.0" y1="0.0" x2="0.0" y2="0.0" width="2.0"/>
+									</graphics2d>
+								</components>
+							</node>
+							<node name="airspeed_tape_-3_lb" children="0">
+								<transform>
+									<position x="0.0" y="0.0" z="0.0" />
+									<rotation x="0.0" y="0.0" z="0.0" />
+									<scale x="1.0" y="1.0" z="1.0" />
+								</transform>
+								<components count="1">
+									<graphics2d>
+										<text x="15.0" y="-12.0" content="???" font="0"/>
+									</graphics2d>
+								</components>
+							</node>
+						</node>
+					</node>
+				
+					<node name="altitudecustombug" children="0" material="mat_tape_custom_bug">
+						<transform>
+							<position x="48.0" y="0.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="-1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<rectangle x="-16.0" y="-32.0" width="32.0" height="64.0" />
+							</graphics2d>
+						</components>
+					</node>
+					
+					<node name="altitudewarningbug" children="0" material="mat_tape_warning_bug">
+						<transform>
+							<position x="48.0" y="100.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="-1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<rectangle x="-16.0" y="-32.0" width="32.0" height="64.0" />
+							</graphics2d>
+						</components>
+					</node>
+					
+					<node name="altitudedangerbug" children="0" material="mat_tape_danger_bug">
+						<transform>
+							<position x="48.0" y="-100.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="-1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<rectangle x="-16.0" y="-32.0" width="32.0" height="64.0" />
+							</graphics2d>
+						</components>
+					</node>
+				</node>
+			</node>
+
+			<!-- rosering tape -->
+			<node name="rosering" children="2" >
+				<transform>
+					<position x="960" y="100.0" z="0.0" />
+					<rotation x="0.0" y="0.0" z="0.0" />
+					<scale x="1.0" y="1.0" z="1.0" />
+				</transform>
+				<node name="rosering_bg" children="0" material="mat_rose_ring_bg">
+					<transform>
+						<position x="0.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-256.0" y="-256.0" width="512.0" height="512.0" />
+						</graphics2d>
+					</components>
+				</node>
+				<node name="rosering_ol" children="0" material="mat_rose_ring_ol">
+					<transform>
+						<position x="0.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-256.0" y="-256.0" width="512.0" height="512.0" />
+						</graphics2d>
+					</components>
+				</node>
+			</node>
+		</node>
+	</graphicalmodel>
+</scene>

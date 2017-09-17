@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<UA title="Primary Flight Display">
+	<styles>
+		<color name="white" 	r="1.0f" 	g="1.0f" 	b="1.0f" 	a="1.0f" />
+		<color name="black" 	r="0.0f" 	g="0.0f" 	b="0.0f" 	a="1.0f" />
+		<color name="red" 	r="1.0f" 	g="0.0f" 	b="0.0f" 	a="1.0f" />
+		<color name="green" 	r="0.0f" 	g="1.0f" 	b="0.0f" 	a="1.0f" />
+		<color name="blue" 	r="0.0f" 	g="0.0f" 	b="1.0f" 	a="1.0f" />
+		<color name="sky"	r="0.141f" 	g="0.662f" 	b="1.0f" 	a="1.0f" />
+		<color name="earth"	r="1.0f" 	g="0.619f" 	b="0.117" 	a="1.0f" />
+		<color name="clear" 	r="0.0f" 	g="0.0f" 	b="0.0f" 	a="1.0f" />
+		
+		<!-- material id="0" name="mat_white" 	colorid="0" textureid="0" fontid="0" -->
+		<material name="mat_white" 		color="white" />
+		<material name="mat_black" 		color="black" />
+		<material name="mat_red" 		color="red" />
+		<material name="mat_green" 		color="green" />
+		<material name="mat_blue" 		color="blue" />
+		<material name="mat_sky" 		color="sky" texture="default"/>
+		<material name="mat_earth" 		color="earth" />
+		<material name="mat_test_tex" 	texture="arial_32" />
+	</styles>
+	<scene>
+		<node name="root" children="1">
+			<node name="horizon" children="10">
+				<transform>
+					<position x="400.0" y="300.0" z="0.0" />
+					<rotation x="0.0" y="0.0" z="0.0" />
+					<scale x="1.0" y="1.0" z="1.0" />
+				</transform>
+				
+				<node name="sky" children="0" material="mat_sky">
+					<transform>
+						<position x="0.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-800.0" y="0.0" width="1600.0" height="1200.0" />
+						</graphics2d>
+					</components>
+				</node>
+			
+				<node name="earth" children="0" material="mat_earth">
+					<transform>
+						<position x="0.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-800.0" y="0.0" width="1600.0" height="-1200" />
+						</graphics2d>
+					</components>
+				</node>
+			
+				<node name="centerline" children="0">
+					<transform>
+						<position x="0.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<line x1="-800.0" y1="0.0" x2="800.0" y2="0.0" width="2.0" />
+						</graphics2d>
+					</components>
+				</node>
+				
+				<node name="textnode" critical="1" children="0">
+					<transform>
+						<position x="0.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<text x="0.0" y="0.0" content="Hello World!" font="0"/>
+						</graphics2d>
+					</components>
+				</node>
+				
+				<!-- Vertical Marker Lines -->
+				<node name="makerlines" children="5" material="mat_green">
+					<transform>
+						<position x="0.0" y="50.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<node name="makerline_10" children="0">
+						<transform>
+							<position x="0.0" y="50.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" width="1.0" />
+							</graphics2d>
+						</components>
+					</node>
+				
+					<node name="makerline_100" children="0">
+						<transform>
+							<position x="0.0" y="100.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" width="1.0" />
+							</graphics2d>
+						</components>
+					</node>
+					
+					<node name="makerline_1000" children="0">
+						<transform>
+							<position x="0.0" y="150.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" width="1.0" />
+							</graphics2d>
+						</components>
+					</node>
+					
+					<node name="makerline_10000" children="0">
+						<transform>
+							<position x="0.0" y="200.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" width="1.0" />
+							</graphics2d>
+						</components>
+					</node>
+					
+					<node name="makerline_100000" children="0">
+						<transform>
+							<position x="0.0" y="250.0" z="0.0" />
+							<rotation x="0.0" y="0.0" z="0.0" />
+							<scale x="1.0" y="1.0" z="1.0" />
+						</transform>
+						<components count="1">
+							<graphics2d>
+								<line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" width="1.0" />
+							</graphics2d>
+						</components>
+					</node>
+				</node>
+			</node>
+		</node>
+	</scene>
+</UA>

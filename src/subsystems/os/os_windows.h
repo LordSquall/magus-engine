@@ -4,28 +4,32 @@
 /* OS Defines */
 #define WIN32_LEAN_AND_MEAN
 
+/* system includes */
+#include <glad\glad.h>
+#include <GLFW\glfw3.h>
+
 /* includes */
 #include "os_interface.h"
-
-#include "../graphics/renderer_interface.h"
+#include "../graphics/renderers/windows/renderer_windows_initialise_visitor.h"
+#include "../graphics/renderers/windows/renderer_windows_render_visitor.h"
+#include "../graphics/renderers/renderer_interface.h"
 #include "../input/input.h"
 
-/* system includes */
-#include <windows.h>
-#include <cstdio>
 
 namespace MagusEngine
 {
-	class OS_Windows : public OS_Interface
+	class OS : public OS_Interface
 	{
 	public:
-		OS_Windows();
+		OS();
 		
 		/* OS_Interface - Functions */
-		bool Initialise();
-		void Shutdown();
+		bool Initialise(FrameworkConfig* config, Resources* resources);
+		bool Shutdown();
 		void Run();
 		Renderer_Interface* GetLowLevelRenderer();
+		Visitor* GetLowLevelRendererInitialisationVisitor();
+		Visitor* GetLowLevelRendererRenderVisitor();
 		
 		LRESULT CALLBACK MessageHandler(HWND, UINT, WPARAM, LPARAM);
 		
@@ -33,19 +37,20 @@ namespace MagusEngine
 		bool Frame();
 		bool InitialiseWindows(Renderer_Interface*, int&, int&);
 		void ShutdownWindows();
+
+		static void ErrorCallback(int error, const char* description);
 		
 	private:
-		LPCWSTR m_applicationName;
-		HINSTANCE m_hinstance;
-		HWND m_hwnd;
+		FrameworkConfig* _config;
+		Resources*		 _resources;
 
 		Renderer_Interface* _lowLevelRenderer;
-		Input* _input;
+		Visitor*			_lowLevelRendererInitialisationVisitor;
+		Visitor*			_lowLevelRendererRenderVisitor;
+		Input*				_input;
 	};
 	
-	static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
-
-	static OS_Windows* ApplicationHandle = 0;
+	static OS* ApplicationHandle = 0;
 }
 
 #endif

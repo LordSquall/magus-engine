@@ -17,10 +17,10 @@
 
 namespace MagusEngine
 {
-	class OS_Linux : public OS_Interface
+	class OS : public OS_Interface
 	{
 	public:
-		OS_Linux();
+		OS(FrameworkConfig* config);
 		
 	/* OS_Interface - Functions */
 		bool Initialise();

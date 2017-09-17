@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scene title="Rectangle Test">
+	<styles>
+		<color name="white" 	r="1.0f" 	g="1.0f" 	b="1.0f" 	a="1.0f" />
+		<color name="red" 		r="1.0f" 	g="0.0f" 	b="0.0f" 	a="1.0f" />
+
+		<!-- material id="0" name="mat_white" 	colorid="0" textureid="0" fontid="0" -->
+		<material name="mat_white" 				color1="white"  color2="red"/>
+
+	</styles>
+	<graphicalmodel>
+		<node name="root" children="1">
+			<node name="rectangle" children="15">
+				<transform>
+					<position x="960.0" y="540.0" z="0.0" />
+					<rotation x="0.0" y="0.0" z="0.0" />
+					<scale x="1.0" y="1.0" z="1.0" />
+				</transform>
+
+
+				<node name="rectangle_00" children="0">
+					<transform>
+						<position x="-760.0" y="400.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-100.0" y="-100.0" width="200.0" height="200.0" />
+						</graphics2d>
+					</components>
+				</node>
+				
+				<node name="rectangle_10" children="0" material="mat_white">
+					<transform>
+						<position x="-380.0" y="400.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-100.0" y="-100.0" width="200.0" height="200.0" />
+						</graphics2d>
+					</components>
+				</node>
+				
+				<node name="rectangle_20" children="0">
+					<transform>
+						<position x="0.0" y="400.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<material color="red" />
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-100.0" y="-100.0" width="200.0" height="200.0" />
+						</graphics2d>
+					</components>
+				</node>
+				
+				<node name="rectangle_30" children="0">
+					<transform>
+						<position x="380.0" y="400.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<material color="red" />
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-100.0" y="-100.0" width="200.0" height="200.0" />
+						</graphics2d>
+					</components>
+				</node>
+				
+				<node name="rectangle_40" children="0">
+					<transform>
+						<position x="760.0" y="400.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<material color="red" />
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-100.0" y="-100.0" width="200.0" height="200.0" />
+						</graphics2d>
+					</components>
+				</node>
+				
+				
+				<node name="rectangle_01" children="0">
+					<transform>
+						<position x="-760.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-100.0" y="-100.0" width="200.0" height="200.0" />
+						</graphics2d>
+					</components>
+				</node>
+				
+				<node name="rectangle_11" children="0" material="mat_white">
+					<transform>
+						<position x="-380.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-100.0" y="-100.0" width="200.0" height="200.0" />
+						</graphics2d>
+					</components>
+				</node>
+				
+				<node name="rectangle_12" children="0">
+					<transform>
+						<position x="0.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<material color="red" />
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-100.0" y="-100.0" width="200.0" height="200.0" />
+						</graphics2d>
+					</components>
+				</node>
+				
+				<node name="rectangle_13" children="0">
+					<transform>
+						<position x="380.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<material color="red" />
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-100.0" y="-100.0" width="200.0" height="200.0" />
+						</graphics2d>
+					</components>
+				</node>
+				
+				<node name="rectangle_14" children="0">
+					<transform>
+						<position x="760.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<material color="red" />
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-100.0" y="-100.0" width="200.0" height="200.0" />
+						</graphics2d>
+					</components>
+				</node>
+				
+				
+				<node name="rectangle_02" children="0">
+					<transform>
+						<position x="-760.0" y="-400.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-100.0" y="-100.0" width="200.0" height="200.0" />
+						</graphics2d>
+					</components>
+				</node>
+				
+				<node name="rectangle_12" children="0" material="mat_white">
+					<transform>
+						<position x="-380.0" y="-400.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-100.0" y="-100.0" width="200.0" height="200.0" />
+						</graphics2d>
+					</components>
+				</node>
+				
+				<node name="rectangle_22" children="0">
+					<transform>
+						<position x="0.0" y="-400.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<material color="red" />
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-100.0" y="-100.0" width="200.0" height="200.0" />
+						</graphics2d>
+					</components>
+				</node>
+				
+				<node name="rectangle_32" children="0">
+					<transform>
+						<position x="380.0" y="-400.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<material color="red" />
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-100.0" y="-100.0" width="200.0" height="200.0" />
+						</graphics2d>
+					</components>
+				</node>
+				
+				<node name="rectangle_42" children="0">
+					<transform>
+						<position x="760.0" y="-400.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<material color="red" />
+					<components count="1">
+						<graphics2d>
+							<rectangle x="-100.0" y="-100.0" width="200.0" height="200.0" />
+						</graphics2d>
+					</components>
+				</node>
+			</node>
+		</node>
+	</graphicalmodel>
+</scene>

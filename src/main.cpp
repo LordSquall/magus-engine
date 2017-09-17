@@ -5,12 +5,16 @@
 /* Local Project Includes */
 #include "magusversion.h"
 #include "framework.h"
+#include "subsystems/logging/logger.h"
 
-unsigned int ProcessArguments(int argc, char *argv[]);
+/* Global variables */
+char	g_configLocation[255];		/* Configuration file location */
 
-void DisplayVersionInfo();
+/* Main support functions - Forward Declarations */
+int		MAIN_ProcessArguments(int argc, char *argv[]);
+void	MAIN_DisplayVersionInfo();
+void	MAIN_DisplayUsage();
 
-void DisplayUsage();
 
 /* Program Entry Point */
 int main(int argc, char *argv[])
@@ -20,16 +24,17 @@ int main(int argc, char *argv[])
 	unsigned int result = 0;	/* process arguments result */
 
 	/* Process arguments */
-	result = ProcessArguments(argc, argv);
+	result = MAIN_ProcessArguments(argc, argv);
 	if (result < 0)
 	{
 		/* Failure to process args, display program usage */
-		DisplayUsage();
+		MAIN_DisplayUsage();
 		return 0;
 	}
 	else if (result > 0)
 	{
 		/* No error, but args configuration means we terminate the application */
+		MAIN_DisplayUsage();
 		return 0;
 	}
 
@@ -37,50 +42,98 @@ int main(int argc, char *argv[])
 	MagusEngine::Framework* framework = new MagusEngine::Framework();
 
 	/* Initialise the framework */
-	framework->Initialise();
-
-	while (running == true)
+	if (framework->Initialise(g_configLocation))
 	{
-		/* Update framework timings */
-		running = framework->Frame();
+		while (running == true)
+		{
+			/* Update framework timings */
+			running = framework->Frame();
+		}
+	}
+	else
+	{
+		LOGERROR("Unabled to Initialise Framework");
 	}
 
 	framework->Shutdown();
+	
+	/* close logger log file */
+	MagusEngine::Logger::FinaliseLogFile();
+
 	return 0;
 }
 
-unsigned int ProcessArguments(int argc, char *argv[])
+int MAIN_ProcessArguments(int argc, char *argv[])
 {
 	/* Flow variables */
 	int i = 0;
+	int result = -1;
 
 	/* Process Arguments */
 	for (i = 0; i < argc; i++)
 	{
-		if (strcmp(argv[i], "-v") == 0)
+		if (strcmp(argv[i], "-version") == 0)
 		{
-			DisplayVersionInfo();
+			MAIN_DisplayVersionInfo();
 			return 1;
 		}
 		else if (strcmp(argv[i], "-h") == 0)
 		{
-			DisplayUsage();
+			MAIN_DisplayUsage();
 			return 1;
+		}
+		if (strcmp(argv[i], "-v") == 0)
+		{
+			if (i + 1 == argc)
+			{
+				LOGERROR("Unable to process '-v' level");
+				return -1;
+			}
+			MagusEngine::Logger::VerboseLevel = atoi(argv[i+1]);
+			i++;
+		}
+		if (strcmp(argv[i], "-f") == 0)
+		{
+			MagusEngine::Logger::LogToFileMode = true;
+		}
+		else if (strcmp(argv[i], "-i") == 0)
+		{
+			/* Make sure there is enought args to continue */
+			if (i+1 == argc)
+			{
+				LOGERROR("Unable to process '-i' file");
+				return -1;
+			}
+
+			/* Copy arg to directory variable */
+			strcpy_s(g_configLocation, argv[i + 1]);
+			i++;
+
+			/* Mark result */
+			result = 0;
 		}
 	}
 
-	return 0;
+	return result;
 }
 
-void DisplayVersionInfo()
+void MAIN_DisplayVersionInfo()
 {
 	/* Print version information to screen */
 	printf("Magus Engine - Version %d.%d\n", MagusEngine_VERSION_MAJOR, MagusEngine_VERSION_MINOR);
 }
 
-void DisplayUsage()
+void MAIN_DisplayUsage()
 {
 	printf("Usage:\n");
 	printf("\t-h\t\t:Show usage page\n");
-	printf("\t-v\t\t:Show version info\n");
+	printf("\t-version\t\t:Show version info\n");
+	printf("\t-v\t\t:Switch on verbose level\n");
+	printf("\t\t\t\t: 0 - Errors\n");
+	printf("\t\t\t\t: 1 - Errors + Warnings\n");
+	printf("\t\t\t\t: 2 - Errors + Warning + Info\n");
+	printf("\t\t\t\t: 3 - Same as Level 2 but includes function and line numbers\n");
+	printf("\t\t\t\t: 4 - Same as Level 3 but include memory allocation (a lot of information)\n");
+	printf("\t-f\t\t:Switch on log to file (logfile.log)\n");
+	printf("\t-i <path>\t\t:Engine configuration .conf file (Required)\n");
 }

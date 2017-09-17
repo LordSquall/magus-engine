@@ -1,0 +1,21 @@
+<component>
+	<node name="rosering" children="1" >
+		<transform>
+			<position x="960" y="0.0" z="0.0" />
+			<rotation x="0.0" y="0.0" z="0.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+		</transform>
+		<node name="rosering_bg" children="0" material="mat_rose_ring_bg">
+			<transform>
+				<position x="0.0" y="0.0" z="0.0" />
+				<rotation x="0.0" y="0.0" z="0.0" />
+				<scale x="1.0" y="1.0" z="1.0" />
+			</transform>
+			<components count="1">
+				<graphics2d>
+					<rectangle x="-256.0" y="-256.0" width="512.0" height="512.0" />
+				</graphics2d>
+			</components>
+		</node>
+	</node>
+</component>
