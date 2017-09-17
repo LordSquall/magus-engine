@@ -3,7 +3,7 @@
 
 /* includes */
 #include "os_interface.h"
-#include "../graphics/renderer_interface.h"
+#include "../graphics/renderers/renderer_interface.h"
 #include "../input/input.h"
 
 /* system includes */
@@ -20,13 +20,14 @@ namespace MagusEngine
 	class OS : public OS_Interface
 	{
 	public:
-		OS(FrameworkConfig* config);
+		OS();
 		
-	/* OS_Interface - Functions */
-		bool Initialise();
-		void Shutdown();
+		/* OS_Interface - Functions */
+		bool Initialise(FrameworkConfig* config, Resources* resources);
+		bool Shutdown();
 		Renderer_Interface* GetLowLevelRenderer();
-		
+		Visitor* GetLowLevelRendererInitialisationVisitor();
+		Visitor* GetLowLevelRendererRenderVisitor();
 	
 		void Run();
 

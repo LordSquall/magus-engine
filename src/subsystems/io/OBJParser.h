@@ -5,7 +5,7 @@
 
 /* Local Project Includes */
 #include "../math/vector.h"
-#include "../resources/Mesh.h"
+#include "../resources/mesh.h"
 
 namespace MagusEngine
 {

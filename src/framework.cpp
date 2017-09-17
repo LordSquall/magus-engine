@@ -176,7 +176,7 @@ namespace MagusEngine
 				LOGERROR("Engine tag missing 'title' attribute @ line %d", engineElement->GetLineNum());
 				return false;
 			}
-			strcpy_s(_config.title, title);
+			strcpy(_config.title, title);
 
 
 			/* resolution element */
@@ -384,7 +384,7 @@ namespace MagusEngine
 					SceneParser sceneparser(&_resources);
 
 
-					sprintf_s(fullPathBuffer, "%s%s", _resources.GetRootPath(), e->Attribute("path"));
+					sprintf(fullPathBuffer, "%s%s", _resources.GetRootPath(), e->Attribute("path"));
 
 					_scenes[_sceneCount] = sceneparser.Parse(fullPathBuffer);
 					_sceneCount++;

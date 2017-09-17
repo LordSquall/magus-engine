@@ -2,7 +2,6 @@
 #define _SR_STRUCTURES_H_
 
 /* System Includes */
-#include <Windows.h>
 #include <algorithm>
 #include <memory>
 

@@ -21,7 +21,7 @@ namespace MagusEngine
 
 
 	// Save the bitmap to a bmp file  
-	void SR_Bitmap::Save(BYTE* pBitmapBits,
+	void SR_Bitmap::Save(Byte* pBitmapBits,
 		WORD wBitsPerPixel,
 		const unsigned long& padding_size,
 		LPCTSTR lpszFileName)

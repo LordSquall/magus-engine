@@ -3,14 +3,14 @@
 
 /* System Includes */
 #include <thread>
-#include <GLFW\glfw3.h>
+#include <GLFW/glfw3.h>
 
 /* Local Project Includes */
 #include "graphics_visitor.h"
-#include "renderers\renderer_interface.h"
-#include "..\os\os_interface.h"
-#include "..\scenemanagement\scenenode.h"
-#include "..\resources\resources.h"
+#include "renderers/renderer_interface.h"
+#include "../os/os_interface.h"
+#include "../scenemanagement/scenenode.h"
+#include "../resources/resources.h"
 
 namespace MagusEngine
 {

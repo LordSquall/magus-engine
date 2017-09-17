@@ -10,7 +10,7 @@ namespace MagusEngine
 		_lowLevelRenderer = 0;
 	}
 	
-	bool OS::Initialise(FrameworkConfig* config)
+	bool OS::Initialise(FrameworkConfig* config, Resources* resources)
 	{
 		int screenWidth, screenHeight;
 		bool result;
@@ -40,7 +40,7 @@ namespace MagusEngine
 		return true;
 	}
 	
-	void OS::Shutdown()
+	bool OS::Shutdown()
 	{
 		// Release the Low Level Renderer object.
 		if (_lowLevelRenderer)
@@ -50,8 +50,19 @@ namespace MagusEngine
 			_lowLevelRenderer = 0;
 		}
 
-		return;
+		return true;
 	}
+	
+	Visitor* OS::GetLowLevelRendererInitialisationVisitor()
+	{
+		return NULL;
+	}
+	
+	Visitor* OS::GetLowLevelRendererRenderVisitor()
+	{
+		return NULL;
+	}
+	
 	
 	void OS::Run()
 	{

@@ -2,7 +2,6 @@
 #define _RESOURCES_H_
 
 /* System Includes */
-#include <Windows.h>
 
 /* Local Project Include */
 #include "../logging/logger.h"

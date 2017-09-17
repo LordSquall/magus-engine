@@ -8,8 +8,6 @@
 #include <vector>
 #include <thread>
 #include <stdio.h>
-#include <winsock2.h>
-#include <WS2tcpip.h>
 
 /* Local project includes */
 #include "subsystems/logging/logger.h"

@@ -4,9 +4,9 @@
 /* System Includes */
 
 /* Local Project Includes */
-#include "renderers\software\renderer_software.h"
-#include "renderers\windows\renderer_windows_opengl.h"
-#include "..\resources\resources.h"
+#include "renderers/software/renderer_software.h"
+#include "renderers/windows/renderer_windows_opengl.h"
+#include "../resources/resources.h"
 
 namespace MagusEngine
 {

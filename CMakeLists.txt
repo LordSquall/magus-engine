@@ -22,6 +22,8 @@ link_directories(${CMAKE_SOURCE_DIR}/external/lib)
 find_package(GLFW3 REQUIRED)
 message(STATUS "Found GLFW3 in ${GLFW3_INCLUDE_DIR}")
 
+find_package (Threads REQUIRED)
+
 if(WIN32)
   set(LIBS glfw3 opengl32 assimp)
 elseif(UNIX AND NOT APPLE)
@@ -196,7 +198,7 @@ if(WIN32)
 	
 	set(SubSystem_Network_SourceFiles
 		${SubSystem_Network_SourceFiles}
-		src/subsystes/network/windows_network.cpp
+		src/subsystems/network/windows_network.cpp
 	)
 	
 	set(FinalPlatformRenderer_SourceFiles
@@ -211,7 +213,7 @@ else()
 	
 	set(SubSystem_Network_SourceFiles
 		${SubSystem_Network_SourceFiles}
-		src/subsystes/network/linux_network.cpp
+		src/subsystems/network/linux_network.cpp
 	)
 	
 	

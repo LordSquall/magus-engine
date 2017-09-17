@@ -106,7 +106,7 @@ int MAIN_ProcessArguments(int argc, char *argv[])
 			}
 
 			/* Copy arg to directory variable */
-			strcpy_s(g_configLocation, argv[i + 1]);
+			strcpy(g_configLocation, argv[i + 1]);
 			i++;
 
 			/* Mark result */

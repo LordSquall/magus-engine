@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
-#include <pthread>
+#include <pthread.h>
 
 namespace MagusEngine
 {
@@ -20,8 +20,6 @@ namespace MagusEngine
 
 		bool StartAsync();
 
-	private:
-		WSADATA _wsa;
 	protected:
 		int _socket;
 		struct sockaddr_in _socketAddr;

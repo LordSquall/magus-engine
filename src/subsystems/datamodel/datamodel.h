@@ -2,8 +2,6 @@
 #define _DATAMODEL_H_
 
 /* System includes */
-#include <winsock2.h>
-#include <WS2tcpip.h>
 #include <thread>
 #include <atomic>
 

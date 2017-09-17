@@ -1,10 +1,10 @@
 #include "graphics.h"
 
 #include "graphics_blender.h"
-#include "renderers\software\renderer_software_initialise_visitor.h"
-#include "renderers\software\renderer_software_render_visitor.h"
-#include "renderers\software\renderer_software.h"
-#include "renderers\windows\renderer_windows_opengl.h"
+#include "renderers/software/renderer_software_initialise_visitor.h"
+#include "renderers/software/renderer_software_render_visitor.h"
+#include "renderers/software/renderer_software.h"
+#include "renderers/windows/renderer_windows_opengl.h"
 
 namespace MagusEngine
 {
