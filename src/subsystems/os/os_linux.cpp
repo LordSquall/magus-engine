@@ -35,7 +35,7 @@ namespace MagusEngine
 			return false;
 		}
 		
-		_lowLevelRenderer->Initialise(this, screenWidth, screenHeight, 1000.0f, 0.1f, true);
+	//	_lowLevelRenderer->Initialise(this, screenWidth, screenHeight, 1000.0f, 0.1f, true);
 
 		return true;
 	}
@@ -66,7 +66,7 @@ namespace MagusEngine
 	
 	void OS::Run()
 	{
-		bool done;
+/* 		bool done;
 
 		done = false;
 		
@@ -97,7 +97,7 @@ namespace MagusEngine
 		//glXDestroyContext(m_display, glc);
 		XDestroyWindow(m_display, m_window);
 		XCloseDisplay(m_display);
-		exit(0);		
+		exit(0);		 */
 	
 		return;
 	}
@@ -125,7 +125,7 @@ namespace MagusEngine
 	
 	bool OS::InitialiseX11(int screenWidth, int screenHeight)
 	{
-		m_attributes[0] = GLX_RGBA;
+		/* m_attributes[0] = GLX_RGBA;
 		m_attributes[1] = GLX_DEPTH_SIZE;
 		m_attributes[2] = 24;
 		m_attributes[3] = GLX_DOUBLEBUFFER;
@@ -166,7 +166,7 @@ namespace MagusEngine
 		XMapWindow(m_display, m_window);
 		
 		printf("Setting Window Name\n");
-		XStoreName(m_display, m_window, "Magus Engine");
+		XStoreName(m_display, m_window, "Magus Engine"); */
 
 		
 		return true;

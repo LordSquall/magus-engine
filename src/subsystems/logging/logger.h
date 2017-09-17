@@ -15,10 +15,6 @@
 
 #ifdef _WIN32
 
-#define _F_ __FUNCTION__
-#define _L_	__LINE__
-#define _VAARGS_ __VA_ARGS__
-
 #define LOGHEADER(header) MagusEngine::Logger::LogHeader(header)
 #define LOGERROR(formattedMsg, ...) MagusEngine::Logger::LogError(__FILE__, __FUNCTION__, __LINE__, formattedMsg, __VA_ARGS__)
 #define LOGWARN(formattedMsg, ...) MagusEngine::Logger::LogWarning(__FILE__, __FUNCTION__, __LINE__, formattedMsg, __VA_ARGS__)

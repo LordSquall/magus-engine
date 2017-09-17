@@ -12,17 +12,17 @@ namespace MagusEngine
 
 	bool Renderer_Linux_OpenGL::Initialise(void* system, int screenWidth, int screenHeight, float screenDepth, float screenNear, bool vsync)
 	{
-		OS* os = (OS*)system;
-		
-		_os = system;
-		
-		printf("foobar 1\n");
-		m_glContext = glXCreateContext(os->getDisplay(), os->getVisualInfo(), NULL, GL_TRUE);
-		
-		printf("foobar 2\n");
-		glXMakeCurrent(os->getDisplay(), os->getWindow(), m_glContext);
-		
-		printf("foobar 3\n");
+		// glad: load all OpenGL function pointers
+		// ---------------------------------------
+		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+		{
+			printf("nitialize GLAD\n");
+			return false;
+		}
+
+		_CurrentTexture = 0;
+		_CurrentMaterial = 0;
+		_CurrentShader = 0;
 		
 		/* Generate vao */
 		glGenVertexArrays(1, &_vao);
@@ -55,8 +55,8 @@ namespace MagusEngine
 
 	void Renderer_Linux_OpenGL::EndScene()
 	{
-		OS* os = (OS*)_os;
-		glXSwapBuffers(os->getDisplay(), os->getWindow());
+		//OS* os = (OS*)_os;
+		//glXSwapBuffers(os->getDisplay(), os->getWindow());
 		return;
 	}
 	
