@@ -21,8 +21,19 @@ namespace MagusEngine
 	}
 
 	/* Drawable Functions */
-	void Ellipse::Build(Vertex* vbuffer, int* vbufferLength, unsigned int* ibuffer, int* ibufferLength)
+	void Ellipse::Build(Vertex* vbuffer, unsigned int* ibuffer, VBO_Structure* fillData, VBO_Structure* strokeData)
 	{
+		/* default the drawable data */
+		fillData->enabled = false;
+		fillData->vertexstart = 0;
+		fillData->vertexlength = 0;
+		fillData->vertexhandle = 0;
+		fillData->indexstart = 0;
+		fillData->indexlength = 0;
+		fillData->indexhandle = 0;
+
+
+
 		/* Build vertex buffer */
 		
 		/* Draw Initial point */
@@ -88,8 +99,8 @@ namespace MagusEngine
 		//ibuffer[5] = 3;
 
 		///* Set buffer lengths */
-		*vbufferLength = 0;
-		*ibufferLength = 0;
+		//*vbufferLength = 0;
+		//*ibufferLength = 0;
 	}
 	
 	void Ellipse::PreDraw(Visitor* visitor)

@@ -21,35 +21,38 @@ namespace MagusEngine
 	}
 
 	/* Drawable Functions */
-	void Line::Build(Vertex* vbuffer, int* vbufferLength, unsigned int* ibuffer, int* ibufferLength)
+	void Line::Build(Vertex* vbuffer, unsigned int* ibuffer, VBO_Structure* fillData, VBO_Structure* strokeData)
 	{
+		/* default the drawable data */
+		fillData->enabled = false;
+		fillData->vertexstart = 0;
+		fillData->vertexlength = 0;
+		fillData->vertexhandle = 0;
+		fillData->indexstart = 0;
+		fillData->indexlength = 0;
+		fillData->indexhandle = 0;
+
+		/* Path variables for drawing calculations */
+		unsigned int pointCnt = 4;
+
+		/* Build Points */
+		Vector4f points[] = {
+			{ _x1, _y1, 0.0f, 1.0f },
+			{ _x2, _y2, 0.0f, 1.0f }
+		};
+
 		/* calculate normal */
-		Vector2f delta = Vector2f(_x2 - _x1, _y2 - _y1);
+		Vector2f deltapos = Vector2f(_y2 - _y1, -(_x2 - _x1));
+		Vector2f deltaneg = Vector2f(-(_y2 - _y1), _x2 - _x1);
 
-		Vector2f normal;
+		deltapos.Normalise();
+		deltaneg.Normalise();
 		
-		/* Build vertex buffer */
-		/* point 1 */
-		normal = Vector2f(-delta.y, delta.x);
-		normal.Normalise();
-		vbuffer[0].SetX(_x1 + (normal.x * _width));
-		vbuffer[0].SetY(_y1 + (normal.y * _width));
-
-		normal = Vector2f(delta.y, -delta.x);
-		normal.Normalise();
-		vbuffer[1].SetX(_x1 + (normal.x * _width));
-		vbuffer[1].SetY(_y1 + (normal.y * _width));
-
-		normal = Vector2f(-delta.y, delta.x);
-		normal.Normalise();
-		vbuffer[2].SetX(_x2 + (normal.x * _width));
-		vbuffer[2].SetY(_y2 + (normal.y * _width));
-
-		normal = Vector2f(delta.y, -delta.x);
-		normal.Normalise();
-		vbuffer[3].SetX(_x2 + (normal.x * _width));
-		vbuffer[3].SetY(_y2 + (normal.x * _width));
-
+		/* Segement vertices*/
+		vbuffer[0] = Vertex(points[0], Vector4f(1.0f, 0.0f, 0.0f, 1.0f), deltapos, Vector2f(0.0f, 1.0f));
+		vbuffer[1] = Vertex(points[0], Vector4f(0.0f, 1.0f, 0.0f, 1.0f), deltaneg, Vector2f(0.0f, 0.0f));
+		vbuffer[2] = Vertex(points[1], Vector4f(0.0f, 0.0f, 1.0f, 1.0f), deltapos, Vector2f(1.0f, 1.0f));
+		vbuffer[3] = Vertex(points[1], Vector4f(1.0f, 1.0f, 1.0f, 1.0f), deltaneg, Vector2f(1.0f, 0.0f));
 
 		/* Build indicies buffer */
 		ibuffer[0] = 0;
@@ -60,8 +63,21 @@ namespace MagusEngine
 		ibuffer[5] = 3;
 
 		/* Set buffer lengths */
-		*vbufferLength = 4;
-		*ibufferLength = 6;
+		fillData->enabled = false;
+		fillData->vertexstart = 0;
+		fillData->vertexlength = 0;
+		fillData->vertexmax = 0;
+		fillData->indexstart = 0;
+		fillData->indexlength = 0;
+		fillData->indexmax = 0;
+
+		strokeData->enabled = true;
+		strokeData->vertexstart = 0;
+		strokeData->vertexlength = 4;
+		strokeData->vertexmax = 4;
+		strokeData->indexstart = 0;
+		strokeData->indexlength = 6;
+		strokeData->indexmax = 6;
 	}
 
 	void Line::PreDraw(Visitor* visitor)

@@ -14,10 +14,11 @@ namespace MagusEngine
 	public:
 		Vertex();
 		Vertex(float x, float y, float z, float r, float g, float b, float a);
-		Vertex(Vector4f position, Vector4f color, Vector2f uv);
+		Vertex(Vector4f position, Vector4f color, Vector2f extrude, Vector2f uv);
 
 		Vector4f* GetPosition();
 		Vector4f* GetColor();
+		Vector2f* GetExtrude();
 		Vector2f* GetUV();
 
 		float GetX();
@@ -35,6 +36,7 @@ namespace MagusEngine
 
 		void SetPosition(float x, float y, float z, float w);
 		void SetColor(float r, float g, float b, float a);
+		void SetExtrude(float x, float y);
 		void SetUV(float u, float v);
 
 		void SetX(float x);
@@ -62,6 +64,7 @@ namespace MagusEngine
 	private:
 		Vector4f _position;
 		Vector4f _color;
+		Vector2f _extrude;
 		Vector2f _uv;
 	};
 }

@@ -29,6 +29,8 @@ namespace MagusEngine
 
 		void AddScene(SceneNode* sceneNode);
 
+		SceneNode* GetRootSceneNode();
+
 	private:
 		bool Render();
 

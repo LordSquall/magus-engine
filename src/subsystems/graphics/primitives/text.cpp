@@ -20,8 +20,17 @@ namespace MagusEngine
 	}
 
 	/* Drawable Functions */
-	void Text::Build(Vertex* vbuffer, int* vbufferLength, unsigned int* ibuffer, int* ibufferLength)
+	void Text::Build(Vertex* vbuffer, unsigned int* ibuffer, VBO_Structure* fillData, VBO_Structure* strokeData)
 	{
+		/* default the drawable data */
+		fillData->enabled = false;
+		fillData->vertexstart = 0;
+		fillData->vertexlength = 0;
+		fillData->vertexhandle = 0;
+		fillData->indexstart = 0;
+		fillData->indexlength = 0;
+		fillData->indexhandle = 0;
+
 		int length = strlen(_content);
 
 		int vertCount = 0;
@@ -34,25 +43,10 @@ namespace MagusEngine
 			Glyph* g = _font->GetGlyph(_content[i]);
 
 			/* Build vertex buffer */
-			vbuffer[(i * 4) + 0].SetX(_x + xcursor);
-			vbuffer[(i * 4) + 0].SetY(_y);
-			vbuffer[(i * 4) + 0].SetU(g->GetUVBL().x);
-			vbuffer[(i * 4) + 0].SetV(g->GetUVBL().y);
-
-			vbuffer[(i * 4) + 1].SetX(_x + xcursor);
-			vbuffer[(i * 4) + 1].SetY(_y + g->GetHeight());
-			vbuffer[(i * 4) + 1].SetU(g->GetUVTL().x);
-			vbuffer[(i * 4) + 1].SetV(g->GetUVTL().y);
-
-			vbuffer[(i * 4) + 2].SetX(_x + xcursor + (g->GetWidth()));
-			vbuffer[(i * 4) + 2].SetY(_y);
-			vbuffer[(i * 4) + 2].SetU(g->GetUVBR().x);
-			vbuffer[(i * 4) + 2].SetV(g->GetUVBR().y);
-
-			vbuffer[(i * 4) + 3].SetX(_x + xcursor + (g->GetWidth()));
-			vbuffer[(i * 4) + 3].SetY(_y + g->GetHeight());
-			vbuffer[(i * 4) + 3].SetU(g->GetUVTR().x);
-			vbuffer[(i * 4) + 3].SetV(g->GetUVTR().y);
+			vbuffer[(i * 4) + 0] = Vertex(Vector4f(_x + xcursor					, _y				 , 0.0f, 1.0f), Vector4f(1.0f, 0.0f, 0.0f, 1.0f), Vector2f(), Vector2f(g->GetUVBL().x, g->GetUVBL().y));
+			vbuffer[(i * 4) + 1] = Vertex(Vector4f(_x + xcursor					, _y + g->GetHeight(), 0.0f, 1.0f), Vector4f(1.0f, 0.0f, 0.0f, 1.0f), Vector2f(), Vector2f(g->GetUVTL().x, g->GetUVTL().y));
+			vbuffer[(i * 4) + 2] = Vertex(Vector4f(_x + xcursor + g->GetWidth() , _y				 , 0.0f, 1.0f), Vector4f(1.0f, 0.0f, 0.0f, 1.0f), Vector2f(), Vector2f(g->GetUVBR().x, g->GetUVBR().y));
+			vbuffer[(i * 4) + 3] = Vertex(Vector4f(_x + xcursor + g->GetWidth() , _y + g->GetHeight(), 0.0f, 1.0f), Vector4f(1.0f, 0.0f, 0.0f, 1.0f), Vector2f(), Vector2f(g->GetUVTR().x, g->GetUVTR().y));
 
 			/* Build indicies buffer */
 			ibuffer[indicesCount + 0] = vertCount + 0;
@@ -69,8 +63,21 @@ namespace MagusEngine
 		}
 
 		/* Set buffer lengths */
-		*vbufferLength = vertCount;
-		*ibufferLength = indicesCount;
+		fillData->enabled = true;
+		fillData->vertexstart = 0;
+		fillData->vertexlength = vertCount;
+		fillData->vertexmax = 100;
+		fillData->indexstart = 0;
+		fillData->indexlength = indicesCount;
+		fillData->indexmax = 200;
+
+		strokeData->enabled = false;
+		strokeData->vertexstart = 0;
+		strokeData->vertexlength = 0;
+		strokeData->vertexmax = 0;
+		strokeData->indexstart = 0;
+		strokeData->indexlength = 0;
+		strokeData->indexmax = 0;
 	}
 	
 	void Text::PreDraw(Visitor* visitor)
@@ -92,7 +99,7 @@ namespace MagusEngine
 	/* Getters */
 	float Text::GetX() { return _x; }
 	float Text::GetY() { return _y; }
-	const char* Text::GetContent() { return _content; }
+	char* Text::GetContent() { return _content; }
 	Font* Text::GetFont() { return _font; }
 
 	/* Setters */

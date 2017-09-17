@@ -7,6 +7,7 @@ namespace MagusEngine
 	{
 		_position	= Vector4f(0.0f, 0.0f, 0.0f, 1.0f);
 		_color		= Vector4f(0.0f, 0.0f, 0.0f, 0.0f);
+		_extrude	= Vector2f(0.0f, 0.0f);
 		_uv			= Vector2f(0.0f, 0.0f);
 	}
 
@@ -14,18 +15,21 @@ namespace MagusEngine
 	{
 		_position	= Vector4f(x, y, z, 1.0f);
 		_color		= Vector4f(r, g, b, a);
+		_extrude	= Vector2f(0.0f, 0.0f);
 		_uv			= Vector2f(0.0f, 0.0f);
 	}
 
-	Vertex::Vertex(Vector4f position, Vector4f color, Vector2f uv)
+	Vertex::Vertex(Vector4f position, Vector4f color, Vector2f extrude, Vector2f uv)
 	{
 		_position = position;
 		_color = color;
+		_extrude = extrude;
 		_uv = uv;
 	}
 
 	Vector4f* Vertex::GetPosition() { return &_position; }
 	Vector4f* Vertex::GetColor() { return &_color; }
+	Vector2f* Vertex::GetExtrude() { return &_extrude; }
 	Vector2f* Vertex::GetUV() { return &_uv; }
 
 	float Vertex::GetX() { return _position.x; }
@@ -57,6 +61,12 @@ namespace MagusEngine
 		_color.w = a;
 	}
 
+	void Vertex::SetExtrude(float x, float y)
+	{
+		_extrude.x = x;
+		_extrude.y = y;
+	}
+
 	void Vertex::SetUV(float u, float v)
 	{
 		_uv.x = u;
@@ -78,7 +88,7 @@ namespace MagusEngine
 
 	Vertex Vertex::Transform(Matrix4f matrix)
 	{
-		return Vertex(matrix * _position, _color, _uv);
+		return Vertex(matrix * _position, _color, _extrude, _uv);
 	}
 
 	Vertex Vertex::PrespectiveDivide()
@@ -86,6 +96,7 @@ namespace MagusEngine
 		return Vertex(
 			Vector4f(_position.x / _position.w, _position.y / _position.w, _position.z / _position.w, _position.w),
 			_color,
+			_extrude,
 			_uv);
 	}
 
@@ -114,8 +125,11 @@ namespace MagusEngine
 		{
 		case 0: return GetX();
 		case 1: return GetY();
-		case 2: return  GetZ();
+		case 2: return GetZ();
 		case 3: return GetW();
 		}
+
+
+		return 0.0f;
 	}
 }

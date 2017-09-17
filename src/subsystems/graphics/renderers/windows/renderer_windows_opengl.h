@@ -33,10 +33,12 @@ namespace MagusEngine
 		void CheckError();
 
 		/* Drawing API */
-		unsigned int GenerateVertexBuffer(Vertex* vertices, unsigned int vertexCount);
-		unsigned int GenerateIndicesBuffer(unsigned int* indices, unsigned int indicesCount);
+		unsigned int GenerateVertexBuffer(Vertex* vertices, VBO_Structure* vbodata);
+		unsigned int GenerateIndicesBuffer(unsigned int* indices, VBO_Structure* vbodata);
+		unsigned int UpdateVertexBuffer(VBO_Structure* bufferData, Vertex* vertices, unsigned int vertexStart, unsigned int vertexCount);
+		unsigned int UpdateIndicesBuffer(VBO_Structure* bufferData, unsigned int* indices, unsigned int indicesStart, unsigned int indicesCount);
 
-		unsigned int DrawBuffers(VBO_Structure* bufferData);
+		unsigned int DrawBuffers(VBO_Structure* bufferData, RenderDrawCallType type);
 		void SetCurrentModelMatrix(Matrix4f* matrix);
 		void SetCurrentProjectionMatrix(Matrix4f* matrix);
 		void SetMaterial(Material* material);

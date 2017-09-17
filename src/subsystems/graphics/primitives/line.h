@@ -25,7 +25,7 @@ namespace MagusEngine
 		Line(float x1, float y1, float x2, float y2);
 
 		/* Drawable Functions */
-		void Build(Vertex* vbuffer, int* vbufferLength, unsigned int* ibuffer, int* ibufferLength);
+		void Build(Vertex* vbuffer, unsigned int* ibuffer, VBO_Structure* fillData, VBO_Structure* strokeData);
 		void PreDraw(Visitor* visitor);
 		void PostDraw(Visitor* visitor);
 

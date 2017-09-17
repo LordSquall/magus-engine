@@ -67,6 +67,9 @@ namespace MagusEngine
 		Matrix4f			_matrixStack[64];
 		unsigned int		_matrixStackHead;
 
+		Vertex				_vertexBuildBuffer[1000];
+		unsigned int		_indicesBuildBuffer[4000];
+
 		bool				_renderCritical;
 
 		Texture*			_cachedTexture;

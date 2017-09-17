@@ -86,37 +86,61 @@ namespace MagusEngine
 	}
 
 	/* Data Loading API */
-	unsigned int Renderer_Windows_OpenGL::GenerateVertexBuffer(Vertex* vertices, unsigned int vertexCount)
+	unsigned int Renderer_Windows_OpenGL::GenerateVertexBuffer(Vertex* vertices, VBO_Structure* vbodata)
 	{
 		unsigned int VBO;
 		glGenBuffers(1, &VBO);
 		CheckError();
 
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertexCount, vertices, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vbodata->vertexmax, &vertices[vbodata->vertexstart], GL_STATIC_DRAW);
 		CheckError();
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(float)));
+		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(4 * sizeof(float)));
+		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(8 * sizeof(float)));
 		glEnableVertexAttribArray(0);	
 		glEnableVertexAttribArray(1);
+		glEnableVertexAttribArray(2);
 		CheckError();
 		return VBO;
 	}
 
-	unsigned int Renderer_Windows_OpenGL::GenerateIndicesBuffer(unsigned int* indices, unsigned int indicesCount)
+	unsigned int Renderer_Windows_OpenGL::GenerateIndicesBuffer(unsigned int* indices, VBO_Structure* vbodata)
 	{
 		unsigned int EBO;
 		glGenBuffers(1, &EBO);
 		CheckError();
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Vertex) * indicesCount, indices, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * vbodata->indexmax, &indices[vbodata->indexstart], GL_STATIC_DRAW);
 		CheckError();
 
 		return EBO;
 	}
 
-	unsigned int Renderer_Windows_OpenGL::DrawBuffers(VBO_Structure* bufferData)
+
+	unsigned int Renderer_Windows_OpenGL::UpdateVertexBuffer(VBO_Structure* bufferData, Vertex* vertices, unsigned int vertexStart, unsigned int vertexCount)
+	{
+		CheckError();
+		glBindBuffer(GL_ARRAY_BUFFER, bufferData->vertexhandle);
+		CheckError();
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vertex) * vertexCount, vertices);
+		CheckError();
+
+		return bufferData->vertexhandle;
+	}
+
+	unsigned int Renderer_Windows_OpenGL::UpdateIndicesBuffer(VBO_Structure* bufferData, unsigned int* indices, unsigned int indicesStart, unsigned int indicesCount)
+	{
+		CheckError();
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferData->indexhandle);
+		CheckError();
+		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned int) * indicesCount, indices);
+		CheckError();
+		return bufferData->indexhandle;
+	}
+
+	unsigned int Renderer_Windows_OpenGL::DrawBuffers(VBO_Structure* bufferData, RenderDrawCallType type)
 	{
 		unsigned int location;
 
@@ -126,6 +150,13 @@ namespace MagusEngine
 			return false;
 		}
 		glUniformMatrix4fv(location, 1, false, _projectionMatrix->GetData());
+
+		location = glGetUniformLocation(_CurrentShader->GetProgramHandle(), "uni_renderPassType");
+		if (location == -1)
+		{
+			return false;
+		}
+		glUniform1i(location, type);
 
 		CheckError();
 		glBindBuffer(GL_ARRAY_BUFFER, bufferData->vertexhandle);
@@ -138,7 +169,7 @@ namespace MagusEngine
 		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(4 * sizeof(float)));
 
 		CheckError();
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(8 * sizeof(float)));
+		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(8 * sizeof(float)));
 
 		CheckError();
 		glEnableVertexAttribArray(0);	
@@ -310,15 +341,15 @@ namespace MagusEngine
 		unsigned int TB;
 		glGenTextures(1, &TB);
 		glBindTexture(GL_TEXTURE_2D, TB);
-
+		CheckError();
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
+		CheckError();
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
+		CheckError();
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->GetWidth(), texture->GetHeight(), 0,  GL_RGBA, GL_UNSIGNED_BYTE, texture->GetData());
-
+		CheckError();
 		texture->SetRenderDataHandle(TB);
 	}
 
@@ -336,7 +367,7 @@ namespace MagusEngine
 		glStencilOp(GL_INCR, GL_INCR, GL_INCR);
 		glStencilMask(0xFF);
 
-		DrawBuffers(bufferData);
+		//DrawBuffers(bufferData);
 
 		glStencilFunc(GL_EQUAL, 1, 0xFF);
 		glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
@@ -358,7 +389,7 @@ namespace MagusEngine
 		glStencilOp(GL_DECR, GL_DECR, GL_DECR);
 		glStencilMask(0xFF);
 
-		DrawBuffers(bufferData);
+		//DrawBuffers(bufferData);
 
 		glStencilFunc(GL_ALWAYS, 1, 0xFF);
 		glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);

@@ -112,7 +112,7 @@ namespace MagusEngine
 	{
 		if (_logFile == 0)
 		{
-			_logFile = fopen("logfile.log", "w");
+			fopen_s(&_logFile, "logfile.log", "w");
 		}
 
 		return _logFile;

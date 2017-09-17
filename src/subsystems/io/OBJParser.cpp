@@ -15,8 +15,9 @@ namespace MagusEngine
 		std::vector<Vector3f> temp_vertices;
 		std::vector<Vector2f> temp_uvs;
 		std::vector<Vector3f> temp_normals;
-
-		FILE * file = fopen(filename, "r");
+		
+		FILE* file;
+		fopen_s(&file, filename, "r");
 		if (file == NULL) {
 			printf("Impossible to open the file !\n");
 			return false;
@@ -24,32 +25,32 @@ namespace MagusEngine
 
 		char lineHeader[128];
 		// read the first word of the line
-		int res = fscanf(file, "%s", lineHeader);
+		int res = fscanf_s(file, "%s", lineHeader, sizeof(lineHeader));
 
 		while (res != EOF)
 		{
 
 			if (strcmp(lineHeader, "v") == 0) {
 				Vector3f vertex;
-				fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
+				fscanf_s(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
 				temp_vertices.push_back(vertex);
 			}
 			else if (strcmp(lineHeader, "vt") == 0)
 			{
 				Vector2f uv;
-				fscanf(file, "%f %f\n", &uv.x, &uv.y);
+				fscanf_s(file, "%f %f\n", &uv.x, &uv.y);
 				temp_uvs.push_back(uv);
 			}
 			else if (strcmp(lineHeader, "vn") == 0)
 			{
 				Vector3f normal;
-				fscanf(file, "%f %f %f\n", &normal.x, &normal.y, &normal.z);
+				fscanf_s(file, "%f %f %f\n", &normal.x, &normal.y, &normal.z);
 				temp_normals.push_back(normal);
 			}
 			else if (strcmp(lineHeader, "f") == 0) {
 				std::string vertex1, vertex2, vertex3;
 				unsigned int vertexIndex[3], uvIndex[3], normalIndex[3];
-				int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
+				int matches = fscanf_s(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
 				if (matches != 9) {
 					printf("File can't be read by our simple parser : ( Try exporting with other options\n");
 					return false;
@@ -64,7 +65,7 @@ namespace MagusEngine
 				normalIndices.push_back(normalIndex[1]);
 				normalIndices.push_back(normalIndex[2]);
 			}
-			res = fscanf(file, "%s", lineHeader);
+			res = fscanf_s(file, "%s", lineHeader, sizeof(lineHeader));
 		}
 
 
@@ -74,7 +75,7 @@ namespace MagusEngine
 		/* Copy vertex data across to mesh */
 		Vertex* vertices = newMesh->GetVertices();
 
-		for (int i = 0; i < temp_vertices.size(); i++)
+		for (unsigned int i = 0; i < temp_vertices.size(); i++)
 		{
 			vertices->SetPosition(temp_vertices.at(i).x, temp_vertices.at(i).y, temp_vertices.at(i).z, 1.0f);
 			vertices->SetColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -84,7 +85,7 @@ namespace MagusEngine
 		/* Copy indicies data across to mesh */
 		unsigned int* indicies = newMesh->GetIndices();
 
-		for (int i = 0; i < vertexIndices.size(); i += 3)
+		for (unsigned int i = 0; i < vertexIndices.size(); i += 3)
 		{
 			//indicies = vertexIndices
 			//vertices->SetPosition(temp_vertices.at(i).x, temp_vertices.at(i).y, temp_vertices.at(i).z, 1.0f);

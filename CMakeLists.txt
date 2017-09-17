@@ -76,6 +76,7 @@ set(SubSystem_Graphics_SourceFiles
 	src/subsystems/graphics/graphic2d.cpp
 	src/subsystems/graphics/graphic3d.cpp
 	src/subsystems/graphics/graphics_blender.cpp
+	src/subsystems/graphics/vg.cpp
 )
 
 # subsystem - primitives
@@ -102,6 +103,7 @@ set(SubSystem_Graphics_Renderer_Software_SourceFiles
 	src/subsystems/graphics/renderers/software/sr_bitmap.cpp
 	src/subsystems/graphics/renderers/software/sr_edge.cpp
 	src/subsystems/graphics/renderers/software/sr_varier.cpp
+	src/subsystems/graphics/renderers/software/sr_pipeline.cpp
 )
 
 # subsystem - graphics - renderer - windows
@@ -123,8 +125,7 @@ src/subsystems/input/input.cpp
 
 # subsystem - IO
 set(SubSystem_IO_SourceFiles
-	src/subsystems/io/UA.cpp
-	src/subsystems/io/UAParser.cpp
+	src/subsystems/io/SceneParser.cpp
 	src/subsystems/io/FontParser.cpp
 	src/subsystems/io/OBJParser.cpp
 )
@@ -162,7 +163,19 @@ set(SubSystem_Resources_SourceFiles
 
 # subsystem - scenemanagement
 set(SubSystem_SceneManagement_SourceFiles
+	src/subsystems/scenemanagement/scene.cpp
 	src/subsystems/scenemanagement/scenenode.cpp
+)
+
+# subsystem - datamodel
+set(SubSystem_DataModel_SourceFiles
+	src/subsystems/datamodel/datamodel.cpp
+	src/subsystems/datamodel/altimeter_dm.cpp
+)
+
+# subsystem - behaviour
+set(SubSystem_Behaviour_SourceFiles
+	src/subsystems/behaviour/behaviour_visitor.cpp
 )
 
 set(FinalPlatformRenderer_SourceFiles)
@@ -226,6 +239,8 @@ add_executable(MagusEngine
 	${SubSystem_OS_SourceFiles}
 	${SubSystem_Resources_SourceFiles}
 	${SubSystem_SceneManagement_SourceFiles}
+	${SubSystem_DataModel_SourceFiles}
+	${SubSystem_Behaviour_SourceFiles}
 )
 
  target_link_libraries(MagusEngine ${LIBS})
@@ -291,6 +306,14 @@ source_group("subsystems\\resources" FILES
 
 source_group("subsystems\\scenemanagement" FILES
 	${SubSystem_SceneManagement_SourceFiles}
+)
+
+source_group("subsystems\\datamodel" FILES
+	${SubSystem_DataModel_SourceFiles}
+)
+
+source_group("subsystems\\behaviour" FILES
+	${SubSystem_Behaviour_SourceFiles}
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/external/includes)

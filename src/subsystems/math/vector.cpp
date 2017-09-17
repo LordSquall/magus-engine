@@ -42,7 +42,7 @@ namespace MagusEngine
 
 	float Vector2f::Length()
 	{
-		return sqrt((x * x) + (y * y));
+		return (float)sqrt((x * x) + (y * y));
 	}
 
 	void Vector2f::Normalise()
@@ -51,6 +51,12 @@ namespace MagusEngine
 
 		x = x / length;
 		y = y / length;
+	}
+
+
+	float Vector2f::Cross(Vector2f* other)
+	{
+		return (x * other->y) - (y * other->x);
 	}
 
 	Vector3f::Vector3f()

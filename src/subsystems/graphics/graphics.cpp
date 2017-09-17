@@ -69,6 +69,9 @@ namespace MagusEngine
 		_rootScene.AddChild(sceneNode);
 	}
 
+
+	SceneNode* Graphics::GetRootSceneNode() { return &_rootScene; }
+
 	bool Graphics::InitialiseFrame()
 	{
 		/* retrieve hardware path visitors */

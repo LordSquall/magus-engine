@@ -25,6 +25,8 @@
 #include "subsystems/resources/resources.h"
 #include "subsystems/graphics/graphics.h"
 #include "subsystems/io/SceneParser.h"
+#include "subsystems/datamodel/datamodel.h"
+#include "subsystems/behaviour/behaviour_visitor.h"
 
 namespace MagusEngine
 {
@@ -40,10 +42,12 @@ namespace MagusEngine
 		bool ProcessUADataDirectory(const char* uadir);
 
 	private:
-		FrameworkConfig _config;
-		OS_Interface*	_os;
-		Graphics		_graphics;
-		Resources		_resources;
+		FrameworkConfig		_config;
+		OS_Interface*		_os;
+		Graphics			_graphics;
+		Resources			_resources;
+		BehaviourVisitor*	_behaviourVisitor;
+		DataModel			_dataModel;
 
 		Scene*			_scenes[MAX_SCENES];
 		int				_sceneCount;

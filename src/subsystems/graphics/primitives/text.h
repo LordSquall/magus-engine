@@ -26,7 +26,7 @@ namespace MagusEngine
 		Text(float x, float y, const char* content);
 
 		/* Drawable Functions */
-		void Build(Vertex* vbuffer, int* vbufferLength, unsigned int* ibuffer, int* ibufferLength);
+		void Build(Vertex* vbuffer, unsigned int* ibuffer, VBO_Structure* fillData, VBO_Structure* strokeData);
 		void PreDraw(Visitor* visitor);
 		void PostDraw(Visitor* visitor);
 
@@ -36,7 +36,7 @@ namespace MagusEngine
 		/* Getters */
 		float GetX();
 		float GetY();
-		const char* GetContent();
+		char* GetContent();
 		Font* GetFont();
 
 		/* Setters */

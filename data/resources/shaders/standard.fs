@@ -11,20 +11,28 @@ out vec4 FragColor;
 uniform vec4 color;
 uniform sampler2D uni_texture;
 uniform int uni_textureEnabled;
+uniform int uni_renderPassType;
 
 
 void main()
 {	
 	vec4 finalColor;
 	
-	if(uni_textureEnabled == 1)
+	if(uni_renderPassType == 1)
 	{
-		/* sample current texture */
-		finalColor = texture2D(uni_texture,v_UV);
+		finalColor = color;
 	}
 	else
 	{
-		finalColor = color;
+		if(uni_textureEnabled == 1)
+		{
+			/* sample current texture */
+			finalColor = texture2D(uni_texture,v_UV);
+		}
+		else
+		{
+			finalColor = color;
+		}
 	}
 	
 	FragColor = finalColor;

@@ -177,6 +177,13 @@ namespace MagusEngine
 			{
 				newNode->GetMaterial()->SetTexture(texture);
 			}
+
+
+			/* enabled fill */
+			newNode->GetMaterial()->SetEnabledStroke(materialElement->BoolAttribute("enableFill", true));
+
+			/* enabled stroke */
+			newNode->GetMaterial()->SetEnabledStroke(materialElement->BoolAttribute("enableStroke", false));
 		}
 
 		/* Check for component information */

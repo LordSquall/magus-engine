@@ -66,12 +66,12 @@ namespace MagusEngine
 		float yRads = (y * (float)PI) / 180.0f;
 		float zRads = (z * (float)PI) / 180.0f;
 
-		float cx = cos(xRads);
-		float sx = sin(xRads);
-		float cy = cos(yRads);
-		float sy = sin(yRads);
-		float cz = cos(zRads);
-		float sz = sin(zRads);
+		float cx = cosf(xRads);
+		float sx = sinf(xRads);
+		float cy = cosf(yRads);
+		float sy = sinf(yRads);
+		float cz = cosf(zRads);
+		float sz = sinf(zRads);
 
 		m[0][0] = cy * cz;	m[0][1] = (cz * sx * sy) - (cx * sz);	m[0][2] = (cx * cz * sy) + (sx * sz);	m[0][3] = 0.0f;
 		m[1][0] = cy * sz;	m[1][1] = (cx * cz) + (sx * sy * sz);	m[1][2] = (cx * sy * sz) - (cz * sx);	m[1][3] = 0.0f;

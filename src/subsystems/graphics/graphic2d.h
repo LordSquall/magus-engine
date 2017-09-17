@@ -27,18 +27,20 @@ namespace MagusEngine
 
 		/* Getters */
 		Drawable* GetDrawable();
-		VBO_Structure* GetHWRenderDataHandle();
-		VBO_Structure* GetSWRenderDataHandle();
+		VBO_Structure* GetFillDataHandle();
+		VBO_Structure* GetStrokeDataHandle();
 
 		/* Setters */
 		void SetDrawable(Drawable* drawable);
 
+	public:
+		bool updateRequired;
+	
 	private:
 		Drawable* _drawable;
 
-
-		VBO_Structure _hwRenderDataHandle;
-		VBO_Structure _swRenderDataHandle;
+		VBO_Structure _fillRendererDataHandle;
+		VBO_Structure _strokeRendererDataHandle;
 
 	};
 }

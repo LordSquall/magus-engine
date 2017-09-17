@@ -21,6 +21,9 @@ namespace MagusEngine
 		_hardwareRenderer->CreateTexture(&_texture);
 
 		/* Build VBO */
+		VBO_Structure vbo;
+		vbo.enabled = true;
+
 		Vertex vertices[4];
 		vertices[0] = Vertex(0.0f, 0.0f, 0.0, 0.0f, 0.0f, 0.0f, 1.0f);
 		vertices[0].SetU(0.0f);
@@ -43,11 +46,17 @@ namespace MagusEngine
 		indicies[4] = 2;
 		indicies[5] = 3;
 
-		_vbo.vertexhandle = _hardwareRenderer->GenerateVertexBuffer(vertices, 4);
-		_vbo.vertexlength = 4;
-		_vbo.indexhandle = _hardwareRenderer->GenerateIndicesBuffer(indicies, 6);
-		_vbo.indexlength = 6;
 
+		_vbo.vertexstart = 0;
+		_vbo.vertexmax = 4;
+		_vbo.vertexlength = 4;
+		_vbo.vertexhandle = _hardwareRenderer->GenerateVertexBuffer(vertices, &_vbo);
+
+		_vbo.indexstart = 0;
+		_vbo.indexmax = 6;
+		_vbo.indexlength = 6;
+		_vbo.indexhandle = _hardwareRenderer->GenerateIndicesBuffer(indicies, &_vbo);
+		
 		return true;
 	}
 
@@ -73,7 +82,7 @@ namespace MagusEngine
 		glUniformMatrix4fv(location, 1, false, tempProjection.GetData());
 
 		_hardwareRenderer->CheckError();
-		_hardwareRenderer->DrawBuffers(&_vbo);
+		_hardwareRenderer->DrawBuffers(&_vbo, RenderDrawCallType::FILL_2D);
 
 		_hardwareRenderer->CheckError();
 

@@ -9,18 +9,28 @@ namespace MagusEngine
 {
 	typedef struct VBO_Structure
 	{
+		bool enabled;
+
 		unsigned int vertexhandle;
+		unsigned int vertexstart;
 		unsigned int vertexlength;
+		unsigned int vertexmax;
 
 		unsigned int indexhandle;
+		unsigned int indexstart;
 		unsigned int indexlength;
+		unsigned int indexmax;
 	}VBO_Structure;
 
 	typedef struct DrawableData
 	{
-		VBO_Structure fill;
-		VBO_Structure stroke;
-	};
+		/* Fill Data */
+		unsigned int fillVertexStart;
+		unsigned int fillVertexLength;
+		unsigned int fillIndexStart;
+		unsigned int fillIndexLength;
+
+	}DrawableData;
 
 }
 

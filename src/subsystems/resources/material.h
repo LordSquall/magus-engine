@@ -23,12 +23,16 @@ namespace MagusEngine
 		Color*		GetColor1();
 		Color*		GetColor2();
 		Texture*	GetTexture();
+		bool		GetEnabledFill();
+		bool		GetEnabledStroke();
 
 		
 		/* Setters */
 		void SetColor1(Color* color);
 		void SetColor2(Color* color);
 		void SetTexture(Texture* texture);
+		void SetEnabledFill(bool fill);
+		void SetEnabledStroke(bool fill);
 
 	private:
 		char _name[50];
@@ -38,6 +42,8 @@ namespace MagusEngine
 		Color* _color1;
 		Color* _color2;
 		Texture* _texture;
+		bool _enableFill;
+		bool _enableStroke;
 	};
 }
 

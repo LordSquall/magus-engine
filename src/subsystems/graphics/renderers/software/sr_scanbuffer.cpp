@@ -16,9 +16,10 @@ namespace MagusEngine
 		_screenHeight = (float)screenHeight;
 	}
 
-	void SR_Scanbuffer::FillTriangle(Vertex v1, Vertex v2, Vertex v3, Material* material)
+	void SR_Scanbuffer::FillTriangle(Vertex v1, Vertex v2, Vertex v3, Material* material, Texture* texture)
 	{
 		_currentMaterial = material;
+		_currentTexture = texture;
 
 		/* Convert vertices to screen space */
 		Matrix4f screenSpace;
@@ -94,18 +95,28 @@ namespace MagusEngine
 		int xMax = (int)ceil(right->GetX());
 		float xPrestep = xMin - left->GetX();
 
+		Vector4f color = left->GetColor() + ((*colorVarier->GetColorXStep()) * xPrestep);
+		Vector2f uv = left->GetUV() + ((*colorVarier->GetUVXStep()) * xPrestep);
+
+
 		for (int i = xMin; i < xMax; i++)
 		{
-			if (_currentMaterial->GetTexture() != NULL)
+			if (_currentTexture != NULL)
 			{
-				Vector2f uv = left->GetUV() + ((*colorVarier->GetUVXStep()) * xPrestep);
+				int srcX = (int)(uv.x * (_currentTexture->GetWidth() - 1) + 0.5f);
+				int srcY = (int)(uv.y * (_currentTexture->GetHeight() - 1) + 0.5f);
 
+				_frame->CopyPixel(i, j, (float)srcX, (float)srcY, _currentTexture);
+				uv = uv + (*colorVarier->GetUVXStep());
+			}
+			else if (_currentMaterial->GetTexture() != NULL)
+			{
 				Texture* texture = _currentMaterial->GetTexture();
 
 				int srcX = (int)(uv.x * (texture->GetWidth() - 1) + 0.5f);
 				int srcY = (int)(uv.y * (texture->GetHeight() - 1) + 0.5f);
 
-				_frame->CopyPixel(i, j, srcX, srcY, texture);
+				_frame->CopyPixel(i, j, (float)srcX, (float)srcY, texture);
 				uv = uv + (*colorVarier->GetUVXStep());
 			} 
 			else if (_currentMaterial->GetColor1() != NULL)
@@ -117,7 +128,6 @@ namespace MagusEngine
 			}
 			else
 			{
-				Vector4f color = left->GetColor() + ((*colorVarier->GetColorXStep()) * xPrestep);
 
 				_frame->DrawPixel(i, j, color.x, color.y, color.z, 1.0f);
 				color = color + (*colorVarier->GetColorXStep());

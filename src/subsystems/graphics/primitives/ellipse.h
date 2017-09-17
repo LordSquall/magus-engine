@@ -24,7 +24,7 @@ namespace MagusEngine
 		Ellipse(float x, float y, float rx, float ry);
 
 		/* Drawable Functions */
-		void Build(Vertex* vbuffer, int* vbufferLength, unsigned int* ibuffer, int* ibufferLength);
+		void Build(Vertex* vbuffer, unsigned int* ibuffer, VBO_Structure* fillData, VBO_Structure* strokeData);
 		void PreDraw(Visitor* visitor);
 		void PostDraw(Visitor* visitor);
 

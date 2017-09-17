@@ -25,7 +25,6 @@ namespace MagusEngine
 		Renderer_Software(FrameworkConfig* config);
 
 		bool Initialise(void*, int, int, float, float, bool);
-		bool InitialiseExtensions();
 
 		void Shutdown();
 
@@ -37,10 +36,12 @@ namespace MagusEngine
 		void CheckError();
 
 		/* Data Loading API */
-		unsigned int GenerateVertexBuffer(Vertex* vertices, unsigned int vertexCount);
-		unsigned int GenerateIndicesBuffer(unsigned int* indices, unsigned int indicesCount);
+		unsigned int GenerateVertexBuffer(Vertex* vertices, VBO_Structure* vbodata);
+		unsigned int GenerateIndicesBuffer(unsigned int* indices, VBO_Structure* vbodata);
+		unsigned int UpdateVertexBuffer(VBO_Structure* bufferData, Vertex* vertices, unsigned int vertexStart, unsigned int vertexCount);
+		unsigned int UpdateIndicesBuffer(VBO_Structure* bufferData, unsigned int* indices, unsigned int indicesStart, unsigned int indicesCount);
 
-		unsigned int DrawBuffers(VBO_Structure* bufferData);
+		unsigned int DrawBuffers(VBO_Structure* bufferData, RenderDrawCallType type);
 		void SetCurrentModelMatrix(Matrix4f* matrix);
 		void SetCurrentProjectionMatrix(Matrix4f* matrix);
 		void SetMaterial(Material* material);
@@ -76,21 +77,23 @@ namespace MagusEngine
 		Matrix4f* _modelMatrix;
 		Matrix4f* _projectionMatix;
 
-		unsigned int _vboMemoryLimit;
-		Vertex* _vboMemory;
-		Vertex* _vboMemoryHead;
+		/* Memory Pools */
+		unsigned int _vboMemoryPoolLimit;
+		Vertex* _vboMemoryPool;
+		unsigned int _vboMemoryPoolUsed;
 
-		unsigned int _iboMemoryLimit;
-		unsigned int* _iboMemory;
-		unsigned int* _iboMemoryHead;
+		unsigned int _iboMemoryPoolLimit;
+		unsigned int* _iboMemoryPool;
+		unsigned int _iboMemoryPoolUsed;
 
-		unsigned int _vboMemoryBufferTableLimit;
-		MemoryBuffer* _vboMemoryBufferTable;
-		unsigned int _vboMemoryBufferCount;
+		/* Memory Tables */
+		unsigned int _vboMemoryTableLimit;
+		MemoryBuffer* _vboMemoryTable;
+		unsigned int _vboMemoryTableUsed;
 
-		unsigned int _iboMemoryBufferTableLimit;
-		MemoryBuffer* _iboMemoryBufferTable;
-		unsigned int _iboMemoryBufferCount;
+		unsigned int _iboMemoryTableLimit;
+		MemoryBuffer* _iboMemoryTable;
+		unsigned int _iboMemoryTableUsed;
 
 	};
 }

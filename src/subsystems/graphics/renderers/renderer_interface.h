@@ -14,6 +14,13 @@ namespace MagusEngine
 {
 	class Shader;
 
+	enum RenderDrawCallType
+	{
+		FILL_2D,
+		STROKE_2D,
+		TEXT
+	};
+
 	class Renderer_Interface
 	{
 	public:
@@ -29,9 +36,12 @@ namespace MagusEngine
 		virtual void DrawRectangle(int x, int y, int width, int height) = 0;
 
 		/* Data Loading API*/
-		virtual unsigned int GenerateVertexBuffer(Vertex* vertices, unsigned int vertexCount) = 0;
-		virtual unsigned int GenerateIndicesBuffer(unsigned int* indices, unsigned int indicesCount) = 0;
-		virtual unsigned int DrawBuffers(VBO_Structure* bufferData) = 0;
+		virtual unsigned int GenerateVertexBuffer(Vertex* vertices, VBO_Structure* vbodata) = 0;
+		virtual unsigned int GenerateIndicesBuffer(unsigned int* indices, VBO_Structure* vbodata) = 0;
+		virtual unsigned int UpdateVertexBuffer(VBO_Structure* bufferData, Vertex* vertices, unsigned int vertexStart, unsigned int vertexCount) = 0;
+		virtual unsigned int UpdateIndicesBuffer(VBO_Structure* bufferData, unsigned int* indices, unsigned int indicesStart, unsigned int indicesCount) = 0;
+
+		virtual unsigned int DrawBuffers(VBO_Structure* bufferData, RenderDrawCallType type) = 0;
 		virtual void SetCurrentModelMatrix(Matrix4f* matrix) = 0;
 		virtual void SetCurrentProjectionMatrix(Matrix4f* matrix) = 0;
 		virtual void SetMaterial(Material* material) = 0;

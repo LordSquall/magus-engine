@@ -5,8 +5,10 @@ namespace MagusEngine
 	Graphic2D::Graphic2D()
 	{
 		_drawable = 0;
-		_hwRenderDataHandle = VBO_Structure();
-		_swRenderDataHandle = VBO_Structure();
+		_fillRendererDataHandle = VBO_Structure();
+		_strokeRendererDataHandle = VBO_Structure();
+
+		updateRequired = false;
 	}
 
 	/* Visitable Functions*/
@@ -28,14 +30,17 @@ namespace MagusEngine
 	/* Component Functions */
 	void Graphic2D::Initialise(){}
 
-	void Graphic2D::Update(){}
+	void Graphic2D::Update()
+	{
+		
+	}
 
 	void Graphic2D::Draw(){}
 
 	/* Getters */
 	Drawable* Graphic2D::GetDrawable() { return _drawable; }
-	VBO_Structure* Graphic2D::GetHWRenderDataHandle() { return &_hwRenderDataHandle; }
-	VBO_Structure* Graphic2D::GetSWRenderDataHandle() { return &_swRenderDataHandle; }
+	VBO_Structure* Graphic2D::GetFillDataHandle() { return &_fillRendererDataHandle; }
+	VBO_Structure* Graphic2D::GetStrokeDataHandle() { return &_strokeRendererDataHandle; }
 
 	/* Setters */
 	void Graphic2D::SetDrawable(Drawable* drawable) { _drawable = drawable; }

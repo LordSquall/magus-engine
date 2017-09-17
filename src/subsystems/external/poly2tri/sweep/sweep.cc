@@ -769,6 +769,8 @@ Point& Sweep::NextFlipPoint(Point& ep, Point& eq, Triangle& ot, Point& op)
     //throw new RuntimeException("[Unsupported] Opposing point on constrained edge");
     assert(0);
   }
+
+  return ep;
 }
 
 void Sweep::FlipScanEdgeEvent(SweepContext& tcx, Point& ep, Point& eq, Triangle& flip_triangle,
@@ -803,7 +805,7 @@ void Sweep::FlipScanEdgeEvent(SweepContext& tcx, Point& ep, Point& eq, Triangle&
 Sweep::~Sweep() {
 
     // Clean up memory
-    for(int i = 0; i < nodes_.size(); i++) {
+    for(unsigned int i = 0; i < nodes_.size(); i++) {
         delete nodes_[i];
     }
 

@@ -48,19 +48,46 @@ namespace MagusEngine
 	void Renderer_Windows_Initialise_Visitor::PreVisit(Graphic2D* graphic2D) {}
 	void Renderer_Windows_Initialise_Visitor::Visit(Graphic2D* graphic2D)
 	{
-		int vertexBufferLength; 
-		int indicesBufferLength;
-
+		/* Software rendering only occurs on non-critical components */
 		if (_buildCritical == false)
 		{
+			VBO_Structure fillData;
+			VBO_Structure strokeData;
+
+			/* Use the attached drawable to build the geometry data */
 			Drawable* d = graphic2D->GetDrawable();
-			d->Build(&_vertexBuildBuffer[0], &vertexBufferLength, &_indicesBuildBuffer[0], &indicesBufferLength);
 
-			graphic2D->GetHWRenderDataHandle()->vertexlength = vertexBufferLength;
-			graphic2D->GetHWRenderDataHandle()->vertexhandle = _lowLevelRenderer->GenerateVertexBuffer(&_vertexBuildBuffer[0], vertexBufferLength);
+			/* Get renferences to GHandles of the graphics object */
+			VBO_Structure* fillGHandle = graphic2D->GetFillDataHandle();
+			VBO_Structure* strokeGHandle = graphic2D->GetStrokeDataHandle();
 
-			graphic2D->GetHWRenderDataHandle()->indexlength = indicesBufferLength;
-			graphic2D->GetHWRenderDataHandle()->indexhandle = _lowLevelRenderer->GenerateIndicesBuffer(&_indicesBuildBuffer[0], indicesBufferLength);
+			d->Build(&_vertexBuildBuffer[0], &_indicesBuildBuffer[0], &fillData, &strokeData);
+
+			/* Genearte fill vertex data for the low level renderer */
+			fillGHandle->enabled = fillData.enabled;
+			fillGHandle->vertexstart = fillData.vertexstart;
+			fillGHandle->vertexlength = fillData.vertexlength;
+			fillGHandle->vertexmax = fillData.vertexmax;
+			fillGHandle->vertexhandle = _lowLevelRenderer->GenerateVertexBuffer(&_vertexBuildBuffer[0], fillGHandle);
+
+			/* Genearte fill index data for the low level renderer */
+			fillGHandle->indexstart = fillData.indexstart;
+			fillGHandle->indexlength = fillData.indexlength;
+			fillGHandle->indexmax = fillData.indexmax;
+			fillGHandle->indexhandle = _lowLevelRenderer->GenerateIndicesBuffer(&_indicesBuildBuffer[0], fillGHandle);
+
+			/* Genearte stroke vertex data for the low level renderer */
+			strokeGHandle->enabled = strokeData.enabled;
+			strokeGHandle->vertexstart = strokeData.vertexstart;
+			strokeGHandle->vertexlength = strokeData.vertexlength;
+			strokeGHandle->vertexmax = strokeData.vertexmax;
+			strokeGHandle->vertexhandle = _lowLevelRenderer->GenerateVertexBuffer(&_vertexBuildBuffer[0], strokeGHandle);
+
+			/* Genearte stroke index data for the low level renderer */
+			strokeGHandle->indexstart = strokeData.indexstart;
+			strokeGHandle->indexlength = strokeData.indexlength;
+			strokeGHandle->indexmax = strokeData.indexmax;
+			strokeGHandle->indexhandle = _lowLevelRenderer->GenerateIndicesBuffer(&_indicesBuildBuffer[0], strokeGHandle);
 		}
 	}
 	void Renderer_Windows_Initialise_Visitor::PostVisit(Graphic2D* graphic2D) {}

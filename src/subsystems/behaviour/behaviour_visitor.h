@@ -1,26 +1,26 @@
-#ifndef _RENDERER_WINDOWS_RENDER_VISITOR_H_
-#define _RENDERER_WINDOWS_RENDER_VISITOR_H_
+#ifndef _BEHAVIOUR_VISITOR_H_
+#define _BEHAVIOUR_VISITOR_H_
 
 /* System Includes */
 
 /* Local Project Includes */
-#include "../../../scenemanagement/visitor.h"
-#include "../../../math/matrix.h"
+#include "../datamodel/datamodel.h"
+#include "../scenemanagement/visitor.h"
 
 namespace MagusEngine
 {
 	/*
-	Name:  Renderer_Windows_Render_Visitor
+	Name:  Behaviour Visitor
 	Type: Class
-	Purpose: Implements a render visitor specific to windows to create opengl content on the gpu
+	Purpose: Implements a visitor responisble for update the scene based on external inputs
 	*/
-	class Renderer_Windows_Render_Visitor : public Visitor
+	class BehaviourVisitor : public Visitor
 	{
 	public:
 		/*
 		Default contstructor
 		*/
-		Renderer_Windows_Render_Visitor();
+		BehaviourVisitor(DataModel* dataModel);
 
 		/* Visitor Functions */
 		bool Initialise(Renderer_Interface* lowlevelRenderer, Resources* resources);
@@ -57,22 +57,8 @@ namespace MagusEngine
 		void Visit(Path* path);
 		void PostVisit(Path* path);
 
-		/* Getters */
-		Renderer_Interface* GetLowLevelRenderer();
-
 	private:
-		Renderer_Interface* _lowLevelRenderer;
-		Resources*			_resources;
-
-		Matrix4f			_matrixStack[64];
-		unsigned int		_matrixStackHead;
-
-		Vertex				_vertexBuildBuffer[1000];
-		unsigned int		_indicesBuildBuffer[4000];
-
-		bool				_renderCritical;
-
-		Texture*			_cachedTexture;
+		DataModel*	_dataModel;
 	};
 }
 

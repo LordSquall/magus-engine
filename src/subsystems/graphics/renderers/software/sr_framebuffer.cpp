@@ -51,8 +51,8 @@ namespace MagusEngine
 
 	void SR_Framebuffer::CopyPixel(int destx, int desty, float srcx, float srcy, Texture* texture)
 	{
-		unsigned int destIndex = (destx + desty * _width) * 4;
-		unsigned int srcIndex = (srcx + srcy * texture->GetWidth()) * 4;
+		unsigned int destIndex = (unsigned int)(destx + desty * _width) * 4;
+		unsigned int srcIndex = (unsigned int)(srcx + srcy * texture->GetWidth()) * 4;
 		_data[destIndex + 0] = *(texture->GetData() + (srcIndex));
 		_data[destIndex + 1] = *(texture->GetData() + (srcIndex + 1));
 		_data[destIndex + 2] = *(texture->GetData() + (srcIndex + 2));
