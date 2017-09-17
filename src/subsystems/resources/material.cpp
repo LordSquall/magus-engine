@@ -4,7 +4,7 @@ namespace MagusEngine
 {
 	Material::Material()
 	{
-		strcpy_s(_name, "UNKNOWN");
+		strcpy(_name, "UNKNOWN");
 
 		_color1 = 0;
 		_color2 = 0;
@@ -16,7 +16,7 @@ namespace MagusEngine
 
 	Material::Material(const char* name)
 	{
-		strcpy_s(_name, name);
+		strcpy(_name, name);
 
 		_color1 = 0;
 		_color2 = 0;
@@ -29,7 +29,7 @@ namespace MagusEngine
 
 	Material::Material(Material* other)
 	{
-		strcpy_s(_name, other->GetName());
+		strcpy(_name, other->GetName());
 
 		_color1 = other->GetColor1();
 		_color2 = other->GetColor2();

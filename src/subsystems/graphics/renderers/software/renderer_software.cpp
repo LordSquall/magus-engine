@@ -134,7 +134,7 @@ namespace MagusEngine
 		vbo->end = &_vboMemoryPool[_vboMemoryPoolUsed] + (sizeof(Vertex) * vbodata->vertexlength);
 
 		/* Copy data into vbo memory */
-		memcpy_s(vbo->start, sizeof(Vertex) * vbodata->vertexlength, vertices, sizeof(Vertex) * vbodata->vertexlength);
+		memcpy(vbo->start, vertices, sizeof(Vertex) * vbodata->vertexlength);
 
 		/* Store vbo memory handle */
 		vbohandle = _vboMemoryTableUsed;
@@ -174,7 +174,7 @@ namespace MagusEngine
 		ibo->end = &_iboMemoryPool[_iboMemoryPoolUsed] + (sizeof(unsigned int) * vbodata->indexlength);
 
 		/* Copy data into ibo memory */
-		memcpy_s(ibo->start, sizeof(unsigned int) * vbodata->indexlength, indices, sizeof(unsigned int) * vbodata->indexlength);
+		memcpy(ibo->start, indices, sizeof(unsigned int) * vbodata->indexlength);
 
 		/* Store ibo memory handle */
 		ibohandle = _iboMemoryTableUsed;
@@ -195,7 +195,7 @@ namespace MagusEngine
 		MemoryBuffer* vbo = &_vboMemoryTable[bufferData->vertexhandle];
 
 		/* Copy data into vbo memory */
-		memcpy_s(vbo->start, sizeof(Vertex) * bufferData->vertexmax, vertices, sizeof(Vertex) * vertexCount);
+		memcpy(vbo->start, vertices, sizeof(Vertex) * vertexCount);
 
 		return bufferData->vertexhandle;
 	}
@@ -206,7 +206,7 @@ namespace MagusEngine
 		MemoryBuffer* ibo = &_iboMemoryTable[bufferData->indexhandle];
 
 		/* Copy data into ibo memory */
-		memcpy_s(ibo->start, sizeof(unsigned int) * bufferData->indexmax, indices, sizeof(unsigned int) * indicesCount);
+		memcpy(ibo->start, indices, sizeof(unsigned int) * indicesCount);
 
 		return bufferData->indexhandle;
 	}

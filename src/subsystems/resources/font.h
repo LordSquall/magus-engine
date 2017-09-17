@@ -2,7 +2,7 @@
 #define _FONT_H_
 
 /* System Includes */
-#include <string>
+#include <string.h>
 
 /* Local Project Include */
 #include "../math/vector.h"

@@ -29,7 +29,7 @@ namespace MagusEngine
 		_children = (SceneNode**)malloc(sizeof(SceneNode**) * maxChildren);
 
 		/* Copy the name */
-		strcpy_s(_name, name);
+		strcpy(_name, name);
 
 		return true;
 	}

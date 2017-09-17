@@ -4,9 +4,8 @@
 /* System Includes */
 
 /* Local Project Includes */
-#include "renderers/software/renderer_software.h"
-#include "renderers/windows/renderer_windows_opengl.h"
-#include "../resources/resources.h"
+#include "../software/renderer_software.h"
+#include "../../../resources/resources.h"
 
 namespace MagusEngine
 {
@@ -20,7 +19,7 @@ namespace MagusEngine
 		bool Render();
 
 	private:
-		Renderer_Windows_OpenGL*	_hardwareRenderer;
+		Renderer_Interface*			_hardwareRenderer;
 		Renderer_Software*			_softwareRenderer;
 		
 		Texture						_texture;

@@ -4,7 +4,7 @@ namespace MagusEngine
 {
 	Texture::Texture()
 	{
-		strcpy_s(_name, "unknown");
+		strcpy(_name, "unknown");
 		_width = 0;
 		_height = 0;
 	}
@@ -12,7 +12,7 @@ namespace MagusEngine
 	Texture::Texture(const char* name, int width, int height)
 	{
 		/* Copy the name */
-		strcpy_s(_name, name);
+		strcpy(_name, name);
 
 		_width = width;
 		_height = height;
@@ -25,11 +25,11 @@ namespace MagusEngine
 
 		if (_data != NULL)
 		{
-			LOGDINFO("Texture Created [%s] with %d Bytes", _name, sizeof(Byte*) * pixelSize);
+			LOGDINFO("Texture Created [%s] with %d Bytes", _name, sizeof(Byte) * pixelSize);
 			return true;
 		}
 
-		LOGERROR("Unable to Initialise Texture [%s] with %d Bytes", _name, sizeof(Byte*) * pixelSize);
+		LOGERROR("Unable to Initialise Texture [%s] with %d Bytes", _name, sizeof(Byte) * pixelSize);
 		return false;
 	}
 	

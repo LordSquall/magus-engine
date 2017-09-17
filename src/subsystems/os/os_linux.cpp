@@ -1,7 +1,7 @@
 /* includes */
 #include "os_linux.h"
 
-#include "../graphics/renderer_linux_opengl.h"
+#include "../graphics/renderers/linux/renderer_linux_opengl.h"
 
 namespace MagusEngine
 {
@@ -138,7 +138,7 @@ namespace MagusEngine
 			printf("Cannot connect to X Server \n");
 			return false;
 		}
-
+		
 		m_root = DefaultRootWindow(m_display);
 
 		m_visualInfo = glXChooseVisual(m_display, 0, m_attributes);

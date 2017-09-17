@@ -10,23 +10,22 @@ namespace MagusEngine
 	{
 		char input[10000];
 
-		strcpy_s(input, pointString);
+		strcpy(input, pointString);
 
 		char * pch;
-		char* internalptr;
 		float x, y;
-		pch = strtok_s(input, ",", &internalptr);
+		pch = strtok(input, ",");
 		while (pch != NULL)
 		{
 
-			pch = strtok_s(NULL, ",", &internalptr);
+			pch = strtok(NULL, ",");
 
 			if (strcmp(pch, "E") == 0)
 				break;
 
 			x = (float)atof(pch);
 
-			pch = strtok_s(NULL, ",", &internalptr);
+			pch = strtok(NULL, ",");
 			y = (float)atof(pch);
 
 			_points.push_back(new p2t::Point(x, y));

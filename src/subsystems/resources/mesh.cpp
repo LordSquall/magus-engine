@@ -4,13 +4,13 @@ namespace MagusEngine
 {
 	Mesh::Mesh()
 	{
-		strcpy_s(_name, "unknown");
+		strcpy(_name, "unknown");
 	}
 
 	Mesh::Mesh(const char* name)
 	{
 		/* Copy the name */
-		strcpy_s(_name, name);
+		strcpy(_name, name);
 	}
 
 

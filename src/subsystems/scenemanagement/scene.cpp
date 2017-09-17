@@ -1,4 +1,4 @@
-#include "Scene.h"
+#include "scene.h"
 
 namespace MagusEngine
 {
@@ -9,7 +9,7 @@ namespace MagusEngine
 	bool Scene::Initialise(const char* name)
 	{
 		/* Copy the name */
-		strcpy_s(_name, name);
+		strcpy(_name, name);
 
 		return true;
 	}

@@ -5,6 +5,7 @@
 #include "visitable.h"
 #include "component.h"
 #include <vector>
+#include <malloc.h>
 
 namespace MagusEngine
 {

@@ -2,6 +2,7 @@
 #define _SHADER_H_
 
 /* System Includes */
+#include <string.h>
 #include <fstream>
 #include "../graphics/renderers/renderer_interface.h"
 

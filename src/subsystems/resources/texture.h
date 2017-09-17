@@ -2,7 +2,8 @@
 #define _TEXTURE_H_
 
 /* System Includes */
-#include <string>
+#include <malloc.h>
+#include <string.h>
 
 /* Local Project Include */
 #include "../logging/logger.h"

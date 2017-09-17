@@ -2,7 +2,7 @@
 #define _MATERIAL_H_
 
 /* System Includes */
-#include <string>
+#include <string.h>
 
 /* Local Project Include */
 #include "color.h"

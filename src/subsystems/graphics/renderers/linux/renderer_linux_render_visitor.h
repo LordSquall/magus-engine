@@ -1,5 +1,5 @@
-#ifndef _RENDERER_WINDOWS_RENDER_VISITOR_H_
-#define _RENDERER_WINDOWS_RENDER_VISITOR_H_
+#ifndef _RENDERER_LINUX_RENDER_VISITOR_H_
+#define _RENDERER_LINUX_RENDER_VISITOR_H_
 
 /* System Includes */
 
@@ -10,17 +10,17 @@
 namespace MagusEngine
 {
 	/*
-	Name:  Renderer_Windows_Render_Visitor
+	Name:  Renderer_Linux_Render_Visitor
 	Type: Class
-	Purpose: Implements a render visitor specific to windows to create opengl content on the gpu
+	Purpose: Implements a render visitor specific to linux to create opengl content on the gpu
 	*/
-	class Renderer_Windows_Render_Visitor : public Visitor
+	class Renderer_Linux_Render_Visitor : public Visitor
 	{
 	public:
 		/*
 		Default contstructor
 		*/
-		Renderer_Windows_Render_Visitor();
+		Renderer_Linux_Render_Visitor();
 
 		/* Visitor Functions */
 		bool Initialise(Renderer_Interface* lowlevelRenderer, Resources* resources);

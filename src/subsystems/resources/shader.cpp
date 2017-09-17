@@ -5,7 +5,7 @@ namespace MagusEngine
 	Shader::Shader(const char* name)
 	{
 		/* Copy the name */
-		strcpy_s(_name, name);
+		strcpy(_name, name);
 	}
 
 	bool Shader::Initialise(Renderer_Interface* lowLevelRenderer)

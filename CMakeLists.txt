@@ -25,7 +25,7 @@ message(STATUS "Found GLFW3 in ${GLFW3_INCLUDE_DIR}")
 find_package (Threads REQUIRED)
 
 if(WIN32)
-  set(LIBS glfw3 opengl32 assimp)
+  set(LIBS glfw3 opengl32 assimp glew)
 elseif(UNIX AND NOT APPLE)
   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
   find_package(OpenGL REQUIRED)
@@ -77,7 +77,6 @@ set(SubSystem_Graphics_SourceFiles
 	src/subsystems/graphics/graphics.cpp
 	src/subsystems/graphics/graphic2d.cpp
 	src/subsystems/graphics/graphic3d.cpp
-	src/subsystems/graphics/graphics_blender.cpp
 	src/subsystems/graphics/vg.cpp
 )
 
@@ -102,7 +101,6 @@ set(SubSystem_Graphics_Renderer_Software_SourceFiles
 	src/subsystems/graphics/renderers/software/renderer_software_render_visitor.cpp
 	src/subsystems/graphics/renderers/software/sr_framebuffer.cpp
 	src/subsystems/graphics/renderers/software/sr_scanbuffer.cpp
-	src/subsystems/graphics/renderers/software/sr_bitmap.cpp
 	src/subsystems/graphics/renderers/software/sr_edge.cpp
 	src/subsystems/graphics/renderers/software/sr_varier.cpp
 	src/subsystems/graphics/renderers/software/sr_pipeline.cpp
@@ -113,15 +111,15 @@ set(SubSystem_Graphics_Renderer_Windows_SourceFiles
 	src/subsystems/graphics/renderers/windows/renderer_windows_opengl.cpp
 	src/subsystems/graphics/renderers/windows/renderer_windows_initialise_visitor.cpp
 	src/subsystems/graphics/renderers/windows/renderer_windows_render_visitor.cpp
-	src/subsystems/graphics/renderers/windows/grahphics_blender.cpp
+	src/subsystems/graphics/renderers/windows/graphics_blender.cpp
 )
 
 # subsystem - graphics - renderer - linux
-set(SubSystem_Graphics_Renderer_linux_SourceFiles
+set(SubSystem_Graphics_Renderer_Linux_SourceFiles
 	src/subsystems/graphics/renderers/linux/renderer_linux_opengl.cpp
 	src/subsystems/graphics/renderers/linux/renderer_linux_initialise_visitor.cpp
 	src/subsystems/graphics/renderers/linux/renderer_linux_render_visitor.cpp
-	src/subsystems/graphics/renderers/linux/grahphics_blender.cpp
+	src/subsystems/graphics/renderers/linux/graphics_blender.cpp
 )
 
 # subsystem - input

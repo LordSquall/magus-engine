@@ -43,7 +43,7 @@ namespace MagusEngine
 
 	Font::Font(const char* name)
 	{
-		strcpy_s(_name, name);
+		strcpy(_name, name);
 	}
 
 	bool Font::InitialiseGlyphs(int count)

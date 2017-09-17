@@ -22,64 +22,64 @@ namespace MagusEngine
 		}
 	}
 
-	void Logger::LogInfo(const char* func, int line, const char* arglist, ...)
+	void Logger::LogInfo(const char* file, const char* func, int line, const char* arglist, ...)
 	{
 		if (VerboseLevel >= 2)
 		{
 			va_list argptr;
 			va_start(argptr, arglist);
-			_Log(stdout, "INFO", func, line, arglist, argptr);
+			_Log(stdout, "INFO", file, func, line, arglist, argptr);
 
 			if(LogToFileMode == true)
 			{ 
-				_Log(_GetLogFile(), "INFO", func, line, arglist, argptr);
+				_Log(_GetLogFile(), "INFO", file, func, line, arglist, argptr);
 			}
 			va_end(argptr);
 		}
 	}
 
 
-	void Logger::LogDInfo(const char* func, int line, const char* arglist, ...)
+	void Logger::LogDInfo(const char* file, const char* func, int line, const char* arglist, ...)
 	{
 		if (VerboseLevel >= 3)
 		{
 			va_list argptr;
 			va_start(argptr, arglist);
-			_Log(stdout, "INFO", func, line, arglist, argptr);
+			_Log(stdout, "INFO", file, func, line, arglist, argptr);
 
 			if (LogToFileMode == true)
 			{
-				_Log(_GetLogFile(), "INFO", func, line, arglist, argptr);
+				_Log(_GetLogFile(), "INFO", file, func, line, arglist, argptr);
 			}
 			va_end(argptr);
 		}
 	}
 
-	void Logger::LogWarning(const char* func, int line, const char* arglist, ...)
+	void Logger::LogWarning(const char* file, const char* func, int line, const char* arglist, ...)
 	{
 		if (VerboseLevel >= 1)
 		{
 			va_list argptr;
 			va_start(argptr, arglist);
-			_Log(stdout, "WARNING", func, line, arglist, argptr);
+			_Log(stdout, "WARNING", file, func, line, arglist, argptr);
 
 			if (LogToFileMode == true)
 			{
-				_Log(_GetLogFile(), "WARNING", func, line, arglist, argptr);
+				_Log(_GetLogFile(), "WARNING", file, func, line, arglist, argptr);
 			}
 			va_end(argptr);
 		}
 	}
 		
-	void Logger::LogError(const char* func, int line, const char* arglist, ...)
+	void Logger::LogError(const char* file, const char* func, int line, const char* arglist, ...)
 	{
 		va_list argptr;
 		va_start(argptr, arglist);
-		_Log(stdout, "ERROR", func, line, arglist, argptr);
+		_Log(stdout, "ERROR", file, func, line, arglist, argptr);
 
 		if (LogToFileMode == true)
 		{
-			_Log(_GetLogFile(), "ERROR", func, line, arglist, argptr);
+			_Log(_GetLogFile(), "ERROR", file, func, line, arglist, argptr);
 		}
 		va_end(argptr);
 	}
@@ -94,17 +94,17 @@ namespace MagusEngine
 	}
 
 	/* Private Functions */
-	void Logger::_Log(FILE* file, const char* tag, const char* func, int line, const char* msg, va_list args)
+	void Logger::_Log(FILE* f, const char* tag, const char* file, const char* func, int line, const char* msg, va_list args)
 	{
 		//va_list ap;
 		//va_start(ap, args);
-		fprintf(file, "[%s] ", tag);
+		fprintf(f, "[%s] ", tag);
 		if (VerboseLevel >= 3)
 		{
-			fprintf(file, "Function: %s line %d: ", func, line);
+			fprintf(f, "%s : %s line %d: ", file, func, line);
 		}
-		vfprintf(file, msg, args);
-		vfprintf(file, "\n", NULL);
+		vfprintf(f, msg, args);
+		vfprintf(f, "\n", NULL);
 		//va_end(ap);
 	}
 
@@ -112,7 +112,7 @@ namespace MagusEngine
 	{
 		if (_logFile == 0)
 		{
-			fopen_s(&_logFile, "logfile.log", "w");
+			_logFile = fopen("logfile.log", "w");
 		}
 
 		return _logFile;

@@ -9,14 +9,14 @@ namespace MagusEngine
 		_x = 0.0f;
 		_y = 0.0f;
 
-		strcpy_s(_content, "UNKNOWN");
+		strcpy(_content, "UNKNOWN");
 	}
 
 	Text::Text(float x, float y, const char* content)
 	{
 		_x = x;
 		_y = y;
-		strcpy_s(_content, content);
+		strcpy(_content, content);
 	}
 
 	/* Drawable Functions */
@@ -105,6 +105,6 @@ namespace MagusEngine
 	/* Setters */
 	void Text::SetX(float x) { _x = x; }
 	void Text::SetY(float y) { _y = y; }
-	void Text::SetContent(const char* content) { strcpy_s(_content, content); }
+	void Text::SetContent(const char* content) { strcpy(_content, content); }
 	void Text::SetFont(Font* font) { _font = font; }
 }

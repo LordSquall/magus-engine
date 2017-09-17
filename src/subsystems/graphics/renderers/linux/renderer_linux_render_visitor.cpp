@@ -1,4 +1,4 @@
-#include "renderer_windows_render_visitor.h"
+#include "renderer_linux_render_visitor.h"
 
 #include "../../../scenemanagement/scenenode.h"
 #include "../../graphic2d.h"
@@ -6,7 +6,7 @@
 
 namespace MagusEngine
 {
-	Renderer_Windows_Render_Visitor::Renderer_Windows_Render_Visitor()
+	Renderer_Linux_Render_Visitor::Renderer_Linux_Render_Visitor()
 	{
 		_lowLevelRenderer = 0;
 		_matrixStackHead = 0;
@@ -17,7 +17,7 @@ namespace MagusEngine
 	}
 
 	/* Visitor Functions */
-	bool Renderer_Windows_Render_Visitor::Initialise(Renderer_Interface* lowlevelRenderer, Resources* resources)
+	bool Renderer_Linux_Render_Visitor::Initialise(Renderer_Interface* lowlevelRenderer, Resources* resources)
 	{
 		_lowLevelRenderer = lowlevelRenderer;
 		_resources = resources;
@@ -29,7 +29,7 @@ namespace MagusEngine
 		return true;
 	}
 
-	void Renderer_Windows_Render_Visitor::PreVisit(SceneNode* sceneNode) 
+	void Renderer_Linux_Render_Visitor::PreVisit(SceneNode* sceneNode) 
 	{
 		/* Build model Matrix */
 		Matrix4f translation = Matrix4f();
@@ -61,7 +61,7 @@ namespace MagusEngine
 		}
 	}
 
-	void Renderer_Windows_Render_Visitor::Visit(SceneNode* sceneNode)
+	void Renderer_Linux_Render_Visitor::Visit(SceneNode* sceneNode)
 	{
 		if(strcmp(sceneNode->GetName(), "rosering_bg") == 0)
 		{
@@ -69,7 +69,7 @@ namespace MagusEngine
 		}
 	}
 	
-	void Renderer_Windows_Render_Visitor::PostVisit(SceneNode* sceneNode) 
+	void Renderer_Linux_Render_Visitor::PostVisit(SceneNode* sceneNode) 
 	{
 		if (sceneNode->IsFilter())
 		{
@@ -84,13 +84,13 @@ namespace MagusEngine
 		_matrixStackHead--;
 	}
 	
-	void Renderer_Windows_Render_Visitor::PreVisit(Component* component) {}
-	void Renderer_Windows_Render_Visitor::Visit(Component* component) {}
-	void Renderer_Windows_Render_Visitor::PostVisit(Component* component) {}
+	void Renderer_Linux_Render_Visitor::PreVisit(Component* component) {}
+	void Renderer_Linux_Render_Visitor::Visit(Component* component) {}
+	void Renderer_Linux_Render_Visitor::PostVisit(Component* component) {}
 
-	void Renderer_Windows_Render_Visitor::PreVisit(Graphic2D* graphic2D) {}
+	void Renderer_Linux_Render_Visitor::PreVisit(Graphic2D* graphic2D) {}
 
-	void Renderer_Windows_Render_Visitor::Visit(Graphic2D* graphic2D)
+	void Renderer_Linux_Render_Visitor::Visit(Graphic2D* graphic2D)
 	{
 		if (_renderCritical == false)
 		{
@@ -149,19 +149,19 @@ namespace MagusEngine
 			}
 		}
 	}
-	void Renderer_Windows_Render_Visitor::PostVisit(Graphic2D* graphic2D) 
+	void Renderer_Linux_Render_Visitor::PostVisit(Graphic2D* graphic2D) 
 	{
 	}
 
-	void Renderer_Windows_Render_Visitor::PreVisit(Rectangle* rectangle) {}
-	void Renderer_Windows_Render_Visitor::Visit(Rectangle* rectangle) {}
-	void Renderer_Windows_Render_Visitor::PostVisit(Rectangle* rectangle) {}
+	void Renderer_Linux_Render_Visitor::PreVisit(Rectangle* rectangle) {}
+	void Renderer_Linux_Render_Visitor::Visit(Rectangle* rectangle) {}
+	void Renderer_Linux_Render_Visitor::PostVisit(Rectangle* rectangle) {}
 
-	void Renderer_Windows_Render_Visitor::PreVisit(Line* line) {}
-	void Renderer_Windows_Render_Visitor::Visit(Line* line) {}
-	void Renderer_Windows_Render_Visitor::PostVisit(Line* line) {}
+	void Renderer_Linux_Render_Visitor::PreVisit(Line* line) {}
+	void Renderer_Linux_Render_Visitor::Visit(Line* line) {}
+	void Renderer_Linux_Render_Visitor::PostVisit(Line* line) {}
 
-	void Renderer_Windows_Render_Visitor::PreVisit(Text* text) 
+	void Renderer_Linux_Render_Visitor::PreVisit(Text* text) 
 	{
 		/* cache the current texture */
 		_cachedTexture = _lowLevelRenderer->GetTexture();
@@ -169,23 +169,23 @@ namespace MagusEngine
 		/* set the texture to the font texture */
 		_lowLevelRenderer->SetTexture(text->GetFont()->GetTexture());
 	}
-	void Renderer_Windows_Render_Visitor::Visit(Text* text) {}
-	void Renderer_Windows_Render_Visitor::PostVisit(Text* text)
+	void Renderer_Linux_Render_Visitor::Visit(Text* text) {}
+	void Renderer_Linux_Render_Visitor::PostVisit(Text* text)
 	{
 		/* set the renderer back to the cached texture */
 		_lowLevelRenderer->SetTexture(_cachedTexture);
 	}
 
-	void Renderer_Windows_Render_Visitor::PreVisit(Ellipse* ellipse) {}
-	void Renderer_Windows_Render_Visitor::Visit(Ellipse* ellipse) {}
-	void Renderer_Windows_Render_Visitor::PostVisit(Ellipse* ellipse) {}
+	void Renderer_Linux_Render_Visitor::PreVisit(Ellipse* ellipse) {}
+	void Renderer_Linux_Render_Visitor::Visit(Ellipse* ellipse) {}
+	void Renderer_Linux_Render_Visitor::PostVisit(Ellipse* ellipse) {}
 
-	void Renderer_Windows_Render_Visitor::PreVisit(Path* path) {}
-	void Renderer_Windows_Render_Visitor::Visit(Path* path) {}
-	void Renderer_Windows_Render_Visitor::PostVisit(Path* path) {}
+	void Renderer_Linux_Render_Visitor::PreVisit(Path* path) {}
+	void Renderer_Linux_Render_Visitor::Visit(Path* path) {}
+	void Renderer_Linux_Render_Visitor::PostVisit(Path* path) {}
 
 	/* Getters */
-	Renderer_Interface* Renderer_Windows_Render_Visitor::GetLowLevelRenderer()
+	Renderer_Interface* Renderer_Linux_Render_Visitor::GetLowLevelRenderer()
 	{
 		return _lowLevelRenderer;
 	}

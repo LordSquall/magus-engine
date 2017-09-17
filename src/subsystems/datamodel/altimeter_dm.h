@@ -2,6 +2,7 @@
 #define _ALTIMETER_DM_H_
 
 /* System Includes */
+#include <string.h>
 #include <atomic>
 #include <thread>
 

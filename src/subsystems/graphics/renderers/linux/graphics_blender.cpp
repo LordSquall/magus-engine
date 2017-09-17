@@ -9,7 +9,7 @@ namespace MagusEngine
 
 	bool Graphics_Blender::Initialise(Renderer_Interface* hardwareRenderer, Renderer_Interface* softwareRenderer, int screenWidth, int screenHeight)
 	{
-		_hardwareRenderer = (Renderer_Windows_OpenGL*)hardwareRenderer;
+		_hardwareRenderer = hardwareRenderer;
 		_softwareRenderer = (Renderer_Software*)softwareRenderer;
 
 		/* Create a texture */
@@ -63,29 +63,29 @@ namespace MagusEngine
 	bool Graphics_Blender::Render()
 	{
 		/* Update texture info */
-		_texture.SetData(_softwareRenderer->GetFramebufferData());
+		//_texture.SetData(_softwareRenderer->GetFramebufferData());
 
-		_hardwareRenderer->CheckError();
-		_hardwareRenderer->SetTexture(&_texture);
-		_hardwareRenderer->CheckError();
-		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, _texture.GetWidth(), _texture.GetHeight(), GL_BGRA, GL_UNSIGNED_BYTE, _texture.GetData());
+		//_hardwareRenderer->CheckError();
+		//_hardwareRenderer->SetTexture(&_texture);
+		//_hardwareRenderer->CheckError();
+		//glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, _texture.GetWidth(), _texture.GetHeight(), GL_BGRA, GL_UNSIGNED_BYTE, _texture.GetData());
 
 
-		Matrix4f tempProjection = Matrix4f();
-		tempProjection.BuildIdentity();
+		//Matrix4f tempProjection = Matrix4f();
+		//tempProjection.BuildIdentity();
 		
-		int location = glGetUniformLocation(_hardwareRenderer->GetShader()->GetProgramHandle(), "modelMatrix");
-		if (location == -1)
-		{
-			return false;
-		}
-		glUniformMatrix4fv(location, 1, false, tempProjection.GetData());
-
-		_hardwareRenderer->CheckError();
-		_hardwareRenderer->DrawBuffers(&_vbo, RenderDrawCallType::FILL_2D);
-
-		_hardwareRenderer->CheckError();
-
+		//int location = glGetUniformLocation(_hardwareRenderer->GetShader()->GetProgramHandle(), "modelMatrix");
+		//if (location == -1)
+	//	{
+	//		return false;
+	//	}
+	//	glUniformMatrix4fv(location, 1, false, tempProjection.GetData());
+///
+		//_hardwareRenderer->CheckError();
+		//_hardwareRenderer->DrawBuffers(&_vbo, RenderDrawCallType::FILL_2D);
+//
+	//	_hardwareRenderer->CheckError();
+//
 		return true;
 	}
 }

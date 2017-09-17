@@ -19,7 +19,7 @@
 #include "../scenemanagement/visitable.h"
 
 namespace MagusEngine
-{
+{	
 	class Resources
 	{
 	public:

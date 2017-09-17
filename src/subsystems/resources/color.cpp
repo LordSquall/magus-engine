@@ -4,7 +4,7 @@ namespace MagusEngine
 {
 	Color::Color(const char* name, float r, float g, float b, float a)
 	{
-		strcpy_s(_name, name);
+		strcpy(_name, name);
 
 		_r = r;
 		_g = g;

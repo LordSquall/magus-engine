@@ -122,8 +122,8 @@ namespace MagusEngine
 		/* Full path buffer */
 		char fullVertexPathBuffer[255];
 		char fullFragmentPathBuffer[255];
-		sprintf_s(fullVertexPathBuffer, "%s%s", _rootPath, vertexpath);
-		sprintf_s(fullFragmentPathBuffer, "%s%s", _rootPath, fragmentPath);
+		sprintf(fullVertexPathBuffer, "%s%s", _rootPath, vertexpath);
+		sprintf(fullFragmentPathBuffer, "%s%s", _rootPath, fragmentPath);
 
 		/* Sortes file size */
 		std::streamsize filesize;
@@ -193,7 +193,7 @@ namespace MagusEngine
 	{
 		/* Full path buffer */
 		char fullPathBuffer[255];
-		sprintf_s(fullPathBuffer, "%s%s", _rootPath, path);
+		sprintf(fullPathBuffer, "%s%s", _rootPath, path);
 	
 		Font* newFont = FontParser::ParseFontFile(fullPathBuffer, name, this);
 
@@ -207,7 +207,7 @@ namespace MagusEngine
 	{
 		/* Full path buffer */
 		char fullPathBuffer[255];
-		sprintf_s(fullPathBuffer, "%s%s", _rootPath, path);
+		sprintf(fullPathBuffer, "%s%s", _rootPath, path);
 
 		Mesh* newMesh = OBJParser::ParseOBJFile(fullPathBuffer, name, this);
 
@@ -219,9 +219,11 @@ namespace MagusEngine
 
 	Texture* Resources::LoadBmp(const char* name, const char* path)
 	{
+		/* Not Supported no linux at the moment */
+		/*
 		/* Full path buffer */
 		char fullPathBuffer[255];
-		sprintf_s(fullPathBuffer, "%s%s", _rootPath, path);
+		sprintf(fullPathBuffer, "%s%s", _rootPath, path);
 
 		/* Open the file */
 		std::ifstream file(fullPathBuffer, std::ios::binary);
@@ -231,78 +233,79 @@ namespace MagusEngine
 			return NULL;
 		}
 
-		BITMAPFILEHEADER* bmpHeader = nullptr; // Header
-		BITMAPINFOHEADER* bmpInfo = nullptr; // Info 
+		//BITMAPFILEHEADER* bmpHeader = nullptr; // Header
+		//BITMAPINFOHEADER* bmpInfo = nullptr; // Info 
 
-		Byte* datBuff[2] = { nullptr, nullptr };
+		//Byte* datBuff[2] = { nullptr, nullptr };
 
-		Byte* pixels = nullptr;
+		//Byte* pixels = nullptr;
 
 		// Allocate byte memory that will hold the two headers
-		datBuff[0] = new Byte[sizeof(BITMAPFILEHEADER)];
-		datBuff[1] = new Byte[sizeof(BITMAPINFOHEADER)];
+		//datBuff[0] = new Byte[sizeof(BITMAPFILEHEADER)];
+		//datBuff[1] = new Byte[sizeof(BITMAPINFOHEADER)];
 
-		file.read((char*)datBuff[0], sizeof(BITMAPFILEHEADER));
-		file.read((char*)datBuff[1], sizeof(BITMAPINFOHEADER));
+		//file.read((char*)datBuff[0], sizeof(BITMAPFILEHEADER));
+		//file.read((char*)datBuff[1], sizeof(BITMAPINFOHEADER));
 
 		// Construct the values from the buffers
-		bmpHeader = (BITMAPFILEHEADER*)datBuff[0];
-		bmpInfo = (BITMAPINFOHEADER*)datBuff[1];
+		//bmpHeader = (BITMAPFILEHEADER*)datBuff[0];
+		//bmpInfo = (BITMAPINFOHEADER*)datBuff[1];
 
 		// Check if the file is an actual BMP file
-		if (bmpHeader->bfType != 0x4D42)
-		{
-			printf("File %s isn't a bitmap file\n", fullPathBuffer);
-			return NULL;
-		}
+		//if (bmpHeader->bfType != 0x4D42)
+		//{
+			//printf("File %s isn't a bitmap file\n", fullPathBuffer);
+			//return NULL;
+		//}
 
 		// Calculate image size
-		long imageSize = bmpInfo->biWidth * bmpInfo->biHeight * (bmpInfo->biBitCount / 8);
+		//long imageSize = bmpInfo->biWidth * bmpInfo->biHeight * (bmpInfo->biBitCount / 8);
 
 		// First allocate pixel memory
-		pixels = new Byte[imageSize];
+		//pixels = new Byte[imageSize];
 
 		// Go to where image data starts, then read in image data
-		file.seekg(bmpHeader->bfOffBits);
-		file.read((char*)pixels, imageSize);
+		//file.seekg(bmpHeader->bfOffBits);
+		//file.read((char*)pixels, imageSize);
 
 
-		Byte tmpRGB = 0; // Swap buffer
-		for (long i = 0; i < imageSize; i += 3)
-		{
-			tmpRGB = pixels[i];
-			pixels[i] = pixels[i + 2];
-			pixels[i + 2] = tmpRGB;
-		}
+		//Byte tmpRGB = 0; // Swap buffer
+		//for (long i = 0; i < imageSize; i += 3)
+		//{
+			//tmpRGB = pixels[i];
+			//pixels[i] = pixels[i + 2];
+			//pixels[i + 2] = tmpRGB;
+		///}
 
 
-		file.close();
+		//file.close();
 
 		/* New texture object */
-		Texture* newTexture = new Texture(name, bmpInfo->biWidth, bmpInfo->biHeight);
+		//Texture* newTexture = new Texture(name, bmpInfo->biWidth, bmpInfo->biHeight);
 
 		/* Intialise texture memory */
-		newTexture->Initialise(imageSize);
+		//newTexture->Initialise(imageSize);
 
 		/* Load pixels in to texture object */
-		newTexture->LoadPixelData(pixels, imageSize);
+		//newTexture->LoadPixelData(pixels, imageSize);
 
-		delete[] datBuff[0];
-		delete[] datBuff[1];
+		//delete[] datBuff[0];
+		//delete[] datBuff[1];
 
-		return newTexture;
+		//return newTexture;
 	}
 
 	Texture* Resources::LoadPng(const char* name, const char* path)
 	{
 		/* Full path buffer */
 		char fullPathBuffer[255];
-		sprintf_s(fullPathBuffer, "%s%s", _rootPath, path);
+		sprintf(fullPathBuffer, "%s%s", _rootPath, path);
 
 		unsigned int error;
 		unsigned width, height;
 		unsigned char* pixels = nullptr;
 
+		
 		error = lodepng_decode32_file(&pixels, &width, &height, fullPathBuffer);
 
 		/* Calculate image size */
@@ -324,7 +327,7 @@ namespace MagusEngine
 	bool Resources::AddShader(const char* name, Shader* shader)
 	{
 		ShaderDataItem* dataItem = new ShaderDataItem();
-		strcpy_s(dataItem->id, name);
+		strcpy(dataItem->id, name);
 		dataItem->data = shader;
 
 		_shadersHashTable.Insert(dataItem);
@@ -365,12 +368,8 @@ namespace MagusEngine
 			LOGERROR("Failed 'new' on Texture Data Item");
 			return false;
 		}
-
-		if (strcpy_s(dataItem->id, name) != 0)
-		{
-			LOGERROR("strcpy_s failed");
-			return false;
-		}
+		
+		strcpy(dataItem->id, name);
 		dataItem->data = texture;
 
 		if (_textureHashTable.Insert(dataItem) == false)
@@ -413,7 +412,7 @@ namespace MagusEngine
 	bool Resources::AddColor(const char* name, Color* color)
 	{
 		ColorDataItem* dataItem = new ColorDataItem();
-		strcpy_s(dataItem->id, name);
+		strcpy(dataItem->id, name);
 		dataItem->data = color;
 
 		_colorHashTable.Insert(dataItem);
@@ -449,7 +448,7 @@ namespace MagusEngine
 	bool Resources::AddMaterial(const char* name, Material* material)
 	{
 		MaterialDataItem* dataItem = new MaterialDataItem();
-		strcpy_s(dataItem->id, name);
+		strcpy(dataItem->id, name);
 		dataItem->data = material;
 
 		_materialsHashTable.Insert(dataItem);
@@ -484,7 +483,7 @@ namespace MagusEngine
 	bool Resources::AddFont(const char* name, Font* font)
 	{
 		FontDataItem* dataItem = new FontDataItem();
-		strcpy_s(dataItem->id, name);
+		strcpy(dataItem->id, name);
 		dataItem->data = font;
 
 		_fontsHashTable.Insert(dataItem);
@@ -519,7 +518,7 @@ namespace MagusEngine
 	bool Resources::AddMesh(const char* name, Mesh* font)
 	{
 		MeshDataItem* dataItem = new MeshDataItem();
-		strcpy_s(dataItem->id, name);
+		strcpy(dataItem->id, name);
 		dataItem->data = font;
 
 		_meshHashTable.Insert(dataItem);
@@ -551,7 +550,7 @@ namespace MagusEngine
 	}
 
 	/* Setters */
-	void Resources::SetRootPath(const char* path) { strcpy_s(_rootPath, path); }
+	void Resources::SetRootPath(const char* path) { strcpy(_rootPath, path); }
 
 	/* Getters */
 	char* Resources::GetRootPath() { return _rootPath; }

@@ -1,6 +1,8 @@
 #ifndef _RENDERER_SOFTWARE_H_
 #define _RENDERER_SOFTWARE_H_
 
+#include <string.h>
+
 #include "../renderer_interface.h"
 #include "../../../resources/shader.h"
 #include "../../../resources/texture.h"
