@@ -4,6 +4,8 @@
 /* includes */
 #include "os_interface.h"
 #include "../graphics/renderers/renderer_interface.h"
+#include "../graphics/renderers/linux/renderer_linux_initialise_visitor.h"
+#include "../graphics/renderers/linux/renderer_linux_render_visitor.h"
 #include "../input/input.h"
 
 /* system includes */

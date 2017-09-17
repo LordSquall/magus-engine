@@ -2,7 +2,9 @@
 
 #include "../../../os/os_linux.h"
 
-#include <GL/gl.h>
+//#include <GL/gl.h>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 namespace MagusEngine
 {
 	Renderer_Linux_OpenGL::Renderer_Linux_OpenGL()
@@ -12,6 +14,8 @@ namespace MagusEngine
 
 	bool Renderer_Linux_OpenGL::Initialise(void* system, int screenWidth, int screenHeight, float screenDepth, float screenNear, bool vsync)
 	{
+
+printf("foobar\n");
 		// glad: load all OpenGL function pointers
 		// ---------------------------------------
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -24,14 +28,21 @@ namespace MagusEngine
 		_CurrentMaterial = 0;
 		_CurrentShader = 0;
 		
+printf("foobar IN INIT\n");
 		/* Generate vao */
 		glGenVertexArrays(1, &_vao);
 		
+printf("foobar A IN INIT\n");
+		CheckError();
+printf("foobar 2 IN INIT\n");
 		glBindVertexArray(_vao);
-
+		CheckError();
+printf("foobar 3 IN INIT\n");
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
+
+printf("foobar 4 IN INIT\n");
 		return true;
 	}
 	

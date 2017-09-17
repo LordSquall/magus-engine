@@ -16,17 +16,22 @@ namespace MagusEngine
 	/* Visitor Functions */
 	bool Renderer_Linux_Initialise_Visitor::Initialise(Renderer_Interface* lowlevelRenderer, Resources* resources)
 	{
+		printf("hello 1\n");
 		_lowLevelRenderer = lowlevelRenderer;
 		_resources = resources;
 
 		/* Process any resources which require render specific modification */
 		for (unsigned int i = 0; i < resources->GetShaderCount(); i++)
 		{
+			
+		printf("hello 2\n");
 			_lowLevelRenderer->CompileShaderObject(resources->GetShader(i));
 		}
 
 		for (unsigned int i = 0; i < resources->GetTextureCount(); i++)
 		{
+			
+		printf("hello 3\n");
 			_lowLevelRenderer->CreateTexture(resources->GetTexture(i));
 		}
 

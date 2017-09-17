@@ -56,8 +56,8 @@ namespace MagusEngine
 		_network = new Network();
 
 		_network->SetDataModel(&_dataModel);
-		_network->EstablishUDP(9000);
-		_network->StartRecieve();
+		//_network->EstablishUDP(9000);
+		//_network->StartRecieve();
 
 
 		return true;

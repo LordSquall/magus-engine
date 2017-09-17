@@ -80,29 +80,51 @@ namespace MagusEngine
 
 	bool Graphics::InitialiseFrame()
 	{
+		int t = 0;
 		/* retrieve hardware path visitors */
 		_hardwareInitialiseVisitor = _os->GetLowLevelRendererInitialisationVisitor();
+		
+		printf("INIT %d\n", t); t++;
 		_hardwareInitialiseVisitor->Initialise(_lowLevelHardwareRenderer, _resources);
+		
+		printf("INIT %d\n", t); t++;
 		_hardwareRenderVisitor = _os->GetLowLevelRendererRenderVisitor();
+		
+		printf("INIT %d\n", t); t++;
 		_hardwareRenderVisitor->Initialise(_lowLevelHardwareRenderer, _resources);
 		
+		printf("INIT %d\n", t); t++;
 		/* Initialise software path visitors */
 		_softwareInitialiseVisitor = new Renderer_Software_Initialise_Visitor((Renderer_Software*)_lowLevelSoftwareRenderer);
+		
+		printf("INIT %d\n", t); t++;
 		_softwareInitialiseVisitor->Initialise(_lowLevelSoftwareRenderer, _resources);
+		
+		printf("INIT %d\n", t); t++;
 
 		_softwareRenderVisitor = new Renderer_Software_Render_Visitor();
+		
+		printf("INIT %d\n", t); t++;
 		_softwareRenderVisitor->Initialise(_lowLevelSoftwareRenderer, _resources);
 
+		printf("INIT %d\n", t); t++;
+		
 		/* Set the Projection Matrix for both renderers */
 		_lowLevelHardwareRenderer->SetCurrentProjectionMatrix(&_projectionMatrix);
+		printf("INIT %d\n", t); t++;
 		_lowLevelSoftwareRenderer->SetCurrentProjectionMatrix(&_projectionMatrix);
+		printf("INIT %d\n", t); t++;
 
 		_graphicsBlender = new Graphics_Blender();
+		printf("INIT %d\n", t); t++;
 		_graphicsBlender->Initialise(_lowLevelHardwareRenderer, _lowLevelSoftwareRenderer, _config->width, _config->height);
-		
+		printf("INIT %d\n", t); t++;
+
 		_rootScene.Accept(_hardwareInitialiseVisitor);
 
+		printf("INIT %d\n", t); t++;
 		_rootScene.Accept(_softwareInitialiseVisitor);
+		printf("INIT %d\n", t); t++;
 
 		return true;
 	}

@@ -55,12 +55,12 @@ namespace MagusEngine
 	
 	Visitor* OS::GetLowLevelRendererInitialisationVisitor()
 	{
-		return NULL;
+		return new Renderer_Linux_Initialise_Visitor();
 	}
 	
 	Visitor* OS::GetLowLevelRendererRenderVisitor()
 	{
-		return NULL;
+		return new Renderer_Linux_Render_Visitor();
 	}
 	
 	
