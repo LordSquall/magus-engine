@@ -9,6 +9,8 @@ namespace MagusEngine
 	BehaviourVisitor::BehaviourVisitor(DataModel* datamodel)
 	{
 		_dataModel = datamodel;
+
+		initialPass = true;
 	}
 
 	/* Visitor Functions */
@@ -20,6 +22,23 @@ namespace MagusEngine
 	void BehaviourVisitor::PreVisit(SceneNode* sceneNode){}
 	void BehaviourVisitor::Visit(SceneNode* sceneNode)
 	{
+		if (strcmp(sceneNode->GetName(), "horizon") == 0)
+		{
+			if (initialPass == true)
+			{
+				horizonBasePosition.x = sceneNode->GetPosition()->x;
+				horizonBasePosition.y = sceneNode->GetPosition()->y;
+				horizonBasePosition.z = sceneNode->GetPosition()->z;
+
+
+				horizonBaseRotation.x = sceneNode->GetRotation()->x;
+				horizonBaseRotation.y = sceneNode->GetRotation()->y;
+				horizonBaseRotation.z = sceneNode->GetRotation()->z;
+			}
+
+			sceneNode->SetPosition(horizonBasePosition.x, horizonBasePosition.y + _dataModel->GetPitch(), horizonBasePosition.z);
+		}
+
 		if (strcmp(sceneNode->GetName(), "airspeed_value_lb") == 0)
 		{
 			Graphic2D* graphic = (Graphic2D*)sceneNode->GetComponent(0);

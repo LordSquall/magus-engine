@@ -11,6 +11,7 @@
 /* Local Project Includes */
 #include "../logging/logger.h"
 #include "altimeter_dm.h"
+#include "aircraft_computer.h"
 
 /* Typedefs */
 typedef char Byte;
@@ -24,11 +25,17 @@ namespace MagusEngine
 
 		float GetAltitude();
 
+		float GetPitch();
+		float GetYaw();
+		float GetRoll();
+
 		Altimeter_DataModel* GetAltitudeDM();
+		AircraftComputer_DataModel* GetAircraftState();
 
 	private:
 		/* Data Models */
 		Altimeter_DataModel _altimeter;
+		AircraftComputer_DataModel _aircraftState;
 	};
 }
 #endif

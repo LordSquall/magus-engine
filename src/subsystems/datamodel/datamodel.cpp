@@ -12,8 +12,30 @@ namespace MagusEngine
 		return &_altimeter;
 	}
 
+	AircraftComputer_DataModel* DataModel::GetAircraftState()
+	{
+		return &_aircraftState;
+	}
+
+
 	float DataModel::GetAltitude()
 	{
 		return _altimeter._altitude;
+	}
+
+
+	float DataModel::GetPitch()
+	{
+		return _aircraftState._pitch;
+	}
+	
+	float DataModel::GetYaw()
+	{
+		return _aircraftState._yaw;
+	}
+	
+	float DataModel::GetRoll()
+	{
+		return _aircraftState._roll;
 	}
 }

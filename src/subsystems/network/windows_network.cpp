@@ -72,6 +72,7 @@ namespace MagusEngine
 
 			/* Update data models */
 			_datamodel->GetAltitudeDM()->Update(_buf);
+			_datamodel->GetAircraftState()->Update(&_buf[12]);
 		}
 
 		return true;

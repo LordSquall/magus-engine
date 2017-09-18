@@ -57,8 +57,14 @@ namespace MagusEngine
 		void Visit(Path* path);
 		void PostVisit(Path* path);
 
+		bool initialPass;
+
 	private:
 		DataModel*	_dataModel;
+
+		Vector3f horizonBasePosition; 
+		Vector3f horizonBaseRotation;
+
 	};
 }
 
