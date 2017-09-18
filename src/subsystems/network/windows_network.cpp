@@ -53,7 +53,7 @@ namespace MagusEngine
 		read_timeout.tv_usec = 1;
 
 		/* Set the time for the receive function */
-		setsockopt(_socket, SOL_SOCKET, SO_RCVTIMEO, (char*)&read_timeout, sizeof(read_timeout));
+	//	setsockopt(_socket, SOL_SOCKET, SO_RCVTIMEO, (char*)&read_timeout, sizeof(read_timeout));
 
 		while (running)
 		{
@@ -71,7 +71,7 @@ namespace MagusEngine
 			}
 
 			/* Update data models */
-			_datamodel->GetAltitudeDM()->Update(_buf);
+			//_datamodel->GetAltitudeDM()->Update(_buf);
 			_datamodel->GetAircraftState()->Update(&_buf[12]);
 		}
 

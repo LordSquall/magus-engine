@@ -61,13 +61,7 @@ namespace MagusEngine
 		}
 	}
 
-	void Renderer_Windows_Render_Visitor::Visit(SceneNode* sceneNode)
-	{
-		if(strcmp(sceneNode->GetName(), "rosering_bg") == 0)
-		{
-			sceneNode->SetRotation(0.0f, 0.0f, sceneNode->GetRotation()->z + 1.0f);
-		}
-	}
+	void Renderer_Windows_Render_Visitor::Visit(SceneNode* sceneNode){}
 	
 	void Renderer_Windows_Render_Visitor::PostVisit(SceneNode* sceneNode) 
 	{

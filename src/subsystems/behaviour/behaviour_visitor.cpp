@@ -48,6 +48,11 @@ namespace MagusEngine
 
 			graphic->updateRequired = true;
 		}
+
+		if (strcmp(sceneNode->GetName(), "rosering_bg") == 0)
+		{
+			sceneNode->SetRotation(0.0f, 0.0f, sceneNode->GetRotation()->z + 1.0f);
+		}
 	}
 	void BehaviourVisitor::PostVisit(SceneNode* sceneNode) {}
 

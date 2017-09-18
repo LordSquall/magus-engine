@@ -5,9 +5,9 @@ namespace MagusEngine
 
 	AircraftComputer_DataModel::AircraftComputer_DataModel()
 	{
-		_pitch.store(0.0f);
-		_yaw.store(0.0f);
-		_roll.store(0.0f);
+		_pitch = 0.0f;
+		_yaw = 0.0f;
+		_roll = 0.0f;
 	}
 
 
@@ -15,13 +15,14 @@ namespace MagusEngine
 	{
 		float value;
 		memcpy(&value, buffer, sizeof(float));
-		_pitch.store(value);
+		_pitch = value;
 
-		memcpy(&value, buffer, sizeof(float));
-		_yaw.store(value);
+		printf("pitch: %.3f\n", _pitch);
+		//memcpy(&value, buffer, sizeof(float));
+		//_pitch = value;
 
-		memcpy(&value, buffer, sizeof(float));
-		_roll.store(value);
+		//memcpy(&value, buffer, sizeof(float));
+		//_pitch = value;
 
 		return true;
 	}

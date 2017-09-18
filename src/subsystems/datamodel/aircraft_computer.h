@@ -19,9 +19,9 @@ namespace MagusEngine
 		bool Update(Byte* buffer);
 
 	public:
-		std::atomic<float> _pitch;
-		std::atomic<float> _yaw;
-		std::atomic<float> _roll;
+		float _pitch;
+		float _yaw;
+		float _roll;
 	};
 }
 #endif
