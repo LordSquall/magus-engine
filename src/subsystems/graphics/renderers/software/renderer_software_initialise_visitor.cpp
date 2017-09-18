@@ -39,17 +39,11 @@ namespace MagusEngine
 		_buildCritical = sceneNode->IsCritical();
 	}
 
-	void Renderer_Software_Initialise_Visitor::Visit(SceneNode* sceneNode)
-	{
-		printf("[Software Init Visitor]\tVisit Scene Node\n");
-	}
+	void Renderer_Software_Initialise_Visitor::Visit(SceneNode* sceneNode){ }
 	void Renderer_Software_Initialise_Visitor::PostVisit(SceneNode* sceneNode) {}
 
 	void Renderer_Software_Initialise_Visitor::PreVisit(Component* component) {}
-	void Renderer_Software_Initialise_Visitor::Visit(Component* component)
-	{
-		printf("[Software Init Visitor]\tVisit Component\n");
-	}
+	void Renderer_Software_Initialise_Visitor::Visit(Component* component){}
 	void Renderer_Software_Initialise_Visitor::PostVisit(Component* component) {}
 
 	void Renderer_Software_Initialise_Visitor::PreVisit(Graphic2D* graphic2D) {}

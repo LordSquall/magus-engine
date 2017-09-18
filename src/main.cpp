@@ -48,6 +48,8 @@ int main(int argc, char *argv[])
 		{
 			/* Update framework timings */
 			running = framework->Frame();
+			
+			//running = false;
 		}
 	}
 	else

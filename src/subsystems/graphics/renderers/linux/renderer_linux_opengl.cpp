@@ -20,7 +20,7 @@ printf("foobar\n");
 		// ---------------------------------------
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{
-			printf("nitialize GLAD\n");
+			printf("initialize GLAD\n");
 			return false;
 		}
 
@@ -28,21 +28,15 @@ printf("foobar\n");
 		_CurrentMaterial = 0;
 		_CurrentShader = 0;
 		
-printf("foobar IN INIT\n");
 		/* Generate vao */
 		glGenVertexArrays(1, &_vao);
 		
-printf("foobar A IN INIT\n");
 		CheckError();
-printf("foobar 2 IN INIT\n");
 		glBindVertexArray(_vao);
 		CheckError();
-printf("foobar 3 IN INIT\n");
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
-
-printf("foobar 4 IN INIT\n");
 		return true;
 	}
 	
@@ -57,9 +51,13 @@ printf("foobar 4 IN INIT\n");
 
 	void Renderer_Linux_OpenGL::BeginScene(float red, float green, float blue, float alpha)
 	{
+		printf("Begin Scene 0\n");
 		glClearColor(red, green, blue, alpha);
+		
+		printf("Begin Scene 1\n");
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		printf("Begin Scene 2\n");
 		return;
 	}
 
@@ -106,34 +104,58 @@ printf("foobar 4 IN INIT\n");
 	/* Data Loading API */
 	unsigned int Renderer_Linux_OpenGL::GenerateVertexBuffer(Vertex* vertices, VBO_Structure* vbodata)
 	{
+		
+		unsigned int temp = 0;
+
+		printf("DEBUG: Generate Vertex Buffer: %d\n", temp); temp++;
 		unsigned int VBO;
 		glGenBuffers(1, &VBO);
+		printf("DEBUG: Generate Vertex Buffer: %d\n", temp); temp++;
 		CheckError();
-
+		printf("DEBUG: Generate Vertex Buffer: %d\n", temp); temp++;
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		printf("DEBUG: Generate Vertex Buffer: %d\n", temp); temp++;
 		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vbodata->vertexmax, &vertices[vbodata->vertexstart], GL_STATIC_DRAW);
+		printf("DEBUG: Generate Vertex Buffer: %d\n", temp); temp++;
 		CheckError();
 		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+		printf("DEBUG: Generate Vertex Buffer: %d\n", temp); temp++;
 		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(4 * sizeof(float)));
+		printf("DEBUG: Generate Vertex Buffer: %d\n", temp); temp++;
 		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(8 * sizeof(float)));
+		printf("DEBUG: Generate Vertex Buffer: %d\n", temp); temp++;
 		glEnableVertexAttribArray(0);	
+		printf("DEBUG: Generate Vertex Buffer: %d\n", temp); temp++;
 		glEnableVertexAttribArray(1);
+		printf("DEBUG: Generate Vertex Buffer: %d\n", temp); temp++;
 		glEnableVertexAttribArray(2);
+		printf("DEBUG: Generate Vertex Buffer: %d\n", temp); temp++;
 		CheckError();
+		
+		LOGINFO("Vertex Buffer Generated [%d]", VBO);
 		return VBO;
 	}
 
-		unsigned int Renderer_Linux_OpenGL::GenerateIndicesBuffer(unsigned int* indices, VBO_Structure* vbodata)
-	{
-		unsigned int EBO;
-		glGenBuffers(1, &EBO);
+	unsigned int Renderer_Linux_OpenGL::GenerateIndicesBuffer(unsigned int* indices, VBO_Structure* vbodata)
+	{		
+		unsigned int temp = 0;
+
+		printf("DEBUG: Generate Indices Buffer: %d\n", temp); temp++;
+		unsigned int IBO;
+		glGenBuffers(1, &IBO);
+		printf("DEBUG: Generate Indices Buffer: %d\n", temp); temp++;
 		CheckError();
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+		printf("DEBUG: Generate Indices Buffer: %d\n", temp); temp++;
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * vbodata->indexmax, &indices[vbodata->indexstart], GL_STATIC_DRAW);
+		printf("DEBUG: Generate Indices Buffer: %d\n", temp); temp++;
 		CheckError();
 
-		return EBO;
+		
+		LOGINFO("Index Buffer Generated [%d]", IBO);
+		
+		return IBO;
 	}
 
 
@@ -161,46 +183,67 @@ printf("foobar 4 IN INIT\n");
 	unsigned int Renderer_Linux_OpenGL::DrawBuffers(VBO_Structure* bufferData, RenderDrawCallType type)
 	{
 		unsigned int location;
+		unsigned int temp = 0;
 
+		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
 		location = glGetUniformLocation(_CurrentShader->GetProgramHandle(), "projectionMatrix");
 		if(location == -1)
 		{
 			return false;
 		}
+		
+		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
 		glUniformMatrix4fv(location, 1, false, _projectionMatrix->GetData());
 
+		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
 		location = glGetUniformLocation(_CurrentShader->GetProgramHandle(), "uni_renderPassType");
+		
+		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
 		if (location == -1)
 		{
 			return false;
 		}
+		
+		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
 		glUniform1i(location, type);
 
 		CheckError();
+		
+		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
 		glBindBuffer(GL_ARRAY_BUFFER, bufferData->vertexhandle);
+		
+		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferData->indexhandle);
 
+		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
 		CheckError();
 		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 
+		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
 		CheckError();
 		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(4 * sizeof(float)));
 
+		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
 		CheckError();
 		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(8 * sizeof(float)));
 
+		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
 		CheckError();
 		glEnableVertexAttribArray(0);	
 
+		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
 		CheckError(); 
 		glEnableVertexAttribArray(1);
 
+		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
 		CheckError();
 		glEnableVertexAttribArray(2);
 
+		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
 		CheckError();
 		glDrawElements(GL_TRIANGLES, bufferData->indexlength, GL_UNSIGNED_INT, 0);
 
+		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
 
 		CheckError();
 		return 0;
@@ -208,29 +251,41 @@ printf("foobar 4 IN INIT\n");
 
 	void Renderer_Linux_OpenGL::SetCurrentModelMatrix(Matrix4f* matrix)
 	{
+		unsigned int temp = 0;
+		printf("DEBUG: Set Current Model Matrix: %d\n", temp); temp++;
 		CheckError();
 		int location = glGetUniformLocation(_CurrentShader->GetProgramHandle(), "modelMatrix");
 		CheckError();
+		printf("DEBUG: Set Current Model Matrix: %d\n", temp); temp++;
+		LOGINFO("Current Model Matrix Location: %d", location);
 		if(location == -1)
 		{
 			return;
 		}
+		printf("DEBUG: Set Current Model Matrix: %d\n", temp); temp++;
 		glUniformMatrix4fv(location, 1, false, matrix->GetData());
 		CheckError();
+		printf("DEBUG: Set Current Model Matrix: %d\n", temp); temp++;
 	}
 
 	
 	void Renderer_Linux_OpenGL::SetCurrentProjectionMatrix(Matrix4f* matrix)
 	{
+		unsigned int temp = 0;
+		printf("DEBUG: Set Current Projection Matrix: %d\n", temp); temp++;
 		CheckError();
 		int location = glGetUniformLocation(_CurrentShader->GetProgramHandle(), "projectionMatrix");
 		CheckError();
+		printf("DEBUG: Set Current Projection Matrix: %d\n", temp); temp++;
 		if(location == -1)
 		{
 			return;
 		}
+		printf("DEBUG: Set Current Projection Matrix: %d\n", temp); temp++;
 		glUniformMatrix4fv(location, 1, false, matrix->GetData());
 		CheckError();
+		printf("DEBUG: Set Current Projection Matrix: %d\n", temp); temp++;
+
 
 		_projectionMatrix = matrix;
 	}
@@ -342,14 +397,17 @@ printf("foobar 4 IN INIT\n");
 		glDeleteShader(shader->GetVertexHandle());
 		glDeleteShader(shader->GetFragmentHandle());
 
+		LOGINFO("Shader Compiled Successfully");
+		
 		/* Set as the current shader */
-		_CurrentShader = shader;
+		SetCurrentShader(shader);
 	}
 
 	void Renderer_Linux_OpenGL::SetCurrentShader(Shader* shader)
 	{
 		_CurrentShader = shader;
 		glUseProgram(shader->GetProgramHandle());
+		LOGINFO("Shader Set [%d]", shader->GetProgramHandle());
 	}
 
 
