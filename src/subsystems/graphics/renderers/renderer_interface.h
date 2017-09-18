@@ -18,7 +18,8 @@ namespace MagusEngine
 	{
 		FILL_2D,
 		STROKE_2D,
-		TEXT
+		TEXT,
+		STENCIL
 	};
 
 	class Renderer_Interface

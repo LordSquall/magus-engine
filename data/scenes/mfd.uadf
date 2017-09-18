@@ -851,7 +851,7 @@
 				</node>
 
 
-				<node name="airspeed_tape_window" children="2" material="mat_tapes">
+				<node name="airspeed_tape_window" children="2" material="mat_tapes" filter="1">
 					<transform>
 						<position x="0.0" y="0.0" z="0.0" />
 						<rotation x="0.0" y="0.0" z="0.0" />
@@ -859,7 +859,7 @@
 					</transform>
 					<components count="1">
 						<graphics2d>
-							<rectangle x="-75.0" y="-350.0" width="150.0" height="650.0" />
+							<rectangle x="-75.0" y="-350.0" width="150.0" height="750.0" />
 						</graphics2d>
 					</components>
 
@@ -1211,7 +1211,7 @@
 				</node>
 
 
-				<node name="altitude_tape_window" children="2" material="mat_tapes">
+				<node name="altitude_tape_window" children="2" material="mat_tapes" filter="1">
 					<transform>
 						<position x="0.0" y="0.0" z="0.0" />
 						<rotation x="0.0" y="0.0" z="0.0" />
@@ -1219,7 +1219,7 @@
 					</transform>
 					<components count="1">
 						<graphics2d>
-							<rectangle x="-75.0" y="-350.0" width="150.0" height="650.0" />
+							<rectangle x="-75.0" y="-350.0" width="150.0" height="750.0" />
 						</graphics2d>
 					</components>
 

@@ -15,7 +15,7 @@ namespace MagusEngine
 		// ---------------------------------------
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{
-			printf("nitialize GLAD\n");
+			LOGERROR("Unable to Initialize GLAD\n");
 			return false;
 		}
 
@@ -285,8 +285,7 @@ namespace MagusEngine
 		if (!success)
 		{
 			glGetShaderInfoLog(shader->GetVertexHandle(), 512, NULL, infoLog);
-			printf("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n");
-			printf("%s", infoLog);
+			LOGERROR("Vertex Shader Compilation failed: %s", infoLog);
 		}
 
 		/* Fragment Shader */
@@ -300,8 +299,7 @@ namespace MagusEngine
 		if (!success)
 		{
 			glGetShaderInfoLog(shader->GetFragmentHandle(), 512, NULL, infoLog);
-			printf("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n");
-			printf("%s", infoLog);
+			LOGERROR("Fragment Shader Compilation failed: %s", infoLog);
 		}
 
 		/* Link shaders */
@@ -316,16 +314,17 @@ namespace MagusEngine
 		glGetProgramiv(shader->GetProgramHandle(), GL_LINK_STATUS, &success);
 		if (!success) {
 			glGetProgramInfoLog(shader->GetProgramHandle(), 512, NULL, infoLog);
-			printf("ERROR::SHADER::PROGRAM::LINKING_FAILED\n");
-			printf("%s", infoLog);
+			LOGERROR("Shader Program Linkage failed: %s", infoLog);
 		}
 
 		/* Delete shader as program is complete */
 		glDeleteShader(shader->GetVertexHandle());
 		glDeleteShader(shader->GetFragmentHandle());
 
+		LOGINFO("Shader Compiled Successfully");
+		
 		/* Set as the current shader */
-		_CurrentShader = shader;
+		SetCurrentShader(shader);
 	}
 
 	void Renderer_Windows_OpenGL::SetCurrentShader(Shader* shader)
@@ -367,7 +366,7 @@ namespace MagusEngine
 		glStencilOp(GL_INCR, GL_INCR, GL_INCR);
 		glStencilMask(0xFF);
 
-		//DrawBuffers(bufferData);
+		DrawBuffers(bufferData, RenderDrawCallType::STENCIL);
 
 		glStencilFunc(GL_EQUAL, 1, 0xFF);
 		glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
@@ -389,7 +388,7 @@ namespace MagusEngine
 		glStencilOp(GL_DECR, GL_DECR, GL_DECR);
 		glStencilMask(0xFF);
 
-		//DrawBuffers(bufferData);
+		DrawBuffers(bufferData, RenderDrawCallType::STENCIL);
 
 		glStencilFunc(GL_ALWAYS, 1, 0xFF);
 		glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
@@ -410,22 +409,22 @@ namespace MagusEngine
 			switch (err)
 			{
 			case GL_INVALID_ENUM:
-				printf("GL Error: Invalid Enum\n");
+				LOGERROR("GL Error: Invalid Enum\n");
 				break;
 			case GL_INVALID_VALUE:
-				printf("GL Error: Invalid Value\n");
+				LOGERROR("GL Error: Invalid Value\n");
 				break;
 			case GL_INVALID_OPERATION:
-				printf("GL Error: Invalid Operation\n");
+				LOGERROR("GL Error: Invalid Operation\n");
 				break;
 			case GL_STACK_OVERFLOW:
-				printf("GL Error: Stack Overflow\n");
+				LOGERROR("GL Error: Stack Overflow\n");
 				break;
 			case GL_STACK_UNDERFLOW:
-				printf("GL Error: Stack Underflow\n");
+				LOGERROR("GL Error: Stack Underflow\n");
 				break;
 			case GL_OUT_OF_MEMORY:
-				printf("GL Error: Out of Memory\n");
+				LOGERROR("GL Error: Out of Memory\n");
 				break;
 			}
 		}

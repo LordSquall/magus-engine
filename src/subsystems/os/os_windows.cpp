@@ -190,6 +190,6 @@ namespace MagusEngine
 
 	void OS::ErrorCallback(int error, const char* description)
 	{
-		printf(description);
+		LOGERROR(description);
 	}
 }

@@ -31,7 +31,7 @@ namespace MagusEngine
 		result = InitialiseX11(screenWidth, screenHeight);
 		if (!result)
 		{
-			printf("Could not initialize the window.\n");
+			LOGERROR("Could not initialize the window.\n");
 			return false;
 		}
 		

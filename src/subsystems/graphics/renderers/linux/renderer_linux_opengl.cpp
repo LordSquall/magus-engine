@@ -15,12 +15,11 @@ namespace MagusEngine
 	bool Renderer_Linux_OpenGL::Initialise(void* system, int screenWidth, int screenHeight, float screenDepth, float screenNear, bool vsync)
 	{
 
-printf("foobar\n");
 		// glad: load all OpenGL function pointers
 		// ---------------------------------------
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{
-			printf("initialize GLAD\n");
+			LOGERROR("Unable to initialize GLAD");
 			return false;
 		}
 
@@ -51,21 +50,15 @@ printf("foobar\n");
 
 	void Renderer_Linux_OpenGL::BeginScene(float red, float green, float blue, float alpha)
 	{
-		printf("Begin Scene 0\n");
 		glClearColor(red, green, blue, alpha);
-		
-		printf("Begin Scene 1\n");
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		printf("Begin Scene 2\n");
 		return;
 	}
 
 
 	void Renderer_Linux_OpenGL::EndScene()
 	{
-		//OS* os = (OS*)_os;
-		//glXSwapBuffers(os->getDisplay(), os->getWindow());
 		return;
 	}
 	
@@ -80,22 +73,22 @@ printf("foobar\n");
 			switch (err)
 			{
 			case GL_INVALID_ENUM:
-				printf("GL Error: Invalid Enum\n");
+				LOGERROR("GL Error: Invalid Enum\n");
 				break;
 			case GL_INVALID_VALUE:
-				printf("GL Error: Invalid Value\n");
+				LOGERROR("GL Error: Invalid Value\n");
 				break;
 			case GL_INVALID_OPERATION:
-				printf("GL Error: Invalid Operation\n");
+				LOGERROR("GL Error: Invalid Operation\n");
 				break;
 			case GL_STACK_OVERFLOW:
-				printf("GL Error: Stack Overflow\n");
+				LOGERROR("GL Error: Stack Overflow\n");
 				break;
 			case GL_STACK_UNDERFLOW:
-				printf("GL Error: Stack Underflow\n");
+				LOGERROR("GL Error: Stack Underflow\n");
 				break;
 			case GL_OUT_OF_MEMORY:
-				printf("GL Error: Out of Memory\n");
+				LOGERROR("GL Error: Out of Memory\n");
 				break;
 			}
 		}
@@ -107,29 +100,18 @@ printf("foobar\n");
 		
 		unsigned int temp = 0;
 
-		printf("DEBUG: Generate Vertex Buffer: %d\n", temp); temp++;
 		unsigned int VBO;
 		glGenBuffers(1, &VBO);
-		printf("DEBUG: Generate Vertex Buffer: %d\n", temp); temp++;
-		CheckError();
-		printf("DEBUG: Generate Vertex Buffer: %d\n", temp); temp++;
+
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		printf("DEBUG: Generate Vertex Buffer: %d\n", temp); temp++;
 		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vbodata->vertexmax, &vertices[vbodata->vertexstart], GL_STATIC_DRAW);
-		printf("DEBUG: Generate Vertex Buffer: %d\n", temp); temp++;
-		CheckError();
+
 		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-		printf("DEBUG: Generate Vertex Buffer: %d\n", temp); temp++;
 		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(4 * sizeof(float)));
-		printf("DEBUG: Generate Vertex Buffer: %d\n", temp); temp++;
 		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(8 * sizeof(float)));
-		printf("DEBUG: Generate Vertex Buffer: %d\n", temp); temp++;
 		glEnableVertexAttribArray(0);	
-		printf("DEBUG: Generate Vertex Buffer: %d\n", temp); temp++;
 		glEnableVertexAttribArray(1);
-		printf("DEBUG: Generate Vertex Buffer: %d\n", temp); temp++;
 		glEnableVertexAttribArray(2);
-		printf("DEBUG: Generate Vertex Buffer: %d\n", temp); temp++;
 		CheckError();
 		
 		LOGINFO("Vertex Buffer Generated [%d]", VBO);
@@ -140,30 +122,21 @@ printf("foobar\n");
 	{		
 		unsigned int temp = 0;
 
-		printf("DEBUG: Generate Indices Buffer: %d\n", temp); temp++;
 		unsigned int IBO;
 		glGenBuffers(1, &IBO);
-		printf("DEBUG: Generate Indices Buffer: %d\n", temp); temp++;
-		CheckError();
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-		printf("DEBUG: Generate Indices Buffer: %d\n", temp); temp++;
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * vbodata->indexmax, &indices[vbodata->indexstart], GL_STATIC_DRAW);
-		printf("DEBUG: Generate Indices Buffer: %d\n", temp); temp++;
 		CheckError();
 
-		
 		LOGINFO("Index Buffer Generated [%d]", IBO);
-		
 		return IBO;
 	}
 
 
 	unsigned int Renderer_Linux_OpenGL::UpdateVertexBuffer(VBO_Structure* bufferData, Vertex* vertices, unsigned int vertexStart, unsigned int vertexCount)
 	{
-		CheckError();
 		glBindBuffer(GL_ARRAY_BUFFER, bufferData->vertexhandle);
-		CheckError();
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vertex) * vertexCount, vertices);
 		CheckError();
 
@@ -172,11 +145,10 @@ printf("foobar\n");
 	
 	unsigned int Renderer_Linux_OpenGL::UpdateIndicesBuffer(VBO_Structure* bufferData, unsigned int* indices, unsigned int indicesStart, unsigned int indicesCount)
 	{
-		CheckError();
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferData->indexhandle);
-		CheckError();
 		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned int) * indicesCount, indices);
 		CheckError();
+		
 		return bufferData->indexhandle;
 	}
 
@@ -185,107 +157,60 @@ printf("foobar\n");
 		unsigned int location;
 		unsigned int temp = 0;
 
-		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
 		location = glGetUniformLocation(_CurrentShader->GetProgramHandle(), "projectionMatrix");
 		if(location == -1)
 		{
 			return false;
 		}
-		
-		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
 		glUniformMatrix4fv(location, 1, false, _projectionMatrix->GetData());
 
-		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
 		location = glGetUniformLocation(_CurrentShader->GetProgramHandle(), "uni_renderPassType");
-		
-		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
 		if (location == -1)
 		{
 			return false;
 		}
-		
-		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
 		glUniform1i(location, type);
 
 		CheckError();
 		
-		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
 		glBindBuffer(GL_ARRAY_BUFFER, bufferData->vertexhandle);
-		
-		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferData->indexhandle);
-
-		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
-		CheckError();
 		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-
-		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
-		CheckError();
 		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(4 * sizeof(float)));
-
-		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
-		CheckError();
 		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(8 * sizeof(float)));
-
-		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
-		CheckError();
+		
 		glEnableVertexAttribArray(0);	
-
-		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
-		CheckError(); 
 		glEnableVertexAttribArray(1);
-
-		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
-		CheckError();
 		glEnableVertexAttribArray(2);
 
-		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
-		CheckError();
 		glDrawElements(GL_TRIANGLES, bufferData->indexlength, GL_UNSIGNED_INT, 0);
 
-		printf("DEBUG: Draw Buffers: %d\n", temp); temp++;
-
 		CheckError();
+		
 		return 0;
 	}
 
 	void Renderer_Linux_OpenGL::SetCurrentModelMatrix(Matrix4f* matrix)
 	{
-		unsigned int temp = 0;
-		printf("DEBUG: Set Current Model Matrix: %d\n", temp); temp++;
-		CheckError();
 		int location = glGetUniformLocation(_CurrentShader->GetProgramHandle(), "modelMatrix");
-		CheckError();
-		printf("DEBUG: Set Current Model Matrix: %d\n", temp); temp++;
-		LOGINFO("Current Model Matrix Location: %d", location);
 		if(location == -1)
 		{
 			return;
 		}
-		printf("DEBUG: Set Current Model Matrix: %d\n", temp); temp++;
 		glUniformMatrix4fv(location, 1, false, matrix->GetData());
 		CheckError();
-		printf("DEBUG: Set Current Model Matrix: %d\n", temp); temp++;
 	}
 
 	
 	void Renderer_Linux_OpenGL::SetCurrentProjectionMatrix(Matrix4f* matrix)
 	{
-		unsigned int temp = 0;
-		printf("DEBUG: Set Current Projection Matrix: %d\n", temp); temp++;
-		CheckError();
 		int location = glGetUniformLocation(_CurrentShader->GetProgramHandle(), "projectionMatrix");
-		CheckError();
-		printf("DEBUG: Set Current Projection Matrix: %d\n", temp); temp++;
 		if(location == -1)
 		{
 			return;
 		}
-		printf("DEBUG: Set Current Projection Matrix: %d\n", temp); temp++;
 		glUniformMatrix4fv(location, 1, false, matrix->GetData());
 		CheckError();
-		printf("DEBUG: Set Current Projection Matrix: %d\n", temp); temp++;
-
 
 		_projectionMatrix = matrix;
 	}
@@ -358,8 +283,7 @@ printf("foobar\n");
 		if (!success)
 		{
 			glGetShaderInfoLog(shader->GetVertexHandle(), 512, NULL, infoLog);
-			printf("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n");
-			printf("%s", infoLog);
+			LOGERROR("Vertex Shader Compilation failed: %s", infoLog);
 		}
 
 		/* Fragment Shader */
@@ -373,8 +297,7 @@ printf("foobar\n");
 		if (!success)
 		{
 			glGetShaderInfoLog(shader->GetFragmentHandle(), 512, NULL, infoLog);
-			printf("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n");
-			printf("%s", infoLog);
+			LOGERROR("Fragment Shader Compilation failed: %s", infoLog);
 		}
 
 		/* Link shaders */
@@ -389,8 +312,7 @@ printf("foobar\n");
 		glGetProgramiv(shader->GetProgramHandle(), GL_LINK_STATUS, &success);
 		if (!success) {
 			glGetProgramInfoLog(shader->GetProgramHandle(), 512, NULL, infoLog);
-			printf("ERROR::SHADER::PROGRAM::LINKING_FAILED\n");
-			printf("%s", infoLog);
+			LOGERROR("Shader Program Linkage failed: %s", infoLog);
 		}
 
 		/* Delete shader as program is complete */
@@ -443,7 +365,7 @@ printf("foobar\n");
 		glStencilOp(GL_INCR, GL_INCR, GL_INCR);
 		glStencilMask(0xFF);
 
-		//DrawBuffers(bufferData);
+		DrawBuffers(bufferData, RenderDrawCallType::STENCIL);
 
 		glStencilFunc(GL_EQUAL, 1, 0xFF);
 		glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
@@ -465,7 +387,7 @@ printf("foobar\n");
 		glStencilOp(GL_DECR, GL_DECR, GL_DECR);
 		glStencilMask(0xFF);
 
-		//DrawBuffers(bufferData);
+		DrawBuffers(bufferData, RenderDrawCallType::STENCIL);
 
 		glStencilFunc(GL_ALWAYS, 1, 0xFF);
 		glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);

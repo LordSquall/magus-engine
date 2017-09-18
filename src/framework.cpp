@@ -26,7 +26,7 @@ namespace MagusEngine
 		/* Initialise the os */
 		if (_os->Initialise(&_config, &_resources) == false)
 		{
-			printf("Error: Unable to Initialise OS SubSystem!\n");
+			LOGERROR("Unable to Initialise OS SubSystem!");
 			return false;
 		}
 
@@ -315,7 +315,7 @@ namespace MagusEngine
 
 					if (_resources.AddTextureFromFile(e->Attribute("name"), e->Attribute("path")))
 					{
-						printf("[Resources] Loaded Texture: %s\n", e->Attribute("name"));
+						LOGINFO("Loaded Texture: %s", e->Attribute("name"));
 					}
 				}
 
@@ -324,7 +324,7 @@ namespace MagusEngine
 				{
 					if(_resources.AddShaderFromFile(e->Attribute("name"), e->Attribute("vertexpath"), e->Attribute("fragmentpath")))
 					{
-						printf("[Resources] Loaded Shader: %s\n", e->Attribute("name"));
+						LOGINFO("Loaded Shader: %s", e->Attribute("name"));
 					}
 				}
 
@@ -333,7 +333,7 @@ namespace MagusEngine
 				{
 					if(_resources.AddFontFromFile(e->Attribute("name"), e->Attribute("path")))
 					{
-						printf("[Resources] Loaded Font: %s\n", e->Attribute("name"));
+						LOGINFO("Loaded Font: %s", e->Attribute("name"));
 					}
 				}
 
@@ -358,7 +358,7 @@ namespace MagusEngine
 				{
 					if (_resources.AddMeshFromFile(e->Attribute("name"), e->Attribute("path")))
 					{
-						printf("[Resources] Loaded Mesh: %s\n", e->Attribute("name"));
+						LOGINFO("Loaded Mesh: %s", e->Attribute("name"));
 					}
 				}
 			}

@@ -16,17 +16,16 @@ namespace MagusEngine
 
 	void GraphicsVisitor::Visit(SceneNode* sceneNode)
 	{
-		printf("Visiting Scene Node: %s\n", sceneNode->GetName());
+;
 	}
 
 	void GraphicsVisitor::Visit(Component* component)
 	{
-		printf("Visiting Component\n");
+
 	}
 
 	void GraphicsVisitor::Visit(Graphic2D* graphic2D)
 	{
-		printf("Visiting Graphic2D\n");
 
 		//_lowLevelRenderer->DrawBuffer(graphic2D);
 	}
