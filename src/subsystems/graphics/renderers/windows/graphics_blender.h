@@ -6,7 +6,7 @@
 /* Local Project Includes */
 #include "../software/renderer_software.h"
 #include "../windows/renderer_windows_opengl.h"
-#include "../resources/resources.h"
+#include "../../../resources/resources.h"
 
 namespace MagusEngine
 {

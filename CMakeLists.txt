@@ -25,7 +25,7 @@ message(STATUS "Found GLFW3 in ${GLFW3_INCLUDE_DIR}")
 find_package (Threads REQUIRED)
 
 if(WIN32)
-  set(LIBS glfw3 opengl32 assimp glew)
+  set(LIBS glfw3 opengl32 assimp)
 elseif(UNIX AND NOT APPLE)
   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
   find_package(OpenGL REQUIRED)
@@ -242,7 +242,13 @@ include_directories("${PROJECT_BINARY_DIR}")
 
 # add relavent libraries
 add_library(GLAD "${CMAKE_SOURCE_DIR}/external/src/glad.c")
-set(LIBS ${LIBS} GLAD dl)
+if(WIN32)
+  set(LIBS ${LIBS} GLAD)
+elseif(UNIX AND NOT APPLE)
+  set(LIBS ${LIBS} GLAD ld)
+else()
+  set(LIBS )
+endif(WIN32)
 
 # add the executable
 add_executable(MagusEngine
