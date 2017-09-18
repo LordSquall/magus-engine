@@ -57,7 +57,7 @@ namespace MagusEngine
 		{
 			Graphic2D* filterData = (Graphic2D*)sceneNode->GetComponent(0);
 
-			//_lowLevelRenderer->ActivateFilter(filterData->GetHWRenderDataHandle());
+			_lowLevelRenderer->ActivateFilter(filterData->GetFillDataHandle());
 		}
 	}
 
@@ -75,7 +75,7 @@ namespace MagusEngine
 		{
 			Graphic2D* filterData = (Graphic2D*)sceneNode->GetComponent(0);
 
-			//_lowLevelRenderer->DeactivateFilter(filterData->GetHWRenderDataHandle());
+			_lowLevelRenderer->DeactivateFilter(filterData->GetFillDataHandle());
 		}
 
 		if (sceneNode->GetMaterial() != NULL)

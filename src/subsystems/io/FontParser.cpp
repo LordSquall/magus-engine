@@ -60,7 +60,7 @@ namespace MagusEngine
 		{
 			/* Full path buffer */
 			char fullPathBuffer[255];
-			sprintf(fullPathBuffer, "\\resources\\fonts\\%s.png", font->GetName());
+			sprintf(fullPathBuffer, "/resources/fonts/%s.png", font->GetName());
 
 			resources->AddTextureFromFile(font->GetName(), fullPathBuffer);
 
