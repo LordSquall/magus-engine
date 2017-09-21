@@ -6,6 +6,7 @@
 #include <GLFW/glfw3.h>
 
 /* Local Project Includes */
+#include "camera.h"
 #include "graphics_visitor.h"
 #include "renderers/renderer_interface.h"
 #include "../os/os_interface.h"
@@ -42,7 +43,8 @@ namespace MagusEngine
 		FrameworkConfig*	_config;
 		GLFWwindow*			_window;
 
-		Matrix4f			_projectionMatrix;
+		Matrix4f			_2DProjectionMatrix;
+		Matrix4f			_3DProjectionMatrix;
 
 		Renderer_Interface* _lowLevelHardwareRenderer;
 		Renderer_Interface*	_lowLevelSoftwareRenderer;
@@ -57,6 +59,8 @@ namespace MagusEngine
 
 		std::thread			_hardwareRendererThread;
 		std::thread			_softwareRendererThread;
+
+		Camera				_camera;
 
 		Graphics_Blender*	_graphicsBlender;
 	};

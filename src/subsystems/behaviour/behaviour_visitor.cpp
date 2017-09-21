@@ -14,7 +14,7 @@ namespace MagusEngine
 	}
 
 	/* Visitor Functions */
-	bool BehaviourVisitor::Initialise(Renderer_Interface* lowlevelRenderer, Resources* resources)
+	bool BehaviourVisitor::Initialise(Renderer_Interface* lowlevelRenderer, Resources* resources, Camera* camera, Matrix4f* projection2D, Matrix4f* projection3D)
 	{
 		return true;
 	}
@@ -53,6 +53,10 @@ namespace MagusEngine
 		{
 			sceneNode->SetRotation(0.0f, 0.0f, sceneNode->GetRotation()->z + 1.0f);
 		}
+		if (strcmp(sceneNode->GetName(), "testcube") == 0)
+		{
+			//sceneNode->SetRotation(0.0f, 0.0f, sceneNode->GetRotation()->z + 1.0f);
+		}
 	}
 	void BehaviourVisitor::PostVisit(SceneNode* sceneNode) {}
 
@@ -83,4 +87,12 @@ namespace MagusEngine
 	void BehaviourVisitor::PreVisit(Path* path) {}
 	void BehaviourVisitor::Visit(Path* path) {}
 	void BehaviourVisitor::PostVisit(Path* path) {}
+
+	void BehaviourVisitor::PreVisit(Graphic3D* graphic3d) {}
+	void BehaviourVisitor::Visit(Graphic3D* graphic3d) {}
+	void BehaviourVisitor::PostVisit(Graphic3D* graphic3d) {}
+
+	void BehaviourVisitor::PreVisit(Model* model) {}
+	void BehaviourVisitor::Visit(Model* model) {}
+	void BehaviourVisitor::PostVisit(Model* model) {}
 }

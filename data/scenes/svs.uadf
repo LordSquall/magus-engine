@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scene title="Synthetic Vision System">
+	
+	<styles>
+
+	</styles>
+	
+	<graphicalmodel>
+		<node name="root" children="5">
+		
+			<!-- test components -->
+			<node name="test" children="11">
+				<transform>
+					<position x="0.0" y="0.0" z="0.0" />
+					<rotation x="0.0" y="0.0" z="0.0" />
+					<scale x="1.0" y="1.0" z="1.0" />
+				</transform>
+
+				<node name="testcube" children="0">
+					<transform>
+						<position x="0.0" y="0.0" z="0.0" />
+						<rotation x="0.0" y="0.0" z="0.0" />
+						<scale x="1.0" y="1.0" z="1.0" />
+					</transform>
+					<components count="1">
+						<graphics3d>
+							<model mesh="default"/>
+						</graphics3d>
+					</components>
+				</node>
+			</node>
+			
+		</node>
+	</graphicalmodel>
+
+</scene>

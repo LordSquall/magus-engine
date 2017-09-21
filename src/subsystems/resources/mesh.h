@@ -23,8 +23,12 @@ namespace MagusEngine
 
 		/* Getters */
 		char* GetName();
+
 		Vertex* GetVertices();
+		unsigned int GetVertexCount();
+
 		unsigned int* GetIndices();
+		unsigned int GetIndicesCount();
 
 		/* Setters */
 		void SetName(const char* name);

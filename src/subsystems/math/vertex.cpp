@@ -7,6 +7,7 @@ namespace MagusEngine
 	{
 		_position	= Vector4f(0.0f, 0.0f, 0.0f, 1.0f);
 		_color		= Vector4f(0.0f, 0.0f, 0.0f, 0.0f);
+		_normal		= Vector3f(0.0f, 0.0f, 0.0);
 		_extrude	= Vector2f(0.0f, 0.0f);
 		_uv			= Vector2f(0.0f, 0.0f);
 	}
@@ -15,14 +16,16 @@ namespace MagusEngine
 	{
 		_position	= Vector4f(x, y, z, 1.0f);
 		_color		= Vector4f(r, g, b, a);
+		_normal		= Vector3f(0.0f, 0.0f, 0.0);
 		_extrude	= Vector2f(0.0f, 0.0f);
 		_uv			= Vector2f(0.0f, 0.0f);
 	}
 
-	Vertex::Vertex(Vector4f position, Vector4f color, Vector2f extrude, Vector2f uv)
+	Vertex::Vertex(Vector4f position, Vector4f color, Vector3f normal, Vector2f extrude, Vector2f uv)
 	{
 		_position = position;
 		_color = color;
+		_normal = normal;
 		_extrude = extrude;
 		_uv = uv;
 	}
@@ -42,6 +45,10 @@ namespace MagusEngine
 	float Vertex::GetB() { return _color.z; }
 	float Vertex::GetA() { return _color.w; }
 
+	float Vertex::GetNX() { return _normal.x; }
+	float Vertex::GetNY() { return _normal.y; }
+	float Vertex::GetNZ() { return _normal.z; }
+
 	float Vertex::GetU() { return _uv.x; }
 	float Vertex::GetV() { return _uv.y; }
 
@@ -59,6 +66,13 @@ namespace MagusEngine
 		_color.y = g;
 		_color.z = b;
 		_color.w = a;
+	}
+
+	void Vertex::SetNormal(float x, float y, float z)
+	{
+		_normal.x = x;
+		_normal.y = y;
+		_normal.z = z;
 	}
 
 	void Vertex::SetExtrude(float x, float y)
@@ -83,12 +97,16 @@ namespace MagusEngine
 	void Vertex::SetB(float b) { _color.z = b; }
 	void Vertex::SetA(float a) { _color.w = a; }
 
+	void Vertex::SetNX(float x) { _normal.x = x; }
+	void Vertex::SetNY(float y) { _normal.y = y; }
+	void Vertex::SetNZ(float z) { _normal.z = z; }
+
 	void Vertex::SetU(float u) { _uv.x = u; }
 	void Vertex::SetV(float v) { _uv.y = v; }
 
 	Vertex Vertex::Transform(Matrix4f matrix)
 	{
-		return Vertex(matrix * _position, _color, _extrude, _uv);
+		return Vertex(matrix * _position, _color, _normal, _extrude, _uv);
 	}
 
 	Vertex Vertex::PrespectiveDivide()
@@ -96,6 +114,7 @@ namespace MagusEngine
 		return Vertex(
 			Vector4f(_position.x / _position.w, _position.y / _position.w, _position.z / _position.w, _position.w),
 			_color,
+			_normal,
 			_extrude,
 			_uv);
 	}

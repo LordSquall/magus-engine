@@ -40,6 +40,14 @@ namespace MagusEngine
 		Vector3f();
 		Vector3f(float x, float y, float z);
 
+		float Length();
+
+		static Vector3f Normalise(Vector3f v);
+		static Vector3f Cross(Vector3f a, Vector3f b);
+
+		void Normalise();
+		Vector3f Cross(Vector3f* other);
+		float Dot(Vector3f* other);
 
 		Vector3f operator+(const Vector3f& b);
 		Vector3f operator-(const Vector3f& b);

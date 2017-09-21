@@ -515,11 +515,11 @@ namespace MagusEngine
 	}
 
 	/* Mesh Functions */
-	bool Resources::AddMesh(const char* name, Mesh* font)
+	bool Resources::AddMesh(const char* name, Mesh* mesh)
 	{
 		MeshDataItem* dataItem = new MeshDataItem();
 		strcpy(dataItem->id, name);
-		dataItem->data = font;
+		dataItem->data = mesh;
 
 		_meshHashTable.Insert(dataItem);
 

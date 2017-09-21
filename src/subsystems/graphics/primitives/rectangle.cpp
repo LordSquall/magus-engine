@@ -45,10 +45,10 @@ namespace MagusEngine
 
 
 		/* Build vertex buffer */
-		vbuffer[0] = Vertex(Vector4f(_x, _y, 0.0f, 1.0f), Vector4f(1.0f, 0.0f, 0.0f, 1.0f), Vector2f(), Vector2f(0.0f, 1.0f));
-		vbuffer[1] = Vertex(Vector4f(_x, _y + _height, 0.0f, 1.0f), Vector4f(0.0f, 1.0f, 0.0f, 1.0f), Vector2f(), Vector2f(0.0f, 0.0f));
-		vbuffer[2] = Vertex(Vector4f(_x + _width, _y, 0.0f, 1.0f), Vector4f(0.0f, 0.0f, 1.0f, 1.0f), Vector2f(), Vector2f(1.0f, 1.0f));
-		vbuffer[3] = Vertex(Vector4f(_x + _width, _y + _height, 0.0f, 1.0f), Vector4f(1.0f, 1.0f, 1.0f, 1.0f), Vector2f(), Vector2f(1.0f, 0.0f));
+		vbuffer[0] = Vertex(Vector4f(_x, _y, 0.0f, 1.0f), Vector4f(1.0f, 0.0f, 0.0f, 1.0f), Vector3f(), Vector2f(), Vector2f(0.0f, 1.0f));
+		vbuffer[1] = Vertex(Vector4f(_x, _y + _height, 0.0f, 1.0f), Vector4f(0.0f, 1.0f, 0.0f, 1.0f), Vector3f(), Vector2f(), Vector2f(0.0f, 0.0f));
+		vbuffer[2] = Vertex(Vector4f(_x + _width, _y, 0.0f, 1.0f), Vector4f(0.0f, 0.0f, 1.0f, 1.0f), Vector3f(), Vector2f(), Vector2f(1.0f, 1.0f));
+		vbuffer[3] = Vertex(Vector4f(_x + _width, _y + _height, 0.0f, 1.0f), Vector4f(1.0f, 1.0f, 1.0f, 1.0f), Vector3f(), Vector2f(), Vector2f(1.0f, 0.0f));
 		
 		/* Build indicies buffer */
 		ibuffer[0] = 0;
@@ -95,13 +95,13 @@ namespace MagusEngine
 			deltaneg.Normalise();
 
 			/* Segement vertices*/
-			vbuffer[vertcounter    ] = Vertex(*ptA, Vector4f(1.0f, 0.0f, 0.0f, 1.0f), deltapos, Vector2f(0.0f, 1.0f));
-			vbuffer[vertcounter + 1] = Vertex(*ptA, Vector4f(0.0f, 1.0f, 0.0f, 1.0f), deltaneg, Vector2f(0.0f, 0.0f));
-			vbuffer[vertcounter + 2] = Vertex(*ptB, Vector4f(0.0f, 0.0f, 1.0f, 1.0f), deltapos, Vector2f(1.0f, 1.0f));
-			vbuffer[vertcounter + 3] = Vertex(*ptB, Vector4f(1.0f, 1.0f, 1.0f, 1.0f), deltaneg, Vector2f(1.0f, 0.0f));
+			vbuffer[vertcounter    ] = Vertex(*ptA, Vector4f(1.0f, 0.0f, 0.0f, 1.0f), Vector3f(), deltapos, Vector2f(0.0f, 1.0f));
+			vbuffer[vertcounter + 1] = Vertex(*ptA, Vector4f(0.0f, 1.0f, 0.0f, 1.0f), Vector3f(), deltaneg, Vector2f(0.0f, 0.0f));
+			vbuffer[vertcounter + 2] = Vertex(*ptB, Vector4f(0.0f, 0.0f, 1.0f, 1.0f), Vector3f(), deltapos, Vector2f(1.0f, 1.0f));
+			vbuffer[vertcounter + 3] = Vertex(*ptB, Vector4f(1.0f, 1.0f, 1.0f, 1.0f), Vector3f(), deltaneg, Vector2f(1.0f, 0.0f));
 
 			/* Corner vertices */
-			vbuffer[vertcounter + 4] = Vertex(*ptB, Vector4f(1.0f, 1.0f, 1.0f, 1.0f), cornerpos, Vector2f(1.0f, 0.0f));
+			vbuffer[vertcounter + 4] = Vertex(*ptB, Vector4f(1.0f, 1.0f, 1.0f, 1.0f), Vector3f(), cornerpos, Vector2f(1.0f, 0.0f));
 
 			/* Segement indices */
 			ibuffer[indexcounter    ] = (i * 5);

@@ -19,7 +19,8 @@ namespace MagusEngine
 		FILL_2D,
 		STROKE_2D,
 		TEXT,
-		STENCIL
+		STENCIL,
+		FILL_3D
 	};
 
 	class Renderer_Interface
@@ -45,6 +46,7 @@ namespace MagusEngine
 		virtual unsigned int DrawBuffers(VBO_Structure* bufferData, RenderDrawCallType type) = 0;
 		virtual void SetCurrentModelMatrix(Matrix4f* matrix) = 0;
 		virtual void SetCurrentProjectionMatrix(Matrix4f* matrix) = 0;
+		virtual void SetCurrentViewMatrix(Matrix4f* matrix) = 0;
 		virtual void SetMaterial(Material* material) = 0;
 		virtual void SetTexture(Texture* texture) = 0;
 

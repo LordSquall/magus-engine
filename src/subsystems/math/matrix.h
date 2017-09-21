@@ -58,9 +58,11 @@ namespace MagusEngine
 		void BuildScale(float x, float y, float z);
 		void BuildScale(Vector3f* vec);
 		void BuildScreenSpaceTransform(float halfwidth, float halfheight);
+		void BuildLookAt(Vector3f eye, Vector3f center, Vector3f up);
 
 		void BuildOrthographic(float left, float right, float top, float bottom, float znear, float zfar);
 		void BuildPerspective(float fov, float aspectRatio, float znear, float zfar);
+		void BuildFrustum(float l, float r, float t, float b, float n, float f);
 
 		Vector4f operator*(const Vector4f& b);
 

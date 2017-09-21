@@ -15,7 +15,7 @@ namespace MagusEngine
 	}
 
 	/* Visitor Functions */
-	bool Renderer_Software_Render_Visitor::Initialise(Renderer_Interface* lowlevelRenderer, Resources* resources)
+	bool Renderer_Software_Render_Visitor::Initialise(Renderer_Interface* lowlevelRenderer, Resources* resources, Camera* camera, Matrix4f* projection2D, Matrix4f* projection3D)
 	{
 		_lowLevelRenderer = lowlevelRenderer;
 		_resources = resources;
@@ -25,6 +25,11 @@ namespace MagusEngine
 		/* Add a identify to matric to the top of the stack*/
 		_matrixStack[_matrixStackHead] = Matrix4f();
 		_matrixStackHead++;
+
+		_2DProjection = projection2D;
+		_3DProjection = projection3D;
+
+		_lowLevelRenderer->SetCurrentProjectionMatrix(_2DProjection);
 
 		return true;
 	}
@@ -172,6 +177,14 @@ namespace MagusEngine
 	void Renderer_Software_Render_Visitor::PreVisit(Path* path) {}
 	void Renderer_Software_Render_Visitor::Visit(Path* path) {}
 	void Renderer_Software_Render_Visitor::PostVisit(Path* path) {}
+
+	void Renderer_Software_Render_Visitor::PreVisit(Graphic3D* graphic3d) {}
+	void Renderer_Software_Render_Visitor::Visit(Graphic3D* graphic3d) {}
+	void Renderer_Software_Render_Visitor::PostVisit(Graphic3D* graphic3d) {}
+
+	void Renderer_Software_Render_Visitor::PreVisit(Model* model) {}
+	void Renderer_Software_Render_Visitor::Visit(Model* model) {}
+	void Renderer_Software_Render_Visitor::PostVisit(Model* model) {}
 
 	/* Getters */
 	Renderer_Interface* Renderer_Software_Render_Visitor::GetLowLevelRenderer()

@@ -248,6 +248,11 @@ namespace MagusEngine
 		_projectionMatix = matrix;
 	}
 
+	void Renderer_Software::SetCurrentViewMatrix(Matrix4f* matrix)
+	{
+
+	}
+
 	void Renderer_Software::SetMaterial(Material* material)
 	{
 		/* Set the Current Material */

@@ -57,7 +57,7 @@ namespace MagusEngine
 
 			for (int y = 0; y < 3; y++)
 			{
-				vbuffer[(x * 3) + y] = Vertex(Vector4f((float)tri->GetPoint(y)->x, (float)tri->GetPoint(y)->y, 0.0f, 1.0f), Vector4f(1.0f, 0.0f, 0.0f, 1.0f), Vector2f(), Vector2f(0.0f, 1.0f));
+				vbuffer[(x * 3) + y] = Vertex(Vector4f((float)tri->GetPoint(y)->x, (float)tri->GetPoint(y)->y, 0.0f, 1.0f), Vector4f(1.0f, 0.0f, 0.0f, 1.0f), Vector3f(), Vector2f(), Vector2f(0.0f, 1.0f));
 
 				ibuffer[(x * 3) + y] = (x * 3) + y;
 

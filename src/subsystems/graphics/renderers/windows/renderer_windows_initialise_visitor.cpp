@@ -2,6 +2,7 @@
 
 #include "../../../scenemanagement/scenenode.h"
 #include "../../graphic2d.h"
+#include "../../graphic3d.h"
 
 
 namespace MagusEngine
@@ -14,7 +15,7 @@ namespace MagusEngine
 	}
 
 	/* Visitor Functions */
-	bool Renderer_Windows_Initialise_Visitor::Initialise(Renderer_Interface* lowlevelRenderer, Resources* resources)
+	bool Renderer_Windows_Initialise_Visitor::Initialise(Renderer_Interface* lowlevelRenderer, Resources* resources, Camera* camera, Matrix4f* projection2D, Matrix4f* projection3D)
 	{
 		_lowLevelRenderer = lowlevelRenderer;
 		_resources = resources;
@@ -29,6 +30,7 @@ namespace MagusEngine
 		{
 			_lowLevelRenderer->CreateTexture(resources->GetTexture(i));
 		}
+
 
 		return true;
 	}
@@ -111,6 +113,43 @@ namespace MagusEngine
 	void Renderer_Windows_Initialise_Visitor::PreVisit(Path* path) {}
 	void Renderer_Windows_Initialise_Visitor::Visit(Path* path) {}
 	void Renderer_Windows_Initialise_Visitor::PostVisit(Path* path) {}
+
+	void Renderer_Windows_Initialise_Visitor::PreVisit(Graphic3D* graphic3d) {}
+	void Renderer_Windows_Initialise_Visitor::Visit(Graphic3D* graphic3d)
+	{	
+		/* Software rendering only occurs on non-critical components */
+		if (_buildCritical == false)
+		{
+			VBO_Structure vboData;
+
+			/* Use the attached drawable to build the geometry data */
+			Drawable* d = graphic3d->GetDrawable();
+
+			/* Get renferences to GHandles of the graphics object */
+			VBO_Structure* gHandle = graphic3d->GetDataHandle();
+
+			d->Build(&_vertexBuildBuffer[0], &_indicesBuildBuffer[0], &vboData, NULL);
+
+			/* Genearte fill vertex data for the low level renderer */
+			gHandle->enabled = vboData.enabled;
+			gHandle->vertexstart = vboData.vertexstart;
+			gHandle->vertexlength = vboData.vertexlength;
+			gHandle->vertexmax = vboData.vertexmax;
+			gHandle->vertexhandle = _lowLevelRenderer->GenerateVertexBuffer(&_vertexBuildBuffer[0], gHandle);
+
+			/* Genearte fill index data for the low level renderer */
+			gHandle->indexstart = vboData.indexstart;
+			gHandle->indexlength = vboData.indexlength;
+			gHandle->indexmax = vboData.indexmax;
+			gHandle->indexhandle = _lowLevelRenderer->GenerateIndicesBuffer(&_indicesBuildBuffer[0], gHandle);
+
+		}
+	}
+	void Renderer_Windows_Initialise_Visitor::PostVisit(Graphic3D* graphic3d) {}
+
+	void Renderer_Windows_Initialise_Visitor::PreVisit(Model* model) {}
+	void Renderer_Windows_Initialise_Visitor::Visit(Model* model) {}
+	void Renderer_Windows_Initialise_Visitor::PostVisit(Model* model) {}
 
 	/* Getters */
 	Renderer_Interface* Renderer_Windows_Initialise_Visitor::GetLowLevelRenderer()

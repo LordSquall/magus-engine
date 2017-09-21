@@ -217,6 +217,9 @@ namespace MagusEngine
 		if (strcmp(element->Name(), "graphics2d") == 0)
 		{
 			return ProcessSceneNodeComponentGraphics2D(element);
+		}else if (strcmp(element->Name(), "graphics3d") == 0)
+		{
+			return ProcessSceneNodeComponentGraphics3D(element);
 		}
 		
 		return NULL;
@@ -262,5 +265,25 @@ namespace MagusEngine
 		}
 
 		return newGraphics2DComponent;
+	}
+
+	Graphic3D* SceneParser::ProcessSceneNodeComponentGraphics3D(tinyxml2::XMLElement* element)
+	{
+		/* Create component as a 3d graphic */
+		Graphic3D* newGraphics3DComponent = new Graphic3D();
+
+		/* Process each of the children tags in turn */
+		for (tinyxml2::XMLElement* e = element->FirstChildElement(); e != NULL; e = e->NextSiblingElement())
+		{
+			/* Check to determine the type of the drawable */
+			if (strcmp(e->Name(), "model") == 0)
+			{
+				Model* newModel = new Model();
+				newModel->SetMesh(_resources->GetMesh(e->Attribute("mesh")));
+				newGraphics3DComponent->SetDrawable(newModel);
+			}
+		}
+
+		return newGraphics3DComponent;
 	}
 }

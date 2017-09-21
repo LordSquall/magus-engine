@@ -53,9 +53,17 @@ namespace MagusEngine
 		_lowLevelHardwareRenderer->Initialise(this, _config->width, _config->height, 1000.0f, -1.0f, false);
 
 		_lowLevelSoftwareRenderer = new Renderer_Software(_config);
-		_lowLevelSoftwareRenderer->Initialise(os, _config->width, _config->height, 0, 10000, false);
+		_lowLevelSoftwareRenderer->Initialise(os, _config->width, _config->height,  -10.0f, 100.0f, false);
 
-		_projectionMatrix.BuildOrthographic(0.0f, (float)config->width, (float)config->height, 0.0f, 1.0f, -1.0f);
+		_2DProjectionMatrix.BuildOrthographic(0.0f, (float)config->width, (float)config->height, 0.0f, -15.0f, 15.0f);
+		//_2DProjectionMatrix.BuildIdentity();
+
+		//_3DProjectionMatrix.BuildPerspective(0.0f, config->width, 0.0f, config->height, -1.0f, 1000.0f);
+
+		_3DProjectionMatrix.BuildPerspective(90.0f, (float)config->width / (float)config->height, 0.1f, 100.0f);
+		//_3DProjectionMatrix.BuildIdentity();
+
+		_camera.Initialise(Vector3f(0.0f, 0.0f, -1000.0f), Vector3f(0.0f, 0.0f, 0.0f));
 
 		return true;
 	}
@@ -83,25 +91,21 @@ namespace MagusEngine
 		/* retrieve hardware path visitors */
 		_hardwareInitialiseVisitor = _os->GetLowLevelRendererInitialisationVisitor();
 
-		_hardwareInitialiseVisitor->Initialise(_lowLevelHardwareRenderer, _resources);
+		_hardwareInitialiseVisitor->Initialise(_lowLevelHardwareRenderer, _resources, &_camera,  &_2DProjectionMatrix, &_3DProjectionMatrix);
 
 		_hardwareRenderVisitor = _os->GetLowLevelRendererRenderVisitor();
 
-		_hardwareRenderVisitor->Initialise(_lowLevelHardwareRenderer, _resources);
+		_hardwareRenderVisitor->Initialise(_lowLevelHardwareRenderer, _resources, &_camera, &_2DProjectionMatrix, &_3DProjectionMatrix);
 
 		/* Initialise software path visitors */
 		_softwareInitialiseVisitor = new Renderer_Software_Initialise_Visitor((Renderer_Software*)_lowLevelSoftwareRenderer);
 
-		_softwareInitialiseVisitor->Initialise(_lowLevelSoftwareRenderer, _resources);
+		_softwareInitialiseVisitor->Initialise(_lowLevelSoftwareRenderer, _resources, &_camera,  &_2DProjectionMatrix, &_3DProjectionMatrix);
 
 		_softwareRenderVisitor = new Renderer_Software_Render_Visitor();
 		
-		_softwareRenderVisitor->Initialise(_lowLevelSoftwareRenderer, _resources);
+		_softwareRenderVisitor->Initialise(_lowLevelSoftwareRenderer, _resources, &_camera, &_2DProjectionMatrix, &_3DProjectionMatrix);
 
-		/* Set the Projection Matrix for both renderers */
-		_lowLevelHardwareRenderer->SetCurrentProjectionMatrix(&_projectionMatrix);
-
-		_lowLevelSoftwareRenderer->SetCurrentProjectionMatrix(&_projectionMatrix);
 
 		_graphicsBlender = new Graphics_Blender();
 

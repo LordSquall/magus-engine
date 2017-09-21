@@ -43,10 +43,10 @@ namespace MagusEngine
 			Glyph* g = _font->GetGlyph(_content[i]);
 
 			/* Build vertex buffer */
-			vbuffer[(i * 4) + 0] = Vertex(Vector4f(_x + xcursor					, _y				 , 0.0f, 1.0f), Vector4f(1.0f, 0.0f, 0.0f, 1.0f), Vector2f(), Vector2f(g->GetUVBL().x, g->GetUVBL().y));
-			vbuffer[(i * 4) + 1] = Vertex(Vector4f(_x + xcursor					, _y + g->GetHeight(), 0.0f, 1.0f), Vector4f(1.0f, 0.0f, 0.0f, 1.0f), Vector2f(), Vector2f(g->GetUVTL().x, g->GetUVTL().y));
-			vbuffer[(i * 4) + 2] = Vertex(Vector4f(_x + xcursor + g->GetWidth() , _y				 , 0.0f, 1.0f), Vector4f(1.0f, 0.0f, 0.0f, 1.0f), Vector2f(), Vector2f(g->GetUVBR().x, g->GetUVBR().y));
-			vbuffer[(i * 4) + 3] = Vertex(Vector4f(_x + xcursor + g->GetWidth() , _y + g->GetHeight(), 0.0f, 1.0f), Vector4f(1.0f, 0.0f, 0.0f, 1.0f), Vector2f(), Vector2f(g->GetUVTR().x, g->GetUVTR().y));
+			vbuffer[(i * 4) + 0] = Vertex(Vector4f(_x + xcursor					, _y				 , 0.0f, 1.0f), Vector4f(1.0f, 0.0f, 0.0f, 1.0f), Vector3f(), Vector2f(), Vector2f(g->GetUVBL().x, g->GetUVBL().y));
+			vbuffer[(i * 4) + 1] = Vertex(Vector4f(_x + xcursor					, _y + g->GetHeight(), 0.0f, 1.0f), Vector4f(1.0f, 0.0f, 0.0f, 1.0f), Vector3f(), Vector2f(), Vector2f(g->GetUVTL().x, g->GetUVTL().y));
+			vbuffer[(i * 4) + 2] = Vertex(Vector4f(_x + xcursor + g->GetWidth() , _y				 , 0.0f, 1.0f), Vector4f(1.0f, 0.0f, 0.0f, 1.0f), Vector3f(), Vector2f(), Vector2f(g->GetUVBR().x, g->GetUVBR().y));
+			vbuffer[(i * 4) + 3] = Vertex(Vector4f(_x + xcursor + g->GetWidth() , _y + g->GetHeight(), 0.0f, 1.0f), Vector4f(1.0f, 0.0f, 0.0f, 1.0f), Vector3f(), Vector2f(), Vector2f(g->GetUVTR().x, g->GetUVTR().y));
 
 			/* Build indicies buffer */
 			ibuffer[indicesCount + 0] = vertCount + 0;

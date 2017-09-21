@@ -28,6 +28,7 @@ namespace MagusEngine
 		
 		glBindVertexArray(_vao);
 
+		glDisable(GL_CULL_FACE);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -97,10 +98,12 @@ namespace MagusEngine
 		CheckError();
 		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(4 * sizeof(float)));
-		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(8 * sizeof(float)));
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(8 * sizeof(float)));
+		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(11 * sizeof(float)));
 		glEnableVertexAttribArray(0);	
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);
+		glEnableVertexAttribArray(3);
 		CheckError();
 		return VBO;
 	}
@@ -117,7 +120,6 @@ namespace MagusEngine
 
 		return EBO;
 	}
-
 
 	unsigned int Renderer_Windows_OpenGL::UpdateVertexBuffer(VBO_Structure* bufferData, Vertex* vertices, unsigned int vertexStart, unsigned int vertexCount)
 	{
@@ -142,14 +144,18 @@ namespace MagusEngine
 
 	unsigned int Renderer_Windows_OpenGL::DrawBuffers(VBO_Structure* bufferData, RenderDrawCallType type)
 	{
-		unsigned int location;
 
-		location = glGetUniformLocation(_CurrentShader->GetProgramHandle(), "projectionMatrix");
-		if(location == -1)
+		/* Build mvp matrix */
+		Matrix4f mvp = (*_projectionMatrix) * (*_viewMatrix) * (*_modelMatrix);
+
+		int location = glGetUniformLocation(_CurrentShader->GetProgramHandle(), "mvp");
+		CheckError();
+		if (location == -1)
 		{
 			return false;
 		}
-		glUniformMatrix4fv(location, 1, false, _projectionMatrix->GetData());
+		glUniformMatrix4fv(location, 1, false, mvp.GetData());
+		CheckError();
 
 		location = glGetUniformLocation(_CurrentShader->GetProgramHandle(), "uni_renderPassType");
 		if (location == -1)
@@ -169,7 +175,10 @@ namespace MagusEngine
 		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(4 * sizeof(float)));
 
 		CheckError();
-		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(8 * sizeof(float)));
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(8 * sizeof(float)));
+
+		CheckError();
+		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(11 * sizeof(float)));
 
 		CheckError();
 		glEnableVertexAttribArray(0);	
@@ -181,6 +190,9 @@ namespace MagusEngine
 		glEnableVertexAttribArray(2);
 
 		CheckError();
+		glEnableVertexAttribArray(3);
+
+		CheckError();
 		glDrawElements(GL_TRIANGLES, bufferData->indexlength, GL_UNSIGNED_INT, 0);
 
 
@@ -190,31 +202,17 @@ namespace MagusEngine
 
 	void Renderer_Windows_OpenGL::SetCurrentModelMatrix(Matrix4f* matrix)
 	{
-		CheckError();
-		int location = glGetUniformLocation(_CurrentShader->GetProgramHandle(), "modelMatrix");
-		CheckError();
-		if(location == -1)
-		{
-			return;
-		}
-		glUniformMatrix4fv(location, 1, false, matrix->GetData());
-		CheckError();
+		_modelMatrix = matrix;
 	}
 
-	
 	void Renderer_Windows_OpenGL::SetCurrentProjectionMatrix(Matrix4f* matrix)
 	{
-		CheckError();
-		int location = glGetUniformLocation(_CurrentShader->GetProgramHandle(), "projectionMatrix");
-		CheckError();
-		if(location == -1)
-		{
-			return;
-		}
-		glUniformMatrix4fv(location, 1, false, matrix->GetData());
-		CheckError();
-
 		_projectionMatrix = matrix;
+	}
+
+	void Renderer_Windows_OpenGL::SetCurrentViewMatrix(Matrix4f* matrix)
+	{
+		_viewMatrix = matrix;
 	}
 
 	void Renderer_Windows_OpenGL::SetMaterial(Material* material)

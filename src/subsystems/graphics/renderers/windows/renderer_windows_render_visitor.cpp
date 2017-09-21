@@ -2,6 +2,7 @@
 
 #include "../../../scenemanagement/scenenode.h"
 #include "../../graphic2d.h"
+#include "../../graphic3d.h"
 #include "../../primitives/text.h"
 
 namespace MagusEngine
@@ -17,7 +18,7 @@ namespace MagusEngine
 	}
 
 	/* Visitor Functions */
-	bool Renderer_Windows_Render_Visitor::Initialise(Renderer_Interface* lowlevelRenderer, Resources* resources)
+	bool Renderer_Windows_Render_Visitor::Initialise(Renderer_Interface* lowlevelRenderer, Resources* resources, Camera* camera, Matrix4f* projection2D, Matrix4f* projection3D)
 	{
 		_lowLevelRenderer = lowlevelRenderer;
 		_resources = resources;
@@ -25,6 +26,13 @@ namespace MagusEngine
 		/* Add a identify to matric to the top of the stack*/
 		_matrixStack[_matrixStackHead] = Matrix4f();
 		_matrixStackHead++;
+
+		_2DProjection = projection2D;
+		_3DProjection = projection3D;
+
+		_lowLevelRenderer->SetCurrentProjectionMatrix(_2DProjection);
+
+		_lowLevelRenderer->SetCurrentViewMatrix(camera->GetViewMatrix());
 
 		return true;
 	}
@@ -88,6 +96,9 @@ namespace MagusEngine
 	{
 		if (_renderCritical == false)
 		{
+			/* Set the 2D projection matrix */
+			_lowLevelRenderer->SetCurrentProjectionMatrix(_2DProjection);
+
 			/* Check incase update is required */
 			if (graphic2D->updateRequired == true)
 			{
@@ -177,6 +188,29 @@ namespace MagusEngine
 	void Renderer_Windows_Render_Visitor::PreVisit(Path* path) {}
 	void Renderer_Windows_Render_Visitor::Visit(Path* path) {}
 	void Renderer_Windows_Render_Visitor::PostVisit(Path* path) {}
+
+	void Renderer_Windows_Render_Visitor::PreVisit(Graphic3D* graphic3d) {}
+	void Renderer_Windows_Render_Visitor::Visit(Graphic3D* graphic3d) 
+	{
+		if (_renderCritical == false)
+		{
+
+			/* Set the 3D projection matrix */
+			_lowLevelRenderer->SetCurrentProjectionMatrix(_3DProjection);
+
+			/* Draw fill data */
+			if (graphic3d->GetDataHandle()->enabled == true)
+			{
+				if (_lowLevelRenderer->GetMaterial()->GetEnabledFill())
+					_lowLevelRenderer->DrawBuffers(graphic3d->GetDataHandle(), RenderDrawCallType::FILL_3D);
+			}
+		}
+	}
+	void Renderer_Windows_Render_Visitor::PostVisit(Graphic3D* graphic3d) {}
+
+	void Renderer_Windows_Render_Visitor::PreVisit(Model* model) {}
+	void Renderer_Windows_Render_Visitor::Visit(Model* model) {}
+	void Renderer_Windows_Render_Visitor::PostVisit(Model* model) {}
 
 	/* Getters */
 	Renderer_Interface* Renderer_Windows_Render_Visitor::GetLowLevelRenderer()

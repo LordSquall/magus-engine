@@ -13,16 +13,19 @@ namespace MagusEngine
 	class SceneNode;
 	class Component;
 	class Graphic2D;
+	class Graphic3D;
 	class Rectangle;
 	class Line;
 	class Text;
 	class Ellipse;
 	class Path;
+	class Model;
+	class Camera;
 	
 	class Visitor
 	{
 	public:
-		virtual bool Initialise(Renderer_Interface* lowlevelRenderer, Resources* resources) = 0;
+		virtual bool Initialise(Renderer_Interface* lowlevelRenderer, Resources* resources, Camera* camera, Matrix4f* projection2D, Matrix4f* projection3D) = 0;
 
 		virtual void PreVisit(SceneNode* sceneNode) = 0;
 		virtual void Visit(SceneNode* sceneNode) = 0;
@@ -55,6 +58,15 @@ namespace MagusEngine
 		virtual void PreVisit(Path* path) = 0;
 		virtual void Visit(Path* path) = 0;
 		virtual void PostVisit(Path* path) = 0;
+
+		virtual void PreVisit(Graphic3D* graphic3d) = 0;
+		virtual void Visit(Graphic3D* graphic3d) = 0;
+		virtual void PostVisit(Graphic3D* graphic3d) = 0;
+
+		virtual void PreVisit(Model* model) = 0;
+		virtual void Visit(Model* model) = 0;
+		virtual void PostVisit(Model* model) = 0;
+
 	};
 }
 

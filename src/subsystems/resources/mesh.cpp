@@ -26,7 +26,9 @@ namespace MagusEngine
 	/* Getters */
 	char* Mesh::GetName() { return _name; }
 	Vertex* Mesh::GetVertices() { return _vertices; }
+	unsigned int Mesh::GetVertexCount() { return _verticesCount; };
 	unsigned int* Mesh::GetIndices() { return _indices; }
+	unsigned int Mesh::GetIndicesCount() { return _indicesCount; }
 
 	/* Setters */
 	void Mesh::SetName(const char* name) { strcmp(_name, name); }

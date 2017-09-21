@@ -14,7 +14,7 @@ namespace MagusEngine
 	}
 
 	/* Visitor Functions */
-	bool Renderer_Software_Initialise_Visitor::Initialise(Renderer_Interface* lowlevelRenderer, Resources* resources)
+	bool Renderer_Software_Initialise_Visitor::Initialise(Renderer_Interface* lowlevelRenderer, Resources* resources, Camera* camera, Matrix4f* projection2D, Matrix4f* projection3D)
 	{
 		_lowLevelRenderer = lowlevelRenderer;
 		_resources = resources;
@@ -112,6 +112,14 @@ namespace MagusEngine
 	void Renderer_Software_Initialise_Visitor::PreVisit(Path* path) {}
 	void Renderer_Software_Initialise_Visitor::Visit(Path* path) {}
 	void Renderer_Software_Initialise_Visitor::PostVisit(Path* path) {}
+
+	void Renderer_Software_Initialise_Visitor::PreVisit(Graphic3D* graphic3d) {}
+	void Renderer_Software_Initialise_Visitor::Visit(Graphic3D* graphic3d) {}
+	void Renderer_Software_Initialise_Visitor::PostVisit(Graphic3D* graphic3d) {}
+
+	void Renderer_Software_Initialise_Visitor::PreVisit(Model* model) {}
+	void Renderer_Software_Initialise_Visitor::Visit(Model* model) {}
+	void Renderer_Software_Initialise_Visitor::PostVisit(Model* model) {}
 
 	/* Getters */
 	Renderer_Interface* Renderer_Software_Initialise_Visitor::GetLowLevelRenderer()

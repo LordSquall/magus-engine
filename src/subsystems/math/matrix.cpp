@@ -111,15 +111,25 @@ namespace MagusEngine
 
 	void Matrix4f::BuildPerspective(float fov, float ratio, float znear, float zfar)
 	{
-		float t = tan(fov / 2.0f);
-		float zr = znear - zfar;
+		const float zrange = znear - zfar;
+		const float tanHalfFOV = tanf((fov * (PI / 180)) / 2.0);
 
-		m[0][0] = 1.0f / (t * ratio); 	m[0][1] = 0.0f;		m[0][2] = 0.0f;					m[0][3] = 0.0f;
-		m[1][0] = 0.0f;				m[1][1] = 1.0f / t;	m[1][2] = 0.0f;					m[1][3] = 0.0f;
-		m[2][0] = 0.0f;				m[2][1] = 0.0f;		m[2][2] = (-znear - zfar) / zr; 	m[2][3] = 2.0f * zfar * znear / zr;
-		m[3][0] = 0.0f;				m[3][1] = 0.0f;		m[3][2] = 0.0f;					m[3][3] = 1.0f;
+		float scale = tan(fov * 0.5 * PI / 180) * znear;
+		float r = ratio * scale;
+		float l = -r;
+		float t = scale;
+		float b = -t;
+
+		BuildFrustum(b, t, l, r, znear, zfar);
 	}
 
+	void Matrix4f::BuildFrustum(float l, float r, float t, float b, float n, float f)
+	{
+		m[0][0] = 2.0f * n / (r -  l);		m[0][1] = 0.0f;					m[0][2] = (r + l) / (r - l);		m[0][3] = 0.0f;
+		m[1][0] = 0.0f;						m[1][1] = 2.0f * n / (t - b);	m[1][2] = (t + b) / (t - b);		m[1][3] = 0.0f;
+		m[2][0] = 0.0f;						m[2][1] = 0.0f;					m[2][2] = -(f + n) / (f - n);		m[2][3] = -2.0f * f * n / (f - n);
+		m[3][0] = 0.0f;						m[3][1] = 0.0f;					m[3][2] = -1.0f;					m[3][3] = 0.0f;
+	}
 
 	void Matrix4f::BuildScreenSpaceTransform(float halfwidth, float halfheight)
 	{
@@ -127,6 +137,45 @@ namespace MagusEngine
 		m[1][0] = 0.0f;			m[1][1] = -halfheight;	m[1][2] = 0.0f;		m[1][3] = halfheight;
 		m[2][0] = 0.0f;			m[2][1] = 0.0f;			m[2][2] = 1.0f;		m[2][3] = 0.0f;
 		m[3][0] = 0.0f;			m[3][1] = 0.0f;			m[3][2] = 0.0f;		m[3][3] = 1.0f;
+	}
+
+
+	void Matrix4f::BuildLookAt(Vector3f eye, Vector3f target, Vector3f up)
+	{
+		Vector3f zAxis = Vector3f::Normalise(target - eye);
+		Vector3f xAxis = Vector3f::Normalise(Vector3f::Cross(up, zAxis));
+		Vector3f yAxis = Vector3f::Cross(zAxis, xAxis);
+
+
+		m[0][0] = xAxis.x;			m[0][1] = yAxis.x;			m[0][2] = zAxis.x;				m[0][3] = 0.0f;
+		m[1][0] = xAxis.y;			m[1][1] = yAxis.y;			m[1][2] = zAxis.y;				m[1][3] = 0.0f;
+		m[2][0] = xAxis.z;			m[2][1] = yAxis.z;			m[2][2] = zAxis.z;				m[2][3] = 0.0f;
+		m[3][0] = -xAxis.Dot(&eye);	m[3][1] = -yAxis.Dot(&eye);	m[3][2] = -zAxis.Dot(&eye);		m[3][3] = 1.0f;
+
+		//Vector3f zAxis = Vector3f::Normalise(eye - target);
+		//Vector3f xAxis = Vector3f::Normalise(Vector3f::Cross(up, zAxis));
+		//Vector3f yAxis = Vector3f::Cross(zAxis, xAxis);
+
+
+		//Matrix4f orientation;
+		//orientation.m[0][0] = xAxis.x;	orientation.m[0][1] = yAxis.x;	orientation.m[0][2] = zAxis.x;	orientation.m[0][3] = 0.0f;
+		//orientation.m[1][0] = xAxis.y;	orientation.m[1][1] = yAxis.y;	orientation.m[1][2] = zAxis.y;	orientation.m[1][3] = 0.0f;
+		//orientation.m[2][0] = xAxis.z;	orientation.m[2][1] = yAxis.z;	orientation.m[2][2] = zAxis.z;	orientation.m[2][3] = 0.0f;
+		//orientation.m[3][0] = 0.0f;		orientation.m[3][1] = 0.0f;		orientation.m[3][2] = 0.0f;		orientation.m[3][3] = 1.0f;
+
+
+		//Matrix4f translation;
+		//translation.m[0][0] = 1.0f;		translation.m[0][1] = 0.0f;		translation.m[0][2] = 0.0f;		translation.m[0][3] = 0.0f;
+		//translation.m[1][0] = 0.0f;		translation.m[1][1] = 1.0f;		translation.m[1][2] = 0.0f;		translation.m[1][3] = 0.0f;
+		//translation.m[2][0] = 0.0f;		translation.m[2][1] = 0.0f;		translation.m[2][2] = 1.0f;		translation.m[2][3] = 0.0f;
+		//translation.m[3][0] = -eye.x;	translation.m[3][1] = -eye.y;	translation.m[3][2] = -eye.z;	translation.m[3][3] = 1.0f;
+
+		//Matrix4f result = orientation * translation;
+
+		//for (int i = 0; i < 4; i++)
+		//	for (int j = 0; j < 4; j++)
+		//		m[i][j] = result.m[i][j];
+
 	}
 
 	Matrix4f Matrix4f::operator*(const Matrix4f& b)

@@ -4,6 +4,7 @@
 /* System Includes */
 
 /* Local Project Includes */
+#include "../../camera.h"
 #include "../../../scenemanagement/visitor.h"
 #include "../../../math/vertex.h"
 #include "../../../resources/resources.h"
@@ -25,7 +26,7 @@ namespace MagusEngine
 		Renderer_Software_Initialise_Visitor(Renderer_Software* softwareRenderer);
 
 		/* Visitor Functions */
-		bool Initialise(Renderer_Interface* lowlevelRenderer, Resources* resources);
+		bool Initialise(Renderer_Interface* lowlevelRenderer, Resources* resources, Camera* camera, Matrix4f* projection2D, Matrix4f* projection3D);
 
 		void PreVisit(SceneNode* sceneNode);
 		void Visit(SceneNode* sceneNode);
@@ -58,6 +59,14 @@ namespace MagusEngine
 		void PreVisit(Path* path);
 		void Visit(Path* path);
 		void PostVisit(Path* path);
+
+		void PreVisit(Graphic3D* graphic3d);
+		void Visit(Graphic3D* graphic3d);
+		void PostVisit(Graphic3D* graphic3d);
+
+		void PreVisit(Model* model);
+		void Visit(Model* model);
+		void PostVisit(Model* model);
 
 		/* Getters */
 		Renderer_Interface* GetLowLevelRenderer();

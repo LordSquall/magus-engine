@@ -45,6 +45,7 @@ namespace MagusEngine
 		unsigned int DrawBuffers(VBO_Structure* bufferData, RenderDrawCallType type);
 		void SetCurrentModelMatrix(Matrix4f* matrix);
 		void SetCurrentProjectionMatrix(Matrix4f* matrix);
+		void SetCurrentViewMatrix(Matrix4f* matrix);
 		void SetMaterial(Material* material);
 		void SetTexture(Texture* texture);
 

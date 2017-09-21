@@ -49,10 +49,10 @@ namespace MagusEngine
 		deltaneg.Normalise();
 		
 		/* Segement vertices*/
-		vbuffer[0] = Vertex(points[0], Vector4f(1.0f, 0.0f, 0.0f, 1.0f), deltapos, Vector2f(0.0f, 1.0f));
-		vbuffer[1] = Vertex(points[0], Vector4f(0.0f, 1.0f, 0.0f, 1.0f), deltaneg, Vector2f(0.0f, 0.0f));
-		vbuffer[2] = Vertex(points[1], Vector4f(0.0f, 0.0f, 1.0f, 1.0f), deltapos, Vector2f(1.0f, 1.0f));
-		vbuffer[3] = Vertex(points[1], Vector4f(1.0f, 1.0f, 1.0f, 1.0f), deltaneg, Vector2f(1.0f, 0.0f));
+		vbuffer[0] = Vertex(points[0], Vector4f(1.0f, 0.0f, 0.0f, 1.0f), Vector3f(), deltapos, Vector2f(0.0f, 1.0f));
+		vbuffer[1] = Vertex(points[0], Vector4f(0.0f, 1.0f, 0.0f, 1.0f), Vector3f(), deltaneg, Vector2f(0.0f, 0.0f));
+		vbuffer[2] = Vertex(points[1], Vector4f(0.0f, 0.0f, 1.0f, 1.0f), Vector3f(), deltapos, Vector2f(1.0f, 1.0f));
+		vbuffer[3] = Vertex(points[1], Vector4f(1.0f, 1.0f, 1.0f, 1.0f), Vector3f(), deltaneg, Vector2f(1.0f, 0.0f));
 
 		/* Build indicies buffer */
 		ibuffer[0] = 0;
