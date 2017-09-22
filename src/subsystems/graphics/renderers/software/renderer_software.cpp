@@ -231,7 +231,7 @@ namespace MagusEngine
 			unsigned int indexa = (*(indicies + i));
 			unsigned int indexb = (*(indicies + i + 1));
 			unsigned int indexc = (*(indicies + i + 2));
-			_scanbuffer.FillTriangle(vertices[indexa].Transform(mvp), vertices[indexb].Transform(mvp), vertices[indexc].Transform(mvp), _CurrentMaterial, _CurrentTexture);
+			_scanbuffer.DrawTriangle(vertices[indexa].Transform(mvp), vertices[indexb].Transform(mvp), vertices[indexc].Transform(mvp), _CurrentMaterial, _CurrentTexture);
 		}
 
 		return 0;

@@ -31,6 +31,8 @@ namespace MagusEngine
 
 		_lowLevelRenderer->SetCurrentProjectionMatrix(_2DProjection);
 
+		_lowLevelRenderer->SetCurrentViewMatrix(camera->GetViewMatrix());
+
 		return true;
 	}
 
@@ -50,6 +52,8 @@ namespace MagusEngine
 		_matrixStack[_matrixStackHead] = model;
 		_matrixStackHead++;
 
+		_lowLevelRenderer->SetCurrentModelMatrix(&_matrixStack[_matrixStackHead - 1]);
+
 		/* Set the current material settings in the low level renderer */
 		if (sceneNode->GetMaterial() != NULL)
 			_lowLevelRenderer->SetMaterial(sceneNode->GetMaterial());
@@ -58,13 +62,7 @@ namespace MagusEngine
 		_renderCritical = sceneNode->IsCritical();
 	}
 
-	void Renderer_Software_Render_Visitor::Visit(SceneNode* sceneNode)
-	{
-		if (strcmp(sceneNode->GetName(), "testnode") == 0)
-		{
-			sceneNode->SetRotation(sceneNode->GetRotation()->x + 1.0f, 0.0f, 0.0f);
-		}
-	}
+	void Renderer_Software_Render_Visitor::Visit(SceneNode* sceneNode){}
 	void Renderer_Software_Render_Visitor::PostVisit(SceneNode* sceneNode)
 	{
 		if (sceneNode->GetMaterial() != NULL)
@@ -77,15 +75,15 @@ namespace MagusEngine
 	void Renderer_Software_Render_Visitor::Visit(Component* component) { }
 	void Renderer_Software_Render_Visitor::PostVisit(Component* component) {}
 
-	void Renderer_Software_Render_Visitor::PreVisit(Graphic2D* graphic2D)
-	{
-		_lowLevelRenderer->SetCurrentModelMatrix(&_matrixStack[_matrixStackHead - 1]);
-	}
+	void Renderer_Software_Render_Visitor::PreVisit(Graphic2D* graphic2D){}
 
 	void Renderer_Software_Render_Visitor::Visit(Graphic2D* graphic2D)
 	{
-		if(_renderCritical)
+		if(_renderCritical == true)
 		{
+			/* Set the 2D Projection Materix */
+			_lowLevelRenderer->SetCurrentModelMatrix(&_matrixStack[_matrixStackHead - 1]);
+
 			/* Check incase update is required */
 			if (graphic2D->updateRequired == true)
 			{

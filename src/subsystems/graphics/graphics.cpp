@@ -44,6 +44,7 @@ namespace MagusEngine
 			return false;
 		}
 		glfwMakeContextCurrent(_window);
+		glfwSwapInterval(0);
 		//glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 
@@ -53,15 +54,11 @@ namespace MagusEngine
 		_lowLevelHardwareRenderer->Initialise(this, _config->width, _config->height, 1000.0f, -1.0f, false);
 
 		_lowLevelSoftwareRenderer = new Renderer_Software(_config);
-		_lowLevelSoftwareRenderer->Initialise(os, _config->width, _config->height,  -10.0f, 100.0f, false);
+		_lowLevelSoftwareRenderer->Initialise(os, _config->width, _config->height,  0.0f, 10000.0f, false);
 
-		_2DProjectionMatrix.BuildOrthographic(0.0f, (float)config->width, (float)config->height, 0.0f, -15.0f, 15.0f);
-		//_2DProjectionMatrix.BuildIdentity();
-
-		//_3DProjectionMatrix.BuildPerspective(0.0f, config->width, 0.0f, config->height, -1.0f, 1000.0f);
+		_2DProjectionMatrix.BuildOrthographic(0.0f, (float)config->width, (float)config->height, 0.0f, 1.0f, -1.0f);
 
 		_3DProjectionMatrix.BuildPerspective(90.0f, (float)config->width / (float)config->height, 0.1f, 100.0f);
-		//_3DProjectionMatrix.BuildIdentity();
 
 		_camera.Initialise(Vector3f(0.0f, 0.0f, -1000.0f), Vector3f(0.0f, 0.0f, 0.0f));
 
@@ -140,22 +137,32 @@ namespace MagusEngine
 
 	bool Graphics::Render()
 	{
-		/* Begin Hardware Renderer scene */
-		_lowLevelHardwareRenderer->BeginScene(0.2f, 0.3f, 0.3f, 1.0f);
+		if(_config->hardwareRendererEnabled == true)
+		{
+			/* Begin Hardware Renderer scene */
+			_lowLevelHardwareRenderer->BeginScene(0.2f, 0.3f, 0.3f, 1.0f);
 
-		/* Walk the scene using the hardware visitor */
-		_rootScene.Accept(_hardwareRenderVisitor);
+			/* Walk the scene using the hardware visitor */
+			_rootScene.Accept(_hardwareRenderVisitor);
 
-		/* End the Hardware Renderer scene */
-		_lowLevelHardwareRenderer->EndScene();
+			/* End the Hardware Renderer scene */
+			_lowLevelHardwareRenderer->EndScene();
+		}
 
-		_lowLevelSoftwareRenderer->BeginScene(0.0f, 0.0f, 0.0f, 0.0f);
+		if(_config->softwareRendererEnabled == true)
+		{
+		
+			_lowLevelSoftwareRenderer->BeginScene(0.0f, 0.0f, 0.0f, 0.0f);
 
-		_rootScene.Accept(_softwareRenderVisitor);
+			_rootScene.Accept(_softwareRenderVisitor);
 
-		_lowLevelSoftwareRenderer->EndScene();
-
-		_graphicsBlender->Render();
+			_lowLevelSoftwareRenderer->EndScene();
+		}
+		
+		if(_config->gpuBlend == true)
+		{
+			_graphicsBlender->Render(_2DProjectionMatrix, *_camera.GetViewMatrix());
+		}
 
 		return true;
 	}

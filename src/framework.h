@@ -37,14 +37,14 @@ namespace MagusEngine
 	public:
 		Framework();
 
-		bool Initialise(char* configfilePath);
+		bool Initialise(FrameworkConfig* config);
 		bool Frame();
 		bool Shutdown();
 
 		bool ProcessUADataDirectory(const char* uadir);
 
 	private:
-		FrameworkConfig		_config;
+		FrameworkConfig*	_config;
 		OS_Interface*		_os;
 		Graphics			_graphics;
 		Resources			_resources;

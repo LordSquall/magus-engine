@@ -21,6 +21,12 @@ namespace MagusEngine
 		SR_Scanbuffer();
 
 		void Initialise(int screenWidth, int screenHeight, SR_Framebuffer* frame);
+		
+		void DrawTriangle(Vertex v1, Vertex v2, Vertex v3, Material* material, Texture* texture);
+
+		bool ClipPolygonAxis(Vertex* vertices, int* vertexCount, Vertex* auxillary, int* auxillaryCnt, int componentIndex);
+
+		int ClipPolygonComponent(Vertex* vertices, int* vertexCnt, int componentIndex, float componentFactor, Vertex* result, int* resultCnt);
 
 		void FillTriangle(Vertex v1, Vertex v2, Vertex v3, Material* material, Texture* texture);
 
@@ -35,6 +41,12 @@ namespace MagusEngine
 
 		Texture*  _currentTexture;
 		Material* _currentMaterial;
+
+		Vertex _verticesClipList[100];
+		Vertex _auxillaryClipList[100];
+
+		int _verticesClipListCount;
+		int _auxillaryClipListCount;
 
 		float _screenWidth;
 		float _screenHeight;

@@ -40,6 +40,8 @@ namespace MagusEngine
 		return Vector2f(x / b, y / b);
 	}
 
+
+
 	float Vector2f::Length()
 	{
 		return (float)sqrt((x * x) + (y * y));
@@ -53,6 +55,11 @@ namespace MagusEngine
 		y = y / length;
 	}
 
+	
+	Vector2f Vector2f::Lerp(Vector2f dest, float factor)
+	{
+		return dest - (*this) * factor + (*this);
+	}
 
 	float Vector2f::Cross(Vector2f* other)
 	{

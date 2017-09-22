@@ -17,6 +17,8 @@ out vec2 v_UV;
 
 uniform mat4 model;
 uniform mat4 mvp;
+uniform mat4 projection;
+uniform int blendmode;
 
 #define extrude vec2(aUVExtrude.x, aUVExtrude.y)
 #define uv 		vec2(aUVExtrude.z, aUVExtrude.w)
@@ -27,7 +29,10 @@ void main()
 	v_FragPosition =  vec3(model * vec4(aPos.xyz, 1.0));
 	v_Color = aColor;
 	v_Normal = aNormal;
-	v_UV = aUVExtrude.zw;
+	v_UV = uv;
 	
-	gl_Position = vec4(vec2(aPos.x, aPos.y) + (extrude * 5.0f), 0.0f, 1.0f) * mvp;
+	if(blendmode == 0)
+		gl_Position = vec4(vec2(aPos.x, aPos.y) + (extrude * 5.0f), 0.0f, 1.0f) * mvp;
+	else
+		gl_Position = vec4(aPos.x, aPos.y, 0.0f, 1.0f) * model * projection;;
 }

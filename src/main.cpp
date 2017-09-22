@@ -5,10 +5,11 @@
 /* Local Project Includes */
 #include "magusversion.h"
 #include "framework.h"
+#include "frameworkconfig.h"
 #include "subsystems/logging/logger.h"
 
 /* Global variables */
-char	g_configLocation[255];		/* Configuration file location */
+MagusEngine::FrameworkConfig		config;
 
 /* Main support functions - Forward Declarations */
 int		MAIN_ProcessArguments(int argc, char *argv[]);
@@ -22,6 +23,12 @@ int main(int argc, char *argv[])
 	/* Local variables */
 	bool running = true;		/* termination flag */
 	unsigned int result = 0;	/* process arguments result */
+
+
+	/* default config */
+	config.gpuBlend = false;
+	config.softwareRendererEnabled = false;
+	config.hardwareRendererEnabled = false;
 
 	/* Process arguments */
 	result = MAIN_ProcessArguments(argc, argv);
@@ -42,7 +49,7 @@ int main(int argc, char *argv[])
 	MagusEngine::Framework* framework = new MagusEngine::Framework();
 
 	/* Initialise the framework */
-	if (framework->Initialise(g_configLocation))
+	if (framework->Initialise(&config))
 	{
 		while (running == true)
 		{
@@ -108,11 +115,21 @@ int MAIN_ProcessArguments(int argc, char *argv[])
 			}
 
 			/* Copy arg to directory variable */
-			strcpy(g_configLocation, argv[i + 1]);
+			strcpy(config.configfilePath, argv[i + 1]);
 			i++;
 
 			/* Mark result */
 			result = 0;
+		}
+		else if (strcmp(argv[i], "-blend") == 0)
+		{
+			config.gpuBlend = true;
+		}else if (strcmp(argv[i], "-swrender") == 0)
+		{
+			config.softwareRendererEnabled = true;
+		}else if (strcmp(argv[i], "-hwrender") == 0)
+		{
+			config.hardwareRendererEnabled = true;
 		}
 	}
 

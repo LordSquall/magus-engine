@@ -37,8 +37,8 @@ namespace MagusEngine
 
 		/* Build Points */
 		Vector4f points[] = {
-			{ _x1, _y1, 0.0f, 1.0f },
-			{ _x2, _y2, 0.0f, 1.0f }
+			Vector4f( _x1, _y1, 0.0f, 1.0f ),
+			Vector4f( _x2, _y2, 0.0f, 1.0f )
 		};
 
 		/* calculate normal */

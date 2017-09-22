@@ -2,6 +2,8 @@
 
 #include "../../../scenemanagement/scenenode.h"
 #include "../../graphic2d.h"
+#include "../../graphic3d.h"
+
 
 namespace MagusEngine
 {
@@ -9,7 +11,6 @@ namespace MagusEngine
 	{
 		_lowLevelRenderer = 0;
 		_softwareRenderer = software;
-
 		_buildCritical = false;
 	}
 

@@ -133,7 +133,10 @@ namespace MagusEngine
 
 	Vertex Vertex::Lerp(Vertex other, float lerpAmt)
 	{
-		return Vertex();
+		return Vertex(
+			_position.Lerp(*other.GetPosition(), lerpAmt),
+			_color,
+			_normal, _extrude,_uv.Lerp(*other.GetUV(), lerpAmt));
 
 	}
 

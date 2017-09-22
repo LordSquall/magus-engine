@@ -78,6 +78,7 @@ set(SubSystem_Graphics_SourceFiles
 	src/subsystems/graphics/graphic2d.cpp
 	src/subsystems/graphics/graphic3d.cpp
 	src/subsystems/graphics/vg.cpp
+	src/subsystems/graphics/camera.cpp
 )
 
 # subsystem - primitives
@@ -87,6 +88,7 @@ set(SubSystem_Graphics_Primitives_SourceFiles
 	src/subsystems/graphics/primitives/text.cpp
 	src/subsystems/graphics/primitives/ellipse.cpp
 	src/subsystems/graphics/primitives/path.cpp
+	src/subsystems/graphics/primitives/model.cpp
 )
 
 # subsystem - graphics - renderer
@@ -175,6 +177,7 @@ set(SubSystem_SceneManagement_SourceFiles
 set(SubSystem_DataModel_SourceFiles
 	src/subsystems/datamodel/datamodel.cpp
 	src/subsystems/datamodel/altimeter_dm.cpp
+	src/subsystems/datamodel/aircraft_computer.cpp
 )
 
 # subsystem - behaviour

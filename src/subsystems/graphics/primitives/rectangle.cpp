@@ -37,10 +37,10 @@ namespace MagusEngine
 
 		/* Build Points */
 		Vector4f points[] = { 
-			{ _x,			_y			 , 0.0f, 1.0f},
-			{ _x,			_y + _height , 0.0f, 1.0f},
-			{ _x + _width,	_y + _height , 0.0f, 1.0f},
-			{ _x + _width,	_y			 , 0.0f, 1.0f}
+			Vector4f( _x,			_y			 , 0.0f, 1.0f),
+			Vector4f( _x,			_y + _height , 0.0f, 1.0f),
+			Vector4f( _x + _width,	_y + _height , 0.0f, 1.0f),
+			Vector4f( _x + _width,	_y			 , 0.0f, 1.0f)
 		};
 
 

@@ -5,6 +5,7 @@
 
 /* Local Project Includes */
 #include "../software/renderer_software.h"
+#include "../software/sr_bitmap.h"
 #include "../windows/renderer_windows_opengl.h"
 #include "../../../resources/resources.h"
 
@@ -17,7 +18,7 @@ namespace MagusEngine
 
 		bool Initialise(Renderer_Interface* hardwareRenderer, Renderer_Interface* softwareRenderer, int screenWidth, int screenHeight);
 
-		bool Render();
+		bool Render(Matrix4f projection, Matrix4f viewMatrix);
 
 	private:
 		Renderer_Windows_OpenGL*	_hardwareRenderer;
@@ -25,6 +26,8 @@ namespace MagusEngine
 		
 		Texture						_texture;
 		VBO_Structure				_vbo;
+
+		SR_Bitmap					_bitmap;
 	};
 }
 

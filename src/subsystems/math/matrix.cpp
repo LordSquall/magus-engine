@@ -133,8 +133,8 @@ namespace MagusEngine
 
 	void Matrix4f::BuildScreenSpaceTransform(float halfwidth, float halfheight)
 	{
-		m[0][0] = halfwidth;	m[0][1] = 0.0f;			m[0][2] = 0.0f;		m[0][3] = halfwidth;
-		m[1][0] = 0.0f;			m[1][1] = -halfheight;	m[1][2] = 0.0f;		m[1][3] = halfheight;
+		m[0][0] = halfwidth;	m[0][1] = 0.0f;			m[0][2] = 0.0f;		m[0][3] = halfwidth - 0.5f;
+		m[1][0] = 0.0f;			m[1][1] = -halfheight;	m[1][2] = 0.0f;		m[1][3] = halfheight - 0.5f;
 		m[2][0] = 0.0f;			m[2][1] = 0.0f;			m[2][2] = 1.0f;		m[2][3] = 0.0f;
 		m[3][0] = 0.0f;			m[3][1] = 0.0f;			m[3][2] = 0.0f;		m[3][3] = 1.0f;
 	}

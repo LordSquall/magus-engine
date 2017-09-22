@@ -7,15 +7,17 @@ namespace MagusEngine
 		_sceneCount = 0;
 	}
 
-	bool Framework::Initialise(char* configfilePath)
+	bool Framework::Initialise(FrameworkConfig* config)
 	{
 		/* Initialise Variables */
 		_sceneCount = 0;
 		
+		_config = config;
+
 		/* Process the configuration file */
-		if (!ProcessEngineConfig(configfilePath))
+		if (!ProcessEngineConfig(config->configfilePath))
 		{
-			LOGERROR("Unable to process configuration file: %s", configfilePath);
+			LOGERROR("Unable to process configuration file: %s", config->configfilePath);
 			return false;
 		}
 		LOGINFO("Configuration Processed Successfully!");
@@ -24,14 +26,14 @@ namespace MagusEngine
 		_os = new OS();
 
 		/* Initialise the os */
-		if (_os->Initialise(&_config, &_resources) == false)
+		if (_os->Initialise(_config, &_resources) == false)
 		{
 			LOGERROR("Unable to Initialise OS SubSystem!");
 			return false;
 		}
 
 		/* Initialise the graphics subsystem */
-		_graphics.Initialise(_os, &_resources, &_config, _sceneCount - 1);
+		_graphics.Initialise(_os, &_resources, _config, _sceneCount - 1);
 
 		/* Add each of the generated ua to the graphical root node */
 		for (int i = 0; i < _sceneCount; i++)
@@ -178,7 +180,7 @@ namespace MagusEngine
 				LOGERROR("Engine tag missing 'title' attribute @ line %d", engineElement->GetLineNum());
 				return false;
 			}
-			strcpy(_config.title, title);
+			strcpy(_config->title, title);
 
 
 			/* resolution element */
@@ -194,7 +196,7 @@ namespace MagusEngine
 					LOGERROR("Resolution tag either missing 'width' attribute or attribute cannot be '0' @ line %d", resolutionElement->GetLineNum());
 					return false;
 				}
-				_config.width = width;
+				_config->width = width;
 
 				/* height */
 				int height = resolutionElement->IntAttribute("height");
@@ -203,7 +205,7 @@ namespace MagusEngine
 					LOGERROR("Resolution tag either missing 'width' attribute or attribute cannot be '0' @ line %d", resolutionElement->GetLineNum());
 					return false;
 				}
-				_config.height = height;
+				_config->height = height;
 			}
 			else
 			{
@@ -224,7 +226,7 @@ namespace MagusEngine
 					LOGWARN("SWRenderer tag either missing 'vbomemory' attribute or attribute is set to '0' @ line %d", swrendererElement->GetLineNum());
 					return false;
 				}
-				_config.sr_vbo_memorylimit = vbo_mem_limit;
+				_config->sr_vbo_memorylimit = vbo_mem_limit;
 
 				/* ibo memory limit */
 				unsigned int ibo_mem_limit = swrendererElement->IntAttribute("ibomemory");
@@ -233,7 +235,7 @@ namespace MagusEngine
 					LOGWARN("SWRenderer tag either missing 'ibomemory' attribute or attribute is set to '0' @ line %d", swrendererElement->GetLineNum());
 					return false;
 				}
-				_config.sr_ibo_memorylimit = ibo_mem_limit;
+				_config->sr_ibo_memorylimit = ibo_mem_limit;
 
 				/* vbo count */
 				unsigned int vbo_count = swrendererElement->IntAttribute("vbolimit");
@@ -242,7 +244,7 @@ namespace MagusEngine
 					LOGWARN("SWRenderer tag either missing 'vbolimit' attribute or attribute is set to '0' @ line %d", swrendererElement->GetLineNum());
 					return false;
 				}
-				_config.sr_vbo_limit = vbo_count;
+				_config->sr_vbo_limit = vbo_count;
 
 				/* ibo count */
 				unsigned int ibo_count = swrendererElement->IntAttribute("ibolimit");
@@ -251,7 +253,7 @@ namespace MagusEngine
 					LOGWARN("SWRenderer tag either missing 'ibolimit' attribute or attribute is set to '0' @ line %d", swrendererElement->GetLineNum());
 					return false;
 				}
-				_config.sr_ibo_limit = ibo_count;
+				_config->sr_ibo_limit = ibo_count;
 			}
 			else
 			{

@@ -19,6 +19,8 @@ namespace MagusEngine
 		void Normalise();
 		float Cross(Vector2f* other);
 
+		Vector2f Lerp(Vector2f dest, float factor);
+
 		Vector2f operator+(const Vector2f& b);
 		Vector2f operator-(const Vector2f& b);
 		Vector2f operator*(const Vector2f& b);

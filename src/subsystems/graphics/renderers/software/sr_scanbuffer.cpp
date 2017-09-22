@@ -16,6 +16,83 @@ namespace MagusEngine
 		_screenHeight = (float)screenHeight;
 	}
 
+	void SR_Scanbuffer::DrawTriangle(Vertex v1, Vertex v2, Vertex v3, Material* material, Texture* texture)
+	{
+
+		_verticesClipList[0] = v1;
+		_verticesClipList[1] = v2;
+		_verticesClipList[2] = v3;
+
+		_verticesClipListCount = 3;
+		_auxillaryClipListCount = 0;
+		
+		if(ClipPolygonAxis(_verticesClipList, &_verticesClipListCount, _auxillaryClipList, &_auxillaryClipListCount, 0) &&
+			ClipPolygonAxis(_verticesClipList, &_verticesClipListCount, _auxillaryClipList, &_auxillaryClipListCount, 1) &&
+			ClipPolygonAxis(_verticesClipList, &_verticesClipListCount, _auxillaryClipList, &_auxillaryClipListCount, 2))
+		{
+			Vertex initVert = _verticesClipList[0];
+
+			for(int i = 1; i < _verticesClipListCount - 1; i++)
+			{
+				FillTriangle(initVert, _verticesClipList[i], _verticesClipList[i+1], material,  texture);
+			}
+		}
+	}
+	
+	bool SR_Scanbuffer::ClipPolygonAxis(Vertex* vertices, int* vertexCount, Vertex* auxillary, int* auxillaryCnt,  int componentIndex)
+	{
+		int result = 0;
+		result = ClipPolygonComponent(vertices, vertexCount, componentIndex, 1.0f, auxillary, auxillaryCnt);
+
+		if(result == 0)
+		{
+			return false;
+		}
+
+		result = ClipPolygonComponent(auxillary, vertexCount, componentIndex, -1.0f, vertices, auxillaryCnt);
+
+		if(result == 0)
+			return false;
+
+		return true;
+
+	}
+
+	int SR_Scanbuffer::ClipPolygonComponent(Vertex* vertices, int* vertexCnt, int componentIndex, float componentFactor, Vertex* result, int* resultCnt)
+	{
+		int res = 0;
+		Vertex previousVertex = vertices[*vertexCnt-1];
+		float previousComponent = previousVertex.GetIndex(componentIndex) * componentFactor;
+		bool previousInside = previousComponent <= previousVertex.GetPosition()->w;
+
+		for(int i = 0; i < *vertexCnt; i++)
+		{
+			Vertex currentVertex = vertices[i];
+			float currentComponent = currentVertex.GetIndex(componentIndex) * componentFactor;
+			bool currentInside = currentComponent <= currentVertex.GetPosition()->w;
+
+			if(currentInside ^ previousInside)
+			{
+				float lerpAmt  = (previousVertex.GetPosition()->w - previousComponent) / ((previousVertex.GetPosition()->w - previousComponent) - (currentVertex.GetPosition()->w - currentComponent));
+
+				previousVertex.Lerp(currentVertex, lerpAmt);
+			}
+
+			if(currentInside)
+			{
+				result[*resultCnt] = currentVertex; 
+				(*resultCnt)++;
+				res++;
+			}
+
+			previousVertex = currentVertex;
+			previousComponent = currentComponent;
+			previousInside = currentInside;
+		}
+
+		return res;
+	}
+
 	void SR_Scanbuffer::FillTriangle(Vertex v1, Vertex v2, Vertex v3, Material* material, Texture* texture)
 	{
 		_currentMaterial = material;

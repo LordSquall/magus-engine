@@ -85,7 +85,7 @@
 					</components>
 				</node>
 				
-				<node name="positionvector" children="0" material="mat_direction_vector">
+				<node name="positionvector" children="0" material="mat_direction_vector" critical="1">
 					<transform>
 						<position x="0.0" y="0.0" z="0.0" />
 						<rotation x="0.0" y="0.0" z="0.0" />
@@ -1337,7 +1337,7 @@
 						</graphics2d>
 					</components>
 					
-					<node name="airspeed_value_lb" children="0">
+					<node name="airspeed_value_lb" children="0" critical="1">
 						<transform>
 							<position x="25.0" y="25.0" z="0.0" />
 							<rotation x="0.0" y="0.0" z="0.0" />
@@ -1717,7 +1717,7 @@
 						</graphics2d>
 					</components>
 					
-					<node name="altitude_value_lb"  children="0">
+					<node name="altitude_value_lb"  children="0" critical="1">
 						<transform>
 							<position x="-100.0" y="25.0" z="0.0" />
 							<rotation x="0.0" y="0.0" z="0.0" />

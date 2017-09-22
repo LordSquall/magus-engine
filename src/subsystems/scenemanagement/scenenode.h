@@ -65,7 +65,7 @@ namespace MagusEngine
 		void Accept(Visitor* visitor);
 
 	public:
-		char _name[25];
+		char _name[50];
 
 		bool	_isCritical;
 		bool	_isFilter;
