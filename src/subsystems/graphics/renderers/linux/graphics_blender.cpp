@@ -67,6 +67,9 @@ namespace MagusEngine
 
 	bool Graphics_Blender::Render(Matrix4f projection, Matrix4f viewMatrix)
 	{
+		//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
 		_texture.SetData(_softwareRenderer->GetFramebufferData());
 
 		//_bitmap.Save(_texture.GetData(), 32, 0, "temp.bmp");
