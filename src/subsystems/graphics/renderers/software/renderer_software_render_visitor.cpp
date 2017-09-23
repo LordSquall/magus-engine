@@ -48,7 +48,7 @@ namespace MagusEngine
 		rotation.BuildRotation(sceneNode->GetRotation());
 		scale.BuildScale(sceneNode->GetScale());
 
-		model = _matrixStack[_matrixStackHead - 1] * (scale * translation * rotation);
+		model = _matrixStack[_matrixStackHead - 1] * (translation * scale * rotation);
 		_matrixStack[_matrixStackHead] = model;
 		_matrixStackHead++;
 

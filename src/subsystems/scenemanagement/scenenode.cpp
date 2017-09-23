@@ -80,7 +80,7 @@ namespace MagusEngine
 
 		for (unsigned int i = 0; i < _childCount; i++)
 		{
-			_children[i]->Accept(visitor);
+				_children[i]->Accept(visitor);
 		}
 
 		visitor->PostVisit(this);

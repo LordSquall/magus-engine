@@ -41,12 +41,12 @@ namespace MagusEngine
 
 		if (strcmp(sceneNode->GetName(), "airspeed_value_lb") == 0)
 		{
-			Graphic2D* graphic = (Graphic2D*)sceneNode->GetComponent(0);
+			/*Graphic2D* graphic = (Graphic2D*)sceneNode->GetComponent(0);
 			Text* text = (Text*)graphic->GetDrawable();
 
 			sprintf(text->GetContent(), "%.1f", _dataModel->GetAltitude());
 
-			graphic->updateRequired = true;
+			graphic->updateRequired = true;*/
 		}
 
 		if (strcmp(sceneNode->GetName(), "rosering_bg") == 0)

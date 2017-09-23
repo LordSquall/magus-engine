@@ -36,17 +36,25 @@ namespace MagusEngine
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		//glfwSetErrorCallback(OS::ErrorCallback);
 
-		_window = glfwCreateWindow(_config->width, _config->height, _config->title, NULL, NULL);
+		GLFWmonitor* monitor = NULL;
+
+		if (config->fullscreen == true)
+		{
+			monitor = glfwGetPrimaryMonitor();
+		}
+
+		_window = glfwCreateWindow(_config->width, _config->height, _config->title, monitor, NULL);
 		if (_window == NULL)
 		{
 			LOGERROR("Failed to create GLFW window");
 			glfwTerminate();
 			return false;
 		}
+
+		glfwSetKeyCallback(_window, &key_callback);
 		glfwMakeContextCurrent(_window);
 		glfwSwapInterval(0);
 		//glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-
 
 		/* Low level Hardware renderer, provided by the OS */
 		_lowLevelHardwareRenderer = os->GetLowLevelRenderer();
@@ -129,7 +137,9 @@ namespace MagusEngine
 		glfwSwapBuffers(_window);
 		glfwPollEvents();
 
-		return (bool)glfwWindowShouldClose(_window);
+		result = !(bool)glfwWindowShouldClose(_window);
+
+		return result;
 	}
 
 
@@ -178,5 +188,12 @@ namespace MagusEngine
 		}
 
 		return true;
+	}
+
+
+	void Graphics::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+	{
+		if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+			glfwSetWindowShouldClose(window, TRUE);
 	}
 }

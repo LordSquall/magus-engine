@@ -9,6 +9,7 @@ namespace MagusEngine
 		char title[25];
 		int width;
 		int height;
+		bool fullscreen;
 
 		unsigned int sr_vbo_memorylimit;
 		unsigned int sr_ibo_memorylimit;

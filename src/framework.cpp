@@ -75,9 +75,7 @@ namespace MagusEngine
 		_behaviourVisitor->initialPass = false;
 
 		/* Graphics Frame */
-		_graphics.Frame();
-
-		return true;
+		return _graphics.Frame();
 	}
 
 	bool Framework::Shutdown()
@@ -206,6 +204,9 @@ namespace MagusEngine
 					return false;
 				}
 				_config->height = height;
+
+				/* fullscreen */
+				_config->fullscreen = resolutionElement->BoolAttribute("fullscreen");
 			}
 			else
 			{
