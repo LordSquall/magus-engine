@@ -5,6 +5,7 @@
 
 /* Local Project Includes */
 #include "../software/renderer_software.h"
+#include "../linux/renderer_linux_opengl.h"
 #include "../../../resources/resources.h"
 
 namespace MagusEngine
@@ -16,10 +17,10 @@ namespace MagusEngine
 
 		bool Initialise(Renderer_Interface* hardwareRenderer, Renderer_Interface* softwareRenderer, int screenWidth, int screenHeight);
 
-		bool Render();
+		bool Render(Matrix4f projection, Matrix4f viewMatrix);
 
 	private:
-		Renderer_Interface*			_hardwareRenderer;
+		Renderer_Linux_OpenGL*		_hardwareRenderer;
 		Renderer_Software*			_softwareRenderer;
 		
 		Texture						_texture;

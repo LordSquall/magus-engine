@@ -24,7 +24,7 @@ namespace MagusEngine
 		Renderer_Linux_Initialise_Visitor();
 
 		/* Visitor Functions */
-		bool Initialise(Renderer_Interface* lowlevelRenderer, Resources* resources);
+		bool Initialise(Renderer_Interface* lowlevelRenderer, Resources* resources, Camera* camera, Matrix4f* projection2D, Matrix4f* projection3D);
 
 		void PreVisit(SceneNode* sceneNode);
 		void Visit(SceneNode* sceneNode);
@@ -58,6 +58,14 @@ namespace MagusEngine
 		void Visit(Path* path);
 		void PostVisit(Path* path);
 
+		void PreVisit(Graphic3D* graphic3d);
+		void Visit(Graphic3D* graphic3d);
+		void PostVisit(Graphic3D* graphic3d);
+
+		void PreVisit(Model* model);
+		void Visit(Model* model);
+		void PostVisit(Model* model);
+		
 		/* Getters */
 		Renderer_Interface* GetLowLevelRenderer();
 

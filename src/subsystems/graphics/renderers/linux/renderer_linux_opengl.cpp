@@ -214,6 +214,10 @@ namespace MagusEngine
 
 		_projectionMatrix = matrix;
 	}
+	
+	void Renderer_Linux_OpenGL::SetCurrentViewMatrix(Matrix4f* matrix)
+	{
+	}
 
 	void Renderer_Linux_OpenGL::SetMaterial(Material* material)
 	{

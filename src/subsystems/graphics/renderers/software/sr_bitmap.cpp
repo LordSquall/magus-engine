@@ -19,7 +19,7 @@ namespace MagusEngine
 
 	}
 
-
+#ifdef _WIN32
 	// Save the bitmap to a bmp file  
 	void SR_Bitmap::Save(Byte* pBitmapBits,
 		WORD wBitsPerPixel,
@@ -114,4 +114,6 @@ namespace MagusEngine
 		// Close the file handle  
 		CloseHandle(hFile);
 	}
+	
+#endif
 }

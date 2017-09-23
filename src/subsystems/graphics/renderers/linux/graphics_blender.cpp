@@ -9,7 +9,7 @@ namespace MagusEngine
 
 	bool Graphics_Blender::Initialise(Renderer_Interface* hardwareRenderer, Renderer_Interface* softwareRenderer, int screenWidth, int screenHeight)
 	{
-		_hardwareRenderer = hardwareRenderer;
+		_hardwareRenderer = (Renderer_Linux_OpenGL*)hardwareRenderer;
 		_softwareRenderer = (Renderer_Software*)softwareRenderer;
 
 		/* Create a texture */
@@ -28,15 +28,19 @@ namespace MagusEngine
 		vertices[0] = Vertex(0.0f, 0.0f, 0.0, 0.0f, 0.0f, 0.0f, 1.0f);
 		vertices[0].SetU(0.0f);
 		vertices[0].SetV(1.0f);
+		vertices[0].SetExtrude(0.0f, 0.0f);
 		vertices[1] = Vertex(0.0f, (float)screenHeight, 0.0, 0.0f, 0.0f, 0.0f, 1.0f);
 		vertices[1].SetU(0.0f);
 		vertices[1].SetV(0.0f);
+		vertices[1].SetExtrude(0.0f, 0.0f);
 		vertices[2] = Vertex((float)screenWidth, 0.0f, 0.0, 0.0f, 0.0f, 0.0f, 1.0f);
 		vertices[2].SetU(1.0f);
 		vertices[2].SetV(1.0f);
+		vertices[2].SetExtrude(0.0f, 0.0f);
 		vertices[3] = Vertex((float)screenWidth, (float)screenHeight, 0.0, 0.0f, 0.0f, 0.0f, 1.0f);
 		vertices[3].SetU(1.0f);
 		vertices[3].SetV(0.0f);
+		vertices[3].SetExtrude(0.0f, 0.0f);
 
 		unsigned int indicies[6];
 		indicies[0] = 0;
@@ -57,35 +61,61 @@ namespace MagusEngine
 		_vbo.indexlength = 6;
 		_vbo.indexhandle = _hardwareRenderer->GenerateIndicesBuffer(indicies, &_vbo);
 		
+		
 		return true;
 	}
 
-	bool Graphics_Blender::Render()
+	bool Graphics_Blender::Render(Matrix4f projection, Matrix4f viewMatrix)
 	{
-		/* Update texture info */
-		//_texture.SetData(_softwareRenderer->GetFramebufferData());
+		_texture.SetData(_softwareRenderer->GetFramebufferData());
 
-		//_hardwareRenderer->CheckError();
-		//_hardwareRenderer->SetTexture(&_texture);
-		//_hardwareRenderer->CheckError();
-		//glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, _texture.GetWidth(), _texture.GetHeight(), GL_BGRA, GL_UNSIGNED_BYTE, _texture.GetData());
+		//_bitmap.Save(_texture.GetData(), 32, 0, "temp.bmp");
+
+		_hardwareRenderer->CheckError();
+		_hardwareRenderer->SetTexture(&_texture);
+		_hardwareRenderer->CheckError();
+		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, _texture.GetWidth(), _texture.GetHeight(), GL_RGBA, GL_UNSIGNED_BYTE, _texture.GetData());
+
+		Matrix4f indent;
+		indent.BuildIdentity();
+
+		int location = glGetUniformLocation(_hardwareRenderer->GetShader()->GetProgramHandle(), "blendmode");
+		if (location == -1)
+		{
+			return false;
+		}
+		glUniform1i(location, 1);
+
+		 location = glGetUniformLocation(_hardwareRenderer->GetShader()->GetProgramHandle(), "model");
+		if (location == -1)
+		{
+			return false;
+		}
+		glUniformMatrix4fv(location, 1, false, indent.GetData());
 
 
-		//Matrix4f tempProjection = Matrix4f();
-		//tempProjection.BuildIdentity();
-		
-		//int location = glGetUniformLocation(_hardwareRenderer->GetShader()->GetProgramHandle(), "modelMatrix");
-		//if (location == -1)
-	//	{
-	//		return false;
-	//	}
-	//	glUniformMatrix4fv(location, 1, false, tempProjection.GetData());
-///
-		//_hardwareRenderer->CheckError();
-		//_hardwareRenderer->DrawBuffers(&_vbo, RenderDrawCallType::FILL_2D);
-//
-	//	_hardwareRenderer->CheckError();
-//
+		location = glGetUniformLocation(_hardwareRenderer->GetShader()->GetProgramHandle(), "projection");
+		if (location == -1)
+		{
+			return false;
+		}
+		glUniformMatrix4fv(location, 1, false, projection.GetData());
+
+		_hardwareRenderer->SetCurrentModelMatrix(&indent);
+
+		_hardwareRenderer->CheckError();
+		_hardwareRenderer->DrawBuffers(&_vbo, RenderDrawCallType::FILL_2D);
+
+		_hardwareRenderer->CheckError();
+
+
+		location = glGetUniformLocation(_hardwareRenderer->GetShader()->GetProgramHandle(), "blendmode");
+		if (location == -1)
+		{
+			return false;
+		}
+		glUniform1i(location, 0);
+
 		return true;
 	}
 }

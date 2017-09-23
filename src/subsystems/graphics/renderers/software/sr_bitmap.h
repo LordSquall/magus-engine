@@ -1,10 +1,14 @@
 #ifndef _SR_STRUCTURES_H_
 #define _SR_STRUCTURES_H_
 
+
 /* System Includes */
 #include <algorithm>
-#include <Windows.h>
 #include <memory>
+
+#ifdef _WIN32
+#include <Windows.h>
+#endif
 
 typedef char Byte;
 
@@ -51,10 +55,12 @@ namespace MagusEngine
 
 		void SetData();
 
+#ifdef _WIN32
 		void Save(Byte* pBitmapBits,
 			WORD wBitsPerPixel,
 			const unsigned long& padding_size,
 			LPCTSTR lpszFileName);
+#endif
 		
 	private:
 		BITMAPFILEHEADERs	_FileHeader;
