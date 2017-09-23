@@ -106,6 +106,7 @@ set(SubSystem_Graphics_Renderer_Software_SourceFiles
 	src/subsystems/graphics/renderers/software/sr_edge.cpp
 	src/subsystems/graphics/renderers/software/sr_varier.cpp
 	src/subsystems/graphics/renderers/software/sr_pipeline.cpp
+	src/subsystems/graphics/renderers/software/sr_bitmap.cpp
 )
 
 # subsystem - graphics - renderer - windows

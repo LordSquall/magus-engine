@@ -9,8 +9,8 @@ namespace MagusEngine
 		_position = position;
 		_lookAt = lookAt;
 		
-		_viewMatrix.BuildIdentity();
-		//_viewMatrix.BuildLookAt(_position, _lookAt, Vector3f(0.0, 1.0, 0.0));
+		//_viewMatrix.BuildIdentity();
+		_viewMatrix.BuildLookAt(_position, _lookAt, Vector3f(0.0, 1.0, 0.0));
 		//_viewMatrix.BuildTranslation(&_position);
 	}
 
