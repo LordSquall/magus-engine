@@ -10,6 +10,7 @@ namespace MagusEngine
 	Renderer_Linux_OpenGL::Renderer_Linux_OpenGL()
 	{
 
+	
 	}
 
 	bool Renderer_Linux_OpenGL::Initialise(void* system, int screenWidth, int screenHeight, float screenDepth, float screenNear, bool vsync)
@@ -30,9 +31,7 @@ namespace MagusEngine
 		/* Generate vao */
 		glGenVertexArrays(1, &_vao);
 		
-		CheckError();
 		glBindVertexArray(_vao);
-		CheckError();
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
@@ -53,6 +52,7 @@ namespace MagusEngine
 		glClearColor(red, green, blue, alpha);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		glUseProgram(_CurrentShader->GetProgramHandle());
 		return;
 	}
 
@@ -108,10 +108,12 @@ namespace MagusEngine
 
 		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(4 * sizeof(float)));
-		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(8 * sizeof(float)));
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(8 * sizeof(float)));
+		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(11 * sizeof(float)));
 		glEnableVertexAttribArray(0);	
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);
+		glEnableVertexAttribArray(3);
 		CheckError();
 		
 		LOGINFO("Vertex Buffer Generated [%d]", VBO);
@@ -154,16 +156,18 @@ namespace MagusEngine
 
 	unsigned int Renderer_Linux_OpenGL::DrawBuffers(VBO_Structure* bufferData, RenderDrawCallType type)
 	{
-		unsigned int location;
-		unsigned int temp = 0;
+		/* Build mvp matrix */
+		Matrix4f mvp = (*_projectionMatrix) * (*_viewMatrix) * (*_modelMatrix);
 
-		location = glGetUniformLocation(_CurrentShader->GetProgramHandle(), "projectionMatrix");
-		if(location == -1)
+		int location = glGetUniformLocation(_CurrentShader->GetProgramHandle(), "mvp");
+		CheckError();
+		if (location == -1)
 		{
 			return false;
 		}
-		glUniformMatrix4fv(location, 1, false, _projectionMatrix->GetData());
-
+		glUniformMatrix4fv(location, 1, false, mvp.GetData());
+		CheckError();
+		
 		location = glGetUniformLocation(_CurrentShader->GetProgramHandle(), "uni_renderPassType");
 		if (location == -1)
 		{
@@ -178,10 +182,12 @@ namespace MagusEngine
 		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(4 * sizeof(float)));
 		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(8 * sizeof(float)));
+		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(11 * sizeof(float)));
 		
 		glEnableVertexAttribArray(0);	
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);
+		glEnableVertexAttribArray(3);
 
 		glDrawElements(GL_TRIANGLES, bufferData->indexlength, GL_UNSIGNED_INT, 0);
 
@@ -192,31 +198,18 @@ namespace MagusEngine
 
 	void Renderer_Linux_OpenGL::SetCurrentModelMatrix(Matrix4f* matrix)
 	{
-		int location = glGetUniformLocation(_CurrentShader->GetProgramHandle(), "modelMatrix");
-		if(location == -1)
-		{
-			return;
-		}
-		glUniformMatrix4fv(location, 1, false, matrix->GetData());
-		CheckError();
+		_modelMatrix = matrix;
 	}
 
 	
 	void Renderer_Linux_OpenGL::SetCurrentProjectionMatrix(Matrix4f* matrix)
 	{
-		int location = glGetUniformLocation(_CurrentShader->GetProgramHandle(), "projectionMatrix");
-		if(location == -1)
-		{
-			return;
-		}
-		glUniformMatrix4fv(location, 1, false, matrix->GetData());
-		CheckError();
-
 		_projectionMatrix = matrix;
 	}
 	
 	void Renderer_Linux_OpenGL::SetCurrentViewMatrix(Matrix4f* matrix)
 	{
+		_viewMatrix = matrix;
 	}
 
 	void Renderer_Linux_OpenGL::SetMaterial(Material* material)

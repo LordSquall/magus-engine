@@ -75,7 +75,9 @@ namespace MagusEngine
 		
 		GLuint						_vao;
 		
-		Matrix4f*					_projectionMatrix;
+		Matrix4f* _projectionMatrix;
+		Matrix4f* _viewMatrix;
+		Matrix4f* _modelMatrix;
 	};
 }
 
