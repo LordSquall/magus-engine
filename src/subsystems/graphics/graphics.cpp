@@ -103,11 +103,9 @@ namespace MagusEngine
 		
 		_softwareRenderVisitor->Initialise(_lowLevelSoftwareRenderer, _resources, &_camera, &_2DProjectionMatrix, &_3DProjectionMatrix);
 
-
 		_graphicsBlender = new Graphics_Blender();
 
 		_graphicsBlender->Initialise(_lowLevelHardwareRenderer, _lowLevelSoftwareRenderer, _config->width, _config->height);
-
 
 		_rootScene.Accept(_hardwareInitialiseVisitor);
 
@@ -119,7 +117,7 @@ namespace MagusEngine
 	bool Graphics::Frame()
 	{
 		bool result;
-
+		
 		// Render the graphics scene.
 		result = Render();
 		if (!result)
@@ -147,6 +145,7 @@ namespace MagusEngine
 
 			/* End the Hardware Renderer scene */
 			_lowLevelHardwareRenderer->EndScene();
+			
 		}
 
 		if(_config->softwareRendererEnabled == true)

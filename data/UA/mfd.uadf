@@ -78,7 +78,7 @@
 					</components>
 				</node>
 				
-				<node name="positionvector" children="0" critical="1" material="mat_direction_vector">
+				<node name="positionvector" children="0" critical="0" material="mat_direction_vector">
 					<transform>
 						<position x="0.0" y="0.0" z="0.0" />
 						<rotation x="0.0" y="0.0" z="0.0" />

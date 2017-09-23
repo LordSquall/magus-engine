@@ -995,7 +995,7 @@
 			</node>
 				
 			<!-- airspeed tape -->
-			<node name="airspeed_tape" children="5" material="mat_tapes">
+			<node name="airspeed_tape" children="7" material="mat_tapes">
 				<transform>
 					<position x="480.0" y="600.0" z="0.0" />
 					<rotation x="0.0" y="0.0" z="0.0" />
@@ -1382,7 +1382,7 @@
 			</node>
 
 			<!-- altitude tape -->			
-			<node name="altitude_tape" children="4" material="mat_tapes">
+			<node name="altitude_tape" children="6" material="mat_tapes">
 				<transform>
 					<position x="1440.0" y="600.0" z="0.0" />
 					<rotation x="0.0" y="0.0" z="0.0" />
@@ -1762,7 +1762,7 @@
 			</node>
 
 			<!-- rosering tape -->
-			<node name="rosering" children="2" >
+			<node name="rosering" children="4" >
 				<transform>
 					<position x="960" y="100.0" z="0.0" />
 					<rotation x="0.0" y="0.0" z="0.0" />
@@ -1795,7 +1795,7 @@
 			</node>
 		
 			<!-- vs gauge components -->
-			<node name="vs gauge" children="11" material="mat_tapes">
+			<node name="vs gauge" children="13" material="mat_tapes">
 				<transform>
 					<position x="1550.0" y="600.0" z="0.0" />
 					<rotation x="0.0" y="0.0" z="0.0" />

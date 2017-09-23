@@ -2,6 +2,7 @@
 
 #include "../../../scenemanagement/scenenode.h"
 #include "../../graphic2d.h"
+#include "../../camera.h"
 #include "../../primitives/text.h"
 
 namespace MagusEngine
@@ -26,6 +27,13 @@ namespace MagusEngine
 		_matrixStack[_matrixStackHead] = Matrix4f();
 		_matrixStackHead++;
 
+		_2DProjection = projection2D;
+		_3DProjection = projection3D;
+
+		_lowLevelRenderer->SetCurrentProjectionMatrix(_2DProjection);
+
+		_lowLevelRenderer->SetCurrentViewMatrix(camera->GetViewMatrix());
+		
 		return true;
 	}
 
@@ -94,6 +102,9 @@ namespace MagusEngine
 	{
 		if (_renderCritical == false)
 		{
+			/* Set the 2D projection matrix */
+			_lowLevelRenderer->SetCurrentProjectionMatrix(_2DProjection);
+			
 			/* Check incase update is required */
 			if (graphic2D->updateRequired == true)
 			{

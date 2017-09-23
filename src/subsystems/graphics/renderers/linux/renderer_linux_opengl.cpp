@@ -51,7 +51,6 @@ namespace MagusEngine
 	{
 		glClearColor(red, green, blue, alpha);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 		glUseProgram(_CurrentShader->GetProgramHandle());
 		return;
 	}
@@ -157,8 +156,8 @@ namespace MagusEngine
 	unsigned int Renderer_Linux_OpenGL::DrawBuffers(VBO_Structure* bufferData, RenderDrawCallType type)
 	{
 		/* Build mvp matrix */
-		Matrix4f mvp = (*_projectionMatrix) * (*_viewMatrix) * (*_modelMatrix);
-
+		Matrix4f mvp = (*_projectionMatrix) *  (*_modelMatrix);
+		
 		int location = glGetUniformLocation(_CurrentShader->GetProgramHandle(), "mvp");
 		CheckError();
 		if (location == -1)

@@ -78,6 +78,9 @@ namespace MagusEngine
 		Vertex				_vertexBuildBuffer[1000];
 		unsigned int		_indicesBuildBuffer[4000];
 
+		Matrix4f*			_2DProjection;
+		Matrix4f*			_3DProjection;
+		
 		bool				_renderCritical;
 
 		Texture*			_cachedTexture;
